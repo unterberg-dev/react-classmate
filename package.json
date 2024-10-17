@@ -1,12 +1,18 @@
 {
   "name": "classnames-styled",
-  "version": "1.0.8",
+  "author": "https://github.com/richard-unterberg",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/richard-unterberg/classnames-styled.git"
+  },
+  "license": "MIT",
+  "version": "1.0.10",
   "main": "dist/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "build:esm": "tsc -p tsconfig.esm.json"
+    "build": "npm run build-all",
+    "build-all": "tsc && tsc -p tsconfig.esm.json"
   },
   "files": [
     "dist/**/*"

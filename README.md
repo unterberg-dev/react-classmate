@@ -1,5 +1,4 @@
-# styled-classnames
-## organize your css-in-js classes
+# classnames-styled
 
 A higher-order function that creates a styled React component with dynamic class names. SSR-compatible
 
