@@ -3,8 +3,8 @@ import React, { forwardRef } from 'react';
 
 const cleanCssString = (css: string): string => {
   return css
-    .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
-    .trim(); // Trim leading and trailing spaces
+    .replace(/\s+/g, ' ')
+    .trim();
 };
 
 type WithHTMLProps<T> = T & React.HTMLProps<HTMLElement>
@@ -24,7 +24,7 @@ function sc<T>(
 ): React.ForwardRefExoticComponent<
   WithHTMLProps<T> & React.RefAttributes<HTMLElement>
 > {
-  const StyledComponent = forwardRef<HTMLElement, WithHTMLProps<T>>(
+  const RenderComponent = forwardRef<HTMLElement, WithHTMLProps<T>>(
     (props, ref) => {
       const { className, ...restProps } = props;
 
@@ -42,20 +42,22 @@ function sc<T>(
         ),
       );
 
-      // Use React.createElement to generate the component
+      // generate component
       return React.createElement(
-        tag, // The tag (e.g., 'div', 'span')
+        tag,
         {
           className: classes,
-          ref, // Forward the ref to the underlying DOM element
-          ...filteredProps, // Pass all valid HTML attributes
+          ref,
+          ...filteredProps,
         },
       );
     },
   );
 
-  StyledComponent.displayName = `StyledComponent(${tag})`; // Optional for better debugging
-  return StyledComponent as React.ForwardRefExoticComponent<
+  // debug
+  RenderComponent.displayName = `StyledComponent(${tag})`;
+  
+  return RenderComponent as React.ForwardRefExoticComponent<
     WithHTMLProps<T> & React.RefAttributes<HTMLElement>
     >;
 }
