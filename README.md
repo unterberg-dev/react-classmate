@@ -2,11 +2,13 @@
 
 Separate class names from your components - the simple way 🫰
 
+#### The problem:
 While developing with react and uno.css, I found myself writing the classNames and conditions directly in the components. That made the components hard to read and maintain, since I often need conditional classes and animations.
 
-This is a simple utility to separate the class names from the components, making it SSR-compatible & works with any class name, including tailwind or unocss (presets).
+#### The solution:
+a simple utility which makes it possible to separate class names from the components, making it SSR-compatible & works with any class name, including tailwind or unocss (presets).
 
-No `styled-components` or `emotion` needed, it's just a simple function that returns a styled component. 
+No `styled-components` or `emotion` needed, it's just a function that returns a styled component. 
 
 ### Getting started
 
@@ -79,6 +81,6 @@ const SomeComponent = () => {
 
 ### Inspired by:
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
-(to complicated for most of my use cases)
+(to much boilerplate for most of my use cases)
 - [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
 (incompatible with vite / rollup - not suited for ssr)
