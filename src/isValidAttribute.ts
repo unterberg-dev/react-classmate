@@ -5,7 +5,6 @@ export const isValidHtmlAttribute = (key: string) => {
       'accesskey',
       'className',
       'contentEditable',
-      'data-*', // Custom data attributes (you may want to handle these differently)
       'dir',
       'draggable',
       'hidden',

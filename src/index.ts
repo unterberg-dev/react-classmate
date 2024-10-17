@@ -12,7 +12,7 @@ import { isValidHtmlAttribute } from './isValidAttribute'
  * @param {(props: T) => string[]} [dynamicClasses] - An optional function that returns an array of dynamic class names based on the component's props.
  * @returns {React.ForwardRefExoticComponent<React.PropsWithoutRef<T & React.HTMLAttributes<HTMLElement>> & React.RefAttributes<HTMLElement>>} - A styled React component with dynamic class names.
  */
-function cs<T extends object>(
+function sc<T extends object>(
   tag: keyof JSX.IntrinsicElements,
   baseClass: string,
   dynamicClasses?: (props: T) => string[],
@@ -51,4 +51,4 @@ function cs<T extends object>(
   return StyledComponent
 }
 
-export default cs
+export default sc
