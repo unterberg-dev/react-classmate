@@ -2,6 +2,13 @@
 
 A higher-order function that creates a styled React component with dynamic class names. SSR-compatible
 
+
+```bash
+npm i classnames-styled
+# or
+yarn add classnames-styled
+```
+
 ### simple
 
 ```tsx
