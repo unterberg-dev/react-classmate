@@ -46,7 +46,7 @@ import sc from 'react-styled-classnames'
 
 // props interface
 interface StyledDivProps {
-  isActive?: boolean
+  $isActive?: boolean
 }
 
 const StyledDiv = sc<StyledDivProps>(
@@ -59,8 +59,8 @@ const StyledDiv = sc<StyledDivProps>(
     font-bold
   `,
   // property based
-  ({ isActive }) => [
-    isActive
+  ({ $isActive }) => [
+    $isActive
       ? `
         animate-in
         fade-in
@@ -75,9 +75,30 @@ const StyledDiv = sc<StyledDivProps>(
 const SomeComponent = () => {
   const [isActive, setIsActive] = useState(false)
 
-  return <StyledDiv isActive={isActive}>Henlo</StyledDiv>
+  return <StyledDiv $isActive={isActive}>Henlo</StyledDiv>
 }
 ```
+
+### Remarks / WIP
+
+Atm you can pass props wildly, which produces evtl. invalid html like this:
+
+```tsx
+const MyElement = sc(
+  'div', // component tag
+  `
+    text-xl
+    bg-blue-500
+  ` 
+);
+
+const SomeComponent = () => <MyElement src="hello-world">Weird prop pass</MyElement>
+
+// this creates html with a invalid property "src":
+// <div src="hello-world" class="text-xl bg-blue-500">...
+```
+
+- upcoming: typescript warns you about the usage of invalid properties
 
 ### Inspired by:
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
