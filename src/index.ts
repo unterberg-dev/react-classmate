@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 import { isValidHtmlAttribute } from './isValidAttribute'
 
 /**
- * A higher-order function that creates a styled React component with dynamic class names.
+ * A higher-order function that creates a react component with dynamic class names.
  *
  * @template T - The type of the props object.
  * @param {keyof JSX.IntrinsicElements} tag - The HTML tag to be used for the component (e.g., 'div', 'span').
