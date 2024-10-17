@@ -1,6 +1,6 @@
 {
   "name": "classnames-styled",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
   "scripts": {
     "build": "npm run build-all",
     "build-all": "tsc && tsc -p tsconfig.esm.json",
-    "publish": "npm run build && npm publish --access public"
+    "package": "npm run build && npm publish --access public"
   },
   "files": [
     "dist/**/*"
