@@ -5,9 +5,9 @@ A higher-order function that creates a styled React component with dynamic class
 ### simple
 
 ```tsx
-import sc from 'classnames-styled'
+import cs from 'classnames-styled'
 
-const StyledDiv = sc(
+const StyledDiv = cs(
   'div', // component tag
   'text-xl' // static classnames
 );
@@ -18,7 +18,7 @@ const StyledDiv = sc(
 ### dynamic
 
 ```tsx
-import sc from 'classnames-styled'
+import cs from 'classnames-styled'
 
 // Define props interface
 interface StyledDivProps {
