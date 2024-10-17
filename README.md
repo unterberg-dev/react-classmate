@@ -1,26 +1,23 @@
-# classnames-styled
+# react-styled-classnames
 
-A higher-order function that creates a styled React component with dynamic class names. SSR-compatible.
+## Separate class names from your components - the simple way 🫰
+
+A function which creates a styled React component with dynamic class names. SSR-compatible & works with unocss / tailwind.
+
+### Getting started
 
 ```bash
-npm i classnames-styled
+npm i react-styled-classnames
 # or
-yarn add classnames-styled
+yarn add react-styled-classnames
 ```
-
-Inspired by:
-- [twin.macro](https://github.com/ben-rogerson/twin.macro)
-(to complicated for most of my use cases)
-
-- [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
-(not strictly build and incompatible with rollup - not suited for ssr)
 
 ### simple
 
 ```tsx
-import cs from 'classnames-styled'
+import sc from 'react-styled-classnames'
 
-const StyledDiv = cs(
+const StyledDiv = sc(
   'div', // component tag
   'text-xl' // static classnames
 );
@@ -34,14 +31,14 @@ const SomeComponent = () =>
 ### dynamic
 
 ```tsx
-import cs from 'classnames-styled'
+import sc from 'react-styled-classnames'
 
 // props interface
 interface StyledDivProps {
   isActive?: boolean
 }
 
-const StyledDiv = cs<StyledDivProps>(
+const StyledDiv = sc<StyledDivProps>(
   'div',
   `
     text-white
@@ -67,3 +64,9 @@ const SomeComponent = () => {
   return <StyledDiv isActive={isActive}>Henlo</StyledDiv>
 }
 ```
+
+### Inspired by:
+- [twin.macro](https://github.com/ben-rogerson/twin.macro)
+(to complicated for most of my use cases)
+- [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
+(not strictly build and incompatible with rollup - not suited for ssr)

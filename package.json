@@ -1,10 +1,10 @@
 {
-  "name": "classnames-styled",
-  "version": "1.0.15",
+  "name": "react-styled-classnames",
+  "version": "1.0.17",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
-    "url": "https://github.com/richard-unterberg/classnames-styled.git"
+    "url": "https://github.com/richard-unterberg/react-styled-classnames.git"
   },
   "license": "MIT",
   "main": "dist/index.js",
