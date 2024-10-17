@@ -1,0 +1,21 @@
+{
+  "name": "classnames-styled",
+  "version": "1.0.8",
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:esm": "tsc -p tsconfig.esm.json"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "peerDependencies": {
+    "clsx": "^1.2.1",
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11"
+  }
+}
