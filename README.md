@@ -3,7 +3,13 @@
 Separate class names from your components - the simple way 🫰
 
 **The problem:**
-While developing with react and uno.css / tailwind, I found myself writing the classNames and conditions directly in the components. That made the components hard to read and maintain, since I often need conditional classes and animations.
+While developing with react and uno.css / tailwind, I often found myself writing utility classes and conditions directly in the components `className` attribute. 
+
+```tsx
+<div className={`text-white text-2xl font-bold ${isActive ? 'animate-in fade-in' : 'animate-out fade-out'}`}>Hello</div>
+```
+
+That made the components hard to read and maintain, since I often need conditional classes and animations.
 
 **The solution:**
 a simple utility which makes it possible to separate class names from the components, making it SSR-compatible & works with any class name, including tailwind or unocss (presets).
