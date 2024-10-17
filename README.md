@@ -1,8 +1,12 @@
 # react-styled-classnames
 
-## Separate class names from your components - the simple way 🫰
+Separate class names from your components - the simple way 🫰
 
-A function which creates a styled React component with dynamic class names. SSR-compatible & works with unocss / tailwind.
+While developing with react and uno.css, I found myself writing the classNames and conditions directly in the components. That made the components hard to read and maintain, since I often need conditional classes and animations.
+
+This is a simple utility to separate the class names from the components, making it SSR-compatible & works with any class name, including tailwind or unocss (presets).
+
+No `styled-components` or `emotion` needed, it's just a simple function that returns a styled component. 
 
 ### Getting started
 
@@ -18,8 +22,13 @@ yarn add react-styled-classnames
 import sc from 'react-styled-classnames'
 
 const StyledDiv = sc(
-  'div', // component tag
-  'text-xl' // static classnames
+  // component tag
+  'div', 
+  // static classnames
+  `
+    text-xl
+    bg-blue-500
+  ` 
 );
 
 const SomeComponent = () => 
@@ -39,12 +48,15 @@ interface StyledDivProps {
 }
 
 const StyledDiv = sc<StyledDivProps>(
+  // component tag
   'div',
+  // static
   `
     text-white
     text-2xl
     font-bold
   `,
+  // property based
   ({ isActive }) => [
     isActive
       ? `
@@ -69,4 +81,4 @@ const SomeComponent = () => {
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
 (to complicated for most of my use cases)
 - [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
-(not strictly build and incompatible with rollup - not suited for ssr)
+(incompatible with vite / rollup - not suited for ssr)
