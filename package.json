@@ -1,20 +1,25 @@
 {
   "name": "react-styled-classnames",
-  "version": "1.0.44",
+  "version": "1.0.52",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
     "url": "https://github.com/richard-unterberg/react-styled-classnames.git"
   },
   "license": "MIT",
-  "main": "dist/index.js",
+  "type": "module",
+  "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "npm run build-all",
-    "build-all": "tsc && tsc -p tsconfig.esm.json",
-    "package": "npm run build && npm publish"
+  "exports": {
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.js"
   },
+"scripts": {
+  "build": "npm run build-all",
+  "build-all": "tsc && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
+  "package": "npm run build && npm publish"
+},
   "files": [
     "dist/**/*"
   ],

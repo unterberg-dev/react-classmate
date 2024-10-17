@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "module": "ESNext", // Change to ESNext for ESM output
     "moduleResolution": "node",
-    "module": "CommonJS", // Primary output for Node.js
     "outDir": "./dist",    // Output directory for CommonJS
     "declaration": true,
     "strict": true,
