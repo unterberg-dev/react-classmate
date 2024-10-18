@@ -4,23 +4,50 @@ Separate styles and classes from your React components, seamlessly integrating w
 
 ## The problem
 
-When working with styling libraries like [uno.css](https://unocss.dev/) / [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While this approach works for most of our cases, it can lead to cluttered and hard-to-maintain code, especially when dealing with conditional classes, dynamic styles, or complex animations.
+When working with styling libraries like [uno.css](https://unocss.dev/) / [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While this approach works for most of our cases, it can lead to cluttered and hard-to-maintain code, especially when dealing with conditional classes and/or dynamic styles.
 
 ```tsx
-<div className={`text-white text-2xl font-bold ${isActive ? 'animate-in fade-in' : 'animate-out fade-out'}`}>Hello</div>
+const SomeComponent = () => (
+  <div
+    className={`text-xl bg-blue-500 mt-5 pr-2 ${isActive ? 'animate-in fade-in' : 'animate-out fade-out'}`}
+    aria-label="Hello"
+  >
+    Hello
+  </div>
+)
 ```
 
-## What the tool does
+## What the tool does:
+
+```tsx
+const StyledElement = ds<{ $isActive?: boolean }>('div', {
+  base: `
+      text-xl
+      bg-blue-500
+      mt-5
+      pr-2
+    `,
+  classes: ({ $isActive }) => [$isActive ? 'animate-in fade-in' : 'animate-out fade-out'],
+})
+
+const SomeComponent = () =>
+  <StyledElement $isActive aria-label="Hello">Hello</StyledDiv>
+
+// will render to:
+<div aria-label="Hello" class="text-xl bg-blue-500 mt-5 pr-2 animate-in fade-in">Hello</div>
+```
+
+it provides a basic boilerplate to separate styles and classes from your React components and allows you to define your styles and classes in a more declarative way. Just like styled components, but without the need for the CSS-in-JS library.
 
 - Compatible with SSR (Server-Side Rendering)
 - Works seamlessly with popular utility-first libraries like UnoCSS and Tailwind
 - Allows passing dynamic CSS objects, in addition to class names
-- No dependency on styled-components or emotion
+- No dependency on `styled-components`
 - TS Support (WIP)
 
 ### Not re-inventing the wheel
 
-There are other libraries that handle this area well, such as [twin.macro](https://github.com/ben-rogerson/twin.macro)  and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component). However, these solutions are either too complex, rely on `styled-components`, or lack SSR compatibility. I prefer a simpler approach with more separation of concerns for handling conditional classes, as demonstrated in the example below.
+There are other libraries that handle this area well, such as [twin.macro](https://github.com/ben-rogerson/twin.macro)  and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component). However, these solutions are either too complex for my projects, rely on `styled-components`, or lack SSR compatibility. I prefer a simpler approach with more separation of concerns for handling conditional classes, as demonstrated in the example below.
 
 ## Getting started
 
@@ -35,7 +62,7 @@ import { ds } from 'react-dynamic-style'
 
 const StyledDiv = ds('div', 'text-xl bg-blue-500');
 
-const SomeComponent = () => 
+const SomeComponent = () =>
   <div>
     <StyledDiv>Hello</StyledDiv>
   </div>
