@@ -1,10 +1,10 @@
 {
-  "name": "react-styled-classnames",
-  "version": "1.0.60",
+  "name": "react-dynamic-style",
+  "version": "0.0.1",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
-    "url": "https://github.com/richard-unterberg/react-styled-classnames.git"
+    "url": "https://github.com/richard-unterberg/react-dynamic-style"
   },
   "license": "MIT",
   "type": "module",
