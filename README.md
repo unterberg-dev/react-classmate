@@ -19,12 +19,6 @@ const SomeComponent = () => (
 
 ## What the tool does:
 
-- No `styled-components` dependency
-- TS Support
-- SSR-ready
-- works with UnoCSS and Tailwind
-- passing dynamic CSS objects
-
 ```tsx
 const StyledElement = ds.div<{ $isActive?: boolean }>(
   ({ $isActive }) => `
@@ -41,6 +35,14 @@ const SomeComponent = () =>
 ```
 
 it provides a basic boilerplate to separate styles and classes from your React components and allows you to define your styles and classes in a more declarative way. Just like styled components, but without the need for the CSS-in-JS library.
+
+## Features
+
+- Tiny - no `styled-components` dependency
+- works with any utility-first CSS library (UnoCSS, Tailwind, etc.)
+- Typescript-Support
+- SSR-ready
+- CSS objects
 
 ### Not re-inventing the wheel
 
