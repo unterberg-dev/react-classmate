@@ -17,7 +17,10 @@ const SomeComponent = () => (
 )
 ```
 
-## What the tool does:
+## What the tool does
+
+It provides a basic boilerplate to separate styles and classes from your React components and allows you to define your styles and classes in a more declarative way. Just like styled components, but without the need for the CSS-in-JS library.
+
 
 ```tsx
 const StyledElement = ds.div<{ $isActive?: boolean }>(
@@ -33,8 +36,6 @@ const StyledElement = ds.div<{ $isActive?: boolean }>(
 const SomeComponent = () =>
   <StyledElement $isActive aria-label="Hello">Hello</StyledDiv>
 ```
-
-it provides a basic boilerplate to separate styles and classes from your React components and allows you to define your styles and classes in a more declarative way. Just like styled components, but without the need for the CSS-in-JS library.
 
 ## Features
 
