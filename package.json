@@ -1,11 +1,19 @@
 {
   "name": "react-dynamic-classnames",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
     "url": "https://github.com/richard-unterberg/react-dynamic-classnames.git"
   },
+  "keywords": [
+    "react",
+    "typescript",
+    "dynamic-classnames",
+    "utility-first",
+    "frontend",
+    "css"
+  ],
   "license": "MIT",
   "type": "module",
   "main": "dist/cjs/index.js",
