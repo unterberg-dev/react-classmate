@@ -1,4 +1,4 @@
-# react-dynamic-classname
+# react-dynamic-classnames
 
 Separate styles and classes from your React components, seamlessly integrating with utility-first CSS libraries like UnoCSS and Tailwind. Just like [styled-components](https://github.com/styled-components), but without the need for it.
 
@@ -131,6 +131,22 @@ const SomeComponent = () => {
 Note how we prefix the dynamic prop with a `$` sign. This is a important convention to distinguish dynamic props from the ones we pass to the component.
 
 This pattern should also avoid conflicts with reserved prop names.
+
+### ⚠️ Heads up!
+
+Atm you can pass props wildly (typescript does not check the prop types), which produces evtl. invalid html like this:
+
+```tsx
+const MyElement = ds.div('text-xl bg-blue-500' );
+
+const SomeComponent = () => <MyElement src="hello-world">Invalid src prop pass</MyElement>
+
+// this creates html with a invalid property "src":
+// <div src="hello-world" class="text-xl bg-blue-500">...
+```
+
+## Upcoming features
+- typescript should emit error if we use invalid properties (see above) ⬆️
 
 ## Inspired by:
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)

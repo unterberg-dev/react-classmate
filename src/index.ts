@@ -66,8 +66,3 @@ export const ds = new Proxy({}, {
 }) as {
   [K in keyof JSX.IntrinsicElements]: <T>(opts: DsComponentOptions | string | ((props: WithHTMLProps<T>) => string), css?: ((props: WithHTMLProps<T>) => CSSProperties) | CSSProperties) => ForwardRefComponent<T>
 }
-
-// // Usage example
-interface StyledDivProps {
-  $isActive?: boolean
-}
