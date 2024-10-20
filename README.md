@@ -132,22 +132,6 @@ Note how we prefix the dynamic prop with a `$` sign. This is a important convent
 
 This pattern should also avoid conflicts with reserved prop names.
 
-### ⚠️ Heads up!
-
-Atm you can pass props wildly (typescript does not check the prop types), which produces evtl. invalid html like this:
-
-```tsx
-const MyElement = ds.div('text-xl bg-blue-500' );
-
-const SomeComponent = () => <MyElement src="hello-world">Invalid src prop pass</MyElement>
-
-// this creates html with a invalid property "src":
-// <div src="hello-world" class="text-xl bg-blue-500">...
-```
-
-## Upcoming features
-- typescript should emit error if we use invalid properties (see above) ⬆️
-
 ## Inspired by:
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
 (to much boilerplate for most of my use cases)
