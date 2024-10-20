@@ -1,6 +1,6 @@
 # react-dynamic-classnames
 
-Separate styles and classes from your React components, seamlessly integrating with utility-first CSS libraries like UnoCSS and Tailwind. Just like [styled-components](https://github.com/styled-components), just without the need for it.
+Separate styles and classes from your React components, seamlessly integrating with utility-first CSS libraries like UnoCSS and Tailwind. Just like [styled-components](https://github.com/styled-components), but without the need for it.
 
 ## The problem
 
