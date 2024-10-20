@@ -1,10 +1,10 @@
 {
-  "name": "react-dynamic-style",
-  "version": "0.0.2",
+  "name": "react-dynamic-classname",
+  "version": "0.0.6",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
-    "url": "https://github.com/richard-unterberg/react-dynamic-style"
+    "url": "https://github.com/richard-unterberg/react-dynamic-classname"
   },
   "license": "MIT",
   "type": "module",
@@ -18,7 +18,7 @@
 "scripts": {
   "build": "npm run build-all",
   "build-all": "tsc && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
-  "package": "npm run build && npm publish"
+  "package": "npm run build && npm publish --access public"
 },
   "files": [
     "dist/**/*"

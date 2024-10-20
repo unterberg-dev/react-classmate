@@ -1,6 +1,6 @@
-# react-dynamic-style
+# react-dynamic-classname
 
-Separate styles and classes from your React components, seamlessly integrating with utility-first CSS libraries like UnoCSS and Tailwind. 🫰
+Separate styles and classes from your React components, seamlessly integrating with utility-first CSS libraries like UnoCSS and Tailwind. Just like [styled-components](https://github.com/styled-components), but without the need for it.
 
 ## The problem
 
@@ -19,31 +19,28 @@ const SomeComponent = () => (
 
 ## What the tool does:
 
+- No `styled-components` dependency
+- TS Support
+- SSR-ready
+- works with UnoCSS and Tailwind
+- passing dynamic CSS objects
+
 ```tsx
-const StyledElement = ds<{ $isActive?: boolean }>('div', {
-  base: `
+const StyledElement = ds.div<{ $isActive?: boolean }>(
+  ({ $isActive }) => `
       text-xl
       bg-blue-500
       mt-5
       pr-2
-    `,
-  classes: ({ $isActive }) => [$isActive ? 'animate-in fade-in' : 'animate-out fade-out'],
-})
+    ${$isActive ? 'animate-in fade-in' : 'animate-out fade-out'}
+  `,
+)
 
 const SomeComponent = () =>
   <StyledElement $isActive aria-label="Hello">Hello</StyledDiv>
-
-// will render to:
-<div aria-label="Hello" class="text-xl bg-blue-500 mt-5 pr-2 animate-in fade-in">Hello</div>
 ```
 
 it provides a basic boilerplate to separate styles and classes from your React components and allows you to define your styles and classes in a more declarative way. Just like styled components, but without the need for the CSS-in-JS library.
-
-- Compatible with SSR (Server-Side Rendering)
-- Works seamlessly with popular utility-first libraries like UnoCSS and Tailwind
-- Allows passing dynamic CSS objects, in addition to class names
-- No dependency on `styled-components`
-- TS Support (WIP)
 
 ### Not re-inventing the wheel
 
@@ -60,7 +57,12 @@ npm i react-dynamic-style # or yarn
 ```tsx
 import { ds } from 'react-dynamic-style'
 
-const StyledDiv = ds('div', 'text-xl bg-blue-500');
+const StyledDiv = ds.div(`
+  text-xl
+  bg-blue-500
+`);
+
+// or const StyledDiv = ds.div('text-xl bg-blue-500');
 
 const SomeComponent = () =>
   <div>
@@ -68,33 +70,56 @@ const SomeComponent = () =>
   </div>
 ```
 
-### Advanced usage
+### Usage with props and css
 
 ```tsx
-import { ds } from 'react-dynamic-style'
+// or extended pattern
 
-// props interface
 interface StyledDivProps {
   $isActive?: boolean
 }
 
-const StyledDiv = ds<StyledDivProps>(
-  // component tag
-  'div',
+const StyledDiv = ds.div<StyledDivProps>(
+  ({ $isActive }) => `
+    text-2xl
+    font-bold
+    ${$isActive ? `animate-in fade-in` : `animate-out fade-out`}
+  `,
+  ({ $isActive }) => ({
+    opacity: $isActive ? 1 : 0,
+  }),
+)
+
+// static css object for arbitrary styles
+const StyledDiv = ds.div<StyledDivProps>(
+  ({ $isActive }) => `
+    text-2xl
+    font-bold
+    ${$isActive ? `animate-in fade-in` : `animate-out fade-out`}
+  `,
+  // we do not have to pass a fnc here
   {
-    base: 'text-white text-2xl font-bold',
-    // optional: dynamic classes
-    classes: ({ $isActive }) => [
-      $isActive
-        ? 'animate-in fade-in'
-        : 'animate-out fade-out',
-    ],
-    // optional: css object with or without dynamic props
-    css: ({ $isActive }) => ({
-      opacity: $isActive ? 1 : 0,
-    }),
-  }
-);
+    boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.1)',
+  },
+)
+```
+
+### Advanced usage with extended pattern
+
+If you need more space for your styles, you can use the extended pattern. This pattern allows you to define dynamic classes and styles in a more readable way.
+
+```tsx
+import { ds } from 'react-dynamic-style'
+
+const StyledDiv = ds.div<StyledDivProps>({
+  base: 'text-2xl font-bold',
+  // optional: dynamic classes
+  classes: ({ $isActive }) => [$isActive ? 'animate-in fade-in' : 'animate-out fade-out'],
+  // optional: css object with or without dynamic props
+  css: ({ $isActive }) => ({
+    opacity: $isActive ? 1 : 0,
+  }),
+})
 
 const SomeComponent = () => {
   const [isActive, setIsActive] = useState(false)
@@ -103,21 +128,9 @@ const SomeComponent = () => {
 }
 ```
 
-### ⚠️ Heads up!
+Note how we prefix the dynamic prop with a `$` sign. This is a important convention to distinguish dynamic props from the ones we pass to the component.
 
-Atm you can pass props wildly (typescript does not check the prop types), which produces evtl. invalid html like this:
-
-```tsx
-const MyElement = ds('div', 'text-xl bg-blue-500' );
-
-const SomeComponent = () => <MyElement src="hello-world">Invalid src prop pass</MyElement>
-
-// this creates html with a invalid property "src":
-// <div src="hello-world" class="text-xl bg-blue-500">...
-```
-
-## Upcoming features
-- typescript should emit error if we use invalid properties (see above) ⬆️
+This pattern should also avoid conflicts with reserved prop names.
 
 ## Inspired by:
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
