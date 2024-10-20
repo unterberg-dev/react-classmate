@@ -4,7 +4,7 @@
  * @param className - The className string to clean.
  * @returns A trimmed className string.
  */
-const cleanClassName = (className: string) => className.replace(/\s+/g, ' ').trim()
+export const cleanClassName = (className: string) => className.replace(/\s+/g, ' ').trim()
 
 /**
  * Omits custom props (those starting with '$') from the props passed to the DOM element.
@@ -13,7 +13,7 @@ const cleanClassName = (className: string) => className.replace(/\s+/g, ' ').tri
  * @param customProps - An array of custom prop keys to omit.
  * @returns The filtered props object to be passed to the DOM element.
  */
-const omitCustomProps = <T extends object, K extends keyof JSX.IntrinsicElements>(
+export const omitCustomProps = <T extends object, K extends keyof JSX.IntrinsicElements>(
   props: T,
   customProps: (keyof T)[],
 ): JSX.IntrinsicElements[K] => {

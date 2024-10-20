@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { createElement, CSSProperties, forwardRef, useMemo } from 'react'
+import { cleanClassName, omitCustomProps } from './utils'
 
 import { ComponentOptions, HTMLProps, RefComponent, ValidProps } from './types'
 
