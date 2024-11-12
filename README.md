@@ -10,7 +10,7 @@ yarn add react-dynamic-classnames --dev
 
 ## The "problem"
 
-When working with styling libraries like [uno.css](https://unocss.dev/) / [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While the below works for [most of our cases](#do-i-need-react-dynamic-classnames), providing a separation of concerns it can lead to cluttered and hard-to-maintain code, especially when handling with conditional classes and/or dynamic styles.
+When working with utility-first libraries like [uno.css](https://unocss.dev/) or [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While the below works for [most of our cases](#do-i-need-react-dynamic-classnames), providing a separation of concerns it can lead to cluttered and hard-to-maintain code, especially when handling with conditional classes and/or dynamic styles. Often we do not want to create a wrapper component only to keep the styles separated.
 
 ```tsx
 const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
@@ -35,11 +35,10 @@ const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
 
 ## What the tool does
 
-It provides a basic boilerplate to separate styles and classes from your React components. Just like styled components, but without the need for a additional library.
-
+It just provides a alternative way to maintain classnames and styles for all valid React components. Just like styled components, but without the need for a additional library.
 
 ```tsx
-const SomeButton = ds.button<{ $isActive?: boolean; $isLoading?: boolean }>(
+const SomeButton = dc.button<{ $isActive?: boolean; $isLoading?: boolean }>(
   ({ $isActive, $isLoading }) => `
     text-lg
     mt-5
@@ -72,17 +71,17 @@ There are other libraries that handle this area well, such as [twin.macro](https
 ## Getting started
 
 ```bash
-npm i react-dynamic-style --save-dev
+npm i react-dynamic-classnames --save-dev
 # or
-yarn add react-dynamic-style --dev
+yarn add react-dynamic-classnames --dev
 ```
 
 ### Basic usage
 
 ```tsx
-import { ds } from 'react-dynamic-style'
+import { dc } from 'react-dynamic-classnames'
 
-const Container = ds.div(`
+const Container = dc.div(`
   text-lg
   mt-5
   py-2
@@ -103,7 +102,7 @@ interface ButtonProps {
   $isLoading?: boolean
 }
 
-const SomeButton = ds.button<ButtonProps>(
+const SomeButton = dc.button<ButtonProps>(
   ({ $isActive, $isLoading }) => `
     text-lg
     mt-5
@@ -129,7 +128,7 @@ const SomeButton = ds.button<ButtonProps>(
 The object pattern allows you to define dynamic classes and styles in a more readable way.
 
 ```tsx
-const Container = ds.button<ContainerProps>({
+const Container = dc.button<ContainerProps>({
   // required: base class
   base: `
     text-lg

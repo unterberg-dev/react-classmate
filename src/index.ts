@@ -23,7 +23,7 @@ export type HTMLProps<T, K extends keyof JSX.IntrinsicElements> = T & JSX.Intrin
 export type ValidProps<T, K extends keyof JSX.IntrinsicElements> = T & JSX.IntrinsicElements[K]
 
 // core type
-export type DsComponent = {
+export type DcComponent = {
   [K in keyof JSX.IntrinsicElements]: <T, E extends keyof JSX.IntrinsicElements = K>(
     options?: ComponentOptions<T> | string | ((props: HTMLProps<T, E>) => string),
     css?: ((props: HTMLProps<T, E>) => CSSProperties) | CSSProperties,
@@ -149,7 +149,7 @@ export const createComponent = <
 }
 
 // Create the proxy with correct typings for the intrinsic elements
-export const dsProxy = new Proxy(
+export const dcProxy = new Proxy(
   {},
   {
     get:
@@ -160,13 +160,13 @@ export const dsProxy = new Proxy(
       ) =>
         createComponent<T, K>(tag as K, options, css),
   },
-) as DsComponent
+) as DcComponent
 
 /**
  * A utility that creates classname strings and dynamic styles for React components.
  * @example
  * ```tsx
- * const SomeButton = ds.div<{ $isActive?: boolean; $isLoading?: boolean }>(
+ * const SomeButton = dc.div<{ $isActive?: boolean; $isLoading?: boolean }>(
  *  ({ $isActive }) => `
  *    absolute
  *    z-10
@@ -176,4 +176,4 @@ export const dsProxy = new Proxy(
  * )
  * ```
  */
-export const ds = dsProxy
+export const dc = dcProxy
