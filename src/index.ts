@@ -9,8 +9,8 @@ import {
   useMemo,
 } from 'react'
 
-export type RefComponent<T> = ForwardRefExoticComponent<T & RefAttributes<HTMLElement>>
-export type ComponentOptions<T> = {
+type RefComponent<T> = ForwardRefExoticComponent<T & RefAttributes<HTMLElement>>
+type ComponentOptions<T> = {
   /** Base CSS class for the component */
   base?: string
   /** Function to dynamically generate an array of classes based on props */
@@ -19,11 +19,11 @@ export type ComponentOptions<T> = {
   css?: CSSProperties | ((props: T) => CSSProperties)
 }
 
-export type HTMLProps<T, K extends keyof JSX.IntrinsicElements> = T & JSX.IntrinsicElements[K]
-export type ValidProps<T, K extends keyof JSX.IntrinsicElements> = T & JSX.IntrinsicElements[K]
+type HTMLProps<T, K extends keyof JSX.IntrinsicElements> = T & JSX.IntrinsicElements[K]
+type ValidProps<T, K extends keyof JSX.IntrinsicElements> = T & JSX.IntrinsicElements[K]
 
 // core type
-export type DcComponent = {
+type DcComponent = {
   [K in keyof JSX.IntrinsicElements]: <T, E extends keyof JSX.IntrinsicElements = K>(
     options?: ComponentOptions<T> | string | ((props: HTMLProps<T, E>) => string),
     css?: ((props: HTMLProps<T, E>) => CSSProperties) | CSSProperties,
@@ -36,7 +36,7 @@ export type DcComponent = {
  * @param className - The className string to clean.
  * @returns A trimmed className string.
  */
-export const cleanClassName = (className: string) => className.replace(/\s+/g, ' ').trim()
+const cleanClassName = (className: string) => className.replace(/\s+/g, ' ').trim()
 
 /**
  * Omits custom props (those starting with '$') from the props passed to the DOM element.
@@ -45,7 +45,7 @@ export const cleanClassName = (className: string) => className.replace(/\s+/g, '
  * @param customProps - An array of custom prop keys to omit.
  * @returns The filtered props object to be passed to the DOM element.
  */
-export const omitCustomProps = <T extends object, K extends keyof JSX.IntrinsicElements>(
+const omitCustomProps = <T extends object, K extends keyof JSX.IntrinsicElements>(
   props: T,
   customProps: (keyof T)[],
 ): JSX.IntrinsicElements[K] => {
@@ -66,7 +66,7 @@ export const omitCustomProps = <T extends object, K extends keyof JSX.IntrinsicE
  * @param css - Static or dynamic CSS styles to apply to the component.
  * @returns A forwardRef React component that dynamically renders with calculated props, classes, and styles.
  */
-export const createComponent = <
+const createComponent = <
   T extends object,
   K extends keyof JSX.IntrinsicElements = keyof JSX.IntrinsicElements,
 >(
@@ -149,7 +149,7 @@ export const createComponent = <
 }
 
 // Create the proxy with correct typings for the intrinsic elements
-export const dcProxy = new Proxy(
+const dcProxy = new Proxy(
   {},
   {
     get:
