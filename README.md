@@ -163,34 +163,54 @@ const Container = dc.button<ContainerProps>({
 
 No, in a perfect world, in smaller projects, everything is granular and well-organized, only 3-4 classnames per element, and we don't need this library.
 
+Currently only working with the short pattern.
+
 ## Combine (Merge Styles) from already styled elements (Experimental)
 
 ```tsx
 import { dc, restyle, RestyleType } from 'react-dynamic-classnames'
 
-const StyledSliderItem = dc.button<{ $active: boolean }>(
+
+// define a base component
+const StyledSliderItemBase = dc.button<{ $active: boolean }>(
   ({ $active }) => `
     absolute
     h-full
     w-full
     left-0
     top-0
-    ${APP_CONFIG.uno.transition}
     ${$active ? 'animate-in fade-in' : 'animate-out fade-out'}
 `,
 )
 
-// this element merges props and classnames with the ones you passed earlier
-type NewStyledSliderItemProps = RestyleType<typeof StyledSliderItem>
-const NewStyledSliderItem = restyle<{ $secondBool: boolean } & NewStyledSliderItemProps>(
-  StyledSliderImage,
+// generate a type to infer the props
+type StyledSliderItemBaseProps = RestyleType<typeof StyledSliderItemBase>
+
+// we can now extend the base component
+const NewStyledSliderItem = restyle<StyledSliderItemBaseProps>(
+  StyledSliderItemBase,
+  `
+    rounded-small
+    text-lg
+  `,
+)
+
+// even with its own props
+const NewStyledSliderItemWithProps = restyle<{ $secondBool: boolean } & StyledSliderItemBaseProps>(
+  StyledSliderItemBase,
   ({ $active, $secondBool }) => `
+    rounded-lg
+    text-lg
     ${$active ? 'bg-blue' : 'bg-red'}
     ${$secondBool ? 'text-underline' : ''}
   `,
 )
 
-const SomeComponent = () => <NewStyledSliderItem $active $secondBool />
+const SomeComponent = () => <>
+  <StyledSliderItem $active />
+  <NewStyledSliderItem $active />
+  <NewStyledSliderItemWithProps $active $secondBool />
+</>
 ```
 
 ## Inspiration
