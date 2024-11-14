@@ -8,9 +8,9 @@ npm i react-dynamic-classnames --save-dev
 yarn add react-dynamic-classnames --dev
 ```
 
-## The "problem"
+## The "issue"
 
-When working with utility-first libraries like [uno.css](https://unocss.dev/) or [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While the below works for [most of our cases](#do-i-need-react-dynamic-classnames), providing a separation of concerns it can lead to cluttered and hard-to-maintain code, especially when handling with conditional classes and/or dynamic styles. Often we do not want to create a wrapper component only to keep the styles separated.
+When working with utility-first libraries like [uno.css](https://unocss.dev/) or [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While the below works for [most of our cases](#do-i-need-react-dynamic-classnames), it can lead to cluttered and hard-to-maintain code, especially handling with conditional classes and/or dynamic styles. Often I do not want to create a wrapper component only to keep the styles separated.
 
 ```tsx
 const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
@@ -35,7 +35,7 @@ const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
 
 ## What the tool does
 
-It just provides a alternative way to maintain classnames and styles for all valid React components. Just like styled components, but without the need for a additional library.
+It provides a alternative way to maintain classnames and styles for all valid React components. Just like styled components, but without the need for a additional library.
 
 ```tsx
 const SomeButton = dc.button<{ $isActive?: boolean; $isLoading?: boolean }>(
@@ -57,16 +57,16 @@ const SomeButton = dc.button<{ $isActive?: boolean; $isLoading?: boolean }>(
 
 ## Features
 
-- Tiny - no `styled-components` dependency
+- tiny
 - dev dependency
 - works with any utility-first CSS library (UnoCSS, Tailwind, etc.)
-- Typescript-Support
+- typscript
 - SSR-ready
 - CSS objects
 
 ### re-inventing the wheel?
 
-There are other libraries that handle this area well, such as [twin.macro](https://github.com/ben-rogerson/twin.macro)  and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component). However, these solutions are either too complex for my projects, rely on `styled-components`, or lack SSR compatibility. I prefer a simpler approach with more separation of concerns for handling conditional classes, as demonstrated in the example below.
+There are other libraries that handle this area well, such as [twin.macro](https://github.com/ben-rogerson/twin.macro)  and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component). However, these solutions are either too complex for my projects, rely on `styled-components`, or lack SSR compatibility. I prefer a simpler approach with more separation of concerns for handling conditional classes, as demonstrated in the examples below.
 
 ## Getting started
 
@@ -161,10 +161,38 @@ const Container = dc.button<ContainerProps>({
 
 ## Do I need `react-dynamic-classnames`?
 
-Nope, in a perfect world, in smaller projects, everything is granular and well-organized, only 3-4 classnames per element, and we don't need this library. However, if you are planning something bigger with lot's of components and variants, this library might be a good fit for you.
+No, in a perfect world, in smaller projects, everything is granular and well-organized, only 3-4 classnames per element, and we don't need this library.
+
+## Combine (Merge Styles) from already styled elements (Experimental)
+
+```tsx
+import { dc, restyle, RestyleType } from 'react-dynamic-classnames'
+
+const StyledSliderItem = dc.button<{ $active: boolean }>(
+  ({ $active }) => `
+    absolute
+    h-full
+    w-full
+    left-0
+    top-0
+    ${APP_CONFIG.uno.transition}
+    ${$active ? 'animate-in fade-in' : 'animate-out fade-out'}
+`,
+)
+
+// this element merges props and classnames with the ones you passed earlier
+type NewStyledSliderItemProps = RestyleType<typeof StyledSliderItem>
+const NewStyledSliderItem = restyle<{ $secondBool: boolean } & NewStyledSliderItemProps>(
+  StyledSliderImage,
+  ({ $active, $secondBool }) => `
+    ${$active ? 'bg-blue' : 'bg-red'}
+    ${$secondBool ? 'text-underline' : ''}
+  `,
+)
+
+const SomeComponent = () => <NewStyledSliderItem $active $secondBool />
+```
 
 ## Inspiration
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
-(to much boilerplate for my use cases)
 - [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
-(not SSR-compatible)

@@ -1,7 +1,9 @@
 import clsx from 'clsx'
 import {
+  ComponentType,
   createElement,
   CSSProperties,
+  FC,
   forwardRef,
   ForwardRefExoticComponent,
   JSX,
@@ -177,3 +179,64 @@ const dcProxy = new Proxy(
  * ```
  */
 export const dc = dcProxy
+
+/**
+ * A utility type that extracts the props type from a React component type.
+ *
+ * @template T - A React component type.
+ */
+export type RestyleType<T extends React.ComponentType<any>> =
+  T extends React.ComponentType<infer Props>
+    ? Props
+    : never
+
+/**
+ * A higher-order component (HOC) that allows you to restyle a given component by adding additional
+ * classes and CSS styles based on the provided props.
+ *
+ * @template T - The original props type of the component.
+ * @template CustomProps - Additional custom props that can be passed to the component.
+ *
+ * @param Component - The component to be restyled. It can be a functional component or a forward-ref exotic component.
+ * @param newClasses - Optional. A string or a function that returns a string of additional classes to be added based on the props.
+ * @param newCss - Optional. An object or a function that returns an object of additional CSS styles to be added based on the props.
+ *
+ * @returns A new component with the additional classes and styles applied.
+ */
+export const restyle = <T extends object, CustomProps extends object = {}>(
+  Component: ComponentType<T> | ForwardRefExoticComponent<any>,
+  newClasses?: string | ((props: T & CustomProps) => string),
+  newCss?: CSSProperties | ((props: T & CustomProps) => CSSProperties),
+): ForwardRefExoticComponent<T & CustomProps> => {
+  const RestyledComponent = forwardRef<HTMLElement, T & CustomProps>((props, ref) => {
+    // Separate out `className` and `style` for merging
+    const { className, style, ...restProps } = props as T &
+      CustomProps & { className?: string; style?: CSSProperties }
+
+    // Resolve additional classes based on props
+    const additionalClasses = useMemo(() => {
+      return typeof newClasses === 'function'
+        ? newClasses(props as T & CustomProps)
+        : newClasses || ''
+    }, [newClasses, props])
+
+    // Resolve additional CSS styles based on props
+    const additionalCss = useMemo(() => {
+      return typeof newCss === 'function' ? newCss(props as T & CustomProps) : newCss
+    }, [newCss, props])
+
+    // Merge classes and styles
+    const mergedClassName = clsx(className, additionalClasses)
+    const mergedStyle = { ...style, ...additionalCss }
+
+    // Pass ref to the underlying component
+    return createElement(Component, {
+      ...(restProps as T),
+      className: mergedClassName,
+      style: mergedStyle,
+      ref,
+    })
+  })
+
+  return RestyledComponent as ForwardRefExoticComponent<T & CustomProps>
+}
