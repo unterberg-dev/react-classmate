@@ -57,12 +57,13 @@ const SomeButton = dc.button<{ $isActive?: boolean; $isLoading?: boolean }>(
 
 ## Features
 
-- tiny
-- dev dependency
+- dynamic classnames
+- tiny, dev dependency
 - works with any utility-first CSS library (UnoCSS, Tailwind, etc.)
 - typscript
 - SSR-ready
 - CSS objects
+- nest components (experimental)
 
 ### re-inventing the wheel?
 
@@ -159,17 +160,16 @@ const Container = dc.button<ContainerProps>({
 
 *This pattern should also avoid conflicts with reserved prop names.*
 
-## Do I need `react-dynamic-classnames`?
+## Nest pre-styled components (Experimental)
 
-No, in a perfect world, in smaller projects, everything is granular and well-organized, only 3-4 classnames per element, and we don't need this library.
+To allow nesting of pre-styled components, we can use the `restyle` function. This function takes a pre-styled component and extends it with additional styles and classes.
 
-Currently only working with the short pattern.
+Now we can define a base component and extend it with additional styles and classes and pass properties.
 
-## Combine (Merge Styles) from already styled elements (Experimental)
+*Currently untested with the extended pattern*
 
 ```tsx
 import { dc, restyle, RestyleType } from 'react-dynamic-classnames'
-
 
 // define a base component
 const StyledSliderItemBase = dc.button<{ $active: boolean }>(
@@ -212,6 +212,10 @@ const SomeComponent = () => <>
   <NewStyledSliderItemWithProps $active $secondBool />
 </>
 ```
+
+## Do I need `react-dynamic-classnames`?
+
+No, in a perfect world, in smaller projects, everything is granular and well-organized, only 3-4 classnames per element, and we don't need this library.
 
 ## Inspiration
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
