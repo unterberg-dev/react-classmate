@@ -220,3 +220,4 @@ No, in a perfect world, in smaller projects, everything is granular and well-org
 ## Inspiration
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
 - [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
+- [cva](https://github.com/joe-bell/cva)
