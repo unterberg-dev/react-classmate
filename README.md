@@ -1,6 +1,6 @@
 # react-dynamic-classnames
 
-Separate styles and classes from your React components, seamlessly integrating with utility-first CSS libraries like UnoCSS and Tailwind. Like styled components for class names.
+Just another tool to separate styles and classes from your React components, seamlessly integrating with utility-first CSS libraries like UnoCSS and Tailwind. Like styled components for class names.
 
 ```bash
 npm i react-dynamic-classnames --save-dev
@@ -154,9 +154,9 @@ const Container = dc.button<ContainerProps>({
 })
 ```
 
-### Prefix dynamic props with `$`
+### Prefix incoming props with `$`
 
-**Note how we prefix the dynamic prop with a `$` sign**. This is a important convention to distinguish dynamic props from the ones we pass to the component.
+**Note how we prefix the props incoming to dc with a `$` sign**. This is a important convention to distinguish dynamic props from the ones we pass to the component.
 
 *This pattern should also avoid conflicts with reserved prop names.*
 
@@ -169,10 +169,15 @@ Now we can define a base component and extend it with additional styles and clas
 *Currently untested with the extended pattern*
 
 ```tsx
-import { dc, restyle, RestyleType } from 'react-dynamic-classnames'
+import { useState } from 'react'
+import { dc, restyle } from 'react-dynamic-classnames'
+
+interface StyledSliderItemBaseProps {
+  $active: boolean
+}
 
 // define a base component
-const StyledSliderItemBase = dc.button<{ $active: boolean }>(
+const StyledSliderItemBase = dc.button<StyledSliderItemBaseProps>(
   ({ $active }) => `
     absolute
     h-full
@@ -183,9 +188,6 @@ const StyledSliderItemBase = dc.button<{ $active: boolean }>(
 `,
 )
 
-// generate a type to infer the props
-type StyledSliderItemBaseProps = RestyleType<typeof StyledSliderItemBase>
-
 // we can now extend the base component
 const NewStyledSliderItem = restyle<StyledSliderItemBaseProps>(
   StyledSliderItemBase,
@@ -195,8 +197,12 @@ const NewStyledSliderItem = restyle<StyledSliderItemBaseProps>(
   `,
 )
 
+interface NewStyledSliderItemProps extends StyledSliderItemBaseProps {
+  $secondBool: boolean
+}
+
 // even with its own props
-const NewStyledSliderItemWithProps = restyle<{ $secondBool: boolean } & StyledSliderItemBaseProps>(
+const NewStyledSliderItemWithNewProps = restyle<NewStyledSliderItemProps>(
   StyledSliderItemBase,
   ({ $active, $secondBool }) => `
     rounded-lg
@@ -206,11 +212,18 @@ const NewStyledSliderItemWithProps = restyle<{ $secondBool: boolean } & StyledSl
   `,
 )
 
-const SomeComponent = () => <>
-  <StyledSliderItem $active />
-  <NewStyledSliderItem $active />
-  <NewStyledSliderItemWithProps $active $secondBool />
-</>
+const SomeComponent = () => {
+  const [active, _setActive] = useState(false)
+
+  return (
+    <>
+      <NewStyledSliderItem $active={active} />
+      <NewStyledSliderItemWithNewProps $active={active} $secondBool />
+    </>
+  )
+}
+
+export default SomeComponent
 ```
 
 ## Do I need `react-dynamic-classnames`?

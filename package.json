@@ -1,6 +1,6 @@
 {
   "name": "react-dynamic-classnames",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
@@ -9,8 +9,11 @@
   "keywords": [
     "react",
     "typescript",
+    "tailwind",
+    "unocss",
     "dynamic-classnames",
     "utility-first",
+    "classnames",
     "frontend",
     "css"
   ],
