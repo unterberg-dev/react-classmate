@@ -65,10 +65,33 @@ const SomeButton = dc.button<{ $isActive?: boolean; $isLoading?: boolean }>(
 - CSS objects
 - nest components (experimental)
 
+## Do you need `react-dynamic-classnames`?
+
+No, absolutely not, this is just a tool I use to keep my code clean and maintainable. Maybe you like it. Contributions are also welcome.
+
+## Upcoming features
+
+- It should look and work like styled-components:
+
+```tsx
+/** NOT WORKING! */
+// classic react element as base element
+const SomeBaseButton = dc<SomeBaseInterface>('button')`
+  text-lg
+  ${someConfig.transitionDurationEaseClass}
+  ${$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
+`
+/** NOT WORKING! */
+// nesting
+const ExtendedButton = dc<SomeExtendedButtonInterface>(SomeBaseButton)`
+  ${$isLoading ? 'opacity-90 pointer-events-none' : ''}
+  ${$isActive ? 'custom-active' : 'other-custom-active'}
+`
+```
+
 ### re-inventing the wheel?
 
-There are other libraries that handle this area well, such as [twin.macro](https://github.com/ben-rogerson/twin.macro)  and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component). However, these solutions are either too complex for my projects, rely on `styled-components`, or lack SSR compatibility. I prefer a simpler approach with more separation of concerns for handling conditional classes, as demonstrated in the examples below.
-
+Kind of - There are other libraries that handle this area well, such as [twin.macro](https://github.com/ben-rogerson/twin.macro)  and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component).
 ## Getting started
 
 ```bash
@@ -225,10 +248,6 @@ const SomeComponent = () => {
 
 export default SomeComponent
 ```
-
-## Do I need `react-dynamic-classnames`?
-
-No, in a perfect world, in smaller projects, everything is granular and well-organized, only 3-4 classnames per element, and we don't need this library.
 
 ## Inspiration
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
