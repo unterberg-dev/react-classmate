@@ -1,6 +1,6 @@
 # react-dynamic-classnames
 
-Just another tool to separate styles and classes from your React components, seamlessly integrating with utility-first CSS libraries like UnoCSS and Tailwind. Like styled components for class names.
+Just a tool I use to separate styles and classes from React components, mainly driven with utility-first CSS libraries like UnoCSS and Tailwind. Like styled components for class names.
 
 ```bash
 npm i react-dynamic-classnames --save-dev
@@ -14,7 +14,7 @@ When working with utility-first libraries like [uno.css](https://unocss.dev/) or
 
 ```tsx
 const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
-  /* potentially logic here */
+  /* logic here */
 
   const activeClass = useMemo(
     () => (isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'),
@@ -35,7 +35,7 @@ const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
 
 ## What the tool does
 
-It provides a alternative way to maintain classnames and styles for all valid React components. Just like styled components, but without the need for a additional library.
+Providing a alternative way to maintain classnames and styles for all valid React components.
 
 ```tsx
 const SomeButton = dc.button<{ $isActive?: boolean; $isLoading?: boolean }>(
@@ -58,20 +58,20 @@ const SomeButton = dc.button<{ $isActive?: boolean; $isLoading?: boolean }>(
 ## Features
 
 - dynamic classnames
+- CSS objects
 - tiny, dev dependency
 - works with any utility-first CSS library (UnoCSS, Tailwind, etc.)
-- typscript
-- SSR-ready
-- CSS objects
+- SSR compatible
 - nest components (experimental)
 
 ## Do you need `react-dynamic-classnames`?
 
-No, absolutely not, this is just a tool I use to keep my code clean and maintainable. Maybe you like it. Contributions are also welcome.
+No, absolutely not, this is just a tool I use to keep my code clean and maintainable. Maybe you like it. Contributions are welcome. There is just one goal:
 
 ## Upcoming features
 
-- It should look and work like styled-components:
+- It should syntactically look like styled-components, especially for prettier formatting
+  - preserve functionality as is (autocompletion, generic types, etc.)
 
 ```tsx
 /** NOT WORKING! */
@@ -183,9 +183,9 @@ const Container = dc.button<ContainerProps>({
 
 *This pattern should also avoid conflicts with reserved prop names.*
 
-## Nest pre-styled components (Experimental)
+## Nest other components (Experimental)
 
-To allow nesting of pre-styled components, we can use the `restyle` function. This function takes a pre-styled component and extends it with additional styles and classes.
+To allow nesting of react components, we can use the `restyle` function. This function takes a react (function) component and extends it with additional styles and classes.
 
 Now we can define a base component and extend it with additional styles and classes and pass properties.
 
