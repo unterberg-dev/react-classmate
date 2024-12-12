@@ -183,13 +183,25 @@ const Container = dc.button<ContainerProps>({
 
 *This pattern should also avoid conflicts with reserved prop names.*
 
-## Merge/Inject components (Experimental)
+## Extending components (Experimental)
 
-To allow merging react components, we can use the `restyle` function. This function takes a react (function) component and extends it with additional styles and classes.
+To extend react components, we can use the `restyle` function. This function takes any valid react ccomponent and extends it with additional styles and classes. If not passed, the types are inferred from the base component.
 
-Now we can define a base component and extend it with additional styles and classes and pass properties.
+```tsx
+import { restyle } from 'react-dynamic-classnames'
+import { ArrowBigDown } from 'lucide-react'
 
-*Currently untested with the extended pattern*
+export const StyledLucideArrow = restyle(
+  ArrowBigDown,
+  `
+  md:-right-4.5
+  right-1
+  slide-in-r-20
+`,
+)
+```
+
+Now we can define a base component and extend it with additional styles and classes and pass properties. You can pass the types to the `restyle` function to get autocompletion and type checking on the way.
 
 ```tsx
 import { useState } from 'react'
@@ -199,7 +211,6 @@ interface StyledSliderItemBaseProps {
   $active: boolean
 }
 
-// define a base component
 const StyledSliderItemBase = dc.button<StyledSliderItemBaseProps>(
   ({ $active }) => `
     absolute
@@ -211,20 +222,10 @@ const StyledSliderItemBase = dc.button<StyledSliderItemBaseProps>(
 `,
 )
 
-// we can now extend the base component
-const NewStyledSliderItem = restyle<StyledSliderItemBaseProps>(
-  StyledSliderItemBase,
-  `
-    rounded-small
-    text-lg
-  `,
-)
-
 interface NewStyledSliderItemProps extends StyledSliderItemBaseProps {
   $secondBool: boolean
 }
 
-// even with its own props
 const NewStyledSliderItemWithNewProps = restyle<NewStyledSliderItemProps>(
   StyledSliderItemBase,
   ({ $active, $secondBool }) => `
@@ -237,17 +238,19 @@ const NewStyledSliderItemWithNewProps = restyle<NewStyledSliderItemProps>(
 
 const SomeComponent = () => {
   const [active, _setActive] = useState(false)
+  const [otherActive, _setOtherActive] = useState(false)
 
   return (
     <>
-      <NewStyledSliderItem $active={active} />
-      <NewStyledSliderItemWithNewProps $active={active} $secondBool />
+      <NewStyledSliderItemWithNewProps $active={active} $secondBool={otherActive} />
     </>
   )
 }
 
 export default SomeComponent
 ```
+
+*Currently untested with the extended pattern*
 
 ## Inspiration
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
