@@ -62,7 +62,7 @@ const SomeButton = dc.button<{ $isActive?: boolean; $isLoading?: boolean }>(
 - tiny, dev dependency
 - works with any utility-first CSS library (UnoCSS, Tailwind, etc.)
 - SSR compatible
-- nest components (experimental)
+- merge components (experimental)
 
 ## Do you need `react-dynamic-classnames`?
 
@@ -82,7 +82,7 @@ const SomeBaseButton = dc<SomeBaseInterface>('button')`
   ${$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
 `
 /** NOT WORKING! */
-// nesting
+// merging
 const ExtendedButton = dc<SomeExtendedButtonInterface>(SomeBaseButton)`
   ${$isLoading ? 'opacity-90 pointer-events-none' : ''}
   ${$isActive ? 'custom-active' : 'other-custom-active'}
@@ -183,9 +183,9 @@ const Container = dc.button<ContainerProps>({
 
 *This pattern should also avoid conflicts with reserved prop names.*
 
-## Nest other components (Experimental)
+## Merge/Inject components (Experimental)
 
-To allow nesting of react components, we can use the `restyle` function. This function takes a react (function) component and extends it with additional styles and classes.
+To allow merging react components, we can use the `restyle` function. This function takes a react (function) component and extends it with additional styles and classes.
 
 Now we can define a base component and extend it with additional styles and classes and pass properties.
 
