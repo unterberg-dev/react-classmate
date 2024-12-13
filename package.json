@@ -1,6 +1,6 @@
 {
   "name": "react-styled-classnames",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
@@ -11,11 +11,14 @@
     "typescript",
     "tailwind",
     "unocss",
+    "nextjs",
+    "vike",
+    "ssr",
     "dynamic-classnames",
     "utility-first",
+    "utility-first-classnames",
     "classnames",
-    "frontend",
-    "css"
+    "frontend"
   ],
   "license": "MIT",
   "type": "module",
