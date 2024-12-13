@@ -1,9 +1,3 @@
-```bash
-npm i react-styled-classnames --save-dev
-# or
-yarn add react-styled-classnames --dev
-```
-
 # react-styled-classnames
 
 Just another tool to separate styles and classes from React components, mainly driven with utility-first CSS libraries like UnoCSS and Tailwind. Like styled components for class names:
