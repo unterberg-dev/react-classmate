@@ -62,10 +62,6 @@ const SomeButton = rsc.button<{ $isActive?: boolean; $isLoading?: boolean }>`
 - typescript support / autocompletion
 - SSR ready
 
-## Upcoming features
-
-- join forces with [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component) since syntax is similar but I could provide the extend feature and dynamic tags
-
 ### re-inventing the wheel?
 
 Kind of - There are other libraries that handle this area well, such as [twin.macro](https://github.com/ben-rogerson/twin.macro) and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component). twin macro needs styled-components, and tailwind-styled-components is not working with strict ssr environments, like vike. I created this lib just for the sake of using it in these environments.
@@ -172,7 +168,7 @@ export default () => <NewStyledSliderItemWithNewProps $active $secondBool={false
 
 ### Extend directly
 
-We can also extend a component directly by passing the component and the tag name.
+Extend a component directly by passing the component and the tag name.
 
 ```tsx
 import { rsc } from 'react-styled-classnames'
@@ -183,20 +179,13 @@ const BaseButton = rsc.extend(rsc.button``)`
 `
 ```
 
-### Extend with specific element props
+### Using element tag props and validation
 
-Responding to incoming props, we can also extend a component with specific props based on the element type.
+By passing the component and the tag name, we can validate the component to only accept the tag name.
+This is useful if you use the props without the `$` prefix.
 
 ```tsx
 import { rsc } from 'react-dynamic-classnames'
-
-interface SomeButtonProps {
-  $isActive?: boolean
-}
-const SomeButton = rsc.button<SomeButtonProps>`
-  z-10
-  ${p => (p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-700 text-blue-200')}
-`
 
 // mimic basic button type
 type ButtonType = 'submit' | 'reset' | 'button' | undefined
@@ -205,9 +194,10 @@ type ButtonType = 'submit' | 'reset' | 'button' | undefined
 interface ExtendedButtonProps extends SomeButtonProps {
   // note how we use a prop without $ prefix to let through the type
   type: ButtonType
+  $isActive?: boolean
 }
 // note how we pass "button" as the second argument to limit the component to a button
-const ExtendedButton = rsc.extend(SomeButton, 'button')<ExtendedButtonProps>`
+const ExtendedButton = rsc.extend(rsc.button<SomeButtonProps>``, 'button')<ExtendedButtonProps>`
   some-class
   ${p => {
     if (p.type === 'submit') {
