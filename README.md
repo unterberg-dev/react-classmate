@@ -229,7 +229,7 @@ export default () => (
 If you liked the V1 version with `dc` and `restyle` and the object based pattern, it's still available in this package until the next major release.
 
 See: [V1 Documentation](
-  https://github.com/richard-unterberg/react-styled-classnames/tree/master/src/v1)
+  https://github.com/richard-unterberg/react-styled-classnames/tree/master/src/v1-deprecated)
 
 ### V1 Examples
 
