@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "jsx": "react",
+    "types": ["@testing-library/jest-dom"],
     "target": "ESNext",
     "module": "ESNext", // Change to ESNext for ESM output
     "moduleResolution": "node",

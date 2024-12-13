@@ -2,32 +2,36 @@ import {
   createElement,
   forwardRef,
   ForwardRefExoticComponent,
+  isValidElement,
   JSXElementConstructor,
   PropsWithoutRef,
   RefAttributes,
-} from 'react'
+} from "react";
+// import { RscBaseComponent, RscExtractProps, RscFactory, RscInterpolation } from "./types";
 
-type RscInterpolation<T> = string | boolean | ((props: T) => string) | null | undefined
+export type RscInterpolation<T> = string | boolean | ((props: T) => string) | null | undefined;
 
-type RscBaseComponent<P> = ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<HTMLElement>>
+export type RscBaseComponent<P> = ForwardRefExoticComponent<
+  PropsWithoutRef<P> & RefAttributes<HTMLElement>
+>;
 
-type RscInnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any> ? U : P
+type RscInnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any> ? U : P;
 
-type RscExtractProps<E, T> = E extends keyof JSX.IntrinsicElements
+export type RscExtractProps<E, T> = E extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[E] & T
   : E extends ForwardRefExoticComponent<infer P>
-    ? RscInnerProps<P> & T
-    : E extends JSXElementConstructor<infer P2>
-      ? P2 & T
-      : T
+  ? RscInnerProps<P> & T
+  : E extends JSXElementConstructor<infer P2>
+  ? P2 & T
+  : T;
 
 type RscValidateProps<E extends keyof JSX.IntrinsicElements, T extends object> = {
   [K in keyof T]: K extends `$${string}`
-    ? T[K] // $-prefixed props are always allowed
-    : K extends keyof JSX.IntrinsicElements[E]
-      ? T[K] // allowed if it's a valid prop of the intrinsic element
-      : never // invalid prop causes a type error
-}
+  ? T[K] // $-prefixed props are always allowed
+  : K extends keyof JSX.IntrinsicElements[E]
+  ? T[K] // allowed if it's a valid prop of the intrinsic element
+  : never; // invalid prop causes a type error
+};
 
 /**
  * If `I` is provided, we use it as the intrinsic element type. Otherwise, use `E`.
@@ -45,7 +49,7 @@ type RscExtendFunction = {
   ): <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: RscInterpolation<RscExtractProps<E, T>>[]
-  ) => RscBaseComponent<RscExtractProps<E, T>>
+  ) => RscBaseComponent<RscExtractProps<E, T>>;
 
   /**
    * The `extend` method allows you to create a new styled component from an existing one.
@@ -83,31 +87,32 @@ type RscExtendFunction = {
   ): <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: Array<RscInterpolation<RscValidateProps<I, T> & JSX.IntrinsicElements[I]>>
-  ) => RscBaseComponent<RscValidateProps<I, T> & JSX.IntrinsicElements[I]>
-}
+  ) => RscBaseComponent<RscValidateProps<I, T> & JSX.IntrinsicElements[I]>;
+};
 
 interface RscFunction {
   <T, E extends keyof JSX.IntrinsicElements>(
     tag: E,
     strings: TemplateStringsArray,
     ...interpolations: RscInterpolation<T>[]
-  ): RscBaseComponent<RscExtractProps<E, T>>
+  ): RscBaseComponent<RscExtractProps<E, T>>;
 
   <T, E extends ForwardRefExoticComponent<any> | JSXElementConstructor<any>>(
     component: E,
     strings: TemplateStringsArray,
     ...interpolations: RscInterpolation<T>[]
-  ): RscBaseComponent<RscExtractProps<E, T>>
+  ): RscBaseComponent<RscExtractProps<E, T>>;
 }
 
-type RscFactory = {
+export type RscFactory = {
   [K in keyof JSX.IntrinsicElements]: <T>(
     strings: TemplateStringsArray,
     ...interpolations: RscInterpolation<T>[]
-  ) => RscBaseComponent<RscExtractProps<K, T>>
+  ) => RscBaseComponent<RscExtractProps<K, T>>;
 } & RscFunction & {
-    extend: RscExtendFunction
-  }
+  extend: RscExtendFunction;
+};
+
 
 /**
  * Creates a styled React component with dynamic class names based on template literals and interpolations.
@@ -129,6 +134,46 @@ type RscFactory = {
  *
  * @returns A `BaseComponent` that incorporates the computed classes and filtered props, suitable for rendering in React.
  */
+// const createComponent = <
+//   T extends object,
+//   E extends
+//   | keyof JSX.IntrinsicElements
+//   | ForwardRefExoticComponent<any>
+//   | JSXElementConstructor<any>,
+// >(
+//   tag: E,
+//   strings: TemplateStringsArray,
+//   interpolations: RscInterpolation<RscExtractProps<E, T>>[],
+// ): RscBaseComponent<RscExtractProps<E, T>> => {
+//   const RenderComponent = forwardRef<HTMLElement, RscExtractProps<E, T>>((props, ref) => {
+//     const computedClassName = strings
+//       .map((str, i) => {
+//         const interp = interpolations[i];
+//         return typeof interp === "function"
+//           ? str + interp(props as RscExtractProps<E, T>)
+//           : str + (interp ?? "");
+//       })
+//       .join("")
+//       .replace(/\s+/g, " ")
+//       .trim();
+
+//     const domProps: Record<string, any> = {};
+//     for (const key in props) {
+//       if (!key.startsWith("$")) {
+//         domProps[key] = props[key];
+//       }
+//     }
+
+//     const incomingClassName = domProps.className || "";
+//     const finalClassName = [computedClassName, incomingClassName].filter(Boolean).join(" ").trim();
+
+//     return createElement(tag as any, { ...domProps, className: finalClassName, ref });
+//   });
+
+//   RenderComponent.displayName = `Styled(${typeof tag === "string" ? tag : "Component"})`;
+//   return RenderComponent;
+// };
+
 const createComponent = <
   T extends object,
   E extends
@@ -140,50 +185,126 @@ const createComponent = <
   strings: TemplateStringsArray,
   interpolations: RscInterpolation<RscExtractProps<E, T>>[],
 ): RscBaseComponent<RscExtractProps<E, T>> => {
-  const RenderComponent = forwardRef<HTMLElement, RscExtractProps<E, T>>((props, ref) => {
-    const computedClassName = strings
+  // Define the function to compute class names
+  const computeClassName = (props: any) => {
+    return strings
       .map((str, i) => {
-        const interp = interpolations[i]
+        const interp = interpolations[i];
         return typeof interp === 'function'
-          ? str + interp(props as RscExtractProps<E, T>)
-          : str + (interp ?? '')
+          ? str + interp(props)
+          : str + (interp ?? '');
       })
       .join('')
       .replace(/\s+/g, ' ')
-      .trim()
+      .trim();
+  };
 
-    const domProps: Record<string, any> = {}
-    for (const key in props) {
-      if (!key.startsWith('$')) {
-        domProps[key] = props[key]
+  const RenderComponent = forwardRef<HTMLElement, RscExtractProps<E, T>>(
+    (props, ref) => {
+      const computedClassName = computeClassName(props);
+
+      // Filter out $-prefixed props
+      const domProps: Record<string, any> = {};
+      for (const key in props) {
+        if (!key.startsWith('$')) {
+          domProps[key] = props[key];
+        }
       }
+
+      const incomingClassName = domProps.className || '';
+      const finalClassName = [computedClassName, incomingClassName]
+        .filter(Boolean)
+        .join(' ')
+        .trim();
+
+      return createElement(tag as any, { ...domProps, className: finalClassName, ref });
     }
+  );
 
-    const incomingClassName = domProps.className || ''
-    const finalClassName = [computedClassName, incomingClassName].filter(Boolean).join(' ').trim()
+  RenderComponent.displayName = `Styled(${typeof tag === 'string' ? tag : 'Component'})`;
 
-    return createElement(tag as any, { ...domProps, className: finalClassName, ref })
-  })
+  // Attach the compute function and tag to the component for later use
+  (RenderComponent as any).__rscComputeClassName = computeClassName;
+  (RenderComponent as any).__rscTag = tag;
 
-  RenderComponent.displayName = `Styled(${typeof tag === 'string' ? tag : 'Component'})`
-  return RenderComponent
-}
+  return RenderComponent;
+};
+
 
 /**
  * a collection of functions that create styled components based on HTML tags.
  */
-const rscTarget: Partial<RscFactory> = {}
-rscTarget.extend = (component: any, elementType?: any) => {
-  return (strings: TemplateStringsArray, ...interpolations: RscInterpolation<any>[]) => {
-    const tagOrComp = elementType ?? component
-    return createComponent(tagOrComp as any, strings, interpolations)
-  }
-}
+const rscTarget: Partial<RscFactory> = {};
+rscTarget.extend = (
+  baseComponent: RscBaseComponent<any>,
+  elementType?: any
+) => {
+  return (
+    strings: TemplateStringsArray,
+    ...interpolations: RscInterpolation<any>[]
+  ) => {
+    // base component's compute function and tag
+    const baseComputeClassName = (baseComponent as any).__rscComputeClassName;
+    const baseTag = (baseComponent as any).__rscTag;
+
+    // new compute function for the extended component
+    const extendedComputeClassName = (props: any) => {
+      return strings
+        .map((str, i) => {
+          const interp = interpolations[i];
+          return typeof interp === 'function'
+            ? str + interp(props)
+            : str + (interp ?? '');
+        })
+        .join('')
+        .replace(/\s+/g, ' ')
+        .trim();
+    };
+
+    const WrappedComponent = forwardRef<HTMLElement, any>((props, ref) => {
+      // compute class names separately, combine them
+      const baseClassName = baseComputeClassName(props);
+      const extendedClassName = extendedComputeClassName(props);
+      const combinedClassName = `${baseClassName} ${extendedClassName}`.trim();
+
+      // filter out $-prefixed props
+      const domProps: Record<string, any> = {};
+      for (const key in props) {
+        if (!key.startsWith('$')) {
+          domProps[key] = props[key];
+        }
+      }
+
+      const incomingClassName = domProps.className || '';
+      const finalClassName = [combinedClassName, incomingClassName]
+        .filter(Boolean)
+        .join(' ')
+        .trim();
+
+      return createElement(
+        elementType || baseTag,
+        { ...domProps, className: finalClassName, ref }
+      );
+    });
+
+    WrappedComponent.displayName = `Extended(${baseComponent.displayName || 'Component'})`;
+
+    // compute function and tag for potential further extensions
+    (WrappedComponent as any).__rscComputeClassName = (props: any) => {
+      const baseClassName = baseComputeClassName(props);
+      const extendedClassName = extendedComputeClassName(props);
+      return `${baseClassName} ${extendedClassName}`.trim();
+    };
+    (WrappedComponent as any).__rscTag = elementType || baseTag;
+
+    return WrappedComponent;
+  };
+};
 
 const rscProxy = new Proxy(rscTarget, {
   get(_, prop: string) {
-    if (prop === 'extend') {
-      return rscTarget.extend
+    if (prop === "extend") {
+      return rscTarget.extend;
     }
 
     return <T extends object>(
@@ -194,14 +315,14 @@ const rscProxy = new Proxy(rscTarget, {
         prop as keyof JSX.IntrinsicElements,
         strings,
         interpolations,
-      )
+      );
   },
-})
+});
 
 const rscBaseRsc = new Proxy(rscProxy, {
   apply: (_, __, [tag, strings, ...interpolations]) =>
     createComponent(tag, strings, interpolations),
-})
+});
 
 /**
  * The `rsc` object is the main entry point for creating styled components using intrinsic HTML elements or existing React components.
@@ -239,11 +360,12 @@ const rscBaseRsc = new Proxy(rscProxy, {
  *
  * // Validating props against an intrinsic element:
  * // Extending as a 'button', ensuring non-$ props match button attributes:
- * const ExtendedButton = rsc.extend(StyledDiv, 'button')<{ type?: "submit" | "reset" }>`
+ * const ExtendedButton = rsc.extend(StyledDiv, 'button')`
  *   ${p => p.type === 'submit' ? 'font-bold' : ''}
  * `
  * ```
  */
-const rsc = rscBaseRsc as RscFactory
-export { rsc }
-export { dc, restyle } from './deprecated/index_deprecated'
+const rsc = rscBaseRsc as RscFactory;
+
+export { rsc };
+export { dc, restyle } from "./v1-deprecated";

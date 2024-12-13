@@ -190,7 +190,7 @@ const BaseButton = rsc.extend(rsc.button``)`
 
 ### Using element tag props and validation
 
-By passing the component and the tag name, we can validate the component to only accept the tag name.
+By passing the component and the tag name, we can validate the component to accept tag related props.
 This is useful if you wanna rely on the props for a specific element without the `$` prefix.
 
 ```tsx
@@ -200,12 +200,10 @@ import { rsc } from 'react-dynamic-classnames'
 type ButtonType = 'submit' | 'reset' | 'button' | undefined
 
 // extend to pass $isActive prop if needed
-interface ExtendedButtonProps extends SomeButtonProps {
-  // note how we use a prop without $ prefix to let through the type
-  type: ButtonType
+interface ExtendedButtonProps {
   $isActive?: boolean
 }
-// note how we pass "button" as the second argument to limit the component to button attributes
+// note how we pass "button" as the second argument to correctly validate the props
 const ExtendedButton = rsc.extend(rsc.button``, 'button')<ExtendedButtonProps>`
   some-class
   ${p => {
@@ -231,7 +229,7 @@ export default () => (
 If you liked the V1 version with `dc` and `restyle` and the object based pattern, it's still available in this package until the next major release.
 
 See: [V1 Documentation](
-  https://github.com/richard-unterberg/react-styled-classnames/tree/master/src/deprecated)
+  https://github.com/richard-unterberg/react-styled-classnames/tree/master/src/v1)
 
 ### V1 Examples
 

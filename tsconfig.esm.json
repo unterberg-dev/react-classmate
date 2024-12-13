@@ -3,5 +3,5 @@
     "compilerOptions": {
       "module": "ESNext",   // Output ES module
       "outDir": "./dist/esm" // Output directory for ESM
-    }
+    },
   }

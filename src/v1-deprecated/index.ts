@@ -156,11 +156,11 @@ const dcProxy = new Proxy(
   {
     get:
       (_, tag: keyof JSX.IntrinsicElements) =>
-      <T extends object, K extends keyof JSX.IntrinsicElements = typeof tag>(
-        options?: ComponentOptions<T> | string | ((props: HTMLProps<T, K>) => string),
-        css?: ((props: HTMLProps<T, K>) => CSSProperties) | CSSProperties,
-      ) =>
-        createComponent<T, K>(tag as K, options, css),
+        <T extends object, K extends keyof JSX.IntrinsicElements = typeof tag>(
+          options?: ComponentOptions<T> | string | ((props: HTMLProps<T, K>) => string),
+          css?: ((props: HTMLProps<T, K>) => CSSProperties) | CSSProperties,
+        ) =>
+          createComponent<T, K>(tag as K, options, css),
   },
 ) as DcComponent
 
@@ -187,8 +187,8 @@ export const dc = dcProxy
  */
 export type RestyleType<T extends React.ComponentType<any>> =
   T extends React.ComponentType<infer Props>
-    ? Props
-    : never
+  ? Props
+  : never
 
 /**
  * A higher-order component (HOC) that allows you to restyle a given component by adding additional
