@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { rsc } from "../index";
+import { rsc } from "../../src/index";
 
 const RenderDiv = rsc.div`bg-red p-4`;
 

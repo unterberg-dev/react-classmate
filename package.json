@@ -1,6 +1,6 @@
 {
   "name": "react-styled-classnames",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
@@ -28,8 +28,7 @@
   },
   "scripts": {
     "build": "npm run build-all",
-    "build-all": "rm -rf dist && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && npm run delete-debris",
-    "delete-debris": "npx tsx build/delete-debris.ts",
+    "build-all": "rm -rf dist && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "package": "npm run build && npm publish --access public",
     "test": "jest",
     "type-test": "tsd"

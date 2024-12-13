@@ -1,6 +1,8 @@
+import '@testing-library/jest-dom';
+
 import React from "react";
 import { render } from "@testing-library/react";
-import { rsc } from "../index";
+import { rsc } from "../../src/index";
 
 interface StyledSliderItemBaseProps {
   $isActive: boolean;

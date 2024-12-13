@@ -1,8 +1,0 @@
-{
-  "exclude": [
-    "../dist/esm/tests",
-    "../dist/esm/v1-deprecated",
-    "../dist/cjs/tests",
-    "../dist/cjs/v1-deprecated"
-  ]
-}
