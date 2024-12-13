@@ -17,6 +17,18 @@ const SomeButton = rsc.button<ButtonProps>`
 `
 ```
 
+## The Content
+
+- [The "issue"](#the-issue)
+- [Features](#features)
+- [Getting started](#getting-started)
+- [Basic usage](#basic-usage)
+- [Usage with props](#usage-with-props)
+- [Extend components with `rsc.extend`](#extend-components-with-rscextend)
+  - [Use rsc for creating base component](#use-rsc-for-creating-base-component)
+  - [Using element tag props and validation](#using-element-tag-props-and-validation)
+- [Version 1 Users](#version-1-users)
+
 ## The "issue"
 
 When working with utility-first libraries like [uno.css](https://unocss.dev/) or [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While the below works for most of our cases, it can lead to cluttered and hard-to-maintain code, especially handling with conditional classes and/or dynamic styles. Often I do not want to create a wrapper component only to keep the styles separated.
@@ -66,17 +78,6 @@ const SomeButtonVariation = rsc.extend(SomeButton)`
   slide-in-r-20
 `
 ```
-
-## The Content
-
-- [Features](#features)
-- [Getting started](#getting-started)
-- [Basic usage](#basic-usage)
-- [Usage with props](#usage-with-props)
-- [Extend components with `rsc.extend`](#extend-components-with-rscextend)
-  - [Use rsc for creating base component](#use-rsc-for-creating-base-component)
-  - [Using element tag props and validation](#using-element-tag-props-and-validation)
-- [Version 1 Users](#version-1-users)
 
 ## Features
 
