@@ -1,242 +1,249 @@
-import clsx from 'clsx'
 import {
-  ComponentType,
   createElement,
-  CSSProperties,
-  FC,
   forwardRef,
   ForwardRefExoticComponent,
-  JSX,
+  JSXElementConstructor,
+  PropsWithoutRef,
   RefAttributes,
-  useMemo,
 } from 'react'
 
-type RefComponent<T> = ForwardRefExoticComponent<T & RefAttributes<HTMLElement>>
-type ComponentOptions<T> = {
-  /** Base CSS class for the component */
-  base?: string
-  /** Function to dynamically generate an array of classes based on props */
-  classes?: (props: T) => string[]
-  /** Static or dynamic CSS object applied to the component */
-  css?: CSSProperties | ((props: T) => CSSProperties)
-}
+type RscInterpolation<T> = string | boolean | ((props: T) => string) | null | undefined
 
-type HTMLProps<T, K extends keyof JSX.IntrinsicElements> = T & JSX.IntrinsicElements[K]
-type ValidProps<T, K extends keyof JSX.IntrinsicElements> = T & JSX.IntrinsicElements[K]
+type RscBaseComponent<P> = ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<HTMLElement>>
 
-// core type
-type DcComponent = {
-  [K in keyof JSX.IntrinsicElements]: <T, E extends keyof JSX.IntrinsicElements = K>(
-    options?: ComponentOptions<T> | string | ((props: HTMLProps<T, E>) => string),
-    css?: ((props: HTMLProps<T, E>) => CSSProperties) | CSSProperties,
-  ) => RefComponent<ValidProps<T, E>>
+type RscInnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any> ? U : P
+
+type RscExtractProps<E, T> = E extends keyof JSX.IntrinsicElements
+  ? JSX.IntrinsicElements[E] & T
+  : E extends ForwardRefExoticComponent<infer P>
+    ? RscInnerProps<P> & T
+    : E extends JSXElementConstructor<infer P2>
+      ? P2 & T
+      : T
+
+type RscValidateProps<E extends keyof JSX.IntrinsicElements, T extends object> = {
+  [K in keyof T]: K extends `$${string}`
+    ? T[K] // $-prefixed props are always allowed
+    : K extends keyof JSX.IntrinsicElements[E]
+      ? T[K] // allowed if it's a valid prop of the intrinsic element
+      : never // invalid prop causes a type error
 }
 
 /**
- * Cleans and trims any extra spaces in the className string.
- *
- * @param className - The className string to clean.
- * @returns A trimmed className string.
+ * If `I` is provided, we use it as the intrinsic element type. Otherwise, use `E`.
  */
-const cleanClassName = (className: string) => className.replace(/\s+/g, ' ').trim()
+type RscExtendFunction = {
+  /**
+   * Create a new styled component from an existing component without specifying an intrinsic element.
+   *
+   * @typeParam E - The base component type (forwardRef or JSX component).
+   * @param component - The base component to extend.
+   * @returns A function that takes template strings and returns a styled component.
+   */
+  <E extends ForwardRefExoticComponent<any> | JSXElementConstructor<any>>(
+    component: E,
+  ): <T extends object>(
+    strings: TemplateStringsArray,
+    ...interpolations: RscInterpolation<RscExtractProps<E, T>>[]
+  ) => RscBaseComponent<RscExtractProps<E, T>>
 
-/**
- * Omits custom props (those starting with '$') from the props passed to the DOM element.
- *
- * @param props - The full set of props passed to the component.
- * @param customProps - An array of custom prop keys to omit.
- * @returns The filtered props object to be passed to the DOM element.
- */
-const omitCustomProps = <T extends object, K extends keyof JSX.IntrinsicElements>(
-  props: T,
-  customProps: (keyof T)[],
-): JSX.IntrinsicElements[K] => {
-  const domProps: Record<string, any> = {}
-  for (const key in props) {
-    if (!customProps.includes(key as keyof T)) {
-      domProps[key] = props[key]
-    }
+  /**
+   * The `extend` method allows you to create a new styled component from an existing one.
+   * You can optionally specify an intrinsic element type to validate that the extended
+   * component’s non-$ props are valid for that intrinsic element.
+   *
+   * @typeParam E - The type of the original component, which can be a ForwardRefExoticComponent or a JSXElementConstructor.
+   * @typeParam I - (Optional) The intrinsic element type (e.g. 'div', 'span', etc.) against which to validate props.
+   *
+   * @param component - The base component to extend.
+   * @param elementType - (Optional) The intrinsic element type to validate props against.
+   *
+   * @returns A function that accepts template strings and interpolations, and returns a new styled component.
+   *
+   * @example
+   * ```tsx
+   * // Extending a custom component without intrinsic element type
+   * const SomeBase = rsc.div<{ $active?: boolean }>`color: red;`
+   * const Extended = rsc.extend(SomeBase)<{ $highlighted?: boolean }>`
+   *   ${p => p.$highlighted ? 'bg-yellow' : ''}
+   * `
+   *
+   * // Extending a component and specifying an intrinsic element type (e.g. 'button')
+   * const ExtendedButton = rsc.extend(SomeBase, 'button')<{ type?: "submit" | "reset" }>`
+   *   ${p => p.type === 'submit' ? 'font-bold' : ''}
+   * `
+   * ```
+   */
+  <
+    E extends ForwardRefExoticComponent<any> | JSXElementConstructor<any>,
+    I extends keyof JSX.IntrinsicElements,
+  >(
+    component: E,
+    elementType: I,
+  ): <T extends object>(
+    strings: TemplateStringsArray,
+    ...interpolations: Array<RscInterpolation<RscValidateProps<I, T> & JSX.IntrinsicElements[I]>>
+  ) => RscBaseComponent<RscValidateProps<I, T> & JSX.IntrinsicElements[I]>
+}
+
+interface RscFunction {
+  <T, E extends keyof JSX.IntrinsicElements>(
+    tag: E,
+    strings: TemplateStringsArray,
+    ...interpolations: RscInterpolation<T>[]
+  ): RscBaseComponent<RscExtractProps<E, T>>
+
+  <T, E extends ForwardRefExoticComponent<any> | JSXElementConstructor<any>>(
+    component: E,
+    strings: TemplateStringsArray,
+    ...interpolations: RscInterpolation<T>[]
+  ): RscBaseComponent<RscExtractProps<E, T>>
+}
+
+type RscFactory = {
+  [K in keyof JSX.IntrinsicElements]: <T>(
+    strings: TemplateStringsArray,
+    ...interpolations: RscInterpolation<T>[]
+  ) => RscBaseComponent<RscExtractProps<K, T>>
+} & RscFunction & {
+    extend: RscExtendFunction
   }
-  return domProps as JSX.IntrinsicElements[K]
-}
 
 /**
- * Creates a custom component with dynamic class names and styles based on passed props.
+ * Creates a styled React component with dynamic class names based on template literals and interpolations.
  *
- * @param tag - The HTML tag or React element to render.
- * @param options - Configuration object for base classes, dynamic classes, and styles.
- * @param css - Static or dynamic CSS styles to apply to the component.
- * @returns A forwardRef React component that dynamically renders with calculated props, classes, and styles.
+ * This function takes a base element or component (`tag`), along with template strings and
+ * interpolations, and returns a `forwardRef` component that computes a final `className` string.
+ * It filters out `$`-prefixed props so they are not passed to the DOM, and merges any incoming
+ * `className` prop with the computed classes.
+ *
+ * @typeParam T - Additional props that will be merged with the base component or intrinsic element's props.
+ * @typeParam E - The type of the element or component to style. It can be:
+ *   - A key of `JSX.IntrinsicElements` (e.g., 'div', 'span', 'button'),
+ *   - A `ForwardRefExoticComponent`,
+ *   - Or a `JSXElementConstructor` (a function or class component).
+ *
+ * @param tag - The base element or component to style.
+ * @param strings - The template literal strings array.
+ * @param interpolations - An array of interpolations (functions or values) that can dynamically compute class names based on props.
+ *
+ * @returns A `BaseComponent` that incorporates the computed classes and filtered props, suitable for rendering in React.
  */
 const createComponent = <
   T extends object,
-  K extends keyof JSX.IntrinsicElements = keyof JSX.IntrinsicElements,
+  E extends
+    | keyof JSX.IntrinsicElements
+    | ForwardRefExoticComponent<any>
+    | JSXElementConstructor<any>,
 >(
-  tag: K,
-  options?: ComponentOptions<T> | string | ((props: HTMLProps<T, K>) => string),
-  css?: ((props: HTMLProps<T, K>) => CSSProperties) | CSSProperties,
-): RefComponent<ValidProps<T, K>> => {
-  const RenderComponent = forwardRef<HTMLElement, ValidProps<T, K>>((props, ref) => {
-    const { className, style, ...restProps } = props
+  tag: E,
+  strings: TemplateStringsArray,
+  interpolations: RscInterpolation<RscExtractProps<E, T>>[],
+): RscBaseComponent<RscExtractProps<E, T>> => {
+  const RenderComponent = forwardRef<HTMLElement, RscExtractProps<E, T>>((props, ref) => {
+    const computedClassName = strings
+      .map((str, i) => {
+        const interp = interpolations[i]
+        return typeof interp === 'function'
+          ? str + interp(props as RscExtractProps<E, T>)
+          : str + (interp ?? '')
+      })
+      .join('')
+      .replace(/\s+/g, ' ')
+      .trim()
 
-    // Resolve base class string
-    const baseClass = useMemo(() => {
-      if (typeof options === 'string') return options
-      if (typeof options === 'object') return options.base
-      return undefined
-    }, [options])
+    const domProps: Record<string, any> = {}
+    for (const key in props) {
+      if (!key.startsWith('$')) {
+        domProps[key] = props[key]
+      }
+    }
 
-    // Resolve dynamic classes based on props
-    const dynamicClasses = useMemo(() => {
-      if (typeof options === 'object') return options?.classes
-      if (typeof options === 'function') return options
-      return undefined
-    }, [options])
+    const incomingClassName = domProps.className || ''
+    const finalClassName = [computedClassName, incomingClassName].filter(Boolean).join(' ').trim()
 
-    // Resolve dynamic CSS based on props
-    const dynamicCss = useMemo(() => {
-      if (typeof options === 'object') return options?.css
-      return css
-    }, [options, css])
-
-    // generate className string
-    const classes = useMemo(
-      () =>
-        cleanClassName(
-          clsx(
-            baseClass,
-            dynamicClasses ? dynamicClasses(props as HTMLProps<T, K>) : [],
-            className,
-          ),
-        ),
-      [baseClass, dynamicClasses, className, props],
-    )
-
-    // resolve CSS object
-    const resolvedCss = useMemo(
-      () => (typeof dynamicCss === 'function' ? dynamicCss(props as HTMLProps<T, K>) : dynamicCss),
-      [dynamicCss, props],
-    )
-
-    // merge custom and passed styles
-    const mergedStyles = useMemo(() => ({ ...resolvedCss, ...style }), [resolvedCss, style])
-
-    // collect custom props starting with '$'
-    const customProps = useMemo(
-      () =>
-        (Object.keys(props) as (keyof T)[]).filter(
-          key => typeof key === 'string' && key.startsWith('$'),
-        ),
-      [props],
-    )
-
-    // filter out custom props before passing to the DOM element
-    const domProps = useMemo(
-      () => omitCustomProps<T, K>(restProps as T, customProps),
-      [restProps, customProps],
-    )
-
-    // Render the element with the calculated props, classes, and styles
-    return createElement(tag, {
-      ...domProps,
-      className: classes,
-      style: mergedStyles,
-      ref,
-    })
+    return createElement(tag as any, { ...domProps, className: finalClassName, ref })
   })
 
-  RenderComponent.displayName = `DynamicComponent(${tag})`
-
-  return RenderComponent as RefComponent<ValidProps<T, K>>
+  RenderComponent.displayName = `Styled(${typeof tag === 'string' ? tag : 'Component'})`
+  return RenderComponent
 }
 
-// Create the proxy with correct typings for the intrinsic elements
-const dcProxy = new Proxy(
-  {},
-  {
-    get:
-      (_, tag: keyof JSX.IntrinsicElements) =>
-      <T extends object, K extends keyof JSX.IntrinsicElements = typeof tag>(
-        options?: ComponentOptions<T> | string | ((props: HTMLProps<T, K>) => string),
-        css?: ((props: HTMLProps<T, K>) => CSSProperties) | CSSProperties,
-      ) =>
-        createComponent<T, K>(tag as K, options, css),
+/**
+ * a collection of functions that create styled components based on HTML tags.
+ */
+const rscTarget: Partial<RscFactory> = {}
+rscTarget.extend = (component: any, elementType?: any) => {
+  return (strings: TemplateStringsArray, ...interpolations: RscInterpolation<any>[]) => {
+    const tagOrComp = elementType ?? component
+    return createComponent(tagOrComp as any, strings, interpolations)
+  }
+}
+
+const rscProxy = new Proxy(rscTarget, {
+  get(_, prop: string) {
+    if (prop === 'extend') {
+      return rscTarget.extend
+    }
+
+    return <T extends object>(
+      strings: TemplateStringsArray,
+      ...interpolations: RscInterpolation<T>[]
+    ) =>
+      createComponent<T, keyof JSX.IntrinsicElements>(
+        prop as keyof JSX.IntrinsicElements,
+        strings,
+        interpolations,
+      )
   },
-) as DcComponent
+})
+
+const rscBaseRsc = new Proxy(rscProxy, {
+  apply: (_, __, [tag, strings, ...interpolations]) =>
+    createComponent(tag, strings, interpolations),
+})
 
 /**
- * A utility that creates classname strings and dynamic styles for React components.
+ * The `rsc` object is the main entry point for creating styled components using intrinsic HTML elements or existing React components.
+ *
+ * It provides:
+ * - A collection of functions for each intrinsic HTML element (e.g., `rsc.div`, `rsc.span`, `rsc.button`, etc.)
+ *   to create styled components by using template literals and interpolations.
+ * - A callable interface to create styled components directly from a given tag or component (e.g., `rsc('div', ...)`).
+ * - An `extend` method that allows you to create new styled components based on existing ones,
+ *   optionally validating non-$ props against a specified intrinsic element.
+ *
+ * Each styled component created via `rsc` filters out `$`-prefixed props from the DOM and computes a final `className`
+ * string by combining user-defined classes, dynamic interpolations based on props, and any incoming `className`.
+ *
  * @example
  * ```tsx
- * const SomeButton = dc.div<{ $isActive?: boolean; $isLoading?: boolean }>(
- *  ({ $isActive }) => `
- *    absolute
- *    z-10
- *    transition-all
- *    ${$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
- *    `,
- * )
+ * // simplest usage:
+ * const StyledDiv = rsc.div`
+ *   p-2
+ * `
+ *
+ * // Creating a styled 'div' with conditional classes:
+ * const StyledDiv = rsc.div<{ $active?: boolean }>`
+ *   p-2
+ *   ${p => p.$active ? 'bg-blue' : 'bg-green'}
+ * `
+ *
+ * // Using the styled component:
+ * <StyledDiv $active>Active Content</StyledDiv>
+ *
+ * // Extending an existing styled component:
+ * const ExtendedDiv = rsc.extend(StyledDiv)<{ $highlighted?: boolean }>`
+ *   ${p => p.$highlighted ? 'border-2 border-yellow' : ''}
+ * `
+ *
+ * // Validating props against an intrinsic element:
+ * // Extending as a 'button', ensuring non-$ props match button attributes:
+ * const ExtendedButton = rsc.extend(StyledDiv, 'button')<{ type?: "submit" | "reset" }>`
+ *   ${p => p.type === 'submit' ? 'font-bold' : ''}
+ * `
  * ```
  */
-export const dc = dcProxy
-
-/**
- * A utility type that extracts the props type from a React component type.
- *
- * @template T - A React component type.
- */
-export type RestyleType<T extends React.ComponentType<any>> =
-  T extends React.ComponentType<infer Props>
-    ? Props
-    : never
-
-/**
- * A higher-order component (HOC) that allows you to restyle a given component by adding additional
- * classes and CSS styles based on the provided props.
- *
- * @template T - The original props type of the component.
- * @template CustomProps - Additional custom props that can be passed to the component.
- *
- * @param Component - The component to be restyled. It can be a functional component or a forward-ref exotic component.
- * @param newClasses - Optional. A string or a function that returns a string of additional classes to be added based on the props.
- * @param newCss - Optional. An object or a function that returns an object of additional CSS styles to be added based on the props.
- *
- * @returns A new component with the additional classes and styles applied.
- */
-export const restyle = <T extends object, CustomProps extends object = {}>(
-  Component: ComponentType<T> | ForwardRefExoticComponent<any>,
-  newClasses?: string | ((props: T & CustomProps) => string),
-  newCss?: CSSProperties | ((props: T & CustomProps) => CSSProperties),
-): ForwardRefExoticComponent<T & CustomProps> => {
-  const RestyledComponent = forwardRef<HTMLElement, T & CustomProps>((props, ref) => {
-    // Separate out `className` and `style` for merging
-    const { className, style, ...restProps } = props as T &
-      CustomProps & { className?: string; style?: CSSProperties }
-
-    // Resolve additional classes based on props
-    const additionalClasses = useMemo(() => {
-      return typeof newClasses === 'function'
-        ? newClasses(props as T & CustomProps)
-        : newClasses || ''
-    }, [newClasses, props])
-
-    // Resolve additional CSS styles based on props
-    const additionalCss = useMemo(() => {
-      return typeof newCss === 'function' ? newCss(props as T & CustomProps) : newCss
-    }, [newCss, props])
-
-    // Merge classes and styles
-    const mergedClassName = clsx(className, additionalClasses)
-    const mergedStyle = { ...style, ...additionalCss }
-
-    // Pass ref to the underlying component
-    return createElement(Component, {
-      ...(restProps as T),
-      className: mergedClassName,
-      style: mergedStyle,
-      ref,
-    })
-  })
-
-  return RestyledComponent as ForwardRefExoticComponent<T & CustomProps>
-}
+const rsc = rscBaseRsc as RscFactory
+export { rsc }
+export { dc, restyle } from './deprecated/index_deprecated'
