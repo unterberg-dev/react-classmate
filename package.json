@@ -1,6 +1,7 @@
 {
   "name": "react-styled-classnames",
-  "version": "0.1.12",
+  "description": "Like styled-components for React element classnames. 🦭",
+  "version": "0.1.13",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
