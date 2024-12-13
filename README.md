@@ -1,11 +1,19 @@
-# react-styled-classnames
-
-Just a tool I use to separate styles and classes from React components, mainly driven with utility-first CSS libraries like UnoCSS and Tailwind. Like styled components for class names.
-
 ```bash
 npm i react-styled-classnames --save-dev
 # or
 yarn add react-styled-classnames --dev
+```
+
+# react-styled-classnames
+
+Just another tool to separate styles and classes from React components, mainly driven with utility-first CSS libraries like UnoCSS and Tailwind. Like styled components for class names:
+
+```ts
+const SomeButton = rsc.button<ButtonProps>`
+  text-lg
+  mt-5
+  ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
+  ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : ''}`
 ```
 
 ## The "issue"
@@ -33,9 +41,9 @@ const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
 }
 ```
 
-## What the tool does
+## What the tool can do
 
-Providing a alternative way to maintain classnames and styles for all valid React components.
+Provides an alternative way to write and maintain classnames for all valid React components.
 
 ```tsx
 const SomeButton = rsc.button<{ $isActive?: boolean; $isLoading?: boolean }>`
@@ -57,7 +65,6 @@ const SomeButton = rsc.button<{ $isActive?: boolean; $isLoading?: boolean }>`
 
 - dynamic classnames, works like styled components
 - extend any component
-- tiny, dev dependency
 - works with any utility-first CSS library (UnoCSS, Tailwind, etc.)
 - typescript support / autocompletion
 - SSR ready
@@ -99,13 +106,12 @@ interface ButtonProps {
   $isLoading?: boolean
 }
 
-const SomeButton = rsc.button<ButtonProps>(`
-    text-lg
-    mt-5
-    ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
-    ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : ''}
-  `,
-)
+const SomeButton = rsc.button<ButtonProps>`
+  text-lg
+  mt-5
+  ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
+  ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : ''}
+`
 ```
 
 ### Prefix incoming props with `$`
@@ -114,7 +120,7 @@ const SomeButton = rsc.button<ButtonProps>(`
 
 *This pattern should also avoid conflicts with reserved prop names.*
 
-## Extending components
+## Extend components
 
 To extend react components, we can use the `extend` keyword. This function takes any valid react component and extends it with additional styles and classes. Types are inferred from the base component.
 
@@ -128,11 +134,11 @@ const StyledLucideArrow = rsc.extend(ArrowBigDown)`
   slide-in-r-20
 `
 
-// note how we can pass props which are only accessible a Lucid Component
+// note how we can pass props which are only accessible on a Lucid Component
 export default () => <StyledLucideArrow stroke="3" />
 ```
 
-Now we can define a base component and extend it with additional styles and classes and pass properties. You can pass the types to the `restyle` function to get autocompletion and type checking on the way.
+Now we can define a base component and extend it with additional styles and classes and pass properties. You can pass the types to the `extend` function to get autocompletion and type checking on the way.
 
 ```tsx
 import { rsc } from 'react-styled-classnames'
@@ -164,9 +170,9 @@ const NewStyledSliderItemWithNewProps = rsc.extend(StyledSliderItemBase)<NewStyl
 export default () => <NewStyledSliderItemWithNewProps $active $secondBool={false} />
 ```
 
-## Other Examples
+## Example usage of `rsc.extend`
 
-### Extend directly
+### Use rsc for creating base component
 
 Extend a component directly by passing the component and the tag name.
 
@@ -179,10 +185,12 @@ const BaseButton = rsc.extend(rsc.button``)`
 `
 ```
 
+*Saw this the first time in Material UI's `styled` function, where you can pass the mui-component.*
+
 ### Using element tag props and validation
 
 By passing the component and the tag name, we can validate the component to only accept the tag name.
-This is useful if you use the props without the `$` prefix.
+This is useful if you wanna rely on the props for a specific element without the `$` prefix.
 
 ```tsx
 import { rsc } from 'react-dynamic-classnames'
@@ -196,8 +204,8 @@ interface ExtendedButtonProps extends SomeButtonProps {
   type: ButtonType
   $isActive?: boolean
 }
-// note how we pass "button" as the second argument to limit the component to a button
-const ExtendedButton = rsc.extend(rsc.button<SomeButtonProps>``, 'button')<ExtendedButtonProps>`
+// note how we pass "button" as the second argument to limit the component to button attributes
+const ExtendedButton = rsc.extend(rsc.button``, 'button')<ExtendedButtonProps>`
   some-class
   ${p => {
     if (p.type === 'submit') {
@@ -214,6 +222,53 @@ export default () => (
   <ExtendedButton $isActive type="submit">
     Submit
   </ExtendedButton>
+)
+```
+
+## Version 1 Users
+
+If you liked the V1 version with `dc` and `restyle` and the object based pattern, it's still available in this package until the next major release.
+
+See: [V1 Documentation](
+  https://github.com/richard-unterberg/react-styled-classnames/tree/master/src/deprecated)
+
+### V1 Examples
+
+```tsx
+// V1 object pattern example
+
+const Button = dc.button<ContainerProps>({
+  // required: base class
+  base: `
+    text-lg
+    mt-5
+    py-2
+    px-5
+    min-h-24
+    inline-flex
+    z-10
+    transition-all
+    ${someConfig.transitionDurationEaseClass}
+  `,
+  // optional: dynamic classes
+  classes: ({ $isActive, $isLoading }) => [
+    $isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200',
+    $isLoading ? 'opacity-90 pointer-events-none' : '',
+  ],
+  // optional: css object with or without props
+  css: ({ $isActive }) => ({
+    boxShadow: `0 0 0 1px rgba(255, 255, 255, ${$isActive ? 0.7 : 0.2})`,
+  }),
+})
+
+// V1 restyle example (now rsc.extend)
+export const RestyledButton = restyle(
+  Button,
+  `
+  md:-right-4.5
+  right-1
+  slide-in-r-20
+`,
 )
 ```
 
