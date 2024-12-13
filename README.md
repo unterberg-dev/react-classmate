@@ -60,6 +60,11 @@ const SomeButton = rsc.button<{ $isActive?: boolean; $isLoading?: boolean }>`
   ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
   ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : 'my-custom-class'}
 `
+
+const SomeButtonVariation = rsc.extend(SomeButton)`
+  md:-right-4.5
+  slide-in-r-20
+`
 ```
 
 ## Features
@@ -121,7 +126,7 @@ const SomeButton = rsc.button<ButtonProps>`
 
 *This pattern should also avoid conflicts with reserved prop names.*
 
-## Extend components
+## Extend components with `rsc.extend`
 
 To extend react components, we can use the `extend` keyword. This function takes any valid react component and extends it with additional styles and classes. Types are inferred from the base component.
 
