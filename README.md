@@ -67,6 +67,17 @@ const SomeButtonVariation = rsc.extend(SomeButton)`
 `
 ```
 
+## The Content
+
+- [Features](#features)
+- [Getting started](#getting-started)
+- [Basic usage](#basic-usage)
+- [Usage with props](#usage-with-props)
+- [Extend components with `rsc.extend`](#extend-components-with-rscextend)
+  - [Use rsc for creating base component](#use-rsc-for-creating-base-component)
+  - [Using element tag props and validation](#using-element-tag-props-and-validation)
+- [Version 1 Users](#version-1-users)
+
 ## Features
 
 - dynamic classnames, works like styled components
@@ -87,7 +98,7 @@ npm i react-styled-classnames --save-dev
 yarn add react-styled-classnames --dev
 ```
 
-### Basic usage
+## Basic usage
 
 ```tsx
 import { rsc } from 'react-styled-classnames'
@@ -104,7 +115,7 @@ const Container = rsc.div`
 `
 ```
 
-### Usage with props
+## Usage with props
 
 ```tsx
 interface ButtonProps {
