@@ -13,7 +13,8 @@ const SomeButton = rsc.button<ButtonProps>`
   text-lg
   mt-5
   ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
-  ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : ''}`
+  ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : ''}
+`
 ```
 
 ## The "issue"
