@@ -68,27 +68,6 @@ const SomeButton = dc.button<{ $isActive?: boolean; $isLoading?: boolean }>(
 
 No, absolutely not, this is just a tool I use to keep my code clean and maintainable. Maybe you like it. Contributions are welcome. There is just one goal:
 
-## Upcoming features
-
-- It should syntactically look like styled-components, especially for prettier formatting
-  - preserve functionality as is (autocompletion, generic types, etc.)
-
-```tsx
-/** NOT WORKING! */
-// classic react element as base element
-const SomeBaseButton = dc<SomeBaseInterface>('button')`
-  text-lg
-  ${someConfig.transitionDurationEaseClass}
-  ${$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
-`
-/** NOT WORKING! */
-// merging
-const ExtendedButton = dc<SomeExtendedButtonInterface>(SomeBaseButton)`
-  ${$isLoading ? 'opacity-90 pointer-events-none' : ''}
-  ${$isActive ? 'custom-active' : 'other-custom-active'}
-`
-```
-
 ### re-inventing the wheel?
 
 Kind of - There are other libraries that handle this area well, such as [twin.macro](https://github.com/ben-rogerson/twin.macro)  and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component).
@@ -103,7 +82,7 @@ yarn add react-dynamic-classnames --dev
 ### Basic usage
 
 ```tsx
-import { dc } from 'react-dynamic-classnames'
+import { dc } from 'react-dynamic-classnames/v1'
 
 const Container = dc.div(`
   text-lg
@@ -188,7 +167,7 @@ const Container = dc.button<ContainerProps>({
 To extend react components, we can use the `restyle` function. This function takes any valid react ccomponent and extends it with additional styles and classes. If not passed, the types are inferred from the base component.
 
 ```tsx
-import { restyle } from 'react-dynamic-classnames'
+import { restyle } from 'react-dynamic-classnames/v1'
 import { ArrowBigDown } from 'lucide-react'
 
 export const StyledLucideArrow = restyle(
@@ -205,7 +184,7 @@ Now we can define a base component and extend it with additional styles and clas
 
 ```tsx
 import { useState } from 'react'
-import { dc, restyle } from 'react-dynamic-classnames'
+import { dc, restyle } from 'react-dynamic-classnames/v1'
 
 interface StyledSliderItemBaseProps {
   $active: boolean

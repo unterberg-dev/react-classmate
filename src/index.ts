@@ -180,7 +180,7 @@ const createComponent = <
 
   RenderComponent.displayName = `Styled(${typeof tag === 'string' ? tag : 'Component'})`;
 
-  // Attach the compute function and tag to the component for later use
+  // attach the compute function and tag to the component
   (RenderComponent as any).__rscComputeClassName = computeClassName;
   (RenderComponent as any).__rscTag = tag;
 
