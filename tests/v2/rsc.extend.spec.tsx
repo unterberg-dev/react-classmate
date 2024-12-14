@@ -1,4 +1,4 @@
-import React from "react";
+import React, { HTMLAttributes } from "react";
 import { render } from "@testing-library/react";
 import { rsc } from "../../src/index";
 
@@ -66,5 +66,21 @@ describe("rsc.extends", () => {
     expect(button).toHaveAttribute("type", "submit"); // Valid intrinsic prop
     expect(button).not.toHaveAttribute("$isActive"); // $-prefixed props are not in DOM
     expect(container.firstChild).toBeInstanceOf(HTMLButtonElement);
+  });
+
+  it("extend a react component with an assigned class", () => {
+    const DivComponent = ({ ...props }: HTMLAttributes<HTMLDivElement>) => (
+      <div {...props} />
+    );
+
+    const StyledDiv = rsc.extend(DivComponent)<{ $trigger?: boolean }>`
+      bg-white
+      ${(p) => (p.$trigger ? "!border-error" : "")}
+    `;
+
+    const { container } = render(<StyledDiv $trigger />);
+
+    // Check className for $trigger styling
+    expect(container.firstChild).toHaveClass("bg-white !border-error");
   });
 });

@@ -191,61 +191,62 @@ const createComponent = <
  * a collection of functions that create styled components based on HTML tags.
  */
 const rscTarget: Partial<RscFactory> = {};
-rscTarget.extend = (
-  baseComponent: RscBaseComponent<any>,
-  elementType?: any
+rscTarget.extend = <T extends object>(
+  baseComponent: RscBaseComponent<any> | JSXElementConstructor<any>,
+  elementType?: keyof JSX.IntrinsicElements
 ) => {
   return (
     strings: TemplateStringsArray,
     ...interpolations: RscInterpolation<any>[]
   ) => {
-    // base component's compute function and tag
-    const baseComputeClassName = (baseComponent as any).__rscComputeClassName;
-    const baseTag = (baseComponent as any).__rscTag;
+    // Check if the base component is an RSC component with `__rscComputeClassName`
+    const baseComputeClassName = (baseComponent as any).__rscComputeClassName || (() => "");
+    const baseTag = (baseComponent as any).__rscTag || baseComponent;
 
-    // new compute function for the extended component
     const extendedComputeClassName = (props: any) => {
       return strings
         .map((str, i) => {
           const interp = interpolations[i];
-          return typeof interp === 'function'
+          return typeof interp === "function"
             ? str + interp(props)
-            : str + (interp ?? '');
+            : str + (interp ?? "");
         })
-        .join('')
-        .replace(/\s+/g, ' ')
+        .join("")
+        .replace(/\s+/g, " ")
         .trim();
     };
 
-    const WrappedComponent = forwardRef<HTMLElement, any>((props, ref) => {
-      // compute class names separately, combine them
-      const baseClassName = baseComputeClassName(props);
-      const extendedClassName = extendedComputeClassName(props);
-      const combinedClassName = `${baseClassName} ${extendedClassName}`.trim();
+    const WrappedComponent = forwardRef<HTMLElement, T & JSX.IntrinsicAttributes>(
+      (props, ref) => {
+        // Compute class names for base and extended
+        const baseClassName = baseComputeClassName(props);
+        const extendedClassName = extendedComputeClassName(props);
+        const combinedClassName = `${baseClassName} ${extendedClassName}`.trim();
 
-      // filter out $-prefixed props
-      const domProps: Record<string, any> = {};
-      for (const key in props) {
-        if (!key.startsWith('$')) {
-          domProps[key] = props[key];
+        // Filter out $-prefixed props
+        const domProps: Record<string, any> = {};
+        for (const key in props) {
+          if (!key.startsWith("$")) {
+            domProps[key] = props[key];
+          }
         }
+
+        const incomingClassName = domProps.className || "";
+        const finalClassName = [combinedClassName, incomingClassName]
+          .filter(Boolean)
+          .join(" ")
+          .trim();
+
+        return createElement(
+          elementType || baseTag,
+          { ...domProps, className: finalClassName, ref },
+        );
       }
+    );
 
-      const incomingClassName = domProps.className || '';
-      const finalClassName = [combinedClassName, incomingClassName]
-        .filter(Boolean)
-        .join(' ')
-        .trim();
+    WrappedComponent.displayName = `Extended(${(baseComponent as RscBaseComponent<any>).displayName || 'Component'})`;
 
-      return createElement(
-        elementType || baseTag,
-        { ...domProps, className: finalClassName, ref }
-      );
-    });
-
-    WrappedComponent.displayName = `Extended(${baseComponent.displayName || 'Component'})`;
-
-    // compute function and tag for potential further extensions
+    // Attach compute function and tag for future extensions
     (WrappedComponent as any).__rscComputeClassName = (props: any) => {
       const baseClassName = baseComputeClassName(props);
       const extendedClassName = extendedComputeClassName(props);
