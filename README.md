@@ -1,12 +1,12 @@
 # react-styled-classnames
 
-Just another tool to separate styles and classes from React components, mainly driven with utility-first CSS libraries like UnoCSS and Tailwind. Like styled components for class names:
+A lightweight utility for separating styles and classes from React components, designed for use with utility-first CSS libraries like UnoCSS and Tailwind. Think of it as styled-components, but for class names:
 
 ```ts
 const SomeButton = rsc.button<ButtonProps>`
   text-lg
   mt-5
-  ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
+  ${p => p.$isActive ? 'bg-blue-300 text-white' : 'bg-blue-400 text-blue-200'}
   ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : ''}
 `
 ```
@@ -25,7 +25,7 @@ const SomeButton = rsc.button<ButtonProps>`
 
 ## The "issue"
 
-When working with utility-first libraries like [uno.css](https://unocss.dev/) or [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While the below works for most of our cases, it can lead to cluttered and hard-to-maintain code, especially handling with conditional classes and/or dynamic styles. Often I do not want to create a wrapper component only to keep the styles separated.
+When working with utility-first libraries like [uno.css](https://unocss.dev/) or [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While this approach works in most cases, it can result in cluttered, hard-to-maintain code - especially when dealing with conditional or dynamic class names.
 
 ```tsx
 const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
@@ -48,7 +48,9 @@ const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
 }
 ```
 
-## What the tool can do
+Often I do not want to create a wrapper component only to keep the styles separated.
+
+## What the tool does
 
 Provides an alternative way to write and maintain classnames for all valid React components.
 
@@ -67,24 +69,25 @@ const SomeButton = rsc.button<{ $isActive?: boolean; $isLoading?: boolean }>`
   ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : 'my-custom-class'}
 `
 
-// yes, you can extend this or any other react component
+// yeah, we can extend the above defined or any other react component
 const SomeButtonVariation = rsc.extend(SomeButton)`
-  md:-right-4.5
+  md:mt-10
   slide-in-r-20
+  animate-in
 `
 ```
 
 ## Features
 
-- dynamic classnames, works like styled components
-- extend any component
-- works with any utility-first CSS library (UnoCSS, Tailwind, etc.)
-- typescript support / autocompletion
-- SSR ready
+- Dynamic class names: Define dynamic styles based on props, just like styled-components.
+- Component extension: Easily extend any React component with rsc.extend.
+- Utility-first CSS support: Works seamlessly with libraries like UnoCSS and Tailwind.
+- TypeScript support: Get autocompletion and type-checking in your IDE.
+- SSR compatibility: Compatible with SSR frameworks like [Vike](https://vike.dev/) and [Next.js](https://nextjs.org/).
 
 ### re-inventing the wheel?
 
-Kind of - There are other libraries that handle this area well, such as [twin.macro](https://github.com/ben-rogerson/twin.macro) and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component). twin macro needs styled-components, and tailwind-styled-components is not working with strict ssr environments, like vike. I created this lib just for the sake of using it in these environments.
+While [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-components, and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component) isn’t fully compatible with [Vike](https://vike.dev/), `react-styled-classnames` is lightweight and tailored for flexibility and SSR.
 
 ## Getting started
 
@@ -99,7 +102,7 @@ yarn add react-styled-classnames --dev
 ```tsx
 import { rsc } from 'react-styled-classnames'
 
-// ide auto-completion and type checking
+// IDE autocompletion and type-checking for utility class names
 const Container = rsc.div`
   text-lg
   mt-5
@@ -135,7 +138,7 @@ const SomeButton = rsc.button<ButtonProps>`
 
 ## Extend components with `rsc.extend`
 
-To extend react components, we can use the `extend` keyword. This function takes any valid react component and extends it with additional styles and classes. Types are inferred from the base component.
+With `rsc.extend`, you can build upon any base React component—adding new styles and even supporting additional props. This makes it easy to create reusable component variations without duplicating logic.
 
 ```tsx
 import { rsc } from 'react-styled-classnames'
