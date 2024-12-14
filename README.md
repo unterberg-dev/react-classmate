@@ -90,7 +90,7 @@ While [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-c
 
 ## Getting started
 
-Let's assume you have installed React (> v17) and a utility-first library (uno.css / tailwind / shed / basscss) beforehand.
+Let's assume you have installed React (> v17) and a utility-first library (uno.css / tailwind / shed / basscss).
 
 ```bash
 npm i react-styled-classnames --save-dev
@@ -204,7 +204,7 @@ const BaseButton = rsc.extend(rsc.button``)`
 
 *Saw this the first time in Material UI's `styled` function, where you can pass the mui-component.*
 
-### Using element tag props and validation
+### Handle with Types
 
 By passing the component and the tag name, we can validate the component to accept tag related props.
 This is useful if you wanna rely on the props for a specific element without the `$` prefix.
@@ -212,32 +212,21 @@ This is useful if you wanna rely on the props for a specific element without the
 ```tsx
 import { rsc } from 'react-dynamic-classnames'
 
-// mimic basic button type
-type ButtonType = 'submit' | 'reset' | 'button' | undefined
-
-// extend to pass $isActive prop if needed
-interface ExtendedButtonProps {
-  $isActive?: boolean
-}
-// note how we pass "button" as the second argument to correctly validate the props
-const ExtendedButton = rsc.extend(rsc.button``, 'button')<ExtendedButtonProps>`
+// if you pass rsc component it's types are validated
+const ExtendedButton = rsc.extend(rsc.button``)`
   some-class
-  ${p => {
-    if (p.type === 'submit') {
-      return 'font-bold'
-    }
-    if (p.type === 'reset') {
-      return 'font-italic'
-    }
-    return 'font-normal'
-  }}
+  ${p => p.type === 'submit' ? 'font-normal' : 'font-bold'}
 `
 
-export default () => (
-  <ExtendedButton $isActive type="submit">
-    Submit
-  </ExtendedButton>
-)
+// infers the type of the input element + add new props
+const MyInput = ({ ...props }: HTMLAttributes<HTMLInputElement>) => (
+  <input {...props} />
+);
+const StyledDiv = rsc.extend(MyInput)<{ $trigger?: boolean }>`
+  bg-white
+  ${p => p.$trigger ? "!border-error" : ""}
+  ${p => p.type === 'submit' ? 'font-normal' : 'font-bold'}
+`;
 ```
 
 ## Version 1 Users

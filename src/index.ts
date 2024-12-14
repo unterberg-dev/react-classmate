@@ -193,7 +193,6 @@ const createComponent = <
 const rscTarget: Partial<RscFactory> = {};
 rscTarget.extend = <T extends object>(
   baseComponent: RscBaseComponent<any> | JSXElementConstructor<any>,
-  elementType?: keyof JSX.IntrinsicElements
 ) => {
   return (
     strings: TemplateStringsArray,
@@ -238,7 +237,7 @@ rscTarget.extend = <T extends object>(
           .trim();
 
         return createElement(
-          elementType || baseTag,
+          baseTag,
           { ...domProps, className: finalClassName, ref },
         );
       }
@@ -252,7 +251,7 @@ rscTarget.extend = <T extends object>(
       const extendedClassName = extendedComputeClassName(props);
       return `${baseClassName} ${extendedClassName}`.trim();
     };
-    (WrappedComponent as any).__rscTag = elementType || baseTag;
+    (WrappedComponent as any).__rscTag = baseTag;
 
     return WrappedComponent;
   };
@@ -316,8 +315,7 @@ const rscBaseRsc = new Proxy(rscProxy, {
  * `
  *
  * // Validating props against an intrinsic element:
- * // Extending as a 'button', ensuring non-$ props match button attributes:
- * const ExtendedButton = rsc.extend(StyledDiv, 'button')`
+ * const ExtendedButton = rsc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
  *   ${p => p.type === 'submit' ? 'font-bold' : ''}
  * `
  * ```
