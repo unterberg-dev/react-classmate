@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "types": ["@testing-library/jest-dom"],
-    "target": "ESNext",
-    "module": "ESNext", // Change to ESNext for ESM output
-    "moduleResolution": "node",
-    "outDir": "./dist",    // Output directory for CommonJS
+    "jsx": "react-jsx",
     "declaration": true,
+    "declarationDir": "./dist",
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "types": ["@testing-library/jest-dom"],
+    "module": "ESNext",
+    "target": "ESNext",
     "strict": true,
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "skipLibCheck": true
   },
-  "include": ["src/**/*"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

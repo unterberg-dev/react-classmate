@@ -67,6 +67,7 @@ const SomeButton = rsc.button<{ $isActive?: boolean; $isLoading?: boolean }>`
   ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : 'my-custom-class'}
 `
 
+// yes, you can extend this or any other react component
 const SomeButtonVariation = rsc.extend(SomeButton)`
   md:-right-4.5
   slide-in-r-20
@@ -240,13 +241,14 @@ export default () => (
 If you liked the V1 version with `dc` and `restyle` and the object based pattern, it's still available in this package until the next major release.
 
 See: [V1 Documentation](
-  https://github.com/richard-unterberg/react-styled-classnames/tree/master/src/v1-deprecated)
+  https://github.com/richard-unterberg/react-styled-classnames/tree/master/src/v1)
 
 ### V1 Examples
 
 ```tsx
-// V1 object pattern example
+import { dc, restyle } from 'react-styled-classnames/v1'
 
+// V1 object pattern example
 const Button = dc.button<ContainerProps>({
   // required: base class
   base: `
