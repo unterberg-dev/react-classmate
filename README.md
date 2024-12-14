@@ -1,6 +1,6 @@
 # react-styled-classnames
 
-A lightweight utility for separating styles and classes from React components, designed for use with utility-first CSS libraries like UnoCSS and Tailwind. Think of it as styled-components, but for class names:
+A utility-first CSS tool for managing component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like UnoCSS and Tailwind:
 
 ```ts
 const SomeButton = rsc.button<ButtonProps>`
@@ -48,7 +48,7 @@ const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
 }
 ```
 
-Often I do not want to create a wrapper component only to keep the styles separated.
+Often we do not want to create a wrapper component only to keep the styles separated.
 
 ## What the tool does
 
@@ -79,17 +79,20 @@ const SomeButtonVariation = rsc.extend(SomeButton)`
 
 ## Features
 
-- Dynamic class names: Define dynamic styles based on props, just like styled-components.
-- Component extension: Easily extend any React component with rsc.extend.
+- Dynamic class names: Define dynamic styles based on props, feels like styled-components.
+- React, no other dependencies: Works with any React component, no need for styled-components or tailwind
+- Extend everything: Easily extend any React component with rsc.extend.
 - Utility-first CSS support: Works seamlessly with libraries like UnoCSS and Tailwind.
-- TypeScript support: Get autocompletion and type-checking in your IDE.
+- TypeScript: Autocompletion and strict type-checking in your IDE.
 - SSR compatibility: Compatible with SSR frameworks like [Vike](https://vike.dev/) and [Next.js](https://nextjs.org/).
 
 ### re-inventing the wheel?
 
-While [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-components, and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component) isn’t fully compatible with [Vike](https://vike.dev/), `react-styled-classnames` is lightweight and tailored for flexibility and SSR.
+While [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-components, and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component) isn’t fully compatible with [Vike](https://vike.dev/) and requires tailwind, `react-styled-classnames` is lightweight and tailored for flexibility and SSR.
 
 ## Getting started
+
+Let's assume you have installed React (> v17) and a utility-first library (uno.css / tailwind / shed / basscss) beforehand.
 
 ```bash
 npm i react-styled-classnames --save-dev
@@ -141,8 +144,8 @@ const SomeButton = rsc.button<ButtonProps>`
 With `rsc.extend`, you can build upon any base React component—adding new styles and even supporting additional props. This makes it easy to create reusable component variations without duplicating logic.
 
 ```tsx
-import { rsc } from 'react-styled-classnames'
 import { ArrowBigDown } from 'lucide-react'
+import { rsc } from 'react-styled-classnames'
 
 const StyledLucideArrow = rsc.extend(ArrowBigDown)`
   md:-right-4.5
@@ -249,6 +252,7 @@ See: [V1 Documentation](
 ### V1 Examples
 
 ```tsx
+// append "/v1" to the import path
 import { dc, restyle } from 'react-styled-classnames/v1'
 
 // V1 object pattern example
