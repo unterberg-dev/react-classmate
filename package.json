@@ -1,7 +1,7 @@
 {
   "name": "react-styled-classnames",
   "description": "A utility-first CSS tool for managing component class names with the simplicity of styled-components. 🦭",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",

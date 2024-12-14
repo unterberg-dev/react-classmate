@@ -11,7 +11,7 @@ const SomeButton = rsc.button<ButtonProps>`
 `
 ```
 
-## The Content
+## Contents
 
 - [The "issue"](#the-issue)
 - [Features](#features)
@@ -25,12 +25,16 @@ const SomeButton = rsc.button<ButtonProps>`
 
 ## The "issue"
 
-When working with utility-first libraries like [uno.css](https://unocss.dev/) or [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. While this approach works in most cases, it can result in cluttered, hard-to-maintain code - especially when dealing with conditional or dynamic class names.
+When working with utility-first libraries like [uno.css](https://unocss.dev/) or [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. Which often leads to this kind of boilerplate code:
 
 ```tsx
-const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
-  /* logic here */
+interface SomeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  isLoading: boolean
+  isActive: boolean
+  className?: string
+}
 
+const SomeButton = ({ isLoading, isActive, children, className, ...props } : SomeButtonProps) => {
   const activeClass = useMemo(
     () => (isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'),
     [isActive],
@@ -39,23 +43,24 @@ const SomeButton = ({ isLoading, isActive, ...props } : SomeButtonProps) => {
 
   return (
     <button
-      className={`text-lg mt-5 py-2 px-5 min-h-24 inline-flex transition-all z-10 ${someConfig.transitionDurationEaseClass} ${activeClass} ${loadingClass} ${props.className || ''}`}
+      className={`text-lg mt-5 py-2 px-5 min-h-24 inline-flex transition-all z-10 ${someConfig.transitionDurationEaseClass} ${activeClass} ${loadingClass} ${className || ''}`}
       {...props}
     >
-      {props.children}
+      {children}
     </button>
   )
 }
 ```
 
-Often we do not want to create a wrapper component only to keep the styles separated.
-
-## What the tool does
-
-Provides an alternative way to write and maintain classnames for all valid React components.
+### The tool let you write this instead:
 
 ```tsx
-const SomeButton = rsc.button<{ $isActive?: boolean; $isLoading?: boolean }>`
+interface SomeButtonProps {
+  $isActive?: boolean
+  $isLoading?: boolean
+}
+
+const SomeButton = rsc.button<SomeButtonProps>`
   text-lg
   mt-5
   py-2
@@ -67,13 +72,6 @@ const SomeButton = rsc.button<{ $isActive?: boolean; $isLoading?: boolean }>`
   ${someConfig.transitionDurationEaseClass}
   ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
   ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : 'my-custom-class'}
-`
-
-// yeah, we can extend the above defined or any other react component
-const SomeButtonVariation = rsc.extend(SomeButton)`
-  md:mt-10
-  slide-in-r-20
-  animate-in
 `
 ```
 
