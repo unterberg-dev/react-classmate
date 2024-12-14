@@ -1,7 +1,7 @@
 {
   "name": "react-styled-classnames",
   "description": "A utility-first CSS tool for managing component class names with the simplicity of styled-components. 🦭",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
@@ -24,13 +24,13 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "build": "npm run test && npm run clean && npm run types && npm run bundle",
+    "package": "npm run build && npm publish --access public",
+    "test": "jest",
     "clean": "rm -rf dist",
     "types": "tsc",
     "bundle": "rollup -c",
-    "build": "npm run clean && npm run types && npm run bundle",
-    "test": "jest",
-    "type-test": "tsd",
-    "package": "npm run build && npm publish --access public"
+    "type-test": "tsd"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
