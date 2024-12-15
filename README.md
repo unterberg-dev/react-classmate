@@ -43,7 +43,7 @@ const ButtonBase = rsc.button<ButtonBaseProps>`
 `
 
 // (and add a variation)
-const Primar0yButton = rsc.extend(ButtonBase)<{ $pulse: boolean }>`
+const PrimaryButton = rsc.extend(ButtonBase)<{ $pulse: boolean }>`
   bg-blue-400
   text-white
   ${p => p.$pulse ? 'animate-pulse' : ''}
