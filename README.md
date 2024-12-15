@@ -1,10 +1,10 @@
 # react-styled-classnames
 
-A utility-first CSS tool for managing component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like UnoCSS and Tailwind.
+A utility-first CSS tool for managing component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like `UnoCSS` and `Tailwind`.
 
-## Transform this
+## 🚩 Transform this
 
-```ts
+```tsx
 // typescript
 interface SomeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean
@@ -16,7 +16,7 @@ const SomeButton = ({ isLoading, ...props }: SomeButtonProps) => {
   return (
     <button
       {...props}
-      className={`mt-5 border-1 md:text-lg text-normal ${someConfig.transitionDurationEaseClass} ${loadingClass} ${props.className || ''}`}
+      className={`transition-all mt-5 border-1 md:text-lg text-normal ${someConfig.transitionDurationEaseClass} ${loadingClass} ${props.className || ''}`}
     >
       {props.children}
     </button>
@@ -24,9 +24,9 @@ const SomeButton = ({ isLoading, ...props }: SomeButtonProps) => {
 }
 ```
 
-## Into this:
+## 🌤️ Into this
 
-```ts
+```tsx
 // typescript
 interface SomeButtonProps {
   $isLoading?: boolean
@@ -37,9 +37,20 @@ const SomeButton = rsc.button<ButtonProps>`
   md:text-lg 
   mt-5
   border-1 
+  transition-all
   ${someConfig.transitionDurationEaseClass}
   ${(p) => (p.$isLoading ? "opacity-90 pointer-events-none" : "")}
-`;
+`
+
+// (and add a variation)
+const ActiveButton = rsc.extend(SomeButton)<{ $pulse: boolean }>`
+  bg-blue-400
+  text-white
+  ${p => p.$animate ? 'animate-pulse' : ''}
+  ${p => p.$active ? 'border-blue-400' : ''}
+`
+
+const Component = () => <ActiveButton $pulse $active>Click me</ActiveButton>
 ```
 
 ## Contents
@@ -55,12 +66,12 @@ const SomeButton = rsc.button<ButtonProps>`
 
 ## Features
 
-- Dynamic class names: Define dynamic styles based on props, feels like styled-components.
-- React, no other dependencies: Works with any React component, no need for styled-components or tailwind
-- Extend everything: Easily extend any React component with rsc.extend.
-- Utility-first CSS support: Works seamlessly with libraries like UnoCSS and Tailwind.
-- TypeScript: Autocompletion and strict type-checking in your IDE.
-- SSR compatibility: Compatible with SSR frameworks like [Vike](https://vike.dev/) and [Next.js](https://nextjs.org/).
+- Dynamic class names
+- React, no other dependencies
+- Extend components
+- Utility-first CSS support
+- TypeScript support
+- SSR compatibility
 
 ### re-inventing the wheel?
 
@@ -68,7 +79,7 @@ While [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-c
 
 ## Getting started
 
-Let's assume you have installed React (> v17) and a utility-first library (uno.css / tailwind / shed / basscss).
+Let's assume you have installed [React](https://react.dev/) (> 17) and a utility-first css library ([uno.css](https://unocss.dev/) / [tailwind](https://tailwindcss.com/)).
 
 ```bash
 npm i react-styled-classnames --save-dev
@@ -233,12 +244,12 @@ const ExtendedButton = rsc.extend(rsc.button``)`
 // infers the type of the input element + add new props
 const MyInput = ({ ...props }: HTMLAttributes<HTMLInputElement>) => (
   <input {...props} />
-);
+)
 const StyledDiv = rsc.extend(MyInput)<{ $trigger?: boolean }>`
   bg-white
   ${p => p.$trigger ? "!border-error" : ""}
   ${p => p.type === 'submit' ? 'font-normal' : 'font-bold'}
-`;
+`
 ```
 
 ### Extending other lib components / Juggling with components that are `any`
@@ -251,17 +262,17 @@ import { Field, FieldConfig } from 'formik'
 type FieldComponentProps = ComponentProps<'input'> & FieldConfig
 const FieldComponent = ({ ...props }: FieldComponentProps) => <Field {...props} />
 
-const StyledField = rsc.extend(FieldComponent)<{ $trigger: boolean }>`
+const StyledField = rsc.extend(FieldComponent)<{ $error: boolean }>`
   theme-form-field
   w-full
   ....
-  ${p => (p.$trigger ? '!border-error' : '')}
+  ${p => (p.$error ? '!border-error' : '')}
 `
 
-export const Component = () => <StyledField placeholder="placeholder" as="select" name="name" $trigger />
+export const Component = () => <StyledField placeholder="placeholder" as="select" name="name" $error />
 ```
 
-Work in progress. Contributions welcome.
+⚠️ This is a workaround! This is a *bug* - we should be able to cast the type directly in the interface in which we pass `$error`. Contributions welcome.
 
 ## Version 1
 
