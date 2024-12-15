@@ -1,7 +1,6 @@
 # react-styled-classnames
 
-A utility-first CSS tool for managing component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like UnoCSS and Tailwind
-
+A utility-first CSS tool for managing component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like UnoCSS and Tailwind.
 
 ## Transform this
 
@@ -17,7 +16,7 @@ const SomeButton = ({ isLoading, ...props }: SomeButtonProps) => {
   return (
     <button
       {...props}
-      className={`mt-5 border-1 md:text-normal text-lg ${someConfig.transitionDurationEaseClass} ${loadingClass} ${props.className || ''}`}
+      className={`mt-5 border-1 md:text-lg text-normal ${someConfig.transitionDurationEaseClass} ${loadingClass} ${props.className || ''}`}
     >
       {props.children}
     </button>
@@ -34,8 +33,8 @@ interface SomeButtonProps {
 }
 
 const SomeButton = rsc.button<ButtonProps>`
-  text-lg 
-  md:text-normal
+  text-normal
+  md:text-lg 
   mt-5
   border-1 
   ${someConfig.transitionDurationEaseClass}
@@ -134,6 +133,8 @@ const StyledLucideArrow = rsc.extend(ArrowBigDown)`
 export default () => <StyledLucideArrow stroke="3" />
 ```
 
+⚠️ Having problems by extending third party components, see: [Extending other lib components](#extending-other-lib-components--juggling-with-components-that-are-any)
+
 Now we can define a base component and extend it with additional styles and classes and pass properties. You can pass the types to the `extend` function to get autocompletion and type checking on the way.
 
 ```tsx
@@ -217,9 +218,9 @@ const Notebox = rsc.div<NoteboxProps>`
 export default Notebox
 ```
 
-### Need a headline here
+### Auto infer types for props
 
-By passing the component and the tag name, we can validate the component to accept tag related props.
+By passing the component, we can validate the component to accept tag related props.
 This is useful if you wanna rely on the props for a specific element without the `$` prefix.
 
 ```tsx
@@ -257,7 +258,7 @@ const StyledField = rsc.extend(FieldComponent)<{ $trigger: boolean }>`
   ${p => (p.$trigger ? '!border-error' : '')}
 `
 
-export const Component = () => <StyledField placeholder="placeholder" name="name" $trigger />
+export const Component = () => <StyledField placeholder="placeholder" as="select" name="name" $trigger />
 ```
 
 Work in progress. Contributions welcome.
