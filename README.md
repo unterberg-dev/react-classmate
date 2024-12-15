@@ -1,19 +1,50 @@
 # react-styled-classnames
 
-A utility-first CSS tool for managing component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like UnoCSS and Tailwind:
+A utility-first CSS tool for managing component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like UnoCSS and Tailwind
+
+
+## Transform this
 
 ```ts
+// typescript
+interface SomeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  isLoading?: boolean
+}
+
+const SomeButton = ({ isLoading, ...props }: SomeButtonProps) => {
+  const activeClass = isLoading ? 'bg-blue-400 text-white' : 'bg-blue-800 text-blue-200'
+
+  return (
+    <button
+      {...props}
+      className={`mt-5 border-1 md:text-normal text-lg ${someConfig.transitionDurationEaseClass} ${loadingClass} ${props.className || ''}`}
+    >
+      {props.children}
+    </button>
+  )
+}
+```
+
+## Into this:
+
+```ts
+// typescript
+interface SomeButtonProps {
+  $isLoading?: boolean
+}
+
 const SomeButton = rsc.button<ButtonProps>`
-  text-lg
+  text-lg 
+  md:text-normal
   mt-5
-  ${p => p.$isActive ? 'bg-blue-300 text-white' : 'bg-blue-400 text-blue-200'}
-  ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : ''}
-`
+  border-1 
+  ${someConfig.transitionDurationEaseClass}
+  ${(p) => (p.$isLoading ? "opacity-90 pointer-events-none" : "")}
+`;
 ```
 
 ## Contents
 
-- [The "issue"](#the-issue)
 - [Features](#features)
 - [Getting started](#getting-started)
 - [Basic usage](#basic-usage)
@@ -22,57 +53,6 @@ const SomeButton = rsc.button<ButtonProps>`
   - [Use rsc for creating base component](#use-rsc-for-creating-base-component)
   - [Extend with Typescript](#handling-with-types)
 - [Version 1 Users](#version-1)
-
-## The "issue"
-
-When working with utility-first libraries like [uno.css](https://unocss.dev/) or [tailwind](https://tailwindcss.com/), it's common to define utility classes directly in your React components. Which often leads to this kind of boilerplate code:
-
-```tsx
-interface SomeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  isLoading: boolean
-  isActive: boolean
-}
-
-const SomeButton = ({ isLoading, isActive, children, className, ...props } : SomeButtonProps) => {
-  const activeClass = useMemo(
-    () => (isActive ? 'bg-blue-400 text-white' : 'bg-blue-800 text-blue-200'),
-    [isActive],
-  )
-  const loadingClass = useMemo(() => (isLoading ? 'opacity-90 pointer-events-none' : ''), [isLoading])
-
-  return (
-    <button
-      className={`text-lg mt-5 py-2 px-5 min-h-24 inline-flex transition-all z-10 ${someConfig.transitionDurationEaseClass} ${activeClass} ${loadingClass} ${className || ''}`}
-      {...props}
-    >
-      {children}
-    </button>
-  )
-}
-```
-
-### The tool let you write this instead:
-
-```tsx
-interface SomeButtonProps {
-  $isActive?: boolean
-  $isLoading?: boolean
-}
-
-const SomeButton = rsc.button<SomeButtonProps>`
-  text-lg
-  mt-5
-  py-2
-  px-5
-  min-h-24
-  inline-flex
-  z-10
-  transition-all
-  ${someConfig.transitionDurationEaseClass}
-  ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-800 text-blue-200'}
-  ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : 'my-custom-class'}
-`
-```
 
 ## Features
 
@@ -186,15 +166,15 @@ const NewStyledSliderItemWithNewProps = rsc.extend(StyledSliderItemBase)<NewStyl
 export default () => <NewStyledSliderItemWithNewProps $active $secondBool={false} />
 ```
 
-## Example usage of `rsc.extend`
+## Receipes for `rsc.extend`
+
+All example assume you have imported `rsc` like `import { rsc } from 'react-styled-classnames'`
 
 ### Use rsc for creating base component
 
 Extend a component directly by passing the component and the tag name.
 
 ```tsx
-import { rsc } from 'react-styled-classnames'
-
 const BaseButton = rsc.extend(rsc.button``)`
   text-lg
   mt-5
@@ -203,14 +183,46 @@ const BaseButton = rsc.extend(rsc.button``)`
 
 *Saw this the first time in Material UI's `styled` function, where you can pass the mui-component.*
 
-### Handling with Types
+### custom mapping function for props
+
+```tsx
+interface NoteboxProps {
+  $type?: 'info' | 'warning' | 'error' | 'success' | 'aside'
+}
+
+const typeClass = (type: NoteboxProps['$type']) => {
+  switch (type) {
+    case 'warning':
+      return 'border-warningLight bg-warningSuperLight'
+    case 'error':
+      return 'border-errorLight bg-errorSuperLight'
+    case 'success':
+      return 'border-successLight bg-successSuperLight'
+    case 'aside':
+      return 'border-graySuperLight bg-light'
+    // info
+    default:
+      return 'border-graySuperLight bg-white'
+  }
+}
+
+const Notebox = rsc.div<NoteboxProps>`
+  p-2
+  md:p-4
+  rounded
+  border-1
+  ${p => typeClass(p.$type || 'info')}
+`
+
+export default Notebox
+```
+
+### Need a headline here
 
 By passing the component and the tag name, we can validate the component to accept tag related props.
 This is useful if you wanna rely on the props for a specific element without the `$` prefix.
 
 ```tsx
-import { rsc } from 'react-dynamic-classnames'
-
 // if you pass rsc component it's types are validated
 const ExtendedButton = rsc.extend(rsc.button``)`
   some-class
@@ -227,6 +239,28 @@ const StyledDiv = rsc.extend(MyInput)<{ $trigger?: boolean }>`
   ${p => p.type === 'submit' ? 'font-normal' : 'font-bold'}
 `;
 ```
+
+### Extending other lib components / Juggling with components that are `any`
+
+Unfortunately we cannot infer the type directly of the component if it's `any` or loosely typed. But we can use a intermediate step to pass the type to the `extend` function.
+
+```tsx
+import { Field, FieldConfig } from 'formik'
+
+type FieldComponentProps = ComponentProps<'input'> & FieldConfig
+const FieldComponent = ({ ...props }: FieldComponentProps) => <Field {...props} />
+
+const StyledField = rsc.extend(FieldComponent)<{ $trigger: boolean }>`
+  theme-form-field
+  w-full
+  ....
+  ${p => (p.$trigger ? '!border-error' : '')}
+`
+
+export const Component = () => <StyledField placeholder="placeholder" name="name" $trigger />
+```
+
+Work in progress. Contributions welcome.
 
 ## Version 1
 

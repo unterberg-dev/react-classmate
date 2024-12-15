@@ -166,11 +166,6 @@ const createRenderComponent = <
 };
 
 /**
- * Cache for computed class names based on props.
- */
-const classNameCache = new Map();
-
-/**
  * Core function to create styled React components with dynamic class names.
  *
  * Computes class names from template strings and interpolations, filters `$`-prefixed props,
@@ -183,7 +178,6 @@ const classNameCache = new Map();
  * @param interpolations - Dynamic class name computations based on props.
  * @returns A styled component with dynamic class names.
  */
-
 const createComponent = <
   T extends object,
   E extends keyof JsxElements | ForwardRefExoticComponent<any> | JSXElementConstructor<any>
@@ -194,11 +188,6 @@ const createComponent = <
 ): BaseComponent<MergeProps<E, T>> => {
   // Define the function to compute class names
   const computeClassName = (props: MergeProps<E, T>) => {
-    const cacheKey = JSON.stringify(props);
-    if (classNameCache.has(cacheKey)) {
-      return classNameCache.get(cacheKey);
-    }
-
     const result = strings
       .map((str, i) => {
         const interp = interpolations[i];
@@ -249,7 +238,7 @@ const rscTarget: Partial<RscComponentFactory> = {};
  * - `__rscComputeClassName`: A function to compute the combined class name for the component.
  * - `__rscTag`: The base tag or component used for rendering.
  */
-rscTarget.extend = <T extends object>(
+rscTarget.extend = (<T extends object>(
   baseComponent: BaseComponent<any> | JSXElementConstructor<any>,
 ) => {
   return (
@@ -304,7 +293,7 @@ rscTarget.extend = <T extends object>(
 
     return WrappedComponent;
   };
-};
+}) as ExtendFunction;
 
 /**
  * A proxy object that dynamically handles intrinsic element methods (e.g., `rsc.div`, `rsc.button`)
@@ -375,7 +364,7 @@ const rscFactory = new Proxy(rscProxy, {
  * `
  *
  * // Validating props against an intrinsic element:
- * const ExtendedButton = rsc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
+ * const ExtendedButton = rsc.extend(rsc.button)`
  *   ${p => p.type === 'submit' ? 'font-bold' : ''}
  * `
  * ```

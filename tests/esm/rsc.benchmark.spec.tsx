@@ -75,13 +75,13 @@ describe("rsc stress benchmark", () => {
 
     // Mimic the behavior of BaseButton and ExtendedButton
     const BaseButton = ({
-      $isActive,
+      isActive,
       className,
     }: {
-      $isActive: boolean;
+      isActive: boolean;
       className?: string;
     }) => {
-      const baseClass = $isActive ? "bg-active" : "bg-inactive";
+      const baseClass = isActive ? "bg-active" : "bg-inactive";
       return <button className={`${baseClass} ${className || ""}`.trim()} />;
     };
 
@@ -104,7 +104,7 @@ describe("rsc stress benchmark", () => {
         .filter(Boolean)
         .join(" ")
         .trim();
-      return <button className={extendedClass} />;
+      return <BaseButton isActive className={extendedClass} />;
     };
 
     const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => (
