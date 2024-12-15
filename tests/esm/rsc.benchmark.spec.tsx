@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import React from "react";
 import { render } from "@testing-library/react";
 import { rsc } from "../../dist/index";
-import stressConfig from "../stress.config";
+import stressConfig from "../benchmark.config";
 
 describe("rsc stress benchmark", () => {
   const NUM_COMPONENTS = stressConfig.elementCount;
