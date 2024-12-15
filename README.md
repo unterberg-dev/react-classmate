@@ -28,11 +28,11 @@ const SomeButton = ({ isLoading, ...props }: SomeButtonProps) => {
 
 ```tsx
 // typescript
-interface SomeButtonProps {
+interface ButtonBaseProps {
   $isLoading?: boolean
 }
 
-const SomeButton = rsc.button<ButtonProps>`
+const ButtonBase = rsc.button<ButtonBaseProps>`
   text-normal
   md:text-lg 
   mt-5
@@ -43,14 +43,21 @@ const SomeButton = rsc.button<ButtonProps>`
 `
 
 // (and add a variation)
-const ActiveButton = rsc.extend(SomeButton)<{ $pulse: boolean }>`
+const Primar0yButton = rsc.extend(ButtonBase)<{ $pulse: boolean }>`
   bg-blue-400
   text-white
-  ${p => p.$animate ? 'animate-pulse' : ''}
-  ${p => p.$active ? 'border-blue-400' : ''}
+  ${p => p.$pulse ? 'animate-pulse' : ''}
+  ${p => p.$isLoading ? 'border-blue-700' : ''}
 `
 
-const Component = () => <ActiveButton $pulse $active>Click me</ActiveButton>
+const Component = () => {
+  // where the logic happens
+  return (
+    <PrimaryButton $pulse $isLoading>
+      Click me
+    </PrimaryButton>
+  )
+}
 ```
 
 ## Contents
@@ -67,9 +74,9 @@ const Component = () => <ActiveButton $pulse $active>Click me</ActiveButton>
 ## Features
 
 - Dynamic class names
-- React, no other dependencies
 - Extend components
 - Utility-first CSS support
+- React, no other dependencies
 - TypeScript support
 - SSR compatibility
 
@@ -93,13 +100,9 @@ yarn add react-styled-classnames --dev
 import { rsc } from 'react-styled-classnames'
 
 const Container = rsc.div`
-  text-lg
-  mt-5
   py-2
   px-5
   min-h-24
-  inline-flex
-  z-10
 `
 ```
 
