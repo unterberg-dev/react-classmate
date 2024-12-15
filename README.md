@@ -92,7 +92,6 @@ yarn add react-styled-classnames --dev
 ```tsx
 import { rsc } from 'react-styled-classnames'
 
-// IDE autocompletion and type-checking for utility class names
 const Container = rsc.div`
   text-lg
   mt-5
@@ -277,8 +276,6 @@ export const Component = () => <StyledField placeholder="placeholder" as="select
 ## Version 1
 
 👋 Due to bundle size I removed V1 from this package. it's still available, but unmaintained under this package: https://www.npmjs.com/package/react-dynamic-classnames
-
-```
 
 ## Inspiration
 - [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
