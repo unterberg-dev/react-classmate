@@ -20,8 +20,8 @@ const SomeButton = rsc.button<ButtonProps>`
 - [Usage with props](#usage-with-props)
 - [Extend components with `rsc.extend`](#extend-components-with-rscextend)
   - [Use rsc for creating base component](#use-rsc-for-creating-base-component)
-  - [Using element tag props and validation](#using-element-tag-props-and-validation)
-- [Version 1 Users](#version-1-users)
+  - [Extend with Typescript](#handling-with-types)
+- [Version 1 Users](#version-1)
 
 ## The "issue"
 
@@ -31,12 +31,11 @@ When working with utility-first libraries like [uno.css](https://unocss.dev/) or
 interface SomeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading: boolean
   isActive: boolean
-  className?: string
 }
 
 const SomeButton = ({ isLoading, isActive, children, className, ...props } : SomeButtonProps) => {
   const activeClass = useMemo(
-    () => (isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'),
+    () => (isActive ? 'bg-blue-400 text-white' : 'bg-blue-800 text-blue-200'),
     [isActive],
   )
   const loadingClass = useMemo(() => (isLoading ? 'opacity-90 pointer-events-none' : ''), [isLoading])
@@ -70,7 +69,7 @@ const SomeButton = rsc.button<SomeButtonProps>`
   z-10
   transition-all
   ${someConfig.transitionDurationEaseClass}
-  ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
+  ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-800 text-blue-200'}
   ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : 'my-custom-class'}
 `
 ```
@@ -204,7 +203,7 @@ const BaseButton = rsc.extend(rsc.button``)`
 
 *Saw this the first time in Material UI's `styled` function, where you can pass the mui-component.*
 
-### Handle with Types
+### Handling with Types
 
 By passing the component and the tag name, we can validate the component to accept tag related props.
 This is useful if you wanna rely on the props for a specific element without the `$` prefix.
@@ -229,53 +228,10 @@ const StyledDiv = rsc.extend(MyInput)<{ $trigger?: boolean }>`
 `;
 ```
 
-## Version 1 Users
+## Version 1
 
-If you liked the V1 version with `dc` and `restyle` and the object based pattern, it's still available in this package until the next major release.
+👋 Due to bundle size I removed V1 from this package. it's still available, but unmaintained under this package: https://www.npmjs.com/package/react-dynamic-classnames
 
-See: [V1 Documentation](
-  https://github.com/richard-unterberg/react-styled-classnames/tree/master/src/v1)
-
-### V1 Examples
-
-```tsx
-// append "/v1" to the import path
-import { dc, restyle } from 'react-styled-classnames/v1'
-
-// V1 object pattern example
-const Button = dc.button<ContainerProps>({
-  // required: base class
-  base: `
-    text-lg
-    mt-5
-    py-2
-    px-5
-    min-h-24
-    inline-flex
-    z-10
-    transition-all
-    ${someConfig.transitionDurationEaseClass}
-  `,
-  // optional: dynamic classes
-  classes: ({ $isActive, $isLoading }) => [
-    $isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200',
-    $isLoading ? 'opacity-90 pointer-events-none' : '',
-  ],
-  // optional: css object with or without props
-  css: ({ $isActive }) => ({
-    boxShadow: `0 0 0 1px rgba(255, 255, 255, ${$isActive ? 0.7 : 0.2})`,
-  }),
-})
-
-// V1 restyle example (now rsc.extend)
-export const RestyledButton = restyle(
-  Button,
-  `
-  md:-right-4.5
-  right-1
-  slide-in-r-20
-`,
-)
 ```
 
 ## Inspiration

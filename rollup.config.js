@@ -1,51 +1,41 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import typescript from "@rollup/plugin-typescript";
-import dts from "rollup-plugin-dts"; // Only if bundling .d.ts files
+import dts from "rollup-plugin-dts";
+import babel from "@rollup/plugin-babel";
+import { minify } from "rollup-plugin-esbuild-minify";
 
 export default [
-  // Existing JS bundling
+  // ESM and CJS Builds
   {
     input: "src/index.ts",
-    output: {
-      file: "dist/index.js",
-      format: "esm",
-      sourcemap: true,
-    },
+    output: [
+      {
+        file: "dist/index.js",
+        format: "esm",
+        sourcemap: true,
+      },
+      {
+        file: "dist/index.cjs.js",
+        format: "cjs",
+        sourcemap: true,
+      },
+    ],
     plugins: [
       resolve(),
       commonjs(),
-      typescript({ declaration: false, declarationDir: null }),
+      babel({
+        babelHelpers: 'bundled',
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      }),
+      minify(),
     ],
     external: ["react", "react-dom"],
   },
-  {
-    input: "src/v1/index.ts",
-    output: {
-      file: "dist/v1/index.js",
-      format: "esm",
-      sourcemap: true,
-    },
-    plugins: [
-      resolve(),
-      commonjs(),
-      typescript({ declaration: false, declarationDir: null }),
-    ],
-    external: ["react", "react-dom"],
-  },
-  // Type declaration bundling
+  // TypeScript Declarations
   {
     input: "dist/index.d.ts",
     output: {
       file: "dist/index.d.ts",
-      format: "esm",
-    },
-    plugins: [dts()],
-  },
-  {
-    input: "dist/v1/index.d.ts",
-    output: {
-      file: "dist/v1/index.d.ts",
       format: "esm",
     },
     plugins: [dts()],

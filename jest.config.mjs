@@ -1,16 +1,8 @@
 export default {
-  preset: "ts-jest/presets/default-esm",
-  testEnvironment: "jest-environment-jsdom",
-  extensionsToTreatAsEsm: [".ts", ".tsx"],
+  testEnvironment: "jsdom", // Simulates browser environment for React
   transform: {
-    "^.+\\.(ts|tsx)$": [
-      "ts-jest",
-      {
-        useESM: true,
-      },
-    ],
+    "^.+\\.[tj]sx?$": "babel-jest", // Use Babel to process JS, JSX, TS, and TSX files
   },
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-  testPathIgnorePatterns: ["<rootDir>/dist/"],
+  moduleFileExtensions: ["js", "jsx", "ts", "tsx"], // Recognize these extensions
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"], // Point to the setup file
 };

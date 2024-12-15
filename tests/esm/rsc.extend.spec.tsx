@@ -1,4 +1,5 @@
-import React, { ButtonHTMLAttributes, HTMLAttributes } from "react";
+import "@testing-library/jest-dom";
+import React, { HTMLAttributes } from "react";
 import { render } from "@testing-library/react";
 import { rsc } from "../../src/index";
 
@@ -40,7 +41,7 @@ describe("rsc.extends", () => {
   it("assign a rsc component and infer it's base types", () => {
     const StyledButton = rsc.extend(rsc.button``)<{ $trigger?: boolean }>`
       bg-white
-      ${(p) => (p.type === 'button' ? "border-primary" : "")}
+      ${(p) => (p.type === "button" ? "border-primary" : "")}
     `;
 
     const { container } = render(<StyledButton type="button" />);
