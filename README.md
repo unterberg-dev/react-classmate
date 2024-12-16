@@ -24,9 +24,9 @@ const SomeButton = ({ isLoading, ...props }) => {
 ```js
 const ButtonBase = rsc.button`
   text-normal
-  md:text-lg 
+  md:text-lg
   mt-5
-  border-1 
+  border-1
   transition-all
   ${someConfig.transitionDurationEaseClass}
   ${(p) => (p.$isLoading ? "opacity-90 pointer-events-none" : "")}
@@ -75,8 +75,10 @@ yarn add react-styled-classnames --dev
 
 ## Create
 
+create a component by calling `rsc` with a tag name and a template literal string.
+
 ```tsx
-import { rsc } from 'react-styled-classnames'
+import rsc from 'react-styled-classnames'
 
 const Container = rsc.div`
   py-2
@@ -88,9 +90,11 @@ const Container = rsc.div`
 
 ## Extend
 
+Extend a component directly by passing the component and the tag name.
+
 ```tsx
 import MyOtherComponent from './MyOtherComponent' // <button className="text-lg mt-5" />
-import { rsc } from 'react-styled-classnames'
+import rsc from 'react-styled-classnames'
 
 const Container = rsc.extend(MyOtherComponent)`
   py-2
@@ -101,6 +105,8 @@ const Container = rsc.extend(MyOtherComponent)`
 ```
 
 ## Use with props
+
+Pass props to the component and use them in the template literal string and in the component prop validation.
 
 ```tsx
 // hey typescript
@@ -118,6 +124,32 @@ const SomeButton = rsc.button<ButtonProps>`
 // transforms to <button className="text-lg mt-5 bg-blue-400 text-white opacity-90 pointer-events-none" />
 ```
 
+## Create Variants
+
+Create variants by passing an object to the `variants` key. The key should match the prop name and the value should be a function that returns a string.
+
+```tsx
+interface AlertProps extends HTMLAttributes<HTMLDivElement> {
+  severity: "info" | "warning" | "error";
+  $isActive?: boolean;
+}
+
+const Alert = rsc.div.variants<AlertProps>({
+  base: "p-4 rounded-md", // optional
+  variants: {
+    severity: {
+      info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+      warning: (p) => `bg-yellow-100 text-yellow-800 ${p.$isActive ? "font-bold" : ""}`,
+      error: (p) => `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
+    },
+  },
+});
+
+export default () => <Alert severity="info" $isActive />
+
+// outputs: <div className="p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
+```
+
 ### Prefix incoming props with `$`
 
 **Note how we prefix the props incoming to dc with a `$` sign**. This is a important convention to distinguish dynamic props from the ones we pass to the component.
@@ -130,7 +162,7 @@ With `rsc.extend`, you can build upon any base React component—adding new styl
 
 ```tsx
 import { ArrowBigDown } from 'lucide-react'
-import { rsc } from 'react-styled-classnames'
+import rsc from 'react-styled-classnames'
 
 const StyledLucideArrow = rsc.extend(ArrowBigDown)`
   md:-right-4.5
@@ -147,7 +179,7 @@ export default () => <StyledLucideArrow stroke="3" />
 Now we can define a base component and extend it with additional styles and classes and pass properties. You can pass the types to the `extend` function to get autocompletion and type checking on the way.
 
 ```tsx
-import { rsc } from 'react-styled-classnames'
+import rsc from 'react-styled-classnames'
 
 interface StyledSliderItemBaseProps {
   $active: boolean
@@ -178,7 +210,7 @@ export default () => <NewStyledSliderItemWithNewProps $active $secondBool={false
 
 ## Receipes for `rsc.extend`
 
-All example assume you have imported `rsc` like `import { rsc } from 'react-styled-classnames'`
+All example assume you have imported `rsc` like `import rsc from 'react-styled-classnames'`
 
 ### Use rsc for creating base component
 
