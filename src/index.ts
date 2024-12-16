@@ -10,6 +10,25 @@ import {
 /** Alias => Intrinsic react elements */
 type JsxElements = React.JSX.IntrinsicElements
 
+
+type VariantsConfig<Props extends object> = {
+  base: string;
+  variants: {
+    [Key in keyof Props]?: Record<
+      string,
+      string | ((props: Props) => string)
+    >;
+  } & {
+    [key: string]: Record<string, string | ((props: Props) => string)>;
+  };
+};
+
+type VariantsFunction = {
+  <Props extends object>(
+    config: VariantsConfig<Props>
+  ): BaseComponent<Props>;
+};
+
 /**
  * interpolation type for "styled components".
  *
@@ -113,10 +132,13 @@ type ExtendFunction = {
  * - An `extend` method for extending components.
  */
 type RscComponentFactory = {
-  [K in keyof JsxElements]: <T>(
-    strings: TemplateStringsArray,
-    ...interpolations: Interpolation<T>[]
-  ) => BaseComponent<MergeProps<K, T>>;
+  [K in keyof JsxElements]: {
+    <T>(
+      strings: TemplateStringsArray,
+      ...interpolations: Interpolation<T>[]
+    ): BaseComponent<MergeProps<K, T>>;
+    variants: VariantsFunction;
+  };
 } & {
   extend: ExtendFunction;
 };
@@ -199,7 +221,6 @@ const createComponent = <
       .replace(/\s+/g, ' ')
       .trim();
 
-    // classNameCache.set(cacheKey, result);
     return result;
   };
 
@@ -209,7 +230,46 @@ const createComponent = <
   // debugging
   RenderComponent.displayName = `Styled(${typeof tag === 'string' ? tag : 'Component'})`;
 
-  // attach metadata for future extensions
+  // attach metadata
+  (RenderComponent as any).__rscComputeClassName = computeClassName;
+  (RenderComponent as any).__rscTag = tag;
+
+  return RenderComponent as BaseComponent<MergeProps<E, T>>;
+};
+
+const createVariantsComponent = <
+  T extends object,
+  E extends keyof JsxElements | ForwardRefExoticComponent<any> | JSXElementConstructor<any>
+>(
+  tag: E,
+  config: VariantsConfig<T>
+): BaseComponent<MergeProps<E, T>> => {
+  const { base, variants } = config;
+
+  const computeClassName = (props: MergeProps<E, T>) => {
+    const baseClasses = base;
+
+    const variantClasses = Object.entries(variants).map(([key, variantOptions]) => {
+      const propValue = props[key as keyof T];
+      const variantClass = variantOptions?.[propValue as string];
+
+      if (typeof variantClass === 'function') {
+        return variantClass(props);
+      }
+
+      return variantClass || '';
+    });
+
+    return [baseClasses, ...variantClasses]
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+  };
+
+  const RenderComponent = createRenderComponent(tag, computeClassName);
+  RenderComponent.displayName = `Variants(${typeof tag === 'string' ? tag : 'Component'})`;
+
+  // extend metadata
   (RenderComponent as any).__rscComputeClassName = computeClassName;
   (RenderComponent as any).__rscTag = tag;
 
@@ -239,7 +299,7 @@ const rscTarget: Partial<RscComponentFactory> = {};
  * - `__rscTag`: The base tag or component used for rendering.
  */
 rscTarget.extend = (<T extends object>(
-  baseComponent: BaseComponent<any> | JSXElementConstructor<any>,
+  baseComponent: BaseComponent<any> | JSXElementConstructor<any>
 ) => {
   return (
     strings: TemplateStringsArray,
@@ -248,8 +308,10 @@ rscTarget.extend = (<T extends object>(
     const baseComputeClassName = (baseComponent as any).__rscComputeClassName || (() => "");
     const baseTag = (baseComponent as any).__rscTag || baseComponent;
 
-    const extendedComputeClassName = (props: any) =>
-      strings
+    const extendedComputeClassName = (props: any) => {
+      const baseClassName = baseComputeClassName(props);
+
+      const extendedClassName = strings
         .map((str, i) => {
           const interp = interpolations[i];
           return typeof interp === "function"
@@ -260,16 +322,12 @@ rscTarget.extend = (<T extends object>(
         .replace(/\s+/g, " ")
         .trim();
 
+      return `${baseClassName} ${extendedClassName}`.trim();
+    };
+
     const WrappedComponent = forwardRef<HTMLElement, T & JSX.IntrinsicAttributes>(
       (props, ref) => {
-        const combinedClassName = [
-          baseComputeClassName(props),
-          extendedComputeClassName(props),
-          (props as any).className,
-        ]
-          .filter(Boolean)
-          .join(" ")
-          .trim();
+        const combinedClassName = extendedComputeClassName(props);
 
         const domProps: Record<string, any> = {};
         for (const key in props) {
@@ -287,7 +345,6 @@ rscTarget.extend = (<T extends object>(
     );
 
     WrappedComponent.displayName = `Extended(${(baseComponent as BaseComponent<any>).displayName || 'Component'})`;
-
     (WrappedComponent as any).__rscComputeClassName = extendedComputeClassName;
     (WrappedComponent as any).__rscTag = baseTag;
 
@@ -309,7 +366,7 @@ const rscProxy = new Proxy(rscTarget, {
       return rscTarget.extend;
     }
 
-    return <T extends object>(
+    const factoryFunction = <T extends object>(
       strings: TemplateStringsArray,
       ...interpolations: Interpolation<T>[]
     ) =>
@@ -318,6 +375,11 @@ const rscProxy = new Proxy(rscTarget, {
         strings,
         interpolations
       );
+
+    factoryFunction.variants = <T extends object>(config: VariantsConfig<T>) =>
+      createVariantsComponent(prop as keyof JsxElements, config);
+
+    return factoryFunction;
   },
 });
 
