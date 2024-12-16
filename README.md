@@ -1,6 +1,9 @@
+[![npm](https://img.shields.io/npm/v/react-styled-classnames)](https://www.npmjs.com/package/react-styled-classnames)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/react-styled-classnames)](https://bundlephobia.com/result?p=react-styled-classnames)
+
 # react-styled-classnames
 
-A tool for managing react component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like `UnoCSS` and `Tailwind`.
+A tool for managing react component class names and variants with the simplicity of styled-components. Designed for use with utility-first CSS libraries and SSR.
 
 ## 🚩 Transform this
 
@@ -33,29 +36,32 @@ const ButtonBase = rsc.button`
 `
 ```
 
-## Contents
-
-- [Features](#features)
-- [Getting started](#getting-started)
-- [Basic usage](#basic-usage)
-- [Usage with props](#usage-with-props)
-- [Extend components with `rsc.extend`](#extend-components-with-rscextend)
-  - [Use rsc for creating base component](#use-rsc-for-creating-base-component)
-  - [Extend with Typescript](#handling-with-types)
-- [Version 1 Users](#version-1)
-
 ## Features
 
 - Dynamic class names
+- Add Variants
 - Extend components
-- Utility-first CSS support
 - React, no other dependencies
 - TypeScript support
 - SSR compatibility
 
+## Contents
+
+- [Features](#features)
+- [Getting started](#getting-started)
+- [Basic usage](#basic)
+- [Usage with props](#use-with-props)
+- [Create Variants](#create-variants)
+- [Extend components](#extend)
+- [Recipes for `rsc.extend`](#receipes-for-rscextend)
+  - [Use rsc for creating base component](#use-rsc-for-creating-base-component)
+  - [Custom mapping function for props](#custom-mapping-function-for-props)
+  - [Auto infer types for props](#auto-infer-types-for-props)
+  - [Extending other lib components / Juggling with components that are `any`](#extending-other-lib-components--juggling-with-components-that-are-any)
+- [Version 1 Users](#version-1)
+
 ## Upcoming
 
-- Add variants and preserve possibility to pass props as we do in `rsc` and `rsc.extend`
 - Integrate more tests focused on SSR and React
 - Interactive playground
 
@@ -65,7 +71,7 @@ Kind of, while [twin.macro](https://github.com/ben-rogerson/twin.macro) requires
 
 ## Getting started
 
-Let's assume you have installed [React](https://react.dev/) (> 16.8.0) and a utility-first css library ([uno.css](https://unocss.dev/) / [tailwind](https://tailwindcss.com/)).
+Let's assume you have installed [React](https://react.dev/) (> 16.8.0)
 
 ```bash
 npm i react-styled-classnames --save-dev
@@ -73,7 +79,7 @@ npm i react-styled-classnames --save-dev
 yarn add react-styled-classnames --dev
 ```
 
-## Create
+## Basic
 
 create a component by calling `rsc` with a tag name and a template literal string.
 
@@ -93,7 +99,7 @@ const Container = rsc.div`
 Extend a component directly by passing the component and the tag name.
 
 ```tsx
-import MyOtherComponent from './MyOtherComponent' // <button className="text-lg mt-5" />
+import MyOtherComponent from './MyOtherComponent' // () => <button className="text-lg mt-5" />
 import rsc from 'react-styled-classnames'
 
 const Container = rsc.extend(MyOtherComponent)`
@@ -124,6 +130,12 @@ const SomeButton = rsc.button<ButtonProps>`
 // transforms to <button className="text-lg mt-5 bg-blue-400 text-white opacity-90 pointer-events-none" />
 ```
 
+### Prefix incoming props with `$`
+
+**Note how we prefix the props incoming to dc with a `$` sign**. This is a important convention to distinguish dynamic props from the ones we pass to the component.
+
+*This pattern should also avoid conflicts with reserved prop names.*
+
 ## Create Variants
 
 Create variants by passing an object to the `variants` key. The key should match the prop name and the value should be a function that returns a string.
@@ -150,13 +162,7 @@ export default () => <Alert severity="info" $isActive />
 // outputs: <div className="p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
 ```
 
-### Prefix incoming props with `$`
-
-**Note how we prefix the props incoming to dc with a `$` sign**. This is a important convention to distinguish dynamic props from the ones we pass to the component.
-
-*This pattern should also avoid conflicts with reserved prop names.*
-
-## Extend components with `rsc.extend`
+## Receipes for `rsc.extend`
 
 With `rsc.extend`, you can build upon any base React component—adding new styles and even supporting additional props. This makes it easy to create reusable component variations without duplicating logic.
 
@@ -207,10 +213,6 @@ const NewStyledSliderItemWithNewProps = rsc.extend(StyledSliderItemBase)<NewStyl
 
 export default () => <NewStyledSliderItemWithNewProps $active $secondBool={false} />
 ```
-
-## Receipes for `rsc.extend`
-
-All example assume you have imported `rsc` like `import rsc from 'react-styled-classnames'`
 
 ### Use rsc for creating base component
 
@@ -308,5 +310,5 @@ export const Component = () => <StyledField placeholder="placeholder" as="select
 
 ## Inspiration
 - [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
-- [twin.macro](https://github.com/ben-rogerson/twin.macro)
 - [cva](https://github.com/joe-bell/cva)
+- [twin.macro](https://github.com/ben-rogerson/twin.macro)
