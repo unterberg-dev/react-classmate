@@ -1,16 +1,11 @@
 # react-styled-classnames
 
-A utility-first CSS tool for managing component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like `UnoCSS` and `Tailwind`.
+A tool for managing react component class names with the simplicity of styled-components, designed for use with utility-first CSS libraries like `UnoCSS` and `Tailwind`.
 
 ## 🚩 Transform this
 
-```tsx
-// typescript
-interface SomeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  isLoading?: boolean
-}
-
-const SomeButton = ({ isLoading, ...props }: SomeButtonProps) => {
+```jsx
+const SomeButton = ({ isLoading, ...props }) => {
   const activeClass = isLoading ? 'bg-blue-400 text-white' : 'bg-blue-800 text-blue-200'
 
   return (
@@ -26,13 +21,8 @@ const SomeButton = ({ isLoading, ...props }: SomeButtonProps) => {
 
 ## 🌤️ Into this
 
-```tsx
-// typescript
-interface ButtonBaseProps {
-  $isLoading?: boolean
-}
-
-const ButtonBase = rsc.button<ButtonBaseProps>`
+```js
+const ButtonBase = rsc.button`
   text-normal
   md:text-lg 
   mt-5
@@ -41,23 +31,6 @@ const ButtonBase = rsc.button<ButtonBaseProps>`
   ${someConfig.transitionDurationEaseClass}
   ${(p) => (p.$isLoading ? "opacity-90 pointer-events-none" : "")}
 `
-
-// (and add a variation)
-const PrimaryButton = rsc.extend(ButtonBase)<{ $pulse: boolean }>`
-  bg-blue-400
-  text-white
-  ${p => p.$pulse ? 'animate-pulse' : ''}
-  ${p => p.$isLoading ? 'border-blue-700' : ''}
-`
-
-const Component = () => {
-  // where the logic happens
-  return (
-    <PrimaryButton $pulse $isLoading>
-      Click me
-    </PrimaryButton>
-  )
-}
 ```
 
 ## Contents
@@ -80,13 +53,19 @@ const Component = () => {
 - TypeScript support
 - SSR compatibility
 
+## Upcoming
+
+- Add variants and preserve possibility to pass props as we do in `rsc` and `rsc.extend`
+- Integrate more tests focused on SSR and React
+- Interactive playground
+
 ### re-inventing the wheel?
 
-While [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-components, and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component) isn’t fully compatible with [Vike](https://vike.dev/) and requires tailwind, `react-styled-classnames` is lightweight and tailored for flexibility and SSR.
+Kind of, while [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-components, and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component) isn’t fully compatible with [Vike](https://vike.dev/) - [See Issue here](https://vike.dev/broken-npm-package) -  I wrote my own version to fit my needs.
 
 ## Getting started
 
-Let's assume you have installed [React](https://react.dev/) (> 17) and a utility-first css library ([uno.css](https://unocss.dev/) / [tailwind](https://tailwindcss.com/)).
+Let's assume you have installed [React](https://react.dev/) (> 16.8.0) and a utility-first css library ([uno.css](https://unocss.dev/) / [tailwind](https://tailwindcss.com/)).
 
 ```bash
 npm i react-styled-classnames --save-dev
@@ -94,7 +73,7 @@ npm i react-styled-classnames --save-dev
 yarn add react-styled-classnames --dev
 ```
 
-## Basic usage
+## Create
 
 ```tsx
 import { rsc } from 'react-styled-classnames'
@@ -104,11 +83,27 @@ const Container = rsc.div`
   px-5
   min-h-24
 `
+// transforms to: <div className="py-2 px-5 min-h-24" />
 ```
 
-## Usage with props
+## Extend
 
 ```tsx
+import MyOtherComponent from './MyOtherComponent' // <button className="text-lg mt-5" />
+import { rsc } from 'react-styled-classnames'
+
+const Container = rsc.extend(MyOtherComponent)`
+  py-2
+  px-5
+  min-h-24
+`
+// transforms to: <button className="text-lg mt-5 py-2 px-5 min-h-24" />
+```
+
+## Use with props
+
+```tsx
+// hey typescript
 interface ButtonProps {
   $isActive?: boolean
   $isLoading?: boolean
@@ -120,6 +115,7 @@ const SomeButton = rsc.button<ButtonProps>`
   ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
   ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : ''}
 `
+// transforms to <button className="text-lg mt-5 bg-blue-400 text-white opacity-90 pointer-events-none" />
 ```
 
 ### Prefix incoming props with `$`
@@ -194,8 +190,6 @@ const BaseButton = rsc.extend(rsc.button``)`
   mt-5
 `
 ```
-
-*Saw this the first time in Material UI's `styled` function, where you can pass the mui-component.*
 
 ### custom mapping function for props
 
