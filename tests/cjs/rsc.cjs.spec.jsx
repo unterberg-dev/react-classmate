@@ -1,5 +1,5 @@
 const React = require("react");
-const { rsc } = require("../../dist/index.cjs.js");
+const rsc = require("../../dist/index.cjs.js");
 const { render } = require("@testing-library/react");
 
 describe("CommonJS Build", () => {

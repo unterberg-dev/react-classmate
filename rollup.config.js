@@ -2,6 +2,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import dts from "rollup-plugin-dts";
 import babel from "@rollup/plugin-babel";
+import { minify } from 'rollup-plugin-esbuild-minify'
 
 export default [
   // ESM and CJS Builds
@@ -20,22 +21,23 @@ export default [
       },
     ],
     plugins: [
-      resolve(),
+      resolve({ extensions: [".js", ".jsx", ".ts", ".tsx"] }),
       commonjs(),
       babel({
-        babelHelpers: 'bundled',
+        babelHelpers: "bundled",
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       }),
+      minify(),
     ],
     external: ["react", "react-dom"],
   },
   // TypeScript Declarations
-  {
-    input: "dist/index.d.ts",
-    output: {
-      file: "dist/index.d.ts",
-      format: "esm",
-    },
-    plugins: [dts()],
-  },
+  // {
+  //   input: "./dist/types.d.ts",
+  //   output: {
+  //     file: "./dist/index.d.ts",
+  //     format: "esm",
+  //   },
+  //   plugins: [dts()],
+  // },
 ];
