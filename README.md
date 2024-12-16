@@ -3,7 +3,7 @@
 
 # react-styled-classnames
 
-A toolset for managing react component class names with the simplicity of styled-components. Designed for use with utility-first CSS libraries and SSR.
+A tool for managing react component class names and variants with the simplicity of styled-components. Designed for use with utility-first CSS libraries and SSR.
 
 ## 🚩 Transform this
 
