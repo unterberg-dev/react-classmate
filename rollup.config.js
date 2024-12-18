@@ -1,6 +1,5 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import dts from "rollup-plugin-dts";
 import babel from "@rollup/plugin-babel";
 import { minify } from 'rollup-plugin-esbuild-minify'
 
@@ -31,13 +30,4 @@ export default [
     ],
     external: ["react", "react-dom"],
   },
-  // TypeScript Declarations
-  // {
-  //   input: "./dist/types.d.ts",
-  //   output: {
-  //     file: "./dist/index.d.ts",
-  //     format: "esm",
-  //   },
-  //   plugins: [dts()],
-  // },
 ];

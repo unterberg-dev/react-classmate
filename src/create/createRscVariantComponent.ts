@@ -1,14 +1,13 @@
-import { ForwardRefExoticComponent, JSXElementConstructor } from "react";
-import { BaseComponent, JsxElements, MergeProps, VariantsConfig } from "../types";
-import createForwardRef from "./createForwardRef";
+import { RscBaseComponent, JsxElements, MergeProps, VariantsConfig, InputComponent } from "../types";
+import createReactElement from "./createReactElement";
 
 const createRscVariantComponent = <
   T extends object,
-  E extends keyof JsxElements | ForwardRefExoticComponent<any> | JSXElementConstructor<any>
+  E extends keyof JsxElements | InputComponent
 >(
   tag: E,
   config: VariantsConfig<T>
-): BaseComponent<MergeProps<E, T>> => {
+): RscBaseComponent<MergeProps<E, T>> => {
   const { base, variants } = config;
 
   const computeClassName = (props: MergeProps<E, T>) => {
@@ -31,15 +30,15 @@ const createRscVariantComponent = <
       .trim();
   };
 
-  const RenderComponent = createForwardRef(tag, computeClassName);
+  // create
+  const RenderComponent = createReactElement(tag, computeClassName);
   RenderComponent.displayName = `Variants(${typeof tag === 'string' ? tag : 'Component'})`;
 
-  // extend metadata
-  // todo: create interface for RenderComponent instead of using any
-  (RenderComponent as any).__rscComputeClassName = computeClassName;
-  (RenderComponent as any).__rscTag = tag;
+  // extend
+  RenderComponent.__rscComputeClassName = computeClassName;
+  RenderComponent.__rscTag = tag;
 
-  return RenderComponent as BaseComponent<MergeProps<E, T>>;
+  return RenderComponent
 };
 
 export default createRscVariantComponent;

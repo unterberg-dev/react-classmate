@@ -1,5 +1,5 @@
-import { createElement, forwardRef, JSXElementConstructor } from "react";
-import { BaseComponent, ExtendFunction, Interpolation, Rsc } from "../types";
+import { createElement, forwardRef } from "react";
+import { RscBaseComponent, ExtendFunction, Interpolation, Rsc, InputComponent } from "../types";
 
 /**
  * Assign the extend function to the rscTarget object.
@@ -16,16 +16,17 @@ import { BaseComponent, ExtendFunction, Interpolation, Rsc } from "../types";
  */
 const attachExtend = (rscTarget: Rsc) => {
   rscTarget.extend = (<T extends object>(
-    baseComponent: BaseComponent<any> | JSXElementConstructor<any>
+    baseComponent: RscBaseComponent<any> | InputComponent
   ) => {
     return (
       strings: TemplateStringsArray,
-      ...interpolations: Interpolation<any>[]
+      ...interpolations: Interpolation<T>[]
     ) => {
-      const baseComputeClassName = (baseComponent as any).__rscComputeClassName || (() => "");
-      const baseTag = (baseComponent as any).__rscTag || baseComponent;
+      const baseComputeClassName =
+        (baseComponent as RscBaseComponent<T>).__rscComputeClassName || (() => "");
+      const baseTag = (baseComponent as RscBaseComponent<T>).__rscTag || baseComponent;
 
-      const extendedComputeClassName = (props: any) => {
+      const extendedComputeClassName = (props: T) => {
         const baseClassName = baseComputeClassName(props);
 
         const extendedClassName = strings
@@ -42,34 +43,32 @@ const attachExtend = (rscTarget: Rsc) => {
         return `${baseClassName} ${extendedClassName}`.trim();
       };
 
-      const WrappedComponent = forwardRef<HTMLElement, T & JSX.IntrinsicAttributes>(
-        (props, ref) => {
-          const combinedClassName = extendedComputeClassName(props);
+      const WrappedComponent: RscBaseComponent<T> = forwardRef<HTMLElement, T>((props, ref) => {
+        const combinedClassName = extendedComputeClassName(props as T);
 
-          const domProps: Record<string, any> = {};
-          for (const key in props) {
-            if (!key.startsWith("$")) {
-              domProps[key] = props[key];
-            }
+        const domProps: Record<string, any> = {};
+        for (const key in props) {
+          if (!key.startsWith("$")) {
+            domProps[key] = props[key];
           }
-
-          return createElement(baseTag, {
-            ...domProps,
-            className: combinedClassName,
-            ref,
-          });
         }
-      );
 
-      WrappedComponent.displayName = `Extended(${(baseComponent as BaseComponent<any>).displayName || 'Component'})`;
-      (WrappedComponent as any).__rscComputeClassName = extendedComputeClassName;
-      (WrappedComponent as any).__rscTag = baseTag;
+        return createElement(baseTag, {
+          ...domProps,
+          className: combinedClassName,
+          ref,
+        });
+      });
+
+      WrappedComponent.displayName = `Extended(${(baseComponent as RscBaseComponent<any>).displayName || "Component"})`;
+      WrappedComponent.__rscComputeClassName = extendedComputeClassName;
+      WrappedComponent.__rscTag = baseTag;
 
       return WrappedComponent;
     };
   }) as ExtendFunction;
 
   return rscTarget;
-}
+};
 
 export default attachExtend;

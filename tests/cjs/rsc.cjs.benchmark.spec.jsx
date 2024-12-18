@@ -1,10 +1,9 @@
 const React = require("react");
 const rsc = require("../../dist/index.cjs.js");
 const { render } = require("@testing-library/react");
-const stressConfig = require("../benchmark.config.js");
 
 describe("rsc (CJS) stress benchmark", () => {
-  const NUM_COMPONENTS = stressConfig.elementCount;
+  const NUM_COMPONENTS = 500;
 
   it(`rsc creation`, () => {
     const start = performance.now();

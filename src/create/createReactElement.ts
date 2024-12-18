@@ -1,11 +1,10 @@
 import {
   createElement,
   forwardRef,
-  ForwardRefExoticComponent,
   JSXElementConstructor,
-  PropsWithoutRef,
   RefAttributes,
 } from "react";
+import { RscBaseComponent } from "../types";
 
 /**
  * Creates a forwardRef render component with computed class names.
@@ -16,16 +15,13 @@ import {
  * @param computeClassName - A function to compute class names based on props.
  * @returns A forwardRef component with computed class names and filtered props.
  */
-const createForwardRef = <
+const createReactElement = <
   T extends object,
-  E extends
-  | keyof React.JSX.IntrinsicElements
-  | ForwardRefExoticComponent<unknown>
-  | JSXElementConstructor<unknown>,
+  E extends keyof React.JSX.IntrinsicElements | JSXElementConstructor<unknown>
 >(
   tag: E,
-  computeClassName: (props: T) => string,
-): ForwardRefExoticComponent<PropsWithoutRef<T> & RefAttributes<HTMLElement>> => {
+  computeClassName: (props: T) => string
+): RscBaseComponent<T> => {
   return forwardRef<HTMLElement, T & RefAttributes<HTMLElement>>((props, ref) => {
     const computedClassName = computeClassName(props as T);
 
@@ -49,4 +45,5 @@ const createForwardRef = <
   });
 };
 
-export default createForwardRef;
+export default createReactElement;
+

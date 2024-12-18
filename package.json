@@ -1,7 +1,7 @@
 {
   "name": "react-styled-classnames",
   "description": "A tool for managing react component class names and variants with the simplicity of styled-components. 🦭",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
@@ -66,10 +66,8 @@
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.4.2",
     "rollup": "^4.28.1",
-    "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild-minify": "^1.2.0",
     "ts-jest": "^29.2.5",
-    "tsd": "^0.31.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.1"
