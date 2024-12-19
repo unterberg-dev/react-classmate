@@ -1,8 +1,10 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import dts from "rollup-plugin-dts";
 import babel from "@rollup/plugin-babel";
-import { minify } from 'rollup-plugin-esbuild-minify'
+import dts from "rollup-plugin-dts";
+import { minify } from "rollup-plugin-esbuild-minify";
+import typescript from "@rollup/plugin-typescript";
+import del from "rollup-plugin-delete";
 
 export default [
   // ESM and CJS Builds
@@ -12,15 +14,16 @@ export default [
       {
         file: "dist/index.js",
         format: "esm",
-        sourcemap: true,
       },
       {
         file: "dist/index.cjs.js",
         format: "cjs",
-        sourcemap: true,
       },
     ],
     plugins: [
+      typescript({
+        tsconfig: "./tsconfig.json",
+      }),
       resolve({ extensions: [".js", ".jsx", ".ts", ".tsx"] }),
       commonjs(),
       babel({
@@ -31,13 +34,9 @@ export default [
     ],
     external: ["react", "react-dom"],
   },
-  // TypeScript Declarations
-  // {
-  //   input: "./dist/types.d.ts",
-  //   output: {
-  //     file: "./dist/index.d.ts",
-  //     format: "esm",
-  //   },
-  //   plugins: [dts()],
-  // },
+  {
+    input: "./dist/types/index.d.ts",
+    output: [{ file: "dist/index.d.ts", format: "esm" }],
+    plugins: [dts()],
+  },
 ];

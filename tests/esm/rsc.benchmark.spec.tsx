@@ -1,33 +1,46 @@
 import "@testing-library/jest-dom";
-import React from "react";
+import React, { InputHTMLAttributes } from "react";
 import { render } from "@testing-library/react";
-import rsc from "../../src/index";
-import stressConfig from "../benchmark.config";
+import rsc from "../../dist/index";
 
 describe("rsc stress benchmark", () => {
-  const NUM_COMPONENTS = stressConfig.elementCount;
+  const NUM_COMPONENTS = 50;
 
-  it(`rsc creation`, () => {
+  it(`rsc benchmark warmup`, () => {
     const start = performance.now();
 
     const RscDiv = rsc.div`bg-red p-4`;
-    const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => (
-      <RscDiv key={i} />
-    ));
+    const ReactDiv = (props: { className?: string }) => <div className={props.className} />;
+
+    // alternate between rsc and react components
+    const components = Array.from({ length: NUM_COMPONENTS }, (_, i) =>
+      i % 2 === 0 ? <RscDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />
+    );
 
     const { container } = render(<>{components}</>);
     const end = performance.now();
 
     expect(container.firstChild).toBeTruthy();
-    console.log(`${NUM_COMPONENTS}x rsc base: ${(end - start).toFixed(2)} ms`);
+    console.log(`000) ${NUM_COMPONENTS}x rsx and react elements - warmup: ${(end - start).toFixed(2)} ms`);
+  });
+
+  it(`rsc creation`, () => {
+    const start = performance.now();
+
+    const RscDiv = rsc.div`bg-red p-4`;
+    const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => <RscDiv key={i} />);
+
+    const { container } = render(<>{components}</>);
+    const end = performance.now();
+
+    expect(container.firstChild).toBeTruthy();
+    console.log(`A) ${NUM_COMPONENTS}x rsc base: ${(end - start).toFixed(2)} ms`);
   });
 
   it(`react creation`, () => {
     const start = performance.now();
 
-    const ReactDiv = (props: { className?: string }) => (
-      <div className={props.className} />
-    );
+    const ReactDiv = (props: { className?: string }) => <div className={props.className} />;
     const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => (
       <ReactDiv key={i} className="bg-red p-4" />
     ));
@@ -36,7 +49,7 @@ describe("rsc stress benchmark", () => {
     const end = performance.now();
 
     expect(container.firstChild).toBeTruthy();
-    console.log(`${NUM_COMPONENTS}x react base: ${(end - start).toFixed(2)} ms`);
+    console.log(`A) ${NUM_COMPONENTS}x react base: ${(end - start).toFixed(2)} ms`);
   });
 
   it(`rsc.extend`, () => {
@@ -56,31 +69,21 @@ describe("rsc stress benchmark", () => {
     `;
 
     const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => (
-      <ExtendedButton
-        key={i}
-        $isActive={i % 2 === 0}
-        $isDisabled={i % 3 === 0}
-      />
+      <ExtendedButton key={i} $isActive={i % 2 === 0} $isDisabled={i % 3 === 0} />
     ));
 
     const { container } = render(<>{components}</>);
     const end = performance.now();
 
     expect(container.firstChild).toBeTruthy();
-    console.log(`${NUM_COMPONENTS}x rsc base + rsc.extend: ${(end - start).toFixed(2)} ms`);
+    console.log(`B) ${NUM_COMPONENTS}x rsc base + rsc.extend: ${(end - start).toFixed(2)} ms`);
   });
 
   it(`react prop nesting`, () => {
     const start = performance.now();
 
     // Mimic the behavior of BaseButton and ExtendedButton
-    const BaseButton = ({
-      isActive,
-      className,
-    }: {
-      isActive: boolean;
-      className?: string;
-    }) => {
+    const BaseButton = ({ isActive, className }: { isActive: boolean; className?: string }) => {
       const baseClass = isActive ? "bg-active" : "bg-inactive";
       return <button className={`${baseClass} ${className || ""}`.trim()} />;
     };
@@ -108,17 +111,45 @@ describe("rsc stress benchmark", () => {
     };
 
     const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => (
-      <ExtendedButton
-        key={i}
-        $isActive={i % 2 === 0}
-        $isDisabled={i % 3 === 0}
-      />
+      <ExtendedButton key={i} $isActive={i % 2 === 0} $isDisabled={i % 3 === 0} />
     ));
 
     const { container } = render(<>{components}</>);
     const end = performance.now();
 
     expect(container.firstChild).toBeTruthy();
-    console.log(`${NUM_COMPONENTS}x react extend: ${(end - start).toFixed(2)} ms`);
+    console.log(`B) ${NUM_COMPONENTS}x react extend: ${(end - start).toFixed(2)} ms`);
+  });
+
+  it(`rsc extend variants`, () => {
+    const start = performance.now();
+
+    interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
+      $severity: "info" | "warning" | "error";
+      $isActive?: boolean;
+    }
+
+    const Alert = rsc.input.variants<ButtonProps>({
+      base: "p-4",
+      variants: {
+        $severity: {
+          info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+        },
+      },
+    });
+
+    const ExtendedButton = rsc.extend(Alert)<{ $test: boolean }>`
+      ${(p) => (p.$test ? "bg-green-100 text-green-800" : "")}
+    `;
+
+    const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => (
+      <ExtendedButton key={i} type="submit" $severity="info" $isActive $test />
+    ));
+
+    const { container } = render(<>{components}</>);
+    const end = performance.now();
+
+    expect(container.firstChild).toBeTruthy();
+    console.log(`C) ${NUM_COMPONENTS}x rsc variants: ${(end - start).toFixed(2)} ms`);
   });
 });

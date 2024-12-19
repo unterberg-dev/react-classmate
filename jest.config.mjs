@@ -1,8 +1,8 @@
 export default {
-  testEnvironment: "jsdom", // Simulates browser environment for React
+  testEnvironment: "jsdom",
   transform: {
-    "^.+\\.[tj]sx?$": "babel-jest", // Use Babel to process JS, JSX, TS, and TSX files
+    '^.+\\.(js|jsx|ts|tsx|cjs)$': 'babel-jest',
   },
-  moduleFileExtensions: ["js", "jsx", "ts", "tsx"], // Recognize these extensions
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"], // Point to the setup file
+  moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 };

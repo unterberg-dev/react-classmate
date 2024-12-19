@@ -64,6 +64,10 @@ const ButtonBase = rsc.button`
 
 - Integrate more tests focused on SSR and React
 - Interactive playground
+- `$` prefix should be optional (at least for variants)
+- Advanced IDE integration
+  - show generated default class on hover
+  - enforce autocompletion and tooltips from the used libs
 
 ### re-inventing the wheel?
 
@@ -138,18 +142,19 @@ const SomeButton = rsc.button<ButtonProps>`
 
 ## Create Variants
 
-Create variants by passing an object to the `variants` key. The key should match the prop name and the value should be a function that returns a string.
+Create variants by passing an object to the `variants` key like in [cva](https://cva.style/docs/getting-started/variants).
+The key should match the prop name and the value should be a function that returns a string. You could also re-use the props in the function.
 
 ```tsx
 interface AlertProps extends HTMLAttributes<HTMLDivElement> {
-  severity: "info" | "warning" | "error";
+  $severity: "info" | "warning" | "error";
   $isActive?: boolean;
 }
 
 const Alert = rsc.div.variants<AlertProps>({
   base: "p-4 rounded-md", // optional
   variants: {
-    severity: {
+    $severity: {
       info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
       warning: (p) => `bg-yellow-100 text-yellow-800 ${p.$isActive ? "font-bold" : ""}`,
       error: (p) => `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
@@ -157,10 +162,11 @@ const Alert = rsc.div.variants<AlertProps>({
   },
 });
 
-export default () => <Alert severity="info" $isActive />
-
+export default () => <Alert $severity="info" $isActive />
 // outputs: <div className="p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
 ```
+
+*due to a current limitiation the extension `... extends HTMLAttributes<HTMLDivElement>`is needed for the `variants` to infer the intrinsic props down to the implemented component*
 
 ## Receipes for `rsc.extend`
 
@@ -192,12 +198,12 @@ interface StyledSliderItemBaseProps {
 }
 
 const StyledSliderItemBase = rsc.button<StyledSliderItemBaseProps>`
-    absolute
-    h-full
-    w-full
-    left-0
-    top-0
-    ${p => (p.$active ? 'animate-in fade-in' : 'animate-out fade-out')}
+  absolute
+  h-full
+  w-full
+  left-0
+  top-0
+  ${p => (p.$active ? 'animate-in fade-in' : 'animate-out fade-out')}
 `
 
 interface NewStyledSliderItemProps extends StyledSliderItemBaseProps {
@@ -205,13 +211,14 @@ interface NewStyledSliderItemProps extends StyledSliderItemBaseProps {
 }
 
 const NewStyledSliderItemWithNewProps = rsc.extend(StyledSliderItemBase)<NewStyledSliderItemProps>`
-    rounded-lg
-    text-lg
-    ${p => (p.$active ? 'bg-blue' : 'bg-red')}
-    ${p => (p.$secondBool ? 'text-underline' : 'some-class-here')}
-  `
+  rounded-lg
+  text-lg
+  ${p => (p.$active ? 'bg-blue' : 'bg-red')}
+  ${p => (p.$secondBool ? 'text-underline' : 'some-class-here')}
+`
 
 export default () => <NewStyledSliderItemWithNewProps $active $secondBool={false} />
+// outputs: <button className="absolute h-full w-full left-0 top-0 animate-in fade-in rounded-lg text-lg bg-blue" />
 ```
 
 ### Use rsc for creating base component
@@ -225,7 +232,33 @@ const BaseButton = rsc.extend(rsc.button``)`
 `
 ```
 
+### extend from variants
+
+```tsx
+interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
+  $severity: "info" | "warning" | "error";
+  $isActive?: boolean;
+}
+
+const Alert = rsc.input.variants<ButtonProps>({
+  base: "p-4",
+  variants: {
+    $severity: {
+      info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+    },
+  },
+});
+
+const ExtendedButton = rsc.extend(Alert)<{ $test: boolean }>`
+  ${p => p.$test ? "bg-green-100 text-green-800" : ""}
+`
+
+export default () => <ExtendedButton $severity="info" $test />
+// outputs: <input className="p-4 bg-blue-100 text-blue-800 shadow-lg bg-green-100 text-green-800" />
+```
+
 ### custom mapping function for props
+* this is deprecated, since we have the extend function
 
 ```tsx
 interface NoteboxProps {

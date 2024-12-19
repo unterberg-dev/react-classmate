@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
-import React, { HTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
 import { render } from "@testing-library/react";
-import rsc from "../../src/index";
+import rsc from "../../dist/index";
 
 describe("rsc.extends", () => {
   it("extends the base component with new props", () => {
@@ -20,21 +20,22 @@ describe("rsc.extends", () => {
     }
 
     const NewStyledSliderItemWithNewProps = rsc.extend(
-      StyledSliderItemBase
+      StyledSliderItemBase,
     )<NewStyledSliderItemProps>`
       rounded-lg
       text-lg
       ${(p) => (p.$isActive ? "bg-blue" : "bg-red")}
-      ${(p) => (p.$secondBool ? "text-underline" : "some-class-here")}
+      ${(p) => (p.type === "button" ? "text-underline" : "some-class-here")}
     `;
 
     const { container } = render(
-      <NewStyledSliderItemWithNewProps $isActive={false} $secondBool />
+      <NewStyledSliderItemWithNewProps type="button" $isActive={false} $secondBool />,
     );
     expect(container.firstChild).toHaveClass(
-      "absolute top-0 animate-out fade-out rounded-lg text-lg bg-red text-underline"
+      "absolute top-0 animate-out fade-out rounded-lg text-lg bg-red text-underline",
     );
     expect(container.firstChild).not.toHaveAttribute("$isActive");
+    expect(container.firstChild).not.toHaveAttribute("$secondBool");
     expect(container.firstChild).toBeInstanceOf(HTMLButtonElement);
   });
 
@@ -49,9 +50,7 @@ describe("rsc.extends", () => {
   });
 
   it("extend a react component with an assigned class", () => {
-    const MyInput = ({ ...props }: HTMLAttributes<HTMLInputElement>) => (
-      <input {...props} />
-    );
+    const MyInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />;
 
     const StyledDiv = rsc.extend(MyInput)<{ $trigger?: boolean }>`
       bg-white

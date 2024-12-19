@@ -1,6 +1,5 @@
-import { ForwardRefExoticComponent, JSXElementConstructor } from "react";
-import { BaseComponent, Interpolation, JsxElements, MergeProps } from "../types";
-import createForwardRef from "./createForwardRef";
+import { RscBaseComponent, Interpolation, JsxElements, MergeProps, InputComponent } from "../types";
+import createReactElement from "./createReactElement";
 
 /**
  * Core function to create styled React components with dynamic class names.
@@ -17,12 +16,12 @@ import createForwardRef from "./createForwardRef";
  */
 const createRscComponent = <
   T extends object,
-  E extends keyof JsxElements | ForwardRefExoticComponent<any> | JSXElementConstructor<any>
+  E extends keyof JsxElements | InputComponent
 >(
   tag: E,
   strings: TemplateStringsArray,
   interpolations: Interpolation<MergeProps<E, T>>[]
-): BaseComponent<MergeProps<E, T>> => {
+): RscBaseComponent<MergeProps<E, T>> => {
   // Define the function to compute class names
   const computeClassName = (props: MergeProps<E, T>) => {
     const result = strings
@@ -39,18 +38,15 @@ const createRscComponent = <
     return result;
   };
 
-  const RenderComponent = createForwardRef(tag, computeClassName);
-
-  // debugging
+  // create
+  const RenderComponent = createReactElement(tag, computeClassName);
   RenderComponent.displayName = `Styled(${typeof tag === 'string' ? tag : 'Component'})`;
 
-  // attach metadata
-  // todo: create interface for RenderComponent instead of using any
-  (RenderComponent as any).__rscComputeClassName = computeClassName;
-  (RenderComponent as any).__rscTag = tag;
+  // extend
+  RenderComponent.__rscComputeClassName = computeClassName;
+  RenderComponent.__rscTag = tag;
 
-  return RenderComponent as BaseComponent<MergeProps<E, T>>;
+  return RenderComponent
 };
-
 
 export default createRscComponent;

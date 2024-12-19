@@ -1,10 +1,27 @@
 const React = require("react");
 const rsc = require("../../dist/index.cjs.js");
 const { render } = require("@testing-library/react");
-const stressConfig = require("../benchmark.config.js");
 
 describe("rsc (CJS) stress benchmark", () => {
-  const NUM_COMPONENTS = stressConfig.elementCount;
+  const NUM_COMPONENTS = 50;
+
+  it(`rsc (cjs) benchmark warmup`, () => {
+    const start = performance.now();
+
+    const RscDiv = rsc.div`bg-red p-4`;
+    const ReactDiv = (props) => <div className={props.className} />;
+
+    // alternate between rsc and react components
+    const components = Array.from({ length: NUM_COMPONENTS }, (_, i) =>
+      i % 2 === 0 ? <RscDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />
+    );
+
+    const { container } = render(<>{components}</>);
+    const end = performance.now();
+
+    expect(container.firstChild).toBeTruthy();
+    console.log(`000) ${NUM_COMPONENTS}x rsx and react elements - warmup: ${(end - start).toFixed(2)} ms`);
+  });
 
   it(`rsc creation`, () => {
     const start = performance.now();

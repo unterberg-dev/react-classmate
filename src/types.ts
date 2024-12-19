@@ -6,15 +6,6 @@ import {
 } from "react";
 
 /**
- * Validates the additional props `T` against the intrinsic element type `E`.
- *
- * @typeParam E - The intrinsic element type (e.g., 'div', 'button').
- * @typeParam T - The additional props to validate.
- */
-type Validator<E extends keyof JsxElements, T extends object> = T &
-  JsxElements[E];
-
-/**
  * interpolation type for "styled components".
  *
  * Interpolations can be:
@@ -25,6 +16,20 @@ type Validator<E extends keyof JsxElements, T extends object> = T &
  * @typeParam T - The type of the props passed to the interpolation function.
  */
 export type Interpolation<T> = string | boolean | ((props: T) => string) | null | undefined;
+
+/** InputComponent */
+export type InputComponent =  ForwardRefExoticComponent<any> | JSXElementConstructor<any>
+
+/**
+ * Base type for styled React components with forward refs.
+ *
+ * @typeParam P - Props of the component.
+ */
+export interface RscBaseComponent<P>
+  extends ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<HTMLElement>> {
+  __rscComputeClassName?: (props: P) => string;
+  __rscTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>;
+}
 
 /**
  * Extends a styled component or intrinsic element with additional props and interpolations.
@@ -53,20 +58,19 @@ export type ExtendFunction = {
    * `
    * ```
    */
-  <E extends ForwardRefExoticComponent<any> | JSXElementConstructor<any>>(
+  <E extends InputComponent, I extends keyof JsxElements>(
     component: E
   ): <T extends object>(
     strings: TemplateStringsArray,
-    ...interpolations: Interpolation<MergeProps<E, T>>[]
-  ) => BaseComponent<MergeProps<E, T>>;
-  <E extends ForwardRefExoticComponent<any> | JSXElementConstructor<any>, I extends keyof JsxElements>(
-    component: E,
-  ): <T extends object>(
-    strings: TemplateStringsArray,
-    ...interpolations: Array<Interpolation<Validator<I, T> & JsxElements[I]>>
-  ) => BaseComponent<Validator<I, T> & JsxElements[I]>;
+    ...interpolations: Interpolation<MergeProps<E, T> & JsxElements[I]>[]
+  ) => RscBaseComponent<MergeProps<E, T>>;
 };
 
+/**
+ * Configuration object for creating styled components with variants.
+ *
+ * @typeParam Props - The props of the component.
+ */
 export type VariantsConfig<Props extends object> = {
   base?: string;
   variants: {
@@ -79,10 +83,15 @@ export type VariantsConfig<Props extends object> = {
   };
 };
 
+/**
+ * Function for creating styled components with variants.
+ *
+ * @typeParam Props - The props of the component.
+ */
 type VariantsFunction = {
   <Props extends object>(
     config: VariantsConfig<Props>
-  ): BaseComponent<Props>;
+  ): RscBaseComponent<Props>;
 };
 
 /**
@@ -97,7 +106,7 @@ export type RscComponentFactory = {
     <T>(
       strings: TemplateStringsArray,
       ...interpolations: Interpolation<T>[]
-    ): BaseComponent<MergeProps<K, T>>;
+    ): RscBaseComponent<MergeProps<K, T>>;
     variants: VariantsFunction;
   };
 } & {
@@ -131,13 +140,5 @@ export type MergeProps<E, T> = E extends keyof JsxElements
   ? P2 & T
   : T;
 
-/**
- * Base type for styled React components with forward refs.
- *
- * @typeParam P - Props of the component.
- */
-export type BaseComponent<P> = ForwardRefExoticComponent<
-  PropsWithoutRef<P> & RefAttributes<HTMLElement>
->;
 
 export type Rsc = Partial<RscComponentFactory>

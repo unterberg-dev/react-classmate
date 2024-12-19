@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
-import React, { HTMLAttributes } from "react";
+import React, { HTMLAttributes, InputHTMLAttributes } from "react";
 import { render } from "@testing-library/react";
-import rsc from "../../src/index";
+import rsc from "../../dist/index";
 
 describe("rsc variants", () => {
     it("renders a rsc.div with assigned classes", () => {
@@ -23,34 +23,38 @@ describe("rsc variants", () => {
 
       const { container } = render(<Alert $severity="info" $isActive />);
       expect(container.firstChild).toHaveClass("p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg");
-      expect(container.firstChild).not.toHaveAttribute("$severity");
+      expect(container.firstChild).not.toHaveAttribute("severity");
       expect(container.firstChild).not.toHaveAttribute("$isActive");
       expect(container.firstChild).toBeInstanceOf(HTMLDivElement);
     });
   });
 
   describe("extend rsc variants component", () => {
-    it("renders a rsc.div with assigned classes", () => {
-      interface AlertProps extends HTMLAttributes<HTMLDivElement> {
-        severity: "info" | "warning" | "error";
+    it("renders a rsc.input with assigned classes", () => {
+      interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
+        $severity: "info" | "warning" | "error";
         $isActive?: boolean;
       }
 
-      const Alert = rsc.div.variants<AlertProps>({
+      const Alert = rsc.input.variants<ButtonProps>({
         base: "p-4",
         variants: {
-          severity: {
+          $severity: {
             info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
           },
         },
       });
 
-      const ExtendedAlert = rsc.extend(Alert)<{ $test: boolean }>`
+      const ExtendedButton = rsc.extend(Alert)<{ $test: boolean }>`
         ${p => p.$test ? "bg-green-100 text-green-800" : ""}
       `
 
-      const { container } = render(<ExtendedAlert severity="info" $isActive $test />);
+      const { container } = render(<ExtendedButton type="submit" $severity="info" $isActive $test />);
       expect(container.firstChild).toHaveClass("p-4 bg-blue-100 text-blue-800 shadow-lg bg-green-100 text-green-800");
-      expect(container.firstChild).toBeInstanceOf(HTMLDivElement);
+      expect(container.firstChild).not.toHaveAttribute("$severity");
+      expect(container.firstChild).not.toHaveAttribute("$isActive");
+      expect(container.firstChild).not.toHaveAttribute("$test");
+      expect(container.firstChild).toHaveAttribute("type");
+      expect(container.firstChild).toBeInstanceOf(HTMLInputElement);
     });
   });

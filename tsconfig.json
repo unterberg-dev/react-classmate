@@ -2,16 +2,15 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "declaration": true,
-    "declarationDir": "./dist",
+    "declarationDir": "./dist/types",
     "emitDeclarationOnly": true,
-    "outDir": "./dist",
     "types": ["@testing-library/jest-dom"],
     "module": "ESNext",
     "target": "ESNext",
     "strict": true,
     "moduleResolution": "bundler",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
