@@ -19,7 +19,7 @@ const rscWithExtend = attachExtend(rscTarget);
 const rscProxy = createProxy(rscWithExtend);
 
 /** set the trap */
-const rscFactory = new Proxy<Partial<RscComponentFactory>>(rscProxy, {
+const rsc = new Proxy<Partial<RscComponentFactory>>(rscProxy, {
   apply(
     _Factory,
     _thisArg,
@@ -73,4 +73,4 @@ const rscFactory = new Proxy<Partial<RscComponentFactory>>(rscProxy, {
  * `
  * ```
  */
-export default rscFactory as RscComponentFactory;
+export default rsc as RscComponentFactory;
