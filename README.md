@@ -327,19 +327,22 @@ const StyledDiv = rsc.extend(MyInput)<{ $trigger?: boolean }>`
 Unfortunately we cannot infer the type directly of the component if it's `any` or loosely typed. But we can use a intermediate step to pass the type to the `extend` function.
 
 ```tsx
+import { ComponentProps } from 'react'
+import { MapContainer } from 'react-leaflet'
 import { Field, FieldConfig } from 'formik'
+import rsc, { RscBaseComponent } from 'react-styled-classnames'
 
-type FieldComponentProps = ComponentProps<'input'> & FieldConfig
-const FieldComponent = ({ ...props }: FieldComponentProps) => <Field {...props} />
-
-const StyledField = rsc.extend(FieldComponent)<{ $error: boolean }>`
-  theme-form-field
+// we need to cast the type to ComponentProps
+type StyledMapContainerType = ComponentProps<typeof MapContainer>
+const StyledMapContainer: RscBaseComponent<StyledMapContainerType> = rsc.extend(MapContainer)`
+  absolute
+  h-full
   w-full
-  ....
-  ${p => (p.$error ? '!border-error' : '')}
+  text-white
+  outline-0
 `
 
-export const Component = () => <StyledField placeholder="placeholder" as="select" name="name" $error />
+export const Component = () => <StyledMapContainer bounds={...} />
 ```
 
 ⚠️ This is a workaround! This is a *bug* - we should be able to cast the type directly in the interface in which we pass `$error`. Contributions welcome.
