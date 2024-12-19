@@ -4,7 +4,6 @@ import babel from "@rollup/plugin-babel";
 import dts from "rollup-plugin-dts";
 import { minify } from "rollup-plugin-esbuild-minify";
 import typescript from "@rollup/plugin-typescript";
-import del from "rollup-plugin-delete";
 
 export default [
   // ESM and CJS Builds
