@@ -2,7 +2,6 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import babel from "@rollup/plugin-babel";
 import dts from "rollup-plugin-dts";
-import { minify } from "rollup-plugin-esbuild-minify";
 import typescript from "@rollup/plugin-typescript";
 
 export default [
@@ -29,7 +28,6 @@ export default [
         babelHelpers: "bundled",
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       }),
-      minify(),
     ],
     external: ["react", "react-dom"],
   },
