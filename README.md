@@ -152,7 +152,12 @@ interface AlertProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const Alert = rsc.div.variants<AlertProps>({
-  base: "p-4 rounded-md", // optional
+  // optional but dynamic
+  base: p => `
+    ${isActive ? 'custom-active' : 'custom-inactive'}
+    p-4
+    rounded-md
+  `,
   variants: {
     $severity: {
       info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
@@ -163,7 +168,7 @@ const Alert = rsc.div.variants<AlertProps>({
 });
 
 export default () => <Alert $severity="info" $isActive />
-// outputs: <div className="p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
+// outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
 ```
 
 *due to a current limitiation the extension `... extends HTMLAttributes<HTMLDivElement>`is needed for the `variants` to infer the intrinsic props down to the implemented component*

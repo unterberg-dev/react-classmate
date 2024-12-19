@@ -1,4 +1,4 @@
-import { Rsc, RscComponentFactory } from "./types";
+import { InputComponent, Interpolation, RscComponentFactory } from "./types";
 import createRscComponent from "./create/createRscComponent";
 import attachExtend from "./middleware/extend";
 import { createProxy } from "./proxy";
@@ -10,7 +10,7 @@ import { createProxy } from "./proxy";
  * - Functions for intrinsic elements (e.g., `rsc.div`, `rsc.button`).
  * - The `extend` method for extending existing styled components.
  */
-const rscTarget: Rsc = {};
+const rscTarget: Partial<RscComponentFactory> = {};
 
 // extend middleware
 const rscWithExtend = attachExtend(rscTarget);
@@ -19,13 +19,22 @@ const rscWithExtend = attachExtend(rscTarget);
 const rscProxy = createProxy(rscWithExtend);
 
 /** set the trap */
-const rscFactory = new Proxy(rscProxy, {
-  apply: (_Factory, [tag, strings, ...interpolations]) =>
-    createRscComponent(tag, strings, interpolations),
-});
+const rscFactory = new Proxy<Partial<RscComponentFactory>>(rscProxy, {
+  apply(
+    _Factory,
+    _thisArg,
+    [tag, strings, ...interpolations]: [
+      keyof JSX.IntrinsicElements | InputComponent,
+      TemplateStringsArray,
+      ...Interpolation<any>[]
+    ]
+  ) {
+    return createRscComponent(tag, strings, interpolations);
+  },
+}) as RscComponentFactory;
 
 /**
- * The `rsc` object is the main entry point for creating styled components using intrinsic HTML elements or existing React components.
+ * The `rsc` instance is the main entry point for creating our "styled components" using intrinsic HTML elements or existing React components.
  *
  * It provides:
  * - A collection of functions for each intrinsic HTML element (e.g., `rsc.div`, `rsc.span`, `rsc.button`, etc.)
@@ -64,5 +73,4 @@ const rscFactory = new Proxy(rscProxy, {
  * `
  * ```
  */
-const rsc = rscFactory as RscComponentFactory;
-export default rsc;
+export default rscFactory as RscComponentFactory;

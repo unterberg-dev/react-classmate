@@ -17,7 +17,7 @@ import { RscBaseComponent } from "../types";
  */
 const createReactElement = <
   T extends object,
-  E extends keyof React.JSX.IntrinsicElements | JSXElementConstructor<unknown>
+  E extends keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>
 >(
   tag: E,
   computeClassName: (props: T) => string

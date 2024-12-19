@@ -12,22 +12,24 @@ const createRscVariantComponent = <
   const { base, variants } = config;
 
   const computeClassName = (props: MergeProps<E, T>) => {
-    const baseClasses = base;
+    // Compute base classes (can be static or dynamic)
+    const baseClasses =
+      typeof base === "function" ? base(props) : base || "";
 
     const variantClasses = Object.entries(variants).map(([key, variantOptions]) => {
       const propValue = props[key as keyof T];
       const variantClass = variantOptions?.[propValue as string];
 
-      if (typeof variantClass === 'function') {
+      if (typeof variantClass === "function") {
         return variantClass(props);
       }
 
-      return variantClass || '';
+      return variantClass || "";
     });
 
     return [baseClasses, ...variantClasses]
       .filter(Boolean)
-      .join(' ')
+      .join(" ")
       .trim();
   };
 

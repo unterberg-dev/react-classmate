@@ -19,7 +19,7 @@ import {
 export type Interpolation<T> = string | boolean | ((props: T) => string) | null | undefined;
 
 /** InputComponent */
-export type InputComponent =  ForwardRefExoticComponent<any> | JSXElementConstructor<any>
+export type InputComponent = ForwardRefExoticComponent<any> | JSXElementConstructor<any>
 
 /**
  * Base type for styled React components with forward refs.
@@ -67,21 +67,34 @@ export type ExtendFunction = {
   ) => RscBaseComponent<MergeProps<E, T>>;
 };
 
+type VariantsConfigBase<Props> = string | ((props: Props) => string)
+
+type VariantsConfigVariants<Props> = {
+  [Key in keyof Props]?: Record<
+    string,
+    string | ((props: Props) => string)
+  >;
+} & {
+  [key: string]: Record<string, string | ((props: Props) => string)>;
+};
+
 /**
  * Configuration object for creating styled components with variants.
  *
  * @typeParam Props - The props of the component.
  */
 export type VariantsConfig<Props extends object> = {
-  base?: string;
-  variants: {
-    [Key in keyof Props]?: Record<
-      string,
-      string | ((props: Props) => string)
-    >;
-  } & {
-    [key: string]: Record<string, string | ((props: Props) => string)>;
-  };
+  /**
+   * The base classes for the styled component.
+   * This can be a static string or a function that returns a string based on the component's props.
+   * If not provided, the base classes are empty.
+   */
+  base?: VariantsConfigBase<Props>;
+  /**
+   * The variants object defines the classes for each prop value.
+   * The keys are the prop names, and the values are objects with class names or functions that return class names.
+   */
+  variants: VariantsConfigVariants<Props>;
 };
 
 /**
@@ -90,11 +103,41 @@ export type VariantsConfig<Props extends object> = {
  * @typeParam Props - The props of the component.
  */
 type VariantsFunction = {
+  /**
+   * The variants function allows you to create a styled component with variants.
+   *
+    * @param config - The configuration object for creating variants.
+    * @returns A styled component with variants based on the configuration object.
+    * @example
+    * ```tsx
+    * interface AlertProps extends HTMLAttributes<HTMLDivElement> {
+    *   $severity: "info" | "warning" | "error";
+    *   $isActive?: boolean;
+    * }
+    *
+    * const Alert = rsc.div.variants<AlertProps>({
+    *   base: p => `${p.$isActive ? "pointer-cursor" : ""} p-4 rounded-md`,
+    *   variants: {
+    *     $severity: {
+    *       info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+    *       warning: (p) => `bg-yellow-100 text-yellow-800 ${p.$isActive ? "font-bold" : ""}`,
+    *       error: (p) => `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
+    *     },
+    *   },
+    * });
+    *
+    * export default () => <Alert $severity="info" $isActive />
+    * // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
+    *
+   */
   <Props extends object>(
     config: VariantsConfig<Props>
   ): RscBaseComponent<Props>;
 };
 
+/**
+ * Factory for creating styled components with intrinsic elements.
+ */
 export type RscComponentFactory = {
   [K in keyof JSX.IntrinsicElements]: {
     <T>(
@@ -115,7 +158,7 @@ export type RscComponentFactory = {
  *
  * @typeParam P - The type of the component to extract props from.
  */
-export type InnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<unknown> ? U : P;
+export type InnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any> ? U : P;
 
 /**
  * Merges additional props with the base props of a given component or intrinsic element.
@@ -130,6 +173,3 @@ export type MergeProps<E, T> = E extends keyof JSX.IntrinsicElements
   : E extends JSXElementConstructor<infer P2>
   ? P2 & T
   : T;
-
-
-export type Rsc = Partial<RscComponentFactory>
