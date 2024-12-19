@@ -71,7 +71,7 @@ const ButtonBase = rsc.button`
 
 ### re-inventing the wheel?
 
-Kind of, while [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-components, and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component) isn’t fully compatible with [Vike](https://vike.dev/) - [See Issue here](https://vike.dev/broken-npm-package) -  I wrote my own version to fit my needs.
+Kind of, while [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-components, and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component) isn’t fully compatible with [Vike](https://vike.dev/) - [See Issue here](https://vike.dev/broken-npm-package) -  I wrote my own version to fit my needs and extended it slightly with the [variants](https://cva.style/docs/getting-started/variants) feature as seen in [cva](https://cva.style/docs/getting-started/variants).
 
 ## Getting started
 

@@ -1,6 +1,7 @@
 import createRscComponent from "./create/createRscComponent";
 import createRscVariantComponent from "./create/createRscVariantComponent";
-import { Interpolation, JsxElements, RscComponentFactory, VariantsConfig } from "./types";
+import { Interpolation, RscComponentFactory, VariantsConfig } from "./types";
+import { JSX } from "react";
 
 /**
  * Returns a proxy object that dynamically handles intrinsic element methods (e.g., `rsc.div`, `rsc.button`)
@@ -20,14 +21,14 @@ export const createProxy = (rscTarget: Partial<RscComponentFactory> = {}) => new
       strings: TemplateStringsArray,
       ...interpolations: Interpolation<T>[]
     ) =>
-      createRscComponent<T, keyof JsxElements>(
-        prop as keyof JsxElements,
+      createRscComponent<T, keyof JSX.IntrinsicElements>(
+        prop as keyof JSX.IntrinsicElements,
         strings,
         interpolations
       );
 
     factoryFunction.variants = <T extends object>(config: VariantsConfig<T>) =>
-      createRscVariantComponent(prop as keyof JsxElements, config);
+      createRscVariantComponent(prop as keyof JSX.IntrinsicElements, config);
 
     return factoryFunction;
   },

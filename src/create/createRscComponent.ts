@@ -1,5 +1,6 @@
-import { RscBaseComponent, Interpolation, JsxElements, MergeProps, InputComponent } from "../types";
+import { RscBaseComponent, Interpolation, MergeProps, InputComponent } from "../types";
 import createReactElement from "./createReactElement";
+import { JSX } from "react";
 
 /**
  * Core function to create styled React components with dynamic class names.
@@ -16,7 +17,7 @@ import createReactElement from "./createReactElement";
  */
 const createRscComponent = <
   T extends object,
-  E extends keyof JsxElements | InputComponent
+  E extends keyof JSX.IntrinsicElements | InputComponent
 >(
   tag: E,
   strings: TemplateStringsArray,

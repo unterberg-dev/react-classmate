@@ -1,9 +1,10 @@
-import { RscBaseComponent, JsxElements, MergeProps, VariantsConfig, InputComponent } from "../types";
+import { RscBaseComponent, MergeProps, VariantsConfig, InputComponent } from "../types";
 import createReactElement from "./createReactElement";
+import { JSX } from "react";
 
 const createRscVariantComponent = <
   T extends object,
-  E extends keyof JsxElements | InputComponent
+  E extends keyof JSX.IntrinsicElements | InputComponent
 >(
   tag: E,
   config: VariantsConfig<T>

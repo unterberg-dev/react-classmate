@@ -3,6 +3,7 @@ import {
   JSXElementConstructor,
   PropsWithoutRef,
   RefAttributes,
+  JSX,
 } from "react";
 
 /**
@@ -58,11 +59,11 @@ export type ExtendFunction = {
    * `
    * ```
    */
-  <E extends InputComponent, I extends keyof JsxElements>(
+  <E extends InputComponent, I extends keyof JSX.IntrinsicElements>(
     component: E
   ): <T extends object>(
     strings: TemplateStringsArray,
-    ...interpolations: Interpolation<MergeProps<E, T> & JsxElements[I]>[]
+    ...interpolations: Interpolation<MergeProps<E, T> & JSX.IntrinsicElements[I]>[]
   ) => RscBaseComponent<MergeProps<E, T>>;
 };
 
@@ -94,15 +95,8 @@ type VariantsFunction = {
   ): RscBaseComponent<Props>;
 };
 
-/**
- * The main factory object for creating styled components.
- *
- * Includes:
- * - Functions for each intrinsic HTML element (e.g., `rsc.div`, `rsc.span`, etc.).
- * - An `extend` method for extending components.
- */
 export type RscComponentFactory = {
-  [K in keyof JsxElements]: {
+  [K in keyof JSX.IntrinsicElements]: {
     <T>(
       strings: TemplateStringsArray,
       ...interpolations: Interpolation<T>[]
@@ -112,9 +106,6 @@ export type RscComponentFactory = {
 } & {
   extend: ExtendFunction;
 };
-
-/** Alias => Intrinsic react elements */
-export type JsxElements = React.JSX.IntrinsicElements
 
 /**
  * Extracts the inner props of a component.
@@ -132,8 +123,8 @@ export type InnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<u
  * @typeParam E - The base component type or intrinsic element.
  * @typeParam T - Additional props to merge with the base props.
  */
-export type MergeProps<E, T> = E extends keyof JsxElements
-  ? JsxElements[E] & T
+export type MergeProps<E, T> = E extends keyof JSX.IntrinsicElements
+  ? JSX.IntrinsicElements[E] & T
   : E extends ForwardRefExoticComponent<infer P>
   ? InnerProps<P> & T
   : E extends JSXElementConstructor<infer P2>
