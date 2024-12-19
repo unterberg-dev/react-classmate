@@ -20,7 +20,6 @@ export type Interpolation<T> = string | boolean | ((props: T) => string) | null 
 
 /** InputComponent */
 export type InputComponent = ForwardRefExoticComponent<any> | JSXElementConstructor<any>
-
 /**
  * Base type for styled React components with forward refs.
  *
