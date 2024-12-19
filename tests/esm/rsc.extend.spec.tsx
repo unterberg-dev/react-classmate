@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import React, { InputHTMLAttributes } from "react";
 import { render } from "@testing-library/react";
-import rsc from "../../src/index";
+import rsc from "../../dist/index";
 
 describe("rsc.extends", () => {
   it("extends the base component with new props", () => {

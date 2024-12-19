@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import React, { HTMLAttributes, InputHTMLAttributes } from "react";
 import { render } from "@testing-library/react";
-import rsc from "../../src/index";
+import rsc from "../../dist/index";
 
 describe("rsc variants", () => {
     it("renders a rsc.div with assigned classes", () => {
