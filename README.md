@@ -62,8 +62,8 @@ const ButtonBase = rsc.button`
 
 ## Upcoming
 
-- Integrate more tests focused on SSR and React
-- Interactive playground
+- Variants for `rsc.extend` -> V 1.0
+- Integrate more tests focused on SSR and React -> V 1.0
 - `$` prefix should be optional (at least for variants)
 - Advanced IDE integration
   - show generated default class on hover
@@ -343,6 +343,22 @@ const StyledMapContainer: RscBaseComponent<StyledMapContainerType> = rsc.extend(
 `
 
 export const Component = () => <StyledMapContainer bounds={...} />
+
+// or with Formik
+
+import { Field, FieldConfig } from 'formik'
+
+type FieldComponentProps = ComponentProps<'input'> & FieldConfig
+const FieldComponent = ({ ...props }: FieldComponentProps) => <Field {...props} />
+
+const StyledField = rsc.extend(FieldComponent)<{ $error: boolean }>`
+  theme-form-field
+  w-full
+  ....
+  ${p => (p.$error ? '!border-error' : '')}
+`
+
+export const Component = () => <StyledField placeholder="placeholder" as="select" name="name" $error />
 ```
 
 ⚠️ This is a workaround! This is a *bug* - we should be able to cast the type directly in the interface in which we pass `$error`. Contributions welcome.
