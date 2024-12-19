@@ -67,7 +67,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.4.2",
     "rollup": "^4.28.1",
-    "rollup-plugin-delete": "^2.1.0",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild-minify": "^1.2.0",
     "ts-jest": "^29.2.5",
