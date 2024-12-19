@@ -9,5 +9,5 @@ fs.writeFileSync("./dist/index.d.ts", content, "utf-8");
 console.log("Patched index.d.ts to replace _default with rsc.");
 
 // Remove the types folder
-fs.rmSync("./dist/types", { recursive: true });
+fs.rmSync("./dist/types", { recursive: true, force: true });
 console.log("Removed dist/types folder.");
