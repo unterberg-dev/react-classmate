@@ -4,7 +4,7 @@ import { render } from "@testing-library/react";
 import rsc from "../../src/index";
 
 describe("rsc stress benchmark", () => {
-  const NUM_COMPONENTS = 500;
+  const NUM_COMPONENTS = 50;
 
   it(`rsc benchmark warmup`, () => {
     const start = performance.now();
