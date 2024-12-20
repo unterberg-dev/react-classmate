@@ -2,3 +2,6 @@
 node_modules
 dist
 .npmrc
+
+# local packages - only use for local development
+.localPack
