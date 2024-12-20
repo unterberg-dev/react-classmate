@@ -14,7 +14,7 @@ const SomeButton = ({ isLoading, ...props }) => {
   return (
     <button
       {...props}
-      className={`transition-all mt-5 border-1 md:text-lg text-normal ${someConfig.transitionDurationEaseClass} ${loadingClass} ${props.className || ''}`}
+      className={`transition-all mt-5 border-1 md:text-lg text-normal ${someConfig.transitionDurationEaseClass} ${activeClass} ${props.className || ''}`}
     >
       {props.children}
     </button>
@@ -360,10 +360,10 @@ export const Component = () => <StyledField placeholder="placeholder" as="select
 - Variants for `rsc.extend`
 - `$` prefix should be optional (at least for variants) ✅
 - default variants ✅
-- Integrate more tests focused on SSR and React
 
 #### Backlog
 
+- Integrate more tests focused on SSR and React
 - Advanced IDE integration
   - show generated default class on hover
   - enforce autocompletion and tooltips from the used libs
