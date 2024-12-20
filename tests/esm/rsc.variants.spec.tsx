@@ -95,7 +95,9 @@ describe("extend rsc variants component", () => {
       `;
 
       const { container } = render(
-        <ExtendedButton type="submit" $size="small" $noGutter $border />,
+        <ExtendedButton type="submit" $size="small" $noGutter $border>
+          Hey
+        </ExtendedButton>,
       );
       expect(container.firstChild).toHaveClass(
         "px-3 py-2 flex items-center justify-center gap-1 text-small border",
@@ -105,6 +107,41 @@ describe("extend rsc variants component", () => {
       expect(container.firstChild).not.toHaveAttribute("$border");
       expect(container.firstChild).toHaveAttribute("type");
       expect(container.firstChild).toBeInstanceOf(HTMLDivElement);
+    });
+  });
+
+  describe("use variants component with defaultValues", () => {
+    const SomeButtonRscVariants = rsc.button.variants({
+      base: `
+          mt-5
+          border-1
+          transition-all
+        `,
+      variants: {
+        state: {
+          default: "bg-blue-800 text-blue-200",
+          loading: "bg-blue-400 text-white opacity-90 pointer-events-none",
+        },
+        size: {
+          sm: "text-sm py-1 px-2",
+          md: "text-base py-2 px-4",
+          lg: "text-lg py-3 px-6",
+        },
+      },
+      defaultVariants: {
+        state: "default",
+        size: "md",
+      },
+    });
+
+    it("renders a button with default values", () => {
+      const { container } = render(<SomeButtonRscVariants state="default">test</SomeButtonRscVariants>);
+      expect(container.firstChild).toHaveClass(
+        "mt-5 border-1 transition-all bg-blue-800 text-blue-200 text-base py-2 px-4",
+      );
+      expect(container.firstChild).not.toHaveAttribute("state");
+      expect(container.firstChild).not.toHaveAttribute("size");
+      expect(container.firstChild).toBeInstanceOf(HTMLButtonElement);
     });
   });
 });

@@ -39,7 +39,7 @@ const ButtonBase = rsc.button`
 ## Features
 
 - Dynamic class names
-- Add Variants
+- Variants
 - Extend components
 - React, no other dependencies
 - TypeScript support
@@ -60,20 +60,9 @@ const ButtonBase = rsc.button`
   - [Extending other lib components / Juggling with components that are `any`](#extending-other-lib-components--juggling-with-components-that-are-any)
 - [Version 1 Users](#version-1)
 
-## Upcoming
-
-- Variants for `rsc.extend` -> V 1.0
-- Integrate more tests focused on SSR and React -> V 1.0
-- `$` prefix should be optional (at least for variants)
-- Advanced IDE integration
-  - show generated default class on hover
-  - enforce autocompletion and tooltips from the used libs
-
 ### re-inventing the wheel?
 
 Yes kind of, while [twin.macro](https://github.com/ben-rogerson/twin.macro) requires styled-components, and [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component) isn’t fully compatible with [Vike](https://vike.dev/) - [See Issue here](https://vike.dev/broken-npm-package).
-
-I wrote my own version to fit my needs and extended it slightly with the [variants](#create-variants) feature as seen as inspiration in [cva](https://cva.style/docs/getting-started/variants).
 
 ## Getting started
 
@@ -126,7 +115,6 @@ interface ButtonProps {
   $isActive?: boolean
   $isLoading?: boolean
 }
-
 const SomeButton = rsc.button<ButtonProps>`
   text-lg
   mt-5
@@ -152,14 +140,14 @@ interface AlertProps extends HTMLAttributes<HTMLDivElement> {
   $severity: "info" | "warning" | "error";
   $isActive?: boolean;
 }
-
 const Alert = rsc.div.variants<AlertProps>({
-  // optional but dynamic
+  // optional
   base: p => `
     ${isActive ? 'custom-active' : 'custom-inactive'}
     p-4
     rounded-md
   `,
+  // required
   variants: {
     $severity: {
       info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
@@ -167,6 +155,10 @@ const Alert = rsc.div.variants<AlertProps>({
       error: (p) => `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
     },
   },
+  // optional - used if no variant was found
+  defaultVariant: {
+    $severity: "info",
+  }
 });
 
 export default () => <Alert $severity="info" $isActive />
@@ -203,7 +195,6 @@ import rsc from 'react-styled-classnames'
 interface StyledSliderItemBaseProps {
   $active: boolean
 }
-
 const StyledSliderItemBase = rsc.button<StyledSliderItemBaseProps>`
   absolute
   h-full
@@ -216,7 +207,6 @@ const StyledSliderItemBase = rsc.button<StyledSliderItemBaseProps>`
 interface NewStyledSliderItemProps extends StyledSliderItemBaseProps {
   $secondBool: boolean
 }
-
 const NewStyledSliderItemWithNewProps = rsc.extend(StyledSliderItemBase)<NewStyledSliderItemProps>`
   rounded-lg
   text-lg
@@ -363,7 +353,22 @@ export const Component = () => <StyledField placeholder="placeholder" as="select
 
 ⚠️ This is a workaround! This is a *bug* - we should be able to cast the type directly in the interface in which we pass `$error`. Contributions welcome.
 
-## Version 1
+## Upcoming
+
+#### V1
+- rename `rsc` (abbreviation for `react server components`) to react-classmate - rc -  `rc.div` / `rc.extends(...)`
+- Variants for `rsc.extend`
+- `$` prefix should be optional (at least for variants) ✅
+- default variants ✅
+- Integrate more tests focused on SSR and React
+
+#### Backlog
+
+- Advanced IDE integration
+  - show generated default class on hover
+  - enforce autocompletion and tooltips from the used libs
+
+## Version > 0.1
 
 👋 Due to bundle size I removed V1 from this package. it's still available, but unmaintained under this package: https://www.npmjs.com/package/react-dynamic-classnames
 

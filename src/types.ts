@@ -69,12 +69,7 @@ export type ExtendFunction = {
 type VariantsConfigBase<Props> = string | ((props: Props) => string)
 
 type VariantsConfigVariants<Props> = {
-  [Key in keyof Props]?: Record<
-    string,
-    string | ((props: Props) => string)
-  >;
-} & {
-  [key: string]: Record<string, string | ((props: Props) => string)>;
+  [Key in keyof Props]?: Record<string, string | ((props: Props) => string)>;
 };
 
 /**
@@ -94,6 +89,15 @@ export type VariantsConfig<Props extends object> = {
    * The keys are the prop names, and the values are objects with class names or functions that return class names.
    */
   variants: VariantsConfigVariants<Props>;
+
+  /**
+   * Default variants to apply if a variant prop is not passed.
+   * For example, if you have a variant `size` and a default variant value of `md`,
+   * it will use `md` if no explicit `size` prop is provided.
+   */
+  defaultVariants?: Partial<{
+    [K in keyof Props]: string;
+  }>;
 };
 
 /**
@@ -101,7 +105,7 @@ export type VariantsConfig<Props extends object> = {
  *
  * @typeParam Props - The props of the component.
  */
-type VariantsFunction = {
+type VariantsFunction<K> = {
   /**
    * The variants function allows you to create a styled component with variants.
    *
@@ -109,7 +113,7 @@ type VariantsFunction = {
     * @returns A styled component with variants based on the configuration object.
     * @example
     * ```tsx
-    * interface AlertProps extends HTMLAttributes<HTMLDivElement> {
+    * interface AlertProps {
     *   $severity: "info" | "warning" | "error";
     *   $isActive?: boolean;
     * }
@@ -129,9 +133,9 @@ type VariantsFunction = {
     * // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
     *
    */
-  <Props extends object>(
-    config: VariantsConfig<Props>
-  ): RscBaseComponent<Props>;
+  <VariantProps extends object>(
+    config: VariantsConfig<VariantProps>
+  ): RscBaseComponent<MergeProps<K, Partial<VariantProps>>>;
 };
 
 /**
@@ -143,7 +147,12 @@ export type RscComponentFactory = {
       strings: TemplateStringsArray,
       ...interpolations: Interpolation<T>[]
     ): RscBaseComponent<MergeProps<K, T>>;
-    variants: VariantsFunction;
+
+    variants: VariantsFunction<K>;
+
+    // variants: <VariantProps extends object>(
+    //   config: VariantsConfig<VariantProps>
+    // ) => RscBaseComponent<MergeProps<K, Partial<VariantProps>>>;
   };
 } & {
   extend: ExtendFunction;

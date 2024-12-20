@@ -20,15 +20,16 @@ const createReactElement = <
   E extends keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>
 >(
   tag: E,
-  computeClassName: (props: T) => string
+  computeClassName: (props: T) => string,
+  propsToFilter: (keyof T)[] = []
 ): RscBaseComponent<T> => {
   return forwardRef<HTMLElement, T & RefAttributes<HTMLElement>>((props, ref) => {
     const computedClassName = computeClassName(props as T);
 
-    // Filter out $-prefixed props for the DOM
+    // Filter out $-prefixed props and any props in propsToFilter
     const domProps: Record<string, unknown> = {};
     for (const key in props) {
-      if (!key.startsWith("$")) {
+      if (!key.startsWith("$") && !propsToFilter.includes(key as unknown as keyof T)) {
         domProps[key] = props[key];
       }
     }

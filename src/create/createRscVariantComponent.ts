@@ -8,17 +8,19 @@ const createRscVariantComponent = <
 >(
   tag: E,
   config: VariantsConfig<T>
-): RscBaseComponent<MergeProps<E, T>> => {
-  const { base, variants } = config;
+): RscBaseComponent<MergeProps<E, Partial<T>>> => {
+  const { base, variants, defaultVariants = {} } = config;
 
-  const computeClassName = (props: MergeProps<E, T>) => {
+  const computeClassName = (props: MergeProps<E, Partial<T>>) => {
     // Compute base classes (can be static or dynamic)
     const baseClasses =
       typeof base === "function" ? base(props) : base || "";
 
     const variantClasses = Object.entries(variants).map(([key, variantOptions]) => {
-      const propValue = props[key as keyof T];
-      const variantClass = variantOptions?.[propValue as string];
+      const propValue = props[key] ??
+        (defaultVariants as Record<string, string | undefined>)[key];
+
+      const variantClass = propValue ? (variantOptions as Record<string, any>)?.[propValue] : undefined;
 
       if (typeof variantClass === "function") {
         return variantClass(props);
@@ -33,15 +35,19 @@ const createRscVariantComponent = <
       .trim();
   };
 
+  const variantKeys = Object.keys(variants) as (keyof T)[];
+
   // create
-  const RenderComponent = createReactElement(tag, computeClassName);
+  const RenderComponent = createReactElement(tag, computeClassName, variantKeys);
   RenderComponent.displayName = `Variants(${typeof tag === 'string' ? tag : 'Component'})`;
 
   // extend
   RenderComponent.__rscComputeClassName = computeClassName;
   RenderComponent.__rscTag = tag;
 
-  return RenderComponent
+  // make all properties of T optional for the output component
+
+  return RenderComponent as RscBaseComponent<MergeProps<E, Partial<T>>>;
 };
 
 export default createRscVariantComponent;
