@@ -1,22 +1,16 @@
 // createExtendedComponent.ts
 
-import {
-  RcBaseComponent,
-  Interpolation,
-  InputComponent
-} from "../types";
+import { RcBaseComponent, Interpolation, InputComponent } from "../types";
 import createReactElement from "../util/createReactElement";
 
 /**
  * Create an extended component builder.
  * Merges the base component’s computed class names with the new interpolations.
  */
-function createExtendedComponent<
-  T extends object
->(
+function createExtendedComponent<T extends object>(
   baseComponent: RcBaseComponent<any> | InputComponent,
   strings: TemplateStringsArray,
-  interpolations: Interpolation<T>[]
+  interpolations: Interpolation<T>[],
 ): RcBaseComponent<T> {
   // Retrieve any existing computeClassName from the base
   const baseComputeClassName =
@@ -33,9 +27,7 @@ function createExtendedComponent<
     const extendedClassName = strings
       .map((str, i) => {
         const interp = interpolations[i];
-        return typeof interp === "function"
-          ? str + interp(props)
-          : str + (interp ?? "");
+        return typeof interp === "function" ? str + interp(props) : str + (interp ?? "");
       })
       .join("")
       .replace(/\s+/g, " ")
@@ -45,9 +37,7 @@ function createExtendedComponent<
   };
 
   // Build the final extended component
-  const label = `Extended(${
-    (baseComponent as RcBaseComponent<any>).displayName || "Component"
-  })`;
+  const label = `Extended(${(baseComponent as RcBaseComponent<any>).displayName || "Component"})`;
 
   return createReactElement(baseTag, extendedComputeClassName, label) as RcBaseComponent<T>;
 }

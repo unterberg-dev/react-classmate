@@ -18,7 +18,7 @@ describe("rc base", () => {
     const { container } = render(<HiddenButton aria-label="testlabel" $hidden />);
     expect(container.firstChild).not.toHaveAttribute("$hidden");
     expect(container.firstChild).toHaveClass("text-blue custom");
-    expect(container.firstChild).toHaveAttribute("aria-label")
+    expect(container.firstChild).toHaveAttribute("aria-label");
     expect(container.firstChild).toBeInstanceOf(HTMLButtonElement);
   });
 });

@@ -27,11 +27,9 @@ describe("rc base test", () => {
       ${(p) => (p.$secondBool ? "text-underline" : "some-class-here")}
     `;
 
-    const { container } = render(
-      <NewStyledSliderItemWithNewProps $isActive={false} $secondBool />
-    );
+    const { container } = render(<NewStyledSliderItemWithNewProps $isActive={false} $secondBool />);
     expect(container.firstChild).toHaveClass(
-      "absolute top-0 animate-out fade-out rounded-lg text-lg bg-red text-underline"
+      "absolute top-0 animate-out fade-out rounded-lg text-lg bg-red text-underline",
     );
     expect(container.firstChild).not.toHaveAttribute("$isActive");
     expect(container.firstChild).toBeInstanceOf(HTMLButtonElement);

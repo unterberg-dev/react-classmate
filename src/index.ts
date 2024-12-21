@@ -1,5 +1,5 @@
-import rc from './rc';
-import { RcComponentFactory } from './types';
+import rc from "./rc";
+import { RcComponentFactory } from "./types";
 
 /* the classmates BaseComponent type */
 export type { RcBaseComponent } from "./types";
