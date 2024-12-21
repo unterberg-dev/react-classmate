@@ -1,7 +1,7 @@
 {
   "name": "react-classmate",
   "description": "A tool for managing react component class names and variants with the simplicity of styled-components. 🦭",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",

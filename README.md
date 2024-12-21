@@ -315,22 +315,11 @@ export const Component = () => <StyledField placeholder="placeholder" as="select
 
 ## Upcoming
 
-#### V1
-- rename `rsc` (abbreviation for `react server components`) to react-classmate - rc -  `rc.div` / `rc.extends(...)` ✅
 - Variants for `rc.extend`
-- `$` prefix should be optional (at least for variants) ✅
-- default variants ✅
-
-#### Backlog
-
 - Integrate more tests focused on SSR and React
 - Advanced IDE integration
   - show generated default class on hover
   - enforce autocompletion and tooltips from the used libs
-
-## Version > 0.1
-
-👋 Due to bundle size I removed V1 from this package. it's still available, but unmaintained under this package: https://www.npmjs.com/package/react-dynamic-classnames
 
 ## Inspiration
 - [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
