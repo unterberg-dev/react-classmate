@@ -137,7 +137,7 @@ interface AlertProps {
 const Alert = rc.div.variants<AlertProps>({
   // optional
   base: p => `
-    ${isActive ? 'custom-active' : 'custom-inactive'}
+    ${p.isActive ? 'custom-active' : 'custom-inactive'}
     p-4
     rounded-md
   `,
@@ -159,9 +159,9 @@ export default () => <Alert $severity="info" $isActive />
 // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
 ```
 
-### Typescript: Separate base props and variants with a second type
+### Typescript: Separate base props and variants with a second type parameter
 
-As you maybe noticed we pass `AlertProps` also to the variants, which causes loose types. If you want to separate the base props from the variants, you can pass a second type to the `variants` function to only make the props from there available in the variants.
+As seen above we pass `AlertProps` also to the variants, which causes loose types. If you want to separate the base props from the variants, you can pass a second type to the `variants` function to only make the props from there available in the variants.
 
 ```tsx
 interface AlertProps {
@@ -173,7 +173,7 @@ interface AlertVariants {
 const Alert = rc.div.variants<AlertProps, AlertVariants>({
   base: `p-4 rounded-md`,
   variants: {
-    // in here there are only the props from AlertVariants available
+    // in here there are only the keys from AlertVariants available
     $severity: {
       // you can use the props from AlertProps here again
       info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,

@@ -2,6 +2,7 @@
 node_modules
 dist
 .npmrc
+.DS_Store
 
 # local packages - only use for local development
 .localPack

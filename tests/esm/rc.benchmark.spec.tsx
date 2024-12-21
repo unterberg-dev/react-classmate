@@ -14,14 +14,16 @@ describe("rc stress benchmark", () => {
 
     // alternate between rc and react components
     const components = Array.from({ length: NUM_COMPONENTS }, (_, i) =>
-      i % 2 === 0 ? <RcDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />
+      i % 2 === 0 ? <RcDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />,
     );
 
     const { container } = render(<>{components}</>);
     const end = performance.now();
 
     expect(container.firstChild).toBeTruthy();
-    console.log(`000) ${NUM_COMPONENTS}x rsx and react elements - warmup: ${(end - start).toFixed(2)} ms`);
+    console.log(
+      `000) ${NUM_COMPONENTS}x rsx and react elements - warmup: ${(end - start).toFixed(2)} ms`,
+    );
   });
 
   it(`rc creation`, () => {

@@ -1,9 +1,4 @@
-import {
-  createElement,
-  forwardRef,
-  JSXElementConstructor,
-  RefAttributes,
-} from "react";
+import { createElement, forwardRef, JSXElementConstructor, RefAttributes } from "react";
 import { RcBaseComponent } from "../types";
 
 /**
@@ -17,13 +12,14 @@ import { RcBaseComponent } from "../types";
  */
 const createReactElement = <
   T extends object,
-  E extends keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>
+  E extends keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>,
 >(
   tag: E,
   computeClassName: (props: T) => string,
-  propsToFilter: (keyof T)[] = []
+  displayName: string,
+  propsToFilter: (keyof T)[] = [],
 ): RcBaseComponent<T> => {
-  return forwardRef<HTMLElement, T & RefAttributes<HTMLElement>>((props, ref) => {
+  const element = forwardRef<HTMLElement, T & RefAttributes<HTMLElement>>((props, ref) => {
     const computedClassName = computeClassName(props as T);
 
     // Filter out $-prefixed props and any props in propsToFilter
@@ -43,8 +39,13 @@ const createReactElement = <
       className: finalClassName,
       ref,
     });
-  });
+  }) as RcBaseComponent<T>;
+
+  element.displayName = displayName || "Rc Component";
+  element.__rcComputeClassName = computeClassName;
+  element.__rcTag = tag;
+
+  return element;
 };
 
 export default createReactElement;
-

@@ -19,7 +19,7 @@ import {
 export type Interpolation<T> = string | boolean | ((props: T) => string) | null | undefined;
 
 /** InputComponent */
-export type InputComponent = ForwardRefExoticComponent<any> | JSXElementConstructor<any>
+export type InputComponent = ForwardRefExoticComponent<any> | JSXElementConstructor<any>;
 /**
  * Base type for styled React components with forward refs.
  *
@@ -59,7 +59,7 @@ export type ExtendFunction = {
    * ```
    */
   <E extends InputComponent, I extends keyof JSX.IntrinsicElements>(
-    component: E
+    component: E,
   ): <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: Interpolation<MergeProps<E, T> & JSX.IntrinsicElements[I]>[]
@@ -82,10 +82,7 @@ type VariantsConfigVariants<VariantProps, ExtraProps> = {
  *
  * @typeParam Props - The props of the component.
  */
-export type VariantsConfig<
-  VariantProps extends object,
-  ExtraProps extends object
-> = {
+export type VariantsConfig<VariantProps extends object, ExtraProps extends object> = {
   /**
    * The base classes for the styled component.
    * This can be a static string or a function that returns a string based on the component's props.
@@ -115,38 +112,35 @@ type VariantsFunction<K> = {
   /**
    * The variants function allows you to create a styled component with variants.
    *
-    * @param config - The configuration object for creating variants.
-    * @returns A styled component with variants based on the configuration object.
-    * @example
-    * ```tsx
-    * interface AlertProps {
-    *   $isActive?: boolean;
-    * }
-    * // you can additionally type the variant props for strict type checking
-    * interface AlertVariants {
-    *   $severity: "info" | "warning" | "error";
-    * }
-    *
-    * const Alert = rc.div.variants<AlertProps, AlertVariants>({
-    *   base: p => `${p.$isActive ? "pointer-cursor" : ""} p-4 rounded-md`,
-    *   variants: {
-    *     $severity: {
-    *       info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
-    *       warning: (p) => `bg-yellow-100 text-yellow-800 ${p.$isActive ? "font-bold" : ""}`,
-    *       error: (p) => `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
-    *     },
-    *   },
-    * });
-    *
-    * export default () => <Alert $severity="info" $isActive />
-    * // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
-    *
+   * @param config - The configuration object for creating variants.
+   * @returns A styled component with variants based on the configuration object.
+   * @example
+   * ```tsx
+   * interface AlertProps {
+   *   $isActive?: boolean;
+   * }
+   * // you can additionally type the variant props for strict type checking
+   * interface AlertVariants {
+   *   $severity: "info" | "warning" | "error";
+   * }
+   *
+   * const Alert = rc.div.variants<AlertProps, AlertVariants>({
+   *   base: p => `${p.$isActive ? "pointer-cursor" : ""} p-4 rounded-md`,
+   *   variants: {
+   *     $severity: {
+   *       info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+   *       warning: (p) => `bg-yellow-100 text-yellow-800 ${p.$isActive ? "font-bold" : ""}`,
+   *       error: (p) => `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
+   *     },
+   *   },
+   * });
+   *
+   * export default () => <Alert $severity="info" $isActive />
+   * // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
+   *
    */
-  <
-    ExtraProps extends object,
-    VariantProps extends object = ExtraProps
-  >(
-    config: VariantsConfig<VariantProps, ExtraProps>
+  <ExtraProps extends object, VariantProps extends object = ExtraProps>(
+    config: VariantsConfig<VariantProps, ExtraProps>,
   ): RcBaseComponent<MergeProps<K, ExtraProps & Partial<VariantProps>>>;
 };
 
@@ -186,7 +180,7 @@ export type InnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<a
 export type MergeProps<E, T> = E extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[E] & T
   : E extends ForwardRefExoticComponent<infer P>
-  ? InnerProps<P> & T
-  : E extends JSXElementConstructor<infer P2>
-  ? P2 & T
-  : T;
+    ? InnerProps<P> & T
+    : E extends JSXElementConstructor<infer P2>
+      ? P2 & T
+      : T;
