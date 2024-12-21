@@ -25,10 +25,10 @@ export type InputComponent = ForwardRefExoticComponent<any> | JSXElementConstruc
  *
  * @typeParam P - Props of the component.
  */
-export interface RscBaseComponent<P>
+export interface RcBaseComponent<P>
   extends ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<HTMLElement>> {
-  __rscComputeClassName?: (props: P) => string;
-  __rscTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>;
+  __rcComputeClassName?: (props: P) => string;
+  __rcTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>;
 }
 
 /**
@@ -46,14 +46,14 @@ export type ExtendFunction = {
    * @example
    * ```tsx
    * // Extending a custom component without intrinsic element type
-   * const SomeBase = rsc.div<{ $active?: boolean }>`color: red;`
-   * const Extended = rsc.extend(SomeBase)<{ $highlighted?: boolean }>`
+   * const SomeBase = rc.div<{ $active?: boolean }>`color: red;`
+   * const Extended = rc.extend(SomeBase)<{ $highlighted?: boolean }>`
    *   ${p => p.$highlighted ? 'bg-yellow' : ''}
    *   ${p => p.$active ? 'text-red' : ''}
    * `
    *
    * // extending with specific props:
-   * const ExtendedButton = rsc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
+   * const ExtendedButton = rc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
    *   ${p => p.type === 'submit' ? 'font-bold' : ''}
    * `
    * ```
@@ -63,7 +63,7 @@ export type ExtendFunction = {
   ): <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: Interpolation<MergeProps<E, T> & JSX.IntrinsicElements[I]>[]
-  ) => RscBaseComponent<MergeProps<E, T>>;
+  ) => RcBaseComponent<MergeProps<E, T>>;
 };
 
 type VariantsConfigBase<Props> = string | ((props: Props) => string)
@@ -118,7 +118,7 @@ type VariantsFunction<K> = {
     *   $isActive?: boolean;
     * }
     *
-    * const Alert = rsc.div.variants<AlertProps>({
+    * const Alert = rc.div.variants<AlertProps>({
     *   base: p => `${p.$isActive ? "pointer-cursor" : ""} p-4 rounded-md`,
     *   variants: {
     *     $severity: {
@@ -135,24 +135,20 @@ type VariantsFunction<K> = {
    */
   <VariantProps extends object>(
     config: VariantsConfig<VariantProps>
-  ): RscBaseComponent<MergeProps<K, Partial<VariantProps>>>;
+  ): RcBaseComponent<MergeProps<K, Partial<VariantProps>>>;
 };
 
 /**
  * Factory for creating styled components with intrinsic elements.
  */
-export type RscComponentFactory = {
+export type RcComponentFactory = {
   [K in keyof JSX.IntrinsicElements]: {
     <T>(
       strings: TemplateStringsArray,
       ...interpolations: Interpolation<T>[]
-    ): RscBaseComponent<MergeProps<K, T>>;
+    ): RcBaseComponent<MergeProps<K, T>>;
 
     variants: VariantsFunction<K>;
-
-    // variants: <VariantProps extends object>(
-    //   config: VariantsConfig<VariantProps>
-    // ) => RscBaseComponent<MergeProps<K, Partial<VariantProps>>>;
   };
 } & {
   extend: ExtendFunction;

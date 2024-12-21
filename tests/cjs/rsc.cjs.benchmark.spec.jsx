@@ -1,19 +1,19 @@
 const React = require("react");
-const rsc = require("../../dist/index.cjs.js");
+const rc = require("../../dist/index.cjs.js");
 const { render } = require("@testing-library/react");
 
-describe("rsc (CJS) stress benchmark", () => {
+describe("rc (CJS) stress benchmark", () => {
   const NUM_COMPONENTS = 50;
 
-  it(`rsc (cjs) benchmark warmup`, () => {
+  it(`rc (cjs) benchmark warmup`, () => {
     const start = performance.now();
 
-    const RscDiv = rsc.div`bg-red p-4`;
+    const RcDiv = rc.div`bg-red p-4`;
     const ReactDiv = (props) => <div className={props.className} />;
 
-    // alternate between rsc and react components
+    // alternate between rc and react components
     const components = Array.from({ length: NUM_COMPONENTS }, (_, i) =>
-      i % 2 === 0 ? <RscDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />
+      i % 2 === 0 ? <RcDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />
     );
 
     const { container } = render(<>{components}</>);
@@ -23,12 +23,12 @@ describe("rsc (CJS) stress benchmark", () => {
     console.log(`000) ${NUM_COMPONENTS}x rsx and react elements - warmup: ${(end - start).toFixed(2)} ms`);
   });
 
-  it(`rsc creation`, () => {
+  it(`rc creation`, () => {
     const start = performance.now();
 
-    const RscDiv = rsc.div`bg-red p-4`;
+    const RcDiv = rc.div`bg-red p-4`;
     const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => (
-      <RscDiv key={i} />
+      <RcDiv key={i} />
     ));
 
     const { container } = render(<>{components}</>);
@@ -36,7 +36,7 @@ describe("rsc (CJS) stress benchmark", () => {
 
     expect(container.firstChild).toBeTruthy();
     console.log(
-      `cjs: ${NUM_COMPONENTS}x rsc base: ${(end - start).toFixed(2)} ms`
+      `cjs: ${NUM_COMPONENTS}x rc base: ${(end - start).toFixed(2)} ms`
     );
   });
 
@@ -57,14 +57,14 @@ describe("rsc (CJS) stress benchmark", () => {
     );
   });
 
-  it(`rsc.extend`, () => {
+  it(`rc.extend`, () => {
     const start = performance.now();
 
-    const BaseButton = rsc.button`
+    const BaseButton = rc.button`
       ${(p) => (p.$isActive ? "bg-active" : "bg-inactive")}
     `;
 
-    const ExtendedButton = rsc.extend(BaseButton)`
+    const ExtendedButton = rc.extend(BaseButton)`
       ${(p) => (p.$isDisabled ? "opacity-50" : "opacity-100")}
       ${(p) => (p.$isActive ? "text-bold" : "text-normal")}
     `;
@@ -82,7 +82,7 @@ describe("rsc (CJS) stress benchmark", () => {
 
     expect(container.firstChild).toBeTruthy();
     console.log(
-      `cjs: ${NUM_COMPONENTS}x rsc base + rsc.extend: ${(end - start).toFixed(2)} ms`
+      `cjs: ${NUM_COMPONENTS}x rc base + rc.extend: ${(end - start).toFixed(2)} ms`
     );
   });
 

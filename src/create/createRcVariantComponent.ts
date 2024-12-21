@@ -1,14 +1,14 @@
-import { RscBaseComponent, MergeProps, VariantsConfig, InputComponent } from "../types";
+import { RcBaseComponent, MergeProps, VariantsConfig, InputComponent } from "../types";
 import createReactElement from "./createReactElement";
 import { JSX } from "react";
 
-const createRscVariantComponent = <
+const createRsVariantComponent = <
   T extends object,
   E extends keyof JSX.IntrinsicElements | InputComponent
 >(
   tag: E,
   config: VariantsConfig<T>
-): RscBaseComponent<MergeProps<E, Partial<T>>> => {
+): RcBaseComponent<MergeProps<E, Partial<T>>> => {
   const { base, variants, defaultVariants = {} } = config;
 
   const computeClassName = (props: MergeProps<E, Partial<T>>) => {
@@ -42,12 +42,12 @@ const createRscVariantComponent = <
   RenderComponent.displayName = `Variants(${typeof tag === 'string' ? tag : 'Component'})`;
 
   // extend
-  RenderComponent.__rscComputeClassName = computeClassName;
-  RenderComponent.__rscTag = tag;
+  RenderComponent.__rcComputeClassName = computeClassName;
+  RenderComponent.__rcTag = tag;
 
   // make all properties of T optional for the output component
 
-  return RenderComponent as RscBaseComponent<MergeProps<E, Partial<T>>>;
+  return RenderComponent as RcBaseComponent<MergeProps<E, Partial<T>>>;
 };
 
-export default createRscVariantComponent;
+export default createRsVariantComponent;

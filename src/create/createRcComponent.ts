@@ -1,4 +1,4 @@
-import { RscBaseComponent, Interpolation, MergeProps, InputComponent } from "../types";
+import { RcBaseComponent, Interpolation, MergeProps, InputComponent } from "../types";
 import createReactElement from "./createReactElement";
 import { JSX } from "react";
 
@@ -15,14 +15,14 @@ import { JSX } from "react";
  * @param interpolations - Dynamic class name computations based on props.
  * @returns A styled component with dynamic class names.
  */
-const createRscComponent = <
+const createRcComponent = <
   T extends object,
   E extends keyof JSX.IntrinsicElements | InputComponent
 >(
   tag: E,
   strings: TemplateStringsArray,
   interpolations: Interpolation<MergeProps<E, T>>[]
-): RscBaseComponent<MergeProps<E, T>> => {
+): RcBaseComponent<MergeProps<E, T>> => {
   // Define the function to compute class names
   const computeClassName = (props: MergeProps<E, T>) => {
     const result = strings
@@ -44,10 +44,10 @@ const createRscComponent = <
   RenderComponent.displayName = `Styled(${typeof tag === 'string' ? tag : 'Component'})`;
 
   // extend
-  RenderComponent.__rscComputeClassName = computeClassName;
-  RenderComponent.__rscTag = tag;
+  RenderComponent.__rcComputeClassName = computeClassName;
+  RenderComponent.__rcTag = tag;
 
   return RenderComponent
 };
 
-export default createRscComponent;
+export default createRcComponent;
