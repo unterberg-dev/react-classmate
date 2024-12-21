@@ -5,7 +5,6 @@ import dts from "rollup-plugin-dts";
 import typescript from "@rollup/plugin-typescript";
 
 export default [
-  // ESM and CJS Builds
   {
     input: "src/index.ts",
     output: [

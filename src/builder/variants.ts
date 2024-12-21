@@ -1,8 +1,10 @@
 import { RcBaseComponent, MergeProps, VariantsConfig, InputComponent } from "../types";
-import createReactElement from "./createReactElement";
+import createReactElement from "../util/createReactElement";
 import { JSX } from "react";
 
-const createRsVariantComponent = <
+// @todo: document
+/** core variant builder */
+const createVariantsComponent = <
   E extends keyof JSX.IntrinsicElements | InputComponent,
   ExtraProps extends object,
   VariantProps extends object
@@ -39,14 +41,8 @@ const createRsVariantComponent = <
   const variantKeys = Object.keys(variants);
 
   // create
-  const RenderComponent = createReactElement(tag, computeClassName, variantKeys);
-  RenderComponent.displayName = `Variants(${typeof tag === 'string' ? tag : 'Component'})`;
-
-  // extend
-  RenderComponent.__rcComputeClassName = computeClassName;
-  RenderComponent.__rcTag = tag;
-
-  return RenderComponent as RcBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>;
+  const label = `Variants(${typeof tag === 'string' ? tag : 'Component'})`;
+  return createReactElement(tag, computeClassName, label, variantKeys) as RcBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>;
 };
 
-export default createRsVariantComponent;
+export default createVariantsComponent;
