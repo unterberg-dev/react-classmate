@@ -9,15 +9,15 @@ const __dirname = dirname(__filename)
 
 // @todo: this is bad
 let content = fs.readFileSync(path.resolve(__dirname, 'dist/index.d.ts'), "utf-8");
-content = content.replace(/declare const _default:/, "declare const rsc:");
+content = content.replace(/declare const _default:/, "declare const rc:");
 content = content.replace(
-  /export { type RscBaseComponent, _default as default };/,
-  "export { type RscBaseComponent }; export default rsc;",
+  /export { type RcBaseComponent, _default as default };/,
+  "export { type RcBaseComponent }; export default rc;",
 );
 
 // todo: this is a workaround for a issue in rollup-plugin-dts which export default being renamed to _default
 fs.writeFileSync(path.resolve(__dirname, 'dist/index.d.ts'), content, "utf-8");
-console.log("Patched index.d.ts to replace _default with rsc.");
+console.log("Patched index.d.ts to replace _default with rc.");
 
 // Remove the types folder
 fs.rmSync(path.resolve(__dirname, 'dist/types'), { recursive: true, force: true });

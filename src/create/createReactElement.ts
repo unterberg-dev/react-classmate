@@ -4,7 +4,7 @@ import {
   JSXElementConstructor,
   RefAttributes,
 } from "react";
-import { RscBaseComponent } from "../types";
+import { RcBaseComponent } from "../types";
 
 /**
  * Creates a forwardRef render component with computed class names.
@@ -22,7 +22,7 @@ const createReactElement = <
   tag: E,
   computeClassName: (props: T) => string,
   propsToFilter: (keyof T)[] = []
-): RscBaseComponent<T> => {
+): RcBaseComponent<T> => {
   return forwardRef<HTMLElement, T & RefAttributes<HTMLElement>>((props, ref) => {
     const computedClassName = computeClassName(props as T);
 

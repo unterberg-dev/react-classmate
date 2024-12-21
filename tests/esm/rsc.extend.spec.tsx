@@ -1,15 +1,15 @@
 import "@testing-library/jest-dom";
 import React, { InputHTMLAttributes } from "react";
 import { render } from "@testing-library/react";
-import rsc from "../../dist/index";
+import rc from "../../dist/index";
 
-describe("rsc.extends", () => {
+describe("rc.extends", () => {
   it("extends the base component with new props", () => {
     interface StyledSliderItemBaseProps {
       $isActive: boolean;
     }
 
-    const StyledSliderItemBase = rsc.button<StyledSliderItemBaseProps>`
+    const StyledSliderItemBase = rc.button<StyledSliderItemBaseProps>`
       absolute
       top-0
       ${(p) => (p.$isActive ? "animate-in fade-in" : "animate-out fade-out")}
@@ -19,7 +19,7 @@ describe("rsc.extends", () => {
       $secondBool: boolean;
     }
 
-    const NewStyledSliderItemWithNewProps = rsc.extend(
+    const NewStyledSliderItemWithNewProps = rc.extend(
       StyledSliderItemBase,
     )<NewStyledSliderItemProps>`
       rounded-lg
@@ -39,8 +39,8 @@ describe("rsc.extends", () => {
     expect(container.firstChild).toBeInstanceOf(HTMLButtonElement);
   });
 
-  it("assign a rsc component and infer it's base types", () => {
-    const StyledButton = rsc.extend(rsc.button``)<{ $trigger?: boolean }>`
+  it("assign a rc component and infer it's base types", () => {
+    const StyledButton = rc.extend(rc.button``)<{ $trigger?: boolean }>`
       bg-white
       ${(p) => (p.type === "button" ? "border-primary" : "")}
     `;
@@ -52,7 +52,7 @@ describe("rsc.extends", () => {
   it("extend a react component with an assigned class", () => {
     const MyInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />;
 
-    const StyledDiv = rsc.extend(MyInput)<{ $trigger?: boolean }>`
+    const StyledDiv = rc.extend(MyInput)<{ $trigger?: boolean }>`
       bg-white
       ${(p) => (p.$trigger ? "!border-error" : "")}
     `;

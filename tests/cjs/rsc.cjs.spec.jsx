@@ -1,10 +1,10 @@
 const React = require("react");
-const rsc = require("../../dist/index.cjs.js");
+const rc = require("../../dist/index.cjs.js");
 const { render } = require("@testing-library/react");
 
 describe("CommonJS Build", () => {
   it("should import the library using require", () => {
-    const RenderDiv = rsc.div`bg-red p-4`;
+    const RenderDiv = rc.div`bg-red p-4`;
 
     const { container } = render(<RenderDiv />);
     expect(container.firstChild).toHaveClass("bg-red p-4");
@@ -12,17 +12,17 @@ describe("CommonJS Build", () => {
   });
 });
 
-describe("rsc base", () => {
-  it("renders a rsc.div with assigned classes", () => {
-    const RenderDiv = rsc.div`bg-red p-4`;
+describe("rc base", () => {
+  it("renders a rc.div with assigned classes", () => {
+    const RenderDiv = rc.div`bg-red p-4`;
 
     const { container } = render(<RenderDiv />);
     expect(container.firstChild).toHaveClass("bg-red p-4");
     expect(container.firstChild).toBeInstanceOf(HTMLDivElement);
   });
 
-  it("filters $-prefixed props & renders the class attribute on a rsc.button", () => {
-    const HiddenButton = rsc.button`text-blue custom`;
+  it("filters $-prefixed props & renders the class attribute on a rc.button", () => {
+    const HiddenButton = rc.button`text-blue custom`;
 
     const { container } = render(<HiddenButton $hidden />);
     expect(container.firstChild).not.toHaveAttribute("$hidden");
@@ -31,15 +31,15 @@ describe("rsc base", () => {
   });
 });
 
-describe("rsc.extends", () => {
+describe("rc.extends", () => {
   it("extends the base component with new props", () => {
-    const StyledSliderItemBase = rsc.button`
+    const StyledSliderItemBase = rc.button`
       absolute
       top-0
       ${(p) => (p.$isActive ? "animate-in fade-in" : "animate-out fade-out")}
     `;
 
-    const NewStyledSliderItemWithNewProps = rsc.extend(StyledSliderItemBase)`
+    const NewStyledSliderItemWithNewProps = rc.extend(StyledSliderItemBase)`
       rounded-lg
       text-lg
       ${(p) => (p.$isActive ? "bg-blue" : "bg-red")}
@@ -56,8 +56,8 @@ describe("rsc.extends", () => {
     expect(container.firstChild).toBeInstanceOf(HTMLButtonElement);
   });
 
-  it("assign a rsc component and infer it's base types", () => {
-    const StyledButton = rsc.extend(rsc.button``)`
+  it("assign a rc component and infer it's base types", () => {
+    const StyledButton = rc.extend(rc.button``)`
       bg-white
       ${(p) => (p.type === "button" ? "border-primary" : "")}
     `;
@@ -69,7 +69,7 @@ describe("rsc.extends", () => {
   it("extend a react component with an assigned class", () => {
     const MyInput = ({ ...props }) => <input {...props} />;
 
-    const StyledDiv = rsc.extend(MyInput)`
+    const StyledDiv = rc.extend(MyInput)`
       bg-white
       ${(p) => (p.$trigger ? "!border-error" : "")}
     `;

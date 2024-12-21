@@ -1,16 +1,16 @@
 import "@testing-library/jest-dom";
 import React, { HTMLAttributes, InputHTMLAttributes } from "react";
 import { render } from "@testing-library/react";
-import rsc from "../../dist/index";
+import rc from "../../dist/index";
 
-describe("rsc variants", () => {
-  it("renders a rsc.div with assigned classes", () => {
+describe("rc variants", () => {
+  it("renders a rc.div with assigned classes", () => {
     interface AlertProps extends HTMLAttributes<HTMLDivElement> {
       $severity: "info" | "warning" | "error";
       $isActive?: boolean;
     }
 
-    const Alert = rsc.div.variants<AlertProps>({
+    const Alert = rc.div.variants<AlertProps>({
       base: "p-4 rounded-md",
       variants: {
         $severity: {
@@ -33,14 +33,14 @@ describe("rsc variants", () => {
   });
 });
 
-describe("extend rsc variants component", () => {
-  it("renders a rsc.input with assigned classes", () => {
+describe("extend rc variants component", () => {
+  it("renders a rc.input with assigned classes", () => {
     interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
       $severity: "info" | "warning" | "error";
       $isActive?: boolean;
     }
 
-    const Alert = rsc.input.variants<ButtonProps>({
+    const Alert = rc.input.variants<ButtonProps>({
       base: "p-4",
       variants: {
         $severity: {
@@ -49,7 +49,7 @@ describe("extend rsc variants component", () => {
       },
     });
 
-    const ExtendedButton = rsc.extend(Alert)<{ $test: boolean }>`
+    const ExtendedButton = rc.extend(Alert)<{ $test: boolean }>`
         ${(p) => (p.$test ? "bg-green-100 text-green-800" : "")}
       `;
 
@@ -64,15 +64,15 @@ describe("extend rsc variants component", () => {
     expect(container.firstChild).toBeInstanceOf(HTMLInputElement);
   });
 
-  describe("extend rsc variants component with specific props", () => {
-    it("renders a rsc.div with assigned classes", () => {
+  describe("extend rc variants component with specific props", () => {
+    it("renders a rc.div with assigned classes", () => {
       interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
         $size?: "small" | "default";
         $noGutter?: boolean;
         $border?: boolean;
       }
 
-      const StyledButton = rsc.div.variants<ButtonProps>({
+      const StyledButton = rc.div.variants<ButtonProps>({
         base: (p) => `
           ${p.$noGutter ? "!p-0" : ""}
           px-3
@@ -90,7 +90,7 @@ describe("extend rsc variants component", () => {
         },
       });
 
-      const ExtendedButton = rsc.extend(StyledButton)<ButtonProps>`
+      const ExtendedButton = rc.extend(StyledButton)<ButtonProps>`
         ${(p) => (p.$size === "small" ? "text-small" : "")}
       `;
 
@@ -111,7 +111,7 @@ describe("extend rsc variants component", () => {
   });
 
   describe("use variants component with defaultValues", () => {
-    const SomeButtonRscVariants = rsc.button.variants({
+    const SomeButtonRcVariants = rc.button.variants({
       base: `
           mt-5
           border-1
@@ -135,7 +135,9 @@ describe("extend rsc variants component", () => {
     });
 
     it("renders a button with default values", () => {
-      const { container } = render(<SomeButtonRscVariants state="default">test</SomeButtonRscVariants>);
+      const { container } = render(
+        <SomeButtonRcVariants state="default">test</SomeButtonRcVariants>,
+      );
       expect(container.firstChild).toHaveClass(
         "mt-5 border-1 transition-all bg-blue-800 text-blue-200 text-base py-2 px-4",
       );

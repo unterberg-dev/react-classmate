@@ -1,20 +1,20 @@
 import "@testing-library/jest-dom";
 import React, { InputHTMLAttributes } from "react";
 import { render } from "@testing-library/react";
-import rsc from "../../dist/index";
+import rc from "../../dist/index";
 
-describe("rsc stress benchmark", () => {
+describe("rc stress benchmark", () => {
   const NUM_COMPONENTS = 50;
 
-  it(`rsc benchmark warmup`, () => {
+  it(`rc benchmark warmup`, () => {
     const start = performance.now();
 
-    const RscDiv = rsc.div`bg-red p-4`;
+    const RcDiv = rc.div`bg-red p-4`;
     const ReactDiv = (props: { className?: string }) => <div className={props.className} />;
 
-    // alternate between rsc and react components
+    // alternate between rc and react components
     const components = Array.from({ length: NUM_COMPONENTS }, (_, i) =>
-      i % 2 === 0 ? <RscDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />
+      i % 2 === 0 ? <RcDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />
     );
 
     const { container } = render(<>{components}</>);
@@ -24,17 +24,17 @@ describe("rsc stress benchmark", () => {
     console.log(`000) ${NUM_COMPONENTS}x rsx and react elements - warmup: ${(end - start).toFixed(2)} ms`);
   });
 
-  it(`rsc creation`, () => {
+  it(`rc creation`, () => {
     const start = performance.now();
 
-    const RscDiv = rsc.div`bg-red p-4`;
-    const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => <RscDiv key={i} />);
+    const RcDiv = rc.div`bg-red p-4`;
+    const components = Array.from({ length: NUM_COMPONENTS }, (_, i) => <RcDiv key={i} />);
 
     const { container } = render(<>{components}</>);
     const end = performance.now();
 
     expect(container.firstChild).toBeTruthy();
-    console.log(`A) ${NUM_COMPONENTS}x rsc base: ${(end - start).toFixed(2)} ms`);
+    console.log(`A) ${NUM_COMPONENTS}x rc base: ${(end - start).toFixed(2)} ms`);
   });
 
   it(`react creation`, () => {
@@ -52,18 +52,18 @@ describe("rsc stress benchmark", () => {
     console.log(`A) ${NUM_COMPONENTS}x react base: ${(end - start).toFixed(2)} ms`);
   });
 
-  it(`rsc.extend`, () => {
+  it(`rc.extend`, () => {
     const start = performance.now();
 
     interface BaseProps {
       $isActive: boolean;
     }
 
-    const BaseButton = rsc.button<BaseProps>`
+    const BaseButton = rc.button<BaseProps>`
       ${(p) => (p.$isActive ? "bg-active" : "bg-inactive")}
     `;
 
-    const ExtendedButton = rsc.extend(BaseButton)<{ $isDisabled?: boolean }>`
+    const ExtendedButton = rc.extend(BaseButton)<{ $isDisabled?: boolean }>`
       ${(p) => (p.$isDisabled ? "opacity-50" : "opacity-100")}
       ${(p) => (p.$isActive ? "text-bold" : "text-normal")}
     `;
@@ -76,7 +76,7 @@ describe("rsc stress benchmark", () => {
     const end = performance.now();
 
     expect(container.firstChild).toBeTruthy();
-    console.log(`B) ${NUM_COMPONENTS}x rsc base + rsc.extend: ${(end - start).toFixed(2)} ms`);
+    console.log(`B) ${NUM_COMPONENTS}x rc base + rc.extend: ${(end - start).toFixed(2)} ms`);
   });
 
   it(`react prop nesting`, () => {
@@ -121,7 +121,7 @@ describe("rsc stress benchmark", () => {
     console.log(`B) ${NUM_COMPONENTS}x react extend: ${(end - start).toFixed(2)} ms`);
   });
 
-  it(`rsc extend variants`, () => {
+  it(`rc extend variants`, () => {
     const start = performance.now();
 
     interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -129,7 +129,7 @@ describe("rsc stress benchmark", () => {
       $isActive?: boolean;
     }
 
-    const Alert = rsc.input.variants<ButtonProps>({
+    const Alert = rc.input.variants<ButtonProps>({
       base: "p-4",
       variants: {
         $severity: {
@@ -138,7 +138,7 @@ describe("rsc stress benchmark", () => {
       },
     });
 
-    const ExtendedButton = rsc.extend(Alert)<{ $test: boolean }>`
+    const ExtendedButton = rc.extend(Alert)<{ $test: boolean }>`
       ${(p) => (p.$test ? "bg-green-100 text-green-800" : "")}
     `;
 
@@ -150,6 +150,6 @@ describe("rsc stress benchmark", () => {
     const end = performance.now();
 
     expect(container.firstChild).toBeTruthy();
-    console.log(`C) ${NUM_COMPONENTS}x rsc variants: ${(end - start).toFixed(2)} ms`);
+    console.log(`C) ${NUM_COMPONENTS}x rc variants: ${(end - start).toFixed(2)} ms`);
   });
 });
