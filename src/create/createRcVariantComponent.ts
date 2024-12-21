@@ -36,7 +36,7 @@ const createRsVariantComponent = <
       .trim();
   };
 
-  const variantKeys = Object.keys(variants) as (keyof VariantProps)[];
+  const variantKeys = Object.keys(variants);
 
   // create
   const RenderComponent = createReactElement(tag, computeClassName, variantKeys);
@@ -45,8 +45,6 @@ const createRsVariantComponent = <
   // extend
   RenderComponent.__rcComputeClassName = computeClassName;
   RenderComponent.__rcTag = tag;
-
-  // make all properties of T optional for the output component
 
   return RenderComponent as RcBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>;
 };

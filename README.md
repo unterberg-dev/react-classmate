@@ -161,7 +161,7 @@ export default () => <Alert $severity="info" $isActive />
 
 ### Typescript: Separate base props and variants with a second type
 
-As you maybe noticed we pasing `AlertProps` to the variants, which means we can pass all the props to the base and the variants. If you want to separate the base props from the variants, you can pass a second type to the `variants` function to only make the props from there available in the variants.
+As you maybe noticed we pass `AlertProps` also to the variants, which causes loose types. If you want to separate the base props from the variants, you can pass a second type to the `variants` function to only make the props from there available in the variants.
 
 ```tsx
 interface AlertProps {
