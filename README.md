@@ -3,7 +3,7 @@
 
 # react-classmate
 
-A tool for managing react component class names and variants with the simplicity of styled-components and cva. Designed for use with utility-first CSS libraries and SSR.
+Another tool for managing react component class names and variants with the simplicity of styled-components and cva. Designed for use with utility-first CSS libraries and SSR.
 
 ## 🚩 Transform this
 
@@ -43,7 +43,7 @@ const ButtonBase = rc.button`
 - Extend components
 - React, no other dependencies
 - TypeScript support
-- SSR compatibility
+- tested with vike and next.js
 
 ## Contents
 
@@ -57,7 +57,6 @@ const ButtonBase = rc.button`
   - [Use rc for creating base component](#use-rc-for-creating-base-component)
   - [Auto infer types for props](#auto-infer-types-for-props)
   - [Extending other lib components / Juggling with components that are `any`](#extending-other-lib-components--juggling-with-components-that-are-any)
-- [Version 1 Users](#version-1)
 
 ## Getting started
 
@@ -131,7 +130,7 @@ Create variants by passing an object to the `variants` key like in [cva](https:/
 The key should match the prop name and the value should be a function that returns a string. You could also re-use the props in the function.
 
 ```tsx
-interface AlertProps extends HTMLAttributes<HTMLDivElement> {
+interface AlertProps {
   $severity: "info" | "warning" | "error";
   $isActive?: boolean;
 }
@@ -160,7 +159,35 @@ export default () => <Alert $severity="info" $isActive />
 // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
 ```
 
-*due to a current limitiation the extension `... extends HTMLAttributes<HTMLDivElement>`is needed for the `variants` to infer the intrinsic props down to the implemented component*
+### Typescript: Separate base props and variants with a second type
+
+As you maybe noticed we pasing `AlertProps` to the variants, which means we can pass all the props to the base and the variants. If you want to separate the base props from the variants, you can pass a second type to the `variants` function to only make the props from there available in the variants.
+
+```tsx
+interface AlertProps {
+  $isActive?: boolean;
+}
+interface AlertVariants {
+  $severity: "info" | "warning" | "error";
+}
+const Alert = rc.div.variants<AlertProps, AlertVariants>({
+  base: `p-4 rounded-md`,
+  variants: {
+    // in here there are only the props from AlertVariants available
+    $severity: {
+      // you can use the props from AlertProps here again
+      info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+      warning: (p) => `bg-yellow-100 text-yellow-800 ${p.$isActive ? "font-bold" : ""}`,
+      error: (p) => `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
+    },
+  },
+  // optional - used if no variant was found
+  defaultVariant: {
+    $severity: "info",
+  }
+});
+
+```
 
 ## Receipes for `rc.extend`
 
@@ -316,12 +343,13 @@ export const Component = () => <StyledField placeholder="placeholder" as="select
 ## Upcoming
 
 - Variants for `rc.extend`
+- rendering performance: create benchmarks and compare to `tailwind-styled-component`, `cva` & nativly created components
 - Integrate more tests focused on SSR and React
 - Advanced IDE integration
   - show generated default class on hover
   - enforce autocompletion and tooltips from the used libs
 
 ## Inspiration
-- [tailwind-styled-components](https://github.com/MathiasGilson/tailwind-styled-component)
+- [tailwind-styled-component](https://github.com/MathiasGilson/tailwind-styled-component)
 - [cva](https://github.com/joe-bell/cva)
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)

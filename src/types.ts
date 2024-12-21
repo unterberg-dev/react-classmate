@@ -66,10 +66,15 @@ export type ExtendFunction = {
   ) => RcBaseComponent<MergeProps<E, T>>;
 };
 
-type VariantsConfigBase<Props> = string | ((props: Props) => string)
+type VariantsConfigBase<VariantProps, ExtraProps> =
+  | string
+  | ((props: VariantProps & ExtraProps) => string);
 
-type VariantsConfigVariants<Props> = {
-  [Key in keyof Props]?: Record<string, string | ((props: Props) => string)>;
+type VariantsConfigVariants<VariantProps, ExtraProps> = {
+  [Key in keyof VariantProps]?: Record<
+    string,
+    string | ((props: VariantProps & ExtraProps) => string)
+  >;
 };
 
 /**
@@ -77,27 +82,28 @@ type VariantsConfigVariants<Props> = {
  *
  * @typeParam Props - The props of the component.
  */
-export type VariantsConfig<Props extends object> = {
+export type VariantsConfig<
+  VariantProps extends object,
+  ExtraProps extends object
+> = {
   /**
    * The base classes for the styled component.
    * This can be a static string or a function that returns a string based on the component's props.
    * If not provided, the base classes are empty.
    */
-  base?: VariantsConfigBase<Props>;
+  base?: VariantsConfigBase<VariantProps, ExtraProps>;
   /**
    * The variants object defines the classes for each prop value.
    * The keys are the prop names, and the values are objects with class names or functions that return class names.
    */
-  variants: VariantsConfigVariants<Props>;
-
+  // variants: VariantsConfigVariants<VariantProps, ExtraProps>;
+  variants: VariantsConfigVariants<VariantProps, ExtraProps>;
   /**
    * Default variants to apply if a variant prop is not passed.
    * For example, if you have a variant `size` and a default variant value of `md`,
    * it will use `md` if no explicit `size` prop is provided.
    */
-  defaultVariants?: Partial<{
-    [K in keyof Props]: string;
-  }>;
+  defaultVariants?: Partial<Record<keyof VariantProps, string>>;
 };
 
 /**
@@ -114,11 +120,14 @@ type VariantsFunction<K> = {
     * @example
     * ```tsx
     * interface AlertProps {
-    *   $severity: "info" | "warning" | "error";
     *   $isActive?: boolean;
     * }
+    * // you can additionally type the variant props for strict type checking
+    * interface AlertVariants {
+    *   $severity: "info" | "warning" | "error";
+    * }
     *
-    * const Alert = rc.div.variants<AlertProps>({
+    * const Alert = rc.div.variants<AlertProps, AlertVariants>({
     *   base: p => `${p.$isActive ? "pointer-cursor" : ""} p-4 rounded-md`,
     *   variants: {
     *     $severity: {
@@ -133,9 +142,12 @@ type VariantsFunction<K> = {
     * // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
     *
    */
-  <VariantProps extends object>(
-    config: VariantsConfig<VariantProps>
-  ): RcBaseComponent<MergeProps<K, Partial<VariantProps>>>;
+  <
+    ExtraProps extends object,
+    VariantProps extends object = ExtraProps
+  >(
+    config: VariantsConfig<VariantProps, ExtraProps>
+  ): RcBaseComponent<MergeProps<K, ExtraProps & Partial<VariantProps>>>;
 };
 
 /**
@@ -148,6 +160,7 @@ export type RcComponentFactory = {
       ...interpolations: Interpolation<T>[]
     ): RcBaseComponent<MergeProps<K, T>>;
 
+    // Now uses the new VariantsFunction that has two generic parameters.
     variants: VariantsFunction<K>;
   };
 } & {

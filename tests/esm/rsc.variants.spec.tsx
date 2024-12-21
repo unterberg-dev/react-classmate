@@ -1,11 +1,11 @@
 import "@testing-library/jest-dom";
-import React, { HTMLAttributes, InputHTMLAttributes } from "react";
+import React from "react";
 import { render } from "@testing-library/react";
 import rc from "../../dist/index";
 
 describe("rc variants", () => {
   it("renders a rc.div with assigned classes", () => {
-    interface AlertProps extends HTMLAttributes<HTMLDivElement> {
+    interface AlertProps {
       $severity: "info" | "warning" | "error";
       $isActive?: boolean;
     }
@@ -35,7 +35,7 @@ describe("rc variants", () => {
 
 describe("extend rc variants component", () => {
   it("renders a rc.input with assigned classes", () => {
-    interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
+    interface ButtonProps {
       $severity: "info" | "warning" | "error";
       $isActive?: boolean;
     }
@@ -66,13 +66,13 @@ describe("extend rc variants component", () => {
 
   describe("extend rc variants component with specific props", () => {
     it("renders a rc.div with assigned classes", () => {
-      interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
+      interface ButtonProps {
         $size?: "small" | "default";
         $noGutter?: boolean;
         $border?: boolean;
       }
 
-      const StyledButton = rc.div.variants<ButtonProps>({
+      const StyledButton = rc.button.variants<ButtonProps>({
         base: (p) => `
           ${p.$noGutter ? "!p-0" : ""}
           px-3
@@ -106,12 +106,15 @@ describe("extend rc variants component", () => {
       expect(container.firstChild).not.toHaveAttribute("$noGutter");
       expect(container.firstChild).not.toHaveAttribute("$border");
       expect(container.firstChild).toHaveAttribute("type");
-      expect(container.firstChild).toBeInstanceOf(HTMLDivElement);
+      expect(container.firstChild).toBeInstanceOf(HTMLButtonElement);
     });
   });
 
   describe("use variants component with defaultValues", () => {
-    const SomeButtonRcVariants = rc.button.variants({
+    const SomeButtonRcVariants = rc.button.variants<
+      { $test?: boolean },
+      { state?: "default"; size?: "" }
+    >({
       base: `
           mt-5
           border-1

@@ -27,8 +27,21 @@ export const createProxy = (rcTarget: Partial<RcComponentFactory> = {}) => new P
         interpolations
       );
 
-    factoryFunction.variants = <T extends object>(config: VariantsConfig<T>) =>
-      createRsVariantComponent(prop as keyof JSX.IntrinsicElements, config);
+    factoryFunction.variants = <
+      // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+      ExtraProps extends object,
+      VariantProps extends object = ExtraProps
+    >(
+      config: VariantsConfig<VariantProps, ExtraProps>
+    ) => {
+      return createRsVariantComponent<
+        keyof JSX.IntrinsicElements,
+        ExtraProps,
+        VariantProps
+      >(prop as keyof JSX.IntrinsicElements, config);
+    };
+    // factoryFunction.variants = <T extends object>(config: VariantsConfig<T>) =>
+    //   createRsVariantComponent(prop as keyof JSX.IntrinsicElements, config);
 
     return factoryFunction;
   },

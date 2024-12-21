@@ -3,22 +3,16 @@ import createRcComponent from "./create/createRcComponent";
 import attachExtend from "./middleware/extend";
 import { createProxy } from "./proxy";
 
-/**
- * A collection of functions and utilities for creating styled components.
- *
- * Includes:
- * - Functions for intrinsic elements (e.g., `rc.div`, `rc.button`).
- * - The `extend` method for extending existing styled components.
- */
+// instantiate target
 const rcTarget: Partial<RcComponentFactory> = {};
 
-// extend middleware
+// .extend middleware
 const rcWithExtend = attachExtend(rcTarget);
 
 // wrap proxy
 const rcProxy = createProxy(rcWithExtend);
 
-/** set the trap */
+// set trap
 const rc = new Proxy<Partial<RcComponentFactory>>(rcProxy, {
   apply(
     _Factory,

@@ -3,15 +3,16 @@ import createReactElement from "./createReactElement";
 import { JSX } from "react";
 
 const createRsVariantComponent = <
-  T extends object,
-  E extends keyof JSX.IntrinsicElements | InputComponent
+  E extends keyof JSX.IntrinsicElements | InputComponent,
+  ExtraProps extends object,
+  VariantProps extends object
 >(
   tag: E,
-  config: VariantsConfig<T>
-): RcBaseComponent<MergeProps<E, Partial<T>>> => {
+  config: VariantsConfig<VariantProps, ExtraProps>
+): RcBaseComponent<MergeProps<E, ExtraProps & Partial<VariantProps>>> => {
   const { base, variants, defaultVariants = {} } = config;
 
-  const computeClassName = (props: MergeProps<E, Partial<T>>) => {
+  const computeClassName = (props: MergeProps<E, Partial<VariantProps>>) => {
     // Compute base classes (can be static or dynamic)
     const baseClasses =
       typeof base === "function" ? base(props) : base || "";
@@ -35,7 +36,7 @@ const createRsVariantComponent = <
       .trim();
   };
 
-  const variantKeys = Object.keys(variants) as (keyof T)[];
+  const variantKeys = Object.keys(variants) as (keyof VariantProps)[];
 
   // create
   const RenderComponent = createReactElement(tag, computeClassName, variantKeys);
@@ -47,7 +48,7 @@ const createRsVariantComponent = <
 
   // make all properties of T optional for the output component
 
-  return RenderComponent as RcBaseComponent<MergeProps<E, Partial<T>>>;
+  return RenderComponent as RcBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>;
 };
 
 export default createRsVariantComponent;

@@ -4,7 +4,7 @@ import { RcComponentFactory } from './types';
 export type { RcBaseComponent } from "./types";
 
 /**
- * The `rc` instance is the main entry point for creating our "styled components" using intrinsic HTML elements or existing React components.
+ * The `rc` instance is the main entry point for creating our classmate-component using intrinsic HTML elements or existing React components.
  *
  * It provides:
  * - A collection of functions for each intrinsic HTML element (e.g., `rc.div`, `rc.span`, `rc.button`, etc.)
@@ -19,9 +19,7 @@ export type { RcBaseComponent } from "./types";
  * @example
  * ```tsx
  * // simplest usage:
- * const StyledDiv = rc.div`
- *   p-2
- * `
+ * const StyledDiv = rc.div`p-2`
  *
  * // Creating a styled 'div' with conditional classes:
  * const StyledDiv = rc.div<{ $active?: boolean }>`
