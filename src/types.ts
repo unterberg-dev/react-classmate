@@ -1,9 +1,9 @@
 import type {
   ForwardRefExoticComponent,
+  JSX,
   JSXElementConstructor,
   PropsWithoutRef,
   RefAttributes,
-  JSX,
 } from "react";
 
 /**
@@ -208,8 +208,7 @@ export type RcComponentFactory = {
  *
  * @typeParam P - The type of the component to extract props from.
  */
-type InnerProps<P> = P extends PropsWithoutRef<infer U> &
-  RefAttributes<any>
+type InnerProps2<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any>
   ? U
   : P;
 
