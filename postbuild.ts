@@ -1,6 +1,6 @@
-import { execSync } from "child_process";
-import fs from "fs";
-import path from "path";
+import { execSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -49,11 +49,11 @@ function packAndExtract() {
     const packageDir = path.resolve(outputDir, "package");
     if (fs.existsSync(packageDir)) {
       const files = fs.readdirSync(packageDir);
-      files.forEach((file) => {
+      for (const file of files) {
         const fromPath = path.join(packageDir, file);
         const toPath = path.join(outputDir, file);
         fs.renameSync(fromPath, toPath); // Move each file/folder to the parent directory
-      });
+      }
       fs.rmdirSync(packageDir); // Remove the now-empty "package" folder
     }
 

@@ -1,6 +1,12 @@
-import { RcBaseComponent, MergeProps, VariantsConfig, InputComponent } from "../types";
+import type { JSX } from "react";
+
+import type {
+  RcBaseComponent,
+  MergeProps,
+  VariantsConfig,
+  InputComponent,
+} from "../types";
 import createReactElement from "../util/createReactElement";
-import { JSX } from "react";
 
 /**
  * Creates a React component with variant-based class names.
@@ -25,19 +31,23 @@ const createVariantsComponent = <
 
   const computeClassName = (props: MergeProps<E, Partial<VariantProps>>) => {
     const baseClasses = typeof base === "function" ? base(props) : base || "";
-    const variantClasses = Object.entries(variants).map(([key, variantOptions]) => {
-      const propValue = props[key] ?? (defaultVariants as Record<string, string | undefined>)[key];
+    const variantClasses = Object.entries(variants).map(
+      ([key, variantOptions]) => {
+        const propValue =
+          props[key] ??
+          (defaultVariants as Record<string, string | undefined>)[key];
 
-      const variantClass = propValue
-        ? (variantOptions as Record<string, any>)?.[propValue]
-        : undefined;
+        const variantClass = propValue
+          ? (variantOptions as Record<string, any>)?.[propValue]
+          : undefined;
 
-      if (typeof variantClass === "function") {
-        return variantClass(props);
-      }
+        if (typeof variantClass === "function") {
+          return variantClass(props);
+        }
 
-      return variantClass || "";
-    });
+        return variantClass || "";
+      },
+    );
 
     return [baseClasses, ...variantClasses].filter(Boolean).join(" ").trim();
   };
@@ -46,9 +56,12 @@ const createVariantsComponent = <
 
   // create
   const label = `Variants(${typeof tag === "string" ? tag : "Component"})`;
-  return createReactElement(tag, computeClassName, label, variantKeys) as RcBaseComponent<
-    MergeProps<E, Partial<VariantProps> & ExtraProps>
-  >;
+  return createReactElement(
+    tag,
+    computeClassName,
+    label,
+    variantKeys,
+  ) as RcBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>;
 };
 
 export default createVariantsComponent;

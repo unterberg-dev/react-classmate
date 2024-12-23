@@ -1,6 +1,12 @@
-import { RcBaseComponent, Interpolation, MergeProps, InputComponent } from "../types";
+import type { JSX } from "react";
+
+import type {
+  RcBaseComponent,
+  Interpolation,
+  MergeProps,
+  InputComponent,
+} from "../types";
 import createReactElement from "../util/createReactElement";
-import { JSX } from "react";
 
 /**
  * Core function to create styled React components with dynamic class names.
@@ -25,7 +31,9 @@ const createBaseComponent = <
     const result = strings
       .map((str, i) => {
         const interp = interpolations[i];
-        return typeof interp === "function" ? str + interp(props) : str + (interp ?? "");
+        return typeof interp === "function"
+          ? str + interp(props)
+          : str + (interp ?? "");
       })
       .join("")
       .replace(/\s+/g, " ")

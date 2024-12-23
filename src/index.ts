@@ -1,12 +1,11 @@
 import rc from "./rc";
-import { RcComponentFactory } from "./types";
+import type { RcComponentFactory } from "./types";
 
 /* the classmates BaseComponent type */
 export type { RcBaseComponent } from "./types";
 
 /**
- * The `rc` instance is the main entry point for creating our classmate-components using intrinsic HTML elements or existing React components.
- *
+ * The `rc` instance is the main entry point for creating our classmate-components.
  * It provides:
  * - Component builder to create classmate components by using template literals and interpolations. E.g: `rc.div` or `rc.button`
  * - A variants method to create classmate components  with variants. E.g: `rc.div.variants(...)`

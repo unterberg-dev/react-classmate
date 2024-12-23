@@ -1,7 +1,7 @@
 import createBaseComponent from "./builder/base";
 import createExtendedComponent from "./builder/extend";
 import createVariantsComponent from "./builder/variants";
-import {
+import type {
   InputComponent,
   Interpolation,
   RcBaseComponent,
@@ -21,16 +21,19 @@ const rcProxy = new Proxy(rcTarget, {
   get(_, prop: string) {
     // calls `rc.extend`
     if (prop === "extend") {
-      return function <BCProps extends object>(
+      return <BCProps extends object>(
         baseComponent: RcBaseComponent<BCProps> | InputComponent,
-      ) {
-        return <T extends object>(
+      ) =>
+        <T extends object>(
           strings: TemplateStringsArray,
           ...interpolations: Interpolation<T>[]
         ) => {
-          return createExtendedComponent<T>(baseComponent, strings, interpolations);
+          return createExtendedComponent<T>(
+            baseComponent,
+            strings,
+            interpolations,
+          );
         };
-      };
     }
 
     // calls `rc.button`, `rc.div`, etc.
@@ -51,10 +54,11 @@ const rcProxy = new Proxy(rcTarget, {
     >(
       config: VariantsConfig<VariantProps, ExtraProps>,
     ) => {
-      return createVariantsComponent<keyof JSX.IntrinsicElements, ExtraProps, VariantProps>(
-        prop as keyof JSX.IntrinsicElements,
-        config,
-      );
+      return createVariantsComponent<
+        keyof JSX.IntrinsicElements,
+        ExtraProps,
+        VariantProps
+      >(prop as keyof JSX.IntrinsicElements, config);
     };
 
     return factoryFunction;

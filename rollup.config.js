@@ -1,6 +1,5 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import babel from "@rollup/plugin-babel";
 import dts from "rollup-plugin-dts";
 import typescript from "@rollup/plugin-typescript";
 
@@ -23,10 +22,6 @@ export default [
       }),
       resolve({ extensions: [".js", ".jsx", ".ts", ".tsx"] }),
       commonjs(),
-      babel({
-        babelHelpers: "bundled",
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
-      }),
     ],
     external: ["react", "react-dom"],
   },

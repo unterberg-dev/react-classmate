@@ -1,4 +1,4 @@
-import {
+import type {
   ForwardRefExoticComponent,
   JSXElementConstructor,
   PropsWithoutRef,
@@ -16,10 +16,16 @@ import {
  *
  * @typeParam T - The type of the props passed to the interpolation function.
  */
-export type Interpolation<T> = string | boolean | ((props: T) => string) | null | undefined;
+export type Interpolation<T> =
+  | string
+  | boolean
+  | ((props: T) => string)
+  | null
+  | undefined;
 
-/** InputComponent */
-export type InputComponent = ForwardRefExoticComponent<any> | JSXElementConstructor<any>;
+export type InputComponent =
+  | ForwardRefExoticComponent<any>
+  | JSXElementConstructor<any>;
 
 /**
  * Base type for styled React components with forward refs.
@@ -27,17 +33,35 @@ export type InputComponent = ForwardRefExoticComponent<any> | JSXElementConstruc
  * @typeParam P - Props of the component.
  */
 export interface RcBaseComponent<P>
-  extends ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<HTMLElement>> {
+  extends ForwardRefExoticComponent<
+    PropsWithoutRef<P> & RefAttributes<HTMLElement>
+  > {
   __rcComputeClassName?: (props: P) => string;
   __rcTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>;
 }
 
 /**
- * Extends a styled component or intrinsic element with additional props and interpolations.
+ * The `extend` method allows you to create a new styled component from an existing one.
  *
- * This type defines the `extend` method used in the library.
+ * @typeParam E - The type of the original component, which can be a ForwardRefExoticComponent or a JSXElementConstructor.
+ * @param component - The base component to extend.
+ * @returns A function that accepts template strings and interpolations, and returns a new styled component.
+ * @example
+ * ```tsx
+ * // Extending a custom component without intrinsic element type
+ * const SomeBase = rc.div<{ $active?: boolean }>`color: red;`
+ * const Extended = rc.extend(SomeBase)<{ $highlighted?: boolean }>`
+ *   ${p => p.$highlighted ? 'bg-yellow' : ''}
+ *   ${p => p.$active ? 'text-red' : ''}
+ * `
+ *
+ * // Extending with specific props:
+ * const ExtendedButton = rc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
+ *   ${p => p.type === 'submit' ? 'font-bold' : ''}
+ * ```
  */
-export type ExtendFunction = {
+type ExtendFunction =
+  // this must stay here to get "rsc.extend" tooltipped in the IDE
   /**
    * The `extend` method allows you to create a new styled component from an existing one.
    *
@@ -60,11 +84,12 @@ export type ExtendFunction = {
    */
   <E extends InputComponent, I extends keyof JSX.IntrinsicElements>(
     component: E,
-  ): <T extends object>(
+  ) => <T extends object>(
     strings: TemplateStringsArray,
-    ...interpolations: Interpolation<MergeProps<E, T> & JSX.IntrinsicElements[I]>[]
+    ...interpolations: Interpolation<
+      MergeProps<E, T> & JSX.IntrinsicElements[I]
+    >[]
   ) => RcBaseComponent<MergeProps<E, T>>;
-};
 
 /**
  * Base type for the base classes in the variants configuration.
@@ -99,7 +124,10 @@ type VariantsConfigVariants<VariantProps, ExtraProps> = {
  * @typeParam VariantProps - The props for the variants.
  * @typeParam ExtraProps - Additional props for the component.
  */
-export type VariantsConfig<VariantProps extends object, ExtraProps extends object> = {
+export type VariantsConfig<
+  VariantProps extends object,
+  ExtraProps extends object,
+> = {
   /**
    * The base classes for the styled component.
    * This can be a static string or a function that returns a string based on the component's props.
@@ -119,12 +147,8 @@ export type VariantsConfig<VariantProps extends object, ExtraProps extends objec
   defaultVariants?: Partial<Record<keyof VariantProps, string>>;
 };
 
-/**
- * Function for creating styled components with variants.
- *
- * @typeParam K - The type of the component or intrinsic element.
- */
-type VariantsFunction<K> = {
+type VariantsFunction<K> =
+  // this must stay here to get "rsc.div.variants" tooltipped in the IDE
   /**
    * The variants function allows you to create a styled component with variants.
    *
@@ -157,8 +181,7 @@ type VariantsFunction<K> = {
    */
   <ExtraProps extends object, VariantProps extends object = ExtraProps>(
     config: VariantsConfig<VariantProps, ExtraProps>,
-  ): RcBaseComponent<MergeProps<K, ExtraProps & Partial<VariantProps>>>;
-};
+  ) => RcBaseComponent<MergeProps<K, ExtraProps & Partial<VariantProps>>>;
 
 /**
  * Factory for creating styled components with intrinsic elements.
@@ -170,7 +193,7 @@ export type RcComponentFactory = {
       ...interpolations: Interpolation<T>[]
     ): RcBaseComponent<MergeProps<K, T>>;
 
-    // Now uses the new VariantsFunction that has two generic parameters.
+    // add rc.*.variants
     variants: VariantsFunction<K>;
   };
 } & {
@@ -185,7 +208,10 @@ export type RcComponentFactory = {
  *
  * @typeParam P - The type of the component to extract props from.
  */
-export type InnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any> ? U : P;
+type InnerProps<P> = P extends PropsWithoutRef<infer U> &
+  RefAttributes<any>
+  ? U
+  : P;
 
 /**
  * Merges additional props with the base props of a given component or intrinsic element.

@@ -3,7 +3,7 @@
 
 # react-classmate
 
-A tool for managing react component class names with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
+A tool for managing React component class names with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
 
 ## 🚩 Transform this
 
@@ -38,11 +38,11 @@ const ButtonBase = rc.button`
 
 ## Features
 
-- (Dynamic) class name focused components
+- (Dynamic) class name-focused components
 - Variants
 - Extend components
 - TypeScript support
-- tested with SSR Frameworks: vike and next.js
+- Tested with SSR Frameworks: Vike and Next.js
 
 ## Contents
 
@@ -59,7 +59,7 @@ const ButtonBase = rc.button`
 
 ## Getting started
 
-make sure you have installed [React](https://react.dev/) (> 16.8.0) in your project.
+Make sure you have installed [React](https://react.dev/) (> 16.8.0) in your project.
 
 ```bash
 npm i react-classmate
@@ -69,7 +69,7 @@ yarn add react-classmate
 
 ## Basic
 
-create a component by calling `rc` with a tag name and a template literal string.
+Create a component by calling `rc` with a tag name and a template literal string.
 
 ```tsx
 import rc from 'react-classmate'
@@ -160,7 +160,7 @@ export default () => <Alert $severity="info" $isActive />
 
 ### Typescript: Separate base props and variants with a second type parameter
 
-As seen above we pass `AlertProps` also to the variants, which causes loose types. If you want to separate the base props from the variants, you can pass a second type to the `variants` function to only make the props from there available in the variants.
+As seen above, we also pass `AlertProps` to the variants, which can cause loose types. If you want to separate the base props from the variants, you can pass a second type to the `variants` function so that only those props are available in the variants.
 
 ```tsx
 interface AlertProps {
@@ -190,7 +190,7 @@ const Alert = rc.div.variants<AlertProps, AlertVariants>({
 
 ## Receipes for `rc.extend`
 
-With `rc.extend`, you can build upon any base React component—adding new styles and even supporting additional props. This makes it easy to create reusable component variations without duplicating logic.
+With `rc.extend`, you can build upon any base React component, adding new styles and even supporting additional props. This makes it easy to create reusable component variations without duplicating logic.
 
 ```tsx
 import { ArrowBigDown } from 'lucide-react'
@@ -208,7 +208,7 @@ export default () => <StyledLucideArrow stroke="3" />
 
 ⚠️ Having problems by extending third party components, see: [Extending other lib components](#extending-other-lib-components--juggling-with-components-that-are-any)
 
-Now we can define a base component and extend it with additional styles and classes and pass properties. You can pass the types to the `extend` function to get autocompletion and type checking on the way.
+Now we can define a base component, extend it with additional styles and classes, and pass properties. You can pass the types to the `extend` function to get autocompletion and type checking.
 
 ```tsx
 import rc from 'react-classmate'
@@ -240,8 +240,6 @@ export default () => <NewStyledSliderItemWithNewProps $active $secondBool={false
 ```
 
 ### Use rc for creating base component
-
-Extend a component directly by passing the component and the tag name.
 
 ```tsx
 const BaseButton = rc.extend(rc.button``)`
