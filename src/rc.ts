@@ -15,8 +15,8 @@ const rcTarget: Partial<RcComponentFactory> = {};
 const rcProxy = new Proxy(rcTarget, {
   /**
    * Intercepts property lookups:
-   * - `rc.extend`: returns a function to extend an existing component
-   * - `rc.button`, `rc.div`, etc.: returns a factory for base components, with `.variants`
+   * - `rc.extend`: returns function to extend an existing component
+   * - `rc.button`, `rc.div`, etc.: returns factory for base components, with `.variants`
    */
   get(_, prop: string) {
     // calls `rc.extend`

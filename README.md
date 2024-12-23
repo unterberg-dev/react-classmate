@@ -3,7 +3,7 @@
 
 # react-classmate
 
-Another tool for managing react component class names and variants with the simplicity of styled-components and cva. Designed for use with utility-first CSS libraries and SSR.
+A tool for managing react component class names with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
 
 ## 🚩 Transform this
 
@@ -338,13 +338,12 @@ const StyledField = rc.extend(FieldComponent)<{ $error: boolean }>`
 export const Component = () => <StyledField placeholder="placeholder" as="select" name="name" $error />
 ```
 
-⚠️ This is a workaround! This is a *bug* - we should be able to cast the type directly in the interface in which we pass `$error`. Contributions welcome.
+⚠️ This is a workaround! This is a *bug* - we should be able to pass the types directly in the interface in which we pass `$error`. Contributions welcome.
 
 ## Upcoming
 
 - Variants for `rc.extend`
-- rendering performance: create benchmarks and compare to `tailwind-styled-component`, `cva` & nativly created components
-- Integrate more tests focused on SSR and React
+- Integrate more tests, benchmarks focused on SSR and React
 - Advanced IDE integration
   - show generated default class on hover
   - enforce autocompletion and tooltips from the used libs

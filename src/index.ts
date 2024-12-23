@@ -5,21 +5,19 @@ import { RcComponentFactory } from "./types";
 export type { RcBaseComponent } from "./types";
 
 /**
- * The `rc` instance is the main entry point for creating our classmate-component using intrinsic HTML elements or existing React components.
+ * The `rc` instance is the main entry point for creating our classmate-components using intrinsic HTML elements or existing React components.
  *
  * It provides:
- * - A collection of functions for each intrinsic HTML element (e.g., `rc.div`, `rc.span`, `rc.button`, etc.)
- *   to create styled components by using template literals and interpolations.
- * - A callable interface to create styled components directly from a given tag or component (e.g., `rc.div``, ...)`).
- * - An `extend` method that allows you to create new styled components based on existing ones,
- *   optionally validating non-$ props against a specified intrinsic element.
+ * - Component builder to create classmate components by using template literals and interpolations. E.g: `rc.div` or `rc.button`
+ * - A variants method to create classmate components  with variants. E.g: `rc.div.variants(...)`
+ * - The `rc.extend` method that allows you to create new classmate components based on existing ones.
  *
  * Each styled component created via `rc` filters out `$`-prefixed props from the DOM and computes a final `className`
  * string by combining user-defined classes, dynamic interpolations based on props, and any incoming `className`.
  *
  * @example
  * ```tsx
- * // simplest usage:
+ * // simple usage:
  * const StyledDiv = rc.div`p-2`
  *
  * // Creating a styled 'div' with conditional classes:
@@ -40,6 +38,19 @@ export type { RcBaseComponent } from "./types";
  * const ExtendedButton = rc.extend(rc.button)`
  *   ${p => p.type === 'submit' ? 'font-bold' : ''}
  * `
+ *
+ * // Creating a styled component with variants:
+ * const StyledButton = rc.button.variants({
+ *   base: 'p-2',
+ *   variants: {
+ *    size: {
+ *     sm: 'p-1',
+ *     lg: 'p-3',
+ *   },
+ *   defaultVariants: {
+ *    size: 'sm',
+ *   },
+ * })
  * ```
  */
 export default rc as RcComponentFactory;

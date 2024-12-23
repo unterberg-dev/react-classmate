@@ -7,7 +7,7 @@ import {
 } from "react";
 
 /**
- * interpolation type for "styled components".
+ * Interpolation type for "styled components".
  *
  * Interpolations can be:
  * - Static strings or booleans.
@@ -20,6 +20,7 @@ export type Interpolation<T> = string | boolean | ((props: T) => string) | null 
 
 /** InputComponent */
 export type InputComponent = ForwardRefExoticComponent<any> | JSXElementConstructor<any>;
+
 /**
  * Base type for styled React components with forward refs.
  *
@@ -52,10 +53,9 @@ export type ExtendFunction = {
    *   ${p => p.$active ? 'text-red' : ''}
    * `
    *
-   * // extending with specific props:
+   * // Extending with specific props:
    * const ExtendedButton = rc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
    *   ${p => p.type === 'submit' ? 'font-bold' : ''}
-   * `
    * ```
    */
   <E extends InputComponent, I extends keyof JSX.IntrinsicElements>(
@@ -66,10 +66,26 @@ export type ExtendFunction = {
   ) => RcBaseComponent<MergeProps<E, T>>;
 };
 
+/**
+ * Base type for the base classes in the variants configuration.
+ *
+ * This can be a static string or a function that returns a string based on the component's props.
+ *
+ * @typeParam VariantProps - The props for the variants.
+ * @typeParam ExtraProps - Additional props for the component.
+ */
 type VariantsConfigBase<VariantProps, ExtraProps> =
   | string
   | ((props: VariantProps & ExtraProps) => string);
 
+/**
+ * Type for the variants object in the variants configuration.
+ *
+ * The keys are the prop names, and the values are objects with class names or functions that return class names.
+ *
+ * @typeParam VariantProps - The props for the variants.
+ * @typeParam ExtraProps - Additional props for the component.
+ */
 type VariantsConfigVariants<VariantProps, ExtraProps> = {
   [Key in keyof VariantProps]?: Record<
     string,
@@ -80,7 +96,8 @@ type VariantsConfigVariants<VariantProps, ExtraProps> = {
 /**
  * Configuration object for creating styled components with variants.
  *
- * @typeParam Props - The props of the component.
+ * @typeParam VariantProps - The props for the variants.
+ * @typeParam ExtraProps - Additional props for the component.
  */
 export type VariantsConfig<VariantProps extends object, ExtraProps extends object> = {
   /**
@@ -93,7 +110,6 @@ export type VariantsConfig<VariantProps extends object, ExtraProps extends objec
    * The variants object defines the classes for each prop value.
    * The keys are the prop names, and the values are objects with class names or functions that return class names.
    */
-  // variants: VariantsConfigVariants<VariantProps, ExtraProps>;
   variants: VariantsConfigVariants<VariantProps, ExtraProps>;
   /**
    * Default variants to apply if a variant prop is not passed.
@@ -106,7 +122,7 @@ export type VariantsConfig<VariantProps extends object, ExtraProps extends objec
 /**
  * Function for creating styled components with variants.
  *
- * @typeParam Props - The props of the component.
+ * @typeParam K - The type of the component or intrinsic element.
  */
 type VariantsFunction<K> = {
   /**
@@ -119,7 +135,7 @@ type VariantsFunction<K> = {
    * interface AlertProps {
    *   $isActive?: boolean;
    * }
-   * // you can additionally type the variant props for strict type checking
+   * // You can additionally type the variant props for strict type checking
    * interface AlertVariants {
    *   $severity: "info" | "warning" | "error";
    * }
@@ -136,8 +152,8 @@ type VariantsFunction<K> = {
    * });
    *
    * export default () => <Alert $severity="info" $isActive />
-   * // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
-   *
+   * // Outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
+   * ```
    */
   <ExtraProps extends object, VariantProps extends object = ExtraProps>(
     config: VariantsConfig<VariantProps, ExtraProps>,
