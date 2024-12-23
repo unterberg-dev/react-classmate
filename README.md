@@ -38,12 +38,11 @@ const ButtonBase = rc.button`
 
 ## Features
 
-- Dynamic class names
+- (Dynamic) class name focused components
 - Variants
 - Extend components
-- React, no other dependencies
 - TypeScript support
-- tested with vike and next.js
+- tested with SSR Frameworks: vike and next.js
 
 ## Contents
 
@@ -60,12 +59,12 @@ const ButtonBase = rc.button`
 
 ## Getting started
 
-Let's assume you have installed [React](https://react.dev/) (> 16.8.0)
+make sure you have installed [React](https://react.dev/) (> 16.8.0) in your project.
 
 ```bash
-npm i react-classmate --save-dev
+npm i react-classmate
 # or
-yarn add react-classmate --dev
+yarn add react-classmate
 ```
 
 ## Basic
