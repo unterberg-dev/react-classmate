@@ -26,11 +26,12 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "npm run clean && npm run bundle && npm run postbuild && npm run test",
+    "build": "npm run lefthook && npm run clean && npm run bundle && npm run postbuild && npm run test",
     "package": "npm run build && npm publish --access public",
     "postbuild": "npx tsx postbuild.ts",
     "test": "jest",
     "clean": "rm -rf dist",
+    "lefthook": "lefthook install",
     "bundle": "rollup -c"
   },
   "main": "./dist/index.cjs.js",

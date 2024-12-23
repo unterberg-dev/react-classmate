@@ -208,7 +208,7 @@ export type RcComponentFactory = {
  *
  * @typeParam P - The type of the component to extract props from.
  */
-type InnerProps2<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any>
+type InnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any>
   ? U
   : P;
 

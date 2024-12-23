@@ -339,7 +339,17 @@ export const Component = () => <StyledField placeholder="placeholder" as="select
 
 ## Upcoming
 
-- Variants for `rc.extend`
+- add `.style` chain like:
+```tsx
+const Button = rc.button<{ $disabled: boolean }>`
+  text-blue 
+  ${p => p.$disabled ? 'opacity-50' : ''}
+`.style({
+  color: (p) => p.$disabled ? 'red' : 'blue',
+  boxShadow: '0 0 0 1px currentColor'
+})
+```
+- Variants for `rc.extend` (evaluate if this is really needed?)
 - Integrate more tests, benchmarks focused on SSR and React
 - Advanced IDE integration
   - show generated default class on hover
