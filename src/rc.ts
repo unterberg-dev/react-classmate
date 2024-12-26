@@ -1,16 +1,16 @@
-import createBaseComponent from "./builder/base";
-import createExtendedComponent from "./builder/extend";
-import createVariantsComponent from "./builder/variants";
+import createBaseComponent from "./builder/base"
+import createExtendedComponent from "./builder/extend"
+import createVariantsComponent from "./builder/variants"
 import type {
   InputComponent,
   Interpolation,
   RcBaseComponent,
   RcComponentFactory,
   VariantsConfig,
-} from "./types";
+} from "./types"
 
 // init
-const rcTarget: Partial<RcComponentFactory> = {};
+const rcTarget: Partial<RcComponentFactory> = {}
 
 const rcProxy = new Proxy(rcTarget, {
   /**
@@ -21,19 +21,10 @@ const rcProxy = new Proxy(rcTarget, {
   get(_, prop: string) {
     // calls `rc.extend`
     if (prop === "extend") {
-      return <BCProps extends object>(
-        baseComponent: RcBaseComponent<BCProps> | InputComponent,
-      ) =>
-        <T extends object>(
-          strings: TemplateStringsArray,
-          ...interpolations: Interpolation<T>[]
-        ) => {
-          return createExtendedComponent<T>(
-            baseComponent,
-            strings,
-            interpolations,
-          );
-        };
+      return <BCProps extends object>(baseComponent: RcBaseComponent<BCProps> | InputComponent) =>
+        <T extends object>(strings: TemplateStringsArray, ...interpolations: Interpolation<T>[]) => {
+          return createExtendedComponent<T>(baseComponent, strings, interpolations)
+        }
     }
 
     // calls `rc.button`, `rc.div`, etc.
@@ -45,24 +36,20 @@ const rcProxy = new Proxy(rcTarget, {
         prop as keyof JSX.IntrinsicElements,
         strings,
         interpolations,
-      );
+      )
 
     // attach `.variants` to factory
-    factoryFunction.variants = <
-      ExtraProps extends object,
-      VariantProps extends object = ExtraProps,
-    >(
+    factoryFunction.variants = <ExtraProps extends object, VariantProps extends object = ExtraProps>(
       config: VariantsConfig<VariantProps, ExtraProps>,
     ) => {
-      return createVariantsComponent<
-        keyof JSX.IntrinsicElements,
-        ExtraProps,
-        VariantProps
-      >(prop as keyof JSX.IntrinsicElements, config);
-    };
+      return createVariantsComponent<keyof JSX.IntrinsicElements, ExtraProps, VariantProps>(
+        prop as keyof JSX.IntrinsicElements,
+        config,
+      )
+    }
 
-    return factoryFunction;
+    return factoryFunction
   },
-});
+})
 
-export default rcProxy as RcComponentFactory;
+export default rcProxy as RcComponentFactory

@@ -1,7 +1,7 @@
 // createExtendedComponent.ts
 
-import type { RcBaseComponent, Interpolation, InputComponent } from "../types";
-import createReactElement from "../util/createReactElement";
+import type { InputComponent, Interpolation, RcBaseComponent } from "../types"
+import createReactElement from "../util/createReactElement"
 
 /**
  * Create an extended component builder.
@@ -14,38 +14,30 @@ import createReactElement from "../util/createReactElement";
  * @returns A new styled component with merged class names.
  */
 function createExtendedComponent<T extends object>(
-  baseComponent: RcBaseComponent<any> | InputComponent,
+  baseComponent: InputComponent,
   strings: TemplateStringsArray,
   interpolations: Interpolation<T>[],
 ): RcBaseComponent<T> {
   // Retrieve
-  const baseComputeClassName =
-    (baseComponent as RcBaseComponent<any>).__rcComputeClassName || (() => "");
-  const baseTag =
-    (baseComponent as RcBaseComponent<any>).__rcTag || baseComponent;
+  const baseComputeClassName = (baseComponent as RcBaseComponent<any>).__rcComputeClassName || (() => "")
+  const baseTag = (baseComponent as RcBaseComponent<any>).__rcTag || baseComponent
 
   const extendedComputeClassName = (props: T) => {
-    const baseClassName = baseComputeClassName(props);
+    const baseClassName = baseComputeClassName(props)
     const extendedClassName = strings
       .map((str, i) => {
-        const interp = interpolations[i];
-        return typeof interp === "function"
-          ? str + interp(props)
-          : str + (interp ?? "");
+        const interp = interpolations[i]
+        return typeof interp === "function" ? str + interp(props) : str + (interp ?? "")
       })
       .join("")
       .replace(/\s+/g, " ")
-      .trim();
+      .trim()
 
-    return [baseClassName, extendedClassName].filter(Boolean).join(" ");
-  };
+    return [baseClassName, extendedClassName].filter(Boolean).join(" ")
+  }
 
-  const label = `Extended(${(baseComponent as RcBaseComponent<any>).displayName || "Component"})`;
-  return createReactElement(
-    baseTag,
-    extendedComputeClassName,
-    label,
-  ) as RcBaseComponent<T>;
+  const label = `Extended(${(baseComponent as RcBaseComponent<any>).displayName || "Component"})`
+  return createReactElement(baseTag, extendedComputeClassName, label) as RcBaseComponent<T>
 }
 
-export default createExtendedComponent;
+export default createExtendedComponent

@@ -1,8 +1,8 @@
-import rc from "./rc";
-import type { RcComponentFactory } from "./types";
+import rc from "./rc"
+import type { RcComponentFactory } from "./types"
 
 /* the classmates BaseComponent type */
-export type { RcBaseComponent } from "./types";
+export type { RcBaseComponent } from "./types"
 
 /**
  * The `rc` instance is the main entry point for creating our classmate-components.
@@ -52,4 +52,4 @@ export type { RcBaseComponent } from "./types";
  * })
  * ```
  */
-export default rc as RcComponentFactory;
+export default rc as RcComponentFactory

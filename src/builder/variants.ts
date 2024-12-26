@@ -1,12 +1,7 @@
-import type { JSX } from "react";
+import type { JSX } from "react"
 
-import type {
-  RcBaseComponent,
-  MergeProps,
-  VariantsConfig,
-  InputComponent,
-} from "../types";
-import createReactElement from "../util/createReactElement";
+import type { InputComponent, MergeProps, RcBaseComponent, VariantsConfig } from "../types"
+import createReactElement from "../util/createReactElement"
 
 /**
  * Creates a React component with variant-based class names.
@@ -27,41 +22,32 @@ const createVariantsComponent = <
   tag: E,
   config: VariantsConfig<VariantProps, ExtraProps>,
 ): RcBaseComponent<MergeProps<E, ExtraProps & Partial<VariantProps>>> => {
-  const { base, variants, defaultVariants = {} } = config;
+  const { base, variants, defaultVariants = {} } = config
 
   const computeClassName = (props: MergeProps<E, Partial<VariantProps>>) => {
-    const baseClasses = typeof base === "function" ? base(props) : base || "";
-    const variantClasses = Object.entries(variants).map(
-      ([key, variantOptions]) => {
-        const propValue =
-          props[key] ??
-          (defaultVariants as Record<string, string | undefined>)[key];
+    const baseClasses = typeof base === "function" ? base(props) : base || ""
+    const variantClasses = Object.entries(variants).map(([key, variantOptions]) => {
+      const propValue = props[key] ?? (defaultVariants as Record<string, string | undefined>)[key]
 
-        const variantClass = propValue
-          ? (variantOptions as Record<string, any>)?.[propValue]
-          : undefined;
+      const variantClass = propValue ? (variantOptions as Record<string, any>)?.[propValue] : undefined
 
-        if (typeof variantClass === "function") {
-          return variantClass(props);
-        }
+      if (typeof variantClass === "function") {
+        return variantClass(props)
+      }
 
-        return variantClass || "";
-      },
-    );
+      return variantClass || ""
+    })
 
-    return [baseClasses, ...variantClasses].filter(Boolean).join(" ").trim();
-  };
+    return [baseClasses, ...variantClasses].filter(Boolean).join(" ").trim()
+  }
 
-  const variantKeys = Object.keys(variants);
+  const variantKeys = Object.keys(variants)
 
   // create
-  const label = `Variants(${typeof tag === "string" ? tag : "Component"})`;
-  return createReactElement(
-    tag,
-    computeClassName,
-    label,
-    variantKeys,
-  ) as RcBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>;
-};
+  const label = `Variants(${typeof tag === "string" ? tag : "Component"})`
+  return createReactElement(tag, computeClassName, label, variantKeys) as RcBaseComponent<
+    MergeProps<E, Partial<VariantProps> & ExtraProps>
+  >
+}
 
-export default createVariantsComponent;
+export default createVariantsComponent

@@ -9,20 +9,22 @@ A tool for managing React component class names with the simplicity of styled-co
 
 ```jsx
 const SomeButton = ({ isLoading, ...props }) => {
-  const activeClass = isLoading ? 'bg-blue-400 text-white' : 'bg-blue-800 text-blue-200'
+  const activeClass = isLoading
+    ? "bg-blue-400 text-white"
+    : "bg-blue-800 text-blue-200";
 
   return (
     <button
       {...props}
-      className={`transition-all mt-5 border-1 md:text-lg text-normal ${someConfig.transitionDurationEaseClass} ${activeClass} ${props.className || ''}`}
+      className={`transition-all mt-5 border-1 md:text-lg text-normal ${someConfig.transitionDurationEaseClass} ${activeClass} ${props.className || ""}`}
     >
       {props.children}
     </button>
-  )
-}
+  );
+};
 ```
 
-## 🌤️ Into this
+## 🌤️ Into
 
 ```js
 const ButtonBase = rc.button`
@@ -33,7 +35,7 @@ const ButtonBase = rc.button`
   transition-all
   ${someConfig.transitionDurationEaseClass}
   ${(p) => (p.$isLoading ? "opacity-90 pointer-events-none" : "")}
-`
+`;
 ```
 
 ## Features
@@ -55,7 +57,7 @@ const ButtonBase = rc.button`
 - [Recipes for `rc.extend`](#receipes-for-rcextend)
   - [Use rc for creating base component](#use-rc-for-creating-base-component)
   - [Auto infer types for props](#auto-infer-types-for-props)
-  - [Extending other lib components / Juggling with components that are `any`](#extending-other-lib-components--juggling-with-components-that-are-any)
+  - [Extending other lib components / `any` as Input](#extending-other-lib-components--any-as-input)
 
 ## Getting started
 
@@ -72,13 +74,13 @@ yarn add react-classmate
 Create a component by calling `rc` with a tag name and a template literal string.
 
 ```tsx
-import rc from 'react-classmate'
+import rc from "react-classmate";
 
 const Container = rc.div`
   py-2
   px-5
   min-h-24
-`
+`;
 // transforms to: <div className="py-2 px-5 min-h-24" />
 ```
 
@@ -87,14 +89,14 @@ const Container = rc.div`
 Extend a component directly by passing the component and the tag name.
 
 ```tsx
-import MyOtherComponent from './MyOtherComponent' // () => <button className="text-lg mt-5" />
-import rc from 'react-classmate'
+import MyOtherComponent from "./MyOtherComponent"; // () => <button className="text-lg mt-5" />
+import rc from "react-classmate";
 
 const Container = rc.extend(MyOtherComponent)`
   py-2
   px-5
   min-h-24
-`
+`;
 // transforms to: <button className="text-lg mt-5 py-2 px-5 min-h-24" />
 ```
 
@@ -105,23 +107,23 @@ Pass props to the component and use them in the template literal string and in t
 ```tsx
 // hey typescript
 interface ButtonProps {
-  $isActive?: boolean
-  $isLoading?: boolean
+  $isActive?: boolean;
+  $isLoading?: boolean;
 }
 const SomeButton = rc.button<ButtonProps>`
   text-lg
   mt-5
-  ${p => p.$isActive ? 'bg-blue-400 text-white' : 'bg-blue-400 text-blue-200'}
-  ${p => p.$isLoading ? 'opacity-90 pointer-events-none' : ''}
-`
+  ${(p) => (p.$isActive ? "bg-blue-400 text-white" : "bg-blue-400 text-blue-200")}
+  ${(p) => (p.$isLoading ? "opacity-90 pointer-events-none" : "")}
+`;
 // transforms to <button className="text-lg mt-5 bg-blue-400 text-white opacity-90 pointer-events-none" />
 ```
 
 ### Prefix incoming props with `$`
 
-**Note how we prefix the props incoming to dc with a `$` sign**. This is a important convention to distinguish dynamic props from the ones we pass to the component.
+**we prefix the props incoming to dc with a `$` sign**. This is a important convention to distinguish dynamic props from the ones we pass to the component.
 
-*This pattern should also avoid conflicts with reserved prop names.*
+_This pattern should also avoid conflicts with reserved prop names._
 
 ## Create Variants
 
@@ -135,26 +137,28 @@ interface AlertProps {
 }
 const Alert = rc.div.variants<AlertProps>({
   // optional
-  base: p => `
-    ${p.isActive ? 'custom-active' : 'custom-inactive'}
+  base: (p) => `
+    ${p.isActive ? "custom-active" : "custom-inactive"}
     p-4
     rounded-md
   `,
   // required
   variants: {
     $severity: {
-      info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
-      warning: (p) => `bg-yellow-100 text-yellow-800 ${p.$isActive ? "font-bold" : ""}`,
-      error: (p) => `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
+      warning: "bg-yellow-100 text-yellow-800",
+      info: (p) =>
+        `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+      error: (p) =>
+        `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
     },
   },
   // optional - used if no variant was found
   defaultVariant: {
     $severity: "info",
-  }
+  },
 });
 
-export default () => <Alert $severity="info" $isActive />
+export default () => <Alert $severity="info" $isActive />;
 // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
 ```
 
@@ -175,17 +179,18 @@ const Alert = rc.div.variants<AlertProps, AlertVariants>({
     // in here there are only the keys from AlertVariants available
     $severity: {
       // you can use the props from AlertProps here again
-      info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
-      warning: (p) => `bg-yellow-100 text-yellow-800 ${p.$isActive ? "font-bold" : ""}`,
-      error: (p) => `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
+      warning: "bg-yellow-100 text-yellow-800",
+      info: (p) =>
+        `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+      error: (p) =>
+        `bg-red-100 text-red-800 ${p.$isActive ? "ring ring-red-500" : ""}`,
     },
   },
   // optional - used if no variant was found
   defaultVariant: {
     $severity: "info",
-  }
+  },
 });
-
 ```
 
 ## Receipes for `rc.extend`
@@ -193,17 +198,17 @@ const Alert = rc.div.variants<AlertProps, AlertVariants>({
 With `rc.extend`, you can build upon any base React component, adding new styles and even supporting additional props. This makes it easy to create reusable component variations without duplicating logic.
 
 ```tsx
-import { ArrowBigDown } from 'lucide-react'
-import rc from 'react-classmate'
+import { ArrowBigDown } from "lucide-react";
+import rc from "react-classmate";
 
 const StyledLucideArrow = rc.extend(ArrowBigDown)`
   md:-right-4.5
   right-1
   slide-in-r-20
-`
+`;
 
-// note how we can pass props which are only accessible on a Lucid Component
-export default () => <StyledLucideArrow stroke="3" />
+// ts: we can pass only props which are accessible on a `lucid-react` Component
+export default () => <StyledLucideArrow stroke="3" />;
 ```
 
 ⚠️ Having problems by extending third party components, see: [Extending other lib components](#extending-other-lib-components--juggling-with-components-that-are-any)
@@ -211,10 +216,10 @@ export default () => <StyledLucideArrow stroke="3" />
 Now we can define a base component, extend it with additional styles and classes, and pass properties. You can pass the types to the `extend` function to get autocompletion and type checking.
 
 ```tsx
-import rc from 'react-classmate'
+import rc from "react-classmate";
 
 interface StyledSliderItemBaseProps {
-  $active: boolean
+  $active: boolean;
 }
 const StyledSliderItemBase = rc.button<StyledSliderItemBaseProps>`
   absolute
@@ -222,20 +227,24 @@ const StyledSliderItemBase = rc.button<StyledSliderItemBaseProps>`
   w-full
   left-0
   top-0
-  ${p => (p.$active ? 'animate-in fade-in' : 'animate-out fade-out')}
-`
+  ${(p) => (p.$active ? "animate-in fade-in" : "animate-out fade-out")}
+`;
 
 interface NewStyledSliderItemProps extends StyledSliderItemBaseProps {
-  $secondBool: boolean
+  $secondBool: boolean;
 }
-const NewStyledSliderItemWithNewProps = rc.extend(StyledSliderItemBase)<NewStyledSliderItemProps>`
+const NewStyledSliderItemWithNewProps = rc.extend(
+  StyledSliderItemBase
+)<NewStyledSliderItemProps>`
   rounded-lg
   text-lg
-  ${p => (p.$active ? 'bg-blue' : 'bg-red')}
-  ${p => (p.$secondBool ? 'text-underline' : 'some-class-here')}
-`
+  ${(p) => (p.$active ? "bg-blue" : "bg-red")}
+  ${(p) => (p.$secondBool ? "text-underline" : "some-class-here")}
+`;
 
-export default () => <NewStyledSliderItemWithNewProps $active $secondBool={false} />
+export default () => (
+  <NewStyledSliderItemWithNewProps $active $secondBool={false} />
+);
 // outputs: <button className="absolute h-full w-full left-0 top-0 animate-in fade-in rounded-lg text-lg bg-blue" />
 ```
 
@@ -245,7 +254,7 @@ export default () => <NewStyledSliderItemWithNewProps $active $secondBool={false
 const BaseButton = rc.extend(rc.button``)`
   text-lg
   mt-5
-`
+`;
 ```
 
 ### extend from variants
@@ -260,16 +269,17 @@ const Alert = rc.input.variants<ButtonProps>({
   base: "p-4",
   variants: {
     $severity: {
-      info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+      info: (p) =>
+        `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
     },
   },
 });
 
 const ExtendedButton = rc.extend(Alert)<{ $test: boolean }>`
-  ${p => p.$test ? "bg-green-100 text-green-800" : ""}
-`
+  ${(p) => (p.$test ? "bg-green-100 text-green-800" : "")}
+`;
 
-export default () => <ExtendedButton $severity="info" $test />
+export default () => <ExtendedButton $severity="info" $test />;
 // outputs: <input className="p-4 bg-blue-100 text-blue-800 shadow-lg bg-green-100 text-green-800" />
 ```
 
@@ -282,21 +292,21 @@ This is useful if you wanna rely on the props for a specific element without the
 // if you pass rc component it's types are validated
 const ExtendedButton = rc.extend(rc.button``)`
   some-class
-  ${p => p.type === 'submit' ? 'font-normal' : 'font-bold'}
-`
+  ${(p) => (p.type === "submit" ? "font-normal" : "font-bold")}
+`;
 
 // infers the type of the input element + add new props
 const MyInput = ({ ...props }: HTMLAttributes<HTMLInputElement>) => (
   <input {...props} />
-)
+);
 const StyledDiv = rc.extend(MyInput)<{ $trigger?: boolean }>`
   bg-white
-  ${p => p.$trigger ? "!border-error" : ""}
-  ${p => p.type === 'submit' ? 'font-normal' : 'font-bold'}
-`
+  ${(p) => (p.$trigger ? "!border-error" : "")}
+  ${(p) => (p.type === "submit" ? "font-normal" : "font-bold")}
+`;
 ```
 
-### Extending other lib components / Juggling with components that are `any`
+### Extending other lib components / `any` as Input
 
 Unfortunately we cannot infer the type directly of the component if it's `any` or loosely typed. But we can use a intermediate step to pass the type to the `extend` function.
 
@@ -335,27 +345,19 @@ const StyledField = rc.extend(FieldComponent)<{ $error: boolean }>`
 export const Component = () => <StyledField placeholder="placeholder" as="select" name="name" $error />
 ```
 
-⚠️ This is a workaround! This is a *bug* - we should be able to pass the types directly in the interface in which we pass `$error`. Contributions welcome.
+⚠️ This is a workaround! This is a _bug_ - we should be able to pass the types directly in the interface in which we pass `$error`. Contributions welcome.
 
 ## Upcoming
 
-- add `.style` chain like:
-```tsx
-const Button = rc.button<{ $disabled: boolean }>`
-  text-blue 
-  ${p => p.$disabled ? 'opacity-50' : ''}
-`.style({
-  color: (p) => p.$disabled ? 'red' : 'blue',
-  boxShadow: '0 0 0 1px currentColor'
-})
-```
-- Variants for `rc.extend` (evaluate if this is really needed?)
+- pass & proccess css style object on initial creation
+- Variants for `rc.extend`
 - Integrate more tests, benchmarks focused on SSR and React
 - Advanced IDE integration
   - show generated default class on hover
   - enforce autocompletion and tooltips from the used libs
 
 ## Inspiration
+
 - [tailwind-styled-component](https://github.com/MathiasGilson/tailwind-styled-component)
 - [cva](https://github.com/joe-bell/cva)
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)

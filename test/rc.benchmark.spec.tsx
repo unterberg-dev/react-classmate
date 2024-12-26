@@ -1,23 +1,23 @@
-import '@testing-library/jest-dom'
-import React, { type InputHTMLAttributes } from 'react'
-import { render } from '@testing-library/react'
+import "@testing-library/jest-dom"
+import { render } from "@testing-library/react"
+import React, { type InputHTMLAttributes } from "react"
 
-import rc from '../dist/index'
+import rc from "../dist"
 
 const NUM_COMPONENTS = 50
 
 // unique map
 const numMap = Array.from({ length: NUM_COMPONENTS }, (_, i) => i)
 
-describe('rc stress benchmark', () => {
-  it('rc benchmark warmup', () => {
+describe("rc stress benchmark", () => {
+  it("rc benchmark warmup", () => {
     const start = performance.now()
 
     const RcDiv = rc.div`bg-red p-4`
     const ReactDiv = (props: { className?: string }) => <div className={props.className} />
 
     const components = numMap.map((i) =>
-      i % 2 === 0 ? <RcDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />
+      i % 2 === 0 ? <RcDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />,
     )
 
     const { container } = render(components)
@@ -27,7 +27,7 @@ describe('rc stress benchmark', () => {
     console.log(`000) ${NUM_COMPONENTS}x rsx and react elements - warmup: ${(end - start).toFixed(2)} ms`)
   })
 
-  it('rc creation', () => {
+  it("rc creation", () => {
     const start = performance.now()
 
     const RcDiv = rc.div`bg-red p-4`
@@ -40,7 +40,7 @@ describe('rc stress benchmark', () => {
     console.log(`A) ${NUM_COMPONENTS}x rc base: ${(end - start).toFixed(2)} ms`)
   })
 
-  it('react creation', () => {
+  it("react creation", () => {
     const start = performance.now()
 
     const ReactDiv = (props: { className?: string }) => <div className={props.className} />
@@ -53,7 +53,7 @@ describe('rc stress benchmark', () => {
     console.log(`A) ${NUM_COMPONENTS}x react base: ${(end - start).toFixed(2)} ms`)
   })
 
-  it('rc.extend', () => {
+  it("rc.extend", () => {
     const start = performance.now()
 
     interface BaseProps {
@@ -61,12 +61,12 @@ describe('rc stress benchmark', () => {
     }
 
     const BaseButton = rc.button<BaseProps>`
-      ${(p) => (p.$isActive ? 'bg-active' : 'bg-inactive')}
+      ${(p) => (p.$isActive ? "bg-active" : "bg-inactive")}
     `
 
     const ExtendedButton = rc.extend(BaseButton)<{ $isDisabled?: boolean }>`
-      ${(p) => (p.$isDisabled ? 'opacity-50' : 'opacity-100')}
-      ${(p) => (p.$isActive ? 'text-bold' : 'text-normal')}
+      ${(p) => (p.$isDisabled ? "opacity-50" : "opacity-100")}
+      ${(p) => (p.$isActive ? "text-bold" : "text-normal")}
     `
 
     const components = numMap.map((i) => (
@@ -80,33 +80,33 @@ describe('rc stress benchmark', () => {
     console.log(`B) ${NUM_COMPONENTS}x rc base + rc.extend: ${(end - start).toFixed(2)} ms`)
   })
 
-  it('react prop nesting', () => {
+  it("react prop nesting", () => {
     const start = performance.now()
 
     // Mimic the behavior of BaseButton and ExtendedButton
     const BaseButton = ({ isActive, className }: { isActive: boolean; className?: string }) => {
-      const baseClass = isActive ? 'bg-active' : 'bg-inactive'
-      return <button type="button" className={`${baseClass} ${className || ''}`.trim()} />
+      const baseClass = isActive ? "bg-active" : "bg-inactive"
+      return <button type="button" className={`${baseClass} ${className || ""}`.trim()} />
     }
 
     const ExtendedButton = ({
       $isActive,
       $isDisabled,
-      className
+      className,
     }: {
       $isActive: boolean
       $isDisabled?: boolean
       className?: string
     }) => {
-      const baseClass = $isActive ? 'bg-active' : 'bg-inactive'
+      const baseClass = $isActive ? "bg-active" : "bg-inactive"
       const extendedClass = [
         baseClass,
-        $isDisabled ? 'opacity-50' : 'opacity-100',
-        $isActive ? 'text-bold' : 'text-normal',
-        className || ''
+        $isDisabled ? "opacity-50" : "opacity-100",
+        $isActive ? "text-bold" : "text-normal",
+        className || "",
       ]
         .filter(Boolean)
-        .join(' ')
+        .join(" ")
         .trim()
       return <BaseButton isActive className={extendedClass} />
     }
@@ -122,25 +122,25 @@ describe('rc stress benchmark', () => {
     console.log(`B) ${NUM_COMPONENTS}x react extend: ${(end - start).toFixed(2)} ms`)
   })
 
-  it('rc extend variants', () => {
+  it("rc extend variants", () => {
     const start = performance.now()
 
     interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
-      $severity: 'info' | 'warning' | 'error'
+      $severity: "info" | "warning" | "error"
       $isActive?: boolean
     }
 
     const Alert = rc.input.variants<ButtonProps>({
-      base: 'p-4',
+      base: "p-4",
       variants: {
         $severity: {
-          info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? 'shadow-lg' : ''}`
-        }
-      }
+          info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+        },
+      },
     })
 
     const ExtendedButton = rc.extend(Alert)<{ $test: boolean }>`
-      ${(p) => (p.$test ? 'bg-green-100 text-green-800' : '')}
+      ${(p) => (p.$test ? "bg-green-100 text-green-800" : "")}
     `
 
     const components = numMap.map((i) => (
