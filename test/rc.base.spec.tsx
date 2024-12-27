@@ -9,16 +9,13 @@ describe("rc base", () => {
     const RenderDiv = rc.div`bg-red p-4`
 
     const { container } = render(<RenderDiv />)
-    console.log(prettyDOM(container))
     expect(container.firstChild).toHaveClass("bg-red p-4")
     expect(container.firstChild).toBeInstanceOf(HTMLDivElement)
   })
 
   it("filters $-prefixed props & renders the class attribute on a rc.button", () => {
     const HiddenButton = rc.button<{ $hidden: boolean }>`text-blue custom`
-
     const { container } = render(<HiddenButton aria-label="testlabel" $hidden />)
-    console.log(prettyDOM(container))
 
     expect(container.firstChild).not.toHaveAttribute("$hidden")
     expect(container.firstChild).toHaveClass("text-blue custom")

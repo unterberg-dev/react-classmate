@@ -12,18 +12,19 @@ import type {
 // init
 const rcTarget: Partial<RcComponentFactory> = {}
 
+/**
+ * Intercepts property lookups:
+ * - `rc.extend`: returns function to extend an existing component
+ * - `rc.button`, `rc.div`, etc.: returns factory for base components, with `.variants`
+ */
 const rcProxy = new Proxy(rcTarget, {
-  /**
-   * Intercepts property lookups:
-   * - `rc.extend`: returns function to extend an existing component
-   * - `rc.button`, `rc.div`, etc.: returns factory for base components, with `.variants`
-   */
   get(_, prop: string) {
     // calls `rc.extend`
     if (prop === "extend") {
       return <BCProps extends object>(baseComponent: RcBaseComponent<BCProps> | InputComponent) =>
         <T extends object>(strings: TemplateStringsArray, ...interpolations: Interpolation<T>[]) => {
-          return createExtendedComponent<T>(baseComponent, strings, interpolations)
+          const rcBaseComponent = baseComponent as RcBaseComponent<any> // Ensure proper type
+          return createExtendedComponent<T>(rcBaseComponent, strings, interpolations)
         }
     }
 
@@ -38,7 +39,7 @@ const rcProxy = new Proxy(rcTarget, {
         interpolations,
       )
 
-    // attach `.variants` to factory
+    // attach `.variants` to factory components
     factoryFunction.variants = <ExtraProps extends object, VariantProps extends object = ExtraProps>(
       config: VariantsConfig<VariantProps, ExtraProps>,
     ) => {
@@ -47,9 +48,8 @@ const rcProxy = new Proxy(rcTarget, {
         config,
       )
     }
-
     return factoryFunction
   },
-})
+}) as RcComponentFactory
 
 export default rcProxy as RcComponentFactory

@@ -1,10 +1,9 @@
 import type { JSX } from "react"
-
-import type { InputComponent, MergeProps, RcBaseComponent, VariantsConfig } from "../types"
+import type { InputComponent, MergeProps, RcBaseComponent, StyleDefinition, VariantsConfig } from "../types"
 import createReactElement from "../util/createReactElement"
 
 /**
- * Creates a React component with variant-based class names.
+ * Creates a React component with variant-based class names and styles.
  *
  * @template E - The type of the element or component.
  * @template ExtraProps - Additional props for the component.
@@ -24,30 +23,46 @@ const createVariantsComponent = <
 ): RcBaseComponent<MergeProps<E, ExtraProps & Partial<VariantProps>>> => {
   const { base, variants, defaultVariants = {} } = config
 
-  const computeClassName = (props: MergeProps<E, Partial<VariantProps>>) => {
-    const baseClasses = typeof base === "function" ? base(props) : base || ""
+  const computeClassName = (
+    props: MergeProps<E, Partial<VariantProps> & ExtraProps>,
+    collectedStyles: Record<string, string | number>,
+  ) => {
+    const styleUtility = (styleDef: StyleDefinition<MergeProps<E, Partial<VariantProps> & ExtraProps>>) => {
+      Object.assign(collectedStyles, styleDef)
+      return ""
+    }
+
+    // base classes and styles
+    const baseClasses = typeof base === "function" ? base({ ...props, style: styleUtility }) : base || ""
+
+    // variant classes and styles
     const variantClasses = Object.entries(variants).map(([key, variantOptions]) => {
       const propValue = props[key] ?? (defaultVariants as Record<string, string | undefined>)[key]
-
       const variantClass = propValue ? (variantOptions as Record<string, any>)?.[propValue] : undefined
 
       if (typeof variantClass === "function") {
-        return variantClass(props)
+        return variantClass({ ...props, style: styleUtility })
       }
-
       return variantClass || ""
     })
 
     return [baseClasses, ...variantClasses].filter(Boolean).join(" ").trim()
   }
 
-  const variantKeys = Object.keys(variants)
+  const propsToFilter = Object.keys(variants)
 
-  // create
-  const label = `Variants(${typeof tag === "string" ? tag : "Component"})`
-  return createReactElement(tag, computeClassName, label, variantKeys) as RcBaseComponent<
-    MergeProps<E, Partial<VariantProps> & ExtraProps>
-  >
+  // Collect styles dynamically
+  const styles: Record<string, string | number> = {}
+
+  const displayName = `Variants(${typeof tag === "string" ? tag : "Component"})`
+
+  return createReactElement({
+    tag,
+    computeClassName: (props) => computeClassName(props, styles),
+    displayName,
+    styles,
+    propsToFilter,
+  }) as RcBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>
 }
 
 export default createVariantsComponent
