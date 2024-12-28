@@ -1,6 +1,6 @@
-import createBaseComponent from "./builder/base"
-import createExtendedComponent from "./builder/extend"
-import createVariantsComponent from "./builder/variants"
+import createBaseComponent from "./factory/base"
+import createExtendedComponent from "./factory/extend"
+import createVariantsComponent from "./factory/variants"
 import type {
   InputComponent,
   Interpolation,

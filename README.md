@@ -3,7 +3,7 @@
 
 # react-classmate
 
-A tool for managing React component class names with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
+A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
 
 ## 🚩 Transform this
 
@@ -44,7 +44,7 @@ const ButtonBase = rc.button`
 - Variants
 - Extend components
 - TypeScript support
-- Tested with SSR Frameworks: Vike and Next.js
+- Tested with SSR Frameworks
 
 ## Contents
 
