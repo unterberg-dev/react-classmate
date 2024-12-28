@@ -7,11 +7,14 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["dist/", ".localPack", "package.json"]
+    "ignore": ["dist/", ".localPack/", "package.json"]
   },
   "formatter": {
+    "enabled": true,
     "indentWidth": 2,
-    "indentStyle": "space"
+    "indentStyle": "space",
+    "lineWidth": 110,
+    "lineEnding": "lf"
   },
   "organizeImports": {
     "enabled": true
@@ -28,7 +31,10 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "double"
+      "quoteStyle": "double",
+      "enabled": true,
+      "attributePosition": "auto",
+      "semicolons": "asNeeded"
     }
   }
 }
