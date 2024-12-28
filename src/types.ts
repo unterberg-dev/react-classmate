@@ -17,9 +17,7 @@ import type {
  *
  * @typeParam T - The type of the props passed to the interpolation function.
  */
-// export type Interpolation<T> = string | boolean | ((props: T) => string) | null | undefined
-
-export type InterpolationBase<T> = string | boolean | ((props: T) => string) | null | undefined
+type InterpolationBase<T> = string | boolean | ((props: T) => string) | null | undefined
 export type Interpolation<T> = InterpolationBase<T & { style: (styleDef: StyleDefinition<T>) => string }>
 
 export type InputComponent =
@@ -225,10 +223,11 @@ export type MergeProps<E, T> = E extends keyof JSX.IntrinsicElements
       ? P2 & T
       : T
 
-export type StaticStyleValue = string | number
+// styles
+type StaticStyleValue = string | number
+type DynamicStyleValue<P> = (props: P) => StaticStyleValue
 
-export type DynamicStyleValue<P> = (props: P) => StaticStyleValue
-
+// todo: document this
 export type StyleDefinition<P> = {
   [Key in keyof CSSProperties]?: StaticStyleValue | DynamicStyleValue<P>
 }

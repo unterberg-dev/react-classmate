@@ -1,7 +1,7 @@
 {
   "name": "react-classmate",
   "description": "A tool for managing react component class names, variants and styles",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
@@ -21,8 +21,6 @@
     "classname",
     "classname-variants",
     "frontend",
-    "nextjs",
-    "vike",
     "ssr",
     "tailwind",
     "unocss"
