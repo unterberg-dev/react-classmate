@@ -37,9 +37,10 @@ const ButtonBase = rc.button`
 
 ## Features
 
-- (Dynamic) class name-focused components
+- Class name-focused components
 - Variants
 - Extend components
+- Dynamic styles
 - TypeScript support
 - Tested with SSR Frameworks
 
@@ -208,6 +209,8 @@ const StyledButton = rc.button<{ $isDisabled: boolean }>`
       cursor: p.$isDisabled ? "not-allowed" : "pointer",
     })}
 `;
+export default () => <StyledButton $isDisabled />;
+// outputs: <button className="text-blue" style="box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); cursor: not-allowed;" />
 ```
 
 ```tsx
@@ -218,7 +221,6 @@ const BaseButton = rc.button<{ $isActive?: boolean }>`
       backgroundColor: p.$isActive ? "green" : "red",
     })}
 `;
-
 const ExtendedButton = rc.extend(BaseButton)<{ $isLoading?: boolean }>`
   ${(p) =>
     p.style({
@@ -226,6 +228,8 @@ const ExtendedButton = rc.extend(BaseButton)<{ $isLoading?: boolean }>`
       pointerEvents: p.$isLoading ? "none" : "auto",
     })}
 `;
+export default () => <ExtendedButton $isActive $isLoading />;
+// outputs: <button className="bg-red" style="opacity: 0.5; pointer-events: none;" />
 ```
 
 ## Recipes for `rc.extend`
