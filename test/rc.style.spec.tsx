@@ -49,7 +49,14 @@ describe("Style Capabilities", () => {
   // // Variants Component Test
   it("applies styles dynamically in createVariantsComponent", () => {
     const VariantButton = rc.button.variants<{ $size: "small" | "large"; $disabled?: boolean }>({
-      base: (p) => p.style({ border: p.$disabled ? "1px solid gray" : "1px solid blue" }),
+      base: (p) => `
+        test-class
+        color-black
+        ${p.style({
+          border: p.$disabled ? "1px solid gray" : "1px solid blue",
+          boxShadow: p.$disabled ? "none" : "0 0 0 1px black",
+        })}
+      `,
       variants: {
         $size: {
           small: (p) => p.style({ fontSize: "12px" }),
@@ -68,6 +75,7 @@ describe("Style Capabilities", () => {
     )
     const button = container.firstChild as HTMLElement
 
+    expect(button).toHaveClass("test-class color-black")
     expect(button).toHaveStyle("border: 1px solid blue")
     expect(button).toHaveStyle("font-size: 18px")
   })

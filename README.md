@@ -54,6 +54,7 @@ const ButtonBase = rc.button`
 - [Usage with props](#use-with-props)
 - [Create Variants](#create-variants)
 - [Extend components](#extend)
+- [Add CSS Styles](#add-css-styles)
 - [Recipes for `rc.extend`](#receipes-for-rcextend)
   - [Use rc for creating base component](#use-rc-for-creating-base-component)
   - [Auto infer types for props](#auto-infer-types-for-props)
@@ -193,7 +194,41 @@ const Alert = rc.div.variants<AlertProps, AlertVariants>({
 });
 ```
 
-## Receipes for `rc.extend`
+## Add CSS Styles
+
+You can use CSS styles in the template literal string with the `style` function. This function takes an object with CSS properties and returns a string. We can use the props from before.
+
+```tsx
+// Base:
+const StyledButton = rc.button<{ $isDisabled: boolean }>`
+  text-blue
+  ${(p) =>
+    p.style({
+      boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
+      cursor: p.$isDisabled ? "not-allowed" : "pointer",
+    })}
+`;
+```
+
+```tsx
+// Extended:
+const BaseButton = rc.button<{ $isActive?: boolean }>`
+  ${(p) =>
+    p.style({
+      backgroundColor: p.$isActive ? "green" : "red",
+    })}
+`;
+
+const ExtendedButton = rc.extend(BaseButton)<{ $isLoading?: boolean }>`
+  ${(p) =>
+    p.style({
+      opacity: p.$isLoading ? 0.5 : 1,
+      pointerEvents: p.$isLoading ? "none" : "auto",
+    })}
+`;
+```
+
+## Recipes for `rc.extend`
 
 With `rc.extend`, you can build upon any base React component, adding new styles and even supporting additional props. This makes it easy to create reusable component variations without duplicating logic.
 
