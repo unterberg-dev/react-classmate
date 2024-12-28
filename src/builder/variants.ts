@@ -22,6 +22,9 @@ const createVariantsComponent = <
   config: VariantsConfig<VariantProps, ExtraProps>,
 ): RcBaseComponent<MergeProps<E, ExtraProps & Partial<VariantProps>>> => {
   const { base, variants, defaultVariants = {} } = config
+  const propsToFilter = Object.keys(variants)
+  const styles: Record<string, string | number> = {}
+  const displayName = `Variants(${typeof tag === "string" ? tag : "Component"})`
 
   const computeClassName = (
     props: MergeProps<E, Partial<VariantProps> & ExtraProps>,
@@ -46,15 +49,8 @@ const createVariantsComponent = <
       return variantClass || ""
     })
 
-    return [baseClasses, ...variantClasses].filter(Boolean).join(" ").trim()
+    return [baseClasses, ...variantClasses].filter(Boolean).join(" ").trim().replace(/\s+/g, " ").trim()
   }
-
-  const propsToFilter = Object.keys(variants)
-
-  // Collect styles dynamically
-  const styles: Record<string, string | number> = {}
-
-  const displayName = `Variants(${typeof tag === "string" ? tag : "Component"})`
 
   return createReactElement({
     tag,

@@ -6,7 +6,7 @@ interface CreateReactElementParams<T, E> {
   tag: E
   computeClassName: (props: T) => string
   displayName: string
-  styles?: StyleDefinition<T>
+  styles?: StyleDefinition<T> | ((props: T) => StyleDefinition<T>)
   propsToFilter?: (keyof T)[]
 }
 
@@ -22,7 +22,7 @@ interface CreateReactElementParams<T, E> {
  */
 const createReactElement = <
   T extends object,
-  E extends keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>,
+  E extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>,
 >({
   tag,
   computeClassName,
@@ -41,26 +41,18 @@ const createReactElement = <
       }
     }
 
-    // Merge computed styles with user-provided inline styles
-    const computedStyles = Object.entries(styles).reduce(
-      (acc, [key, value]) => {
-        acc[key] = typeof value === "function" ? value(props as T) : value
-        return acc
-      },
-      {} as Record<string, string | number>,
-    )
+    const dynamicStyles = typeof styles === "function" ? styles(props as T) : styles
 
+    // component level styles
     const localStyle = typeof domProps.style === "object" && domProps.style !== null ? domProps.style : {}
     const mergedStyles = {
-      ...computedStyles,
+      ...dynamicStyles,
       ...localStyle,
     }
 
-    // Merge computed class names with incoming className
     const incomingClassName = domProps.className || ""
     const finalClassName = [computedClassName, incomingClassName].filter(Boolean).join(" ").trim()
 
-    // Pass down computed styles alongside other DOM props
     return createElement(tag, {
       ...domProps,
       className: finalClassName,

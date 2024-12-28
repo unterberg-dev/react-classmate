@@ -3,7 +3,7 @@ import type { InputComponent, Interpolation, MergeProps, RcBaseComponent, StyleD
 import createReactElement from "../util/createReactElement"
 
 /**
- * Core function to create styled React components with dynamic class names and styles.
+ * Core function to create classmate components.
  *
  * @typeParam T - The type of the props passed to the interpolation function.
  * @typeParam E - The type of the component or intrinsic element.
@@ -17,10 +17,13 @@ const createBaseComponent = <T extends object, E extends keyof JSX.IntrinsicElem
   strings: TemplateStringsArray,
   interpolations: Interpolation<MergeProps<E, T>>[],
 ): RcBaseComponent<MergeProps<E, T>> => {
+  const styles: Record<string, string | number> = {}
+  const displayName = `Styled(${typeof tag === "string" ? tag : "Component"})`
+
   const computeClassName = (props: MergeProps<E, T>, collectedStyles: Record<string, string | number>) => {
     const styleUtility = (styleDef: StyleDefinition<MergeProps<E, T>>) => {
       Object.assign(collectedStyles, styleDef)
-      return "" // Avoid interfering with string interpolation
+      return ""
     }
 
     return strings
@@ -36,16 +39,11 @@ const createBaseComponent = <T extends object, E extends keyof JSX.IntrinsicElem
       .trim()
   }
 
-  // Collect styles dynamically
-  const styles: Record<string, string | number> = {}
-
-  const displayName = `Styled(${typeof tag === "string" ? tag : "Component"})`
-
   return createReactElement({
     tag,
     computeClassName: (props) => computeClassName(props, styles),
     displayName,
-    styles, // Pass collected styles to createReactElement
+    styles,
   })
 }
 

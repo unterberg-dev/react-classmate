@@ -34,9 +34,9 @@ export type InputComponent =
  */
 export interface RcBaseComponent<P>
   extends ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<HTMLElement>> {
-  __rcComputeClassName?: (props: P) => string // Function to compute class names
-  __rcTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any> // The original tag or component
-  __rcStyles?: StyleDefinition<P> // Dynamic styles associated with the component
+  __rcComputeClassName?: (props: P) => string
+  __rcTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>
+  __rcStyles?: StyleDefinition<P> | ((props: P) => StyleDefinition<P>)
 }
 
 /**

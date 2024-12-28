@@ -1,4 +1,4 @@
-import type { InputComponent, Interpolation, RcBaseComponent, StyleDefinition } from "../types"
+import type { Interpolation, RcBaseComponent, StyleDefinition } from "../types"
 import createReactElement from "../util/createReactElement"
 
 /**
@@ -11,33 +11,32 @@ import createReactElement from "../util/createReactElement"
  * @param interpolations - Interpolations for the new styles.
  * @returns A new styled component with merged class names and styles.
  */
-function createExtendedComponent<T extends object>(
+const createExtendedComponent = <T extends object>(
   baseComponent: RcBaseComponent<any>,
   strings: TemplateStringsArray,
   interpolations: Interpolation<T>[],
-): RcBaseComponent<T> {
+): RcBaseComponent<T> => {
+  const displayName = `Extended(${baseComponent.displayName || "Component"})`
   const baseComputeClassName = baseComponent.__rcComputeClassName || (() => "")
   const baseStyles = baseComponent.__rcStyles || {}
   const tag = baseComponent.__rcTag || baseComponent
 
-  const styles: Record<string, string | number> = {}
+  const computeClassName = (props: T, collectedStyles: Record<string, string | number>) => {
+    const styleUtility = (styleDef: StyleDefinition<T>) => {
+      Object.assign(collectedStyles, styleDef)
+      return ""
+    }
 
-  // Define the function to compute class names and collect styles
-  const computeClassName = (props: T) => {
-    const baseClassName = baseComputeClassName(props)
+    const baseClassName = baseComputeClassName({
+      ...props,
+      style: styleUtility,
+    })
 
     const extendedClassName = strings
       .map((str, i) => {
         const interp = interpolations[i]
         if (typeof interp === "function") {
-          const contextProps = {
-            ...props,
-            style: (styleDef: StyleDefinition<T>) => {
-              Object.assign(styles, styleDef)
-              return "" // No class names for style interpolations
-            },
-          }
-          return str + interp(contextProps)
+          return str + interp({ ...props, style: styleUtility })
         }
         return str + (interp ?? "")
       })
@@ -48,16 +47,17 @@ function createExtendedComponent<T extends object>(
     return [baseClassName, extendedClassName].filter(Boolean).join(" ")
   }
 
-  // Merge base styles with new styles
-  const mergedStyles = { ...baseStyles, ...styles }
+  const computeMergedStyles = (props: T) => {
+    const collectedStyles: Record<string, string | number> = {}
+    computeClassName(props, collectedStyles) // Collect dynamic styles
+    return { ...baseStyles, ...collectedStyles } // Merge base and collected styles
+  }
 
-  // Create the extended component
-  const displayName = `Extended(${baseComponent.displayName || "Component"})`
   return createReactElement({
     tag,
-    computeClassName,
+    computeClassName: (props) => computeClassName(props, {}),
     displayName,
-    styles: mergedStyles, // Pass merged styles to createReactElement
+    styles: (props) => computeMergedStyles(props), // Pass dynamic style computation
   })
 }
 
