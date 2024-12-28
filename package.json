@@ -1,7 +1,7 @@
 {
   "name": "react-classmate",
   "description": "A tool for managing React component class names with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
