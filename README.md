@@ -1,6 +1,3 @@
-[![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
-[![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
-
 # react-classmate
 
 A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
@@ -45,6 +42,9 @@ const ButtonBase = rc.button`
 - Extend components
 - TypeScript support
 - Tested with SSR Frameworks
+
+[![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
 
 ## Contents
 
@@ -384,7 +384,6 @@ export const Component = () => <StyledField placeholder="placeholder" as="select
 
 ## Upcoming
 
-- pass & proccess css style object on initial creation
 - Variants for `rc.extend`
 - Integrate more tests, benchmarks focused on SSR and React
 - Advanced IDE integration
