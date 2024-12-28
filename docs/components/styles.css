@@ -1,0 +1,26 @@
+/* transition default / reset */
+body .transition-visualizer {
+  transform: translateX(-100%);
+  transition: transform 1s;
+}
+
+body.no-transition .transition-visualizer {
+  transition: none !important;
+}
+
+/* transition starts */
+body.is-transition .transition-visualizer {
+  transform: translateX(-50%);
+  transition: transform 0.5s;
+}
+
+/* transition finish */
+body.is-transition.is-finished .transition-visualizer {
+  transform: translateX(100%);
+}
+
+/* block links when page transitioning */
+body.is-transition a,
+body.is-transition button {
+  pointer-events: none !important;
+}

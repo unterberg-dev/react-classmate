@@ -1,3 +1,5 @@
+import type { JSX } from "react"
+
 import createBaseComponent from "./factory/base"
 import createExtendedComponent from "./factory/extend"
 import createVariantsComponent from "./factory/variants"

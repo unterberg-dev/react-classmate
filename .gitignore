@@ -6,3 +6,6 @@ dist
 
 # local packages - only use for local development
 .localPack
+
+docs/node_modules
+docs/dist

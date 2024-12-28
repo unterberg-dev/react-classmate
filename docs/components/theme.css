@@ -1,0 +1,7 @@
+html.dark {
+  background-color: var(--color-light);
+}
+
+html {
+  background-color: var(--color-graySuperLight);
+}
