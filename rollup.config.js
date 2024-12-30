@@ -12,10 +12,12 @@ export default [
       {
         file: "dist/index.js",
         format: "es",
+        exports: "named",
       },
       {
         file: "dist/index.cjs.js",
         format: "cjs",
+        exports: "named",
       },
     ],
     plugins: [
@@ -28,7 +30,7 @@ export default [
         babelHelpers: "bundled",
         extensions: [".ts", ".tsx"],
       }),
-      minify(),
+      // minify(),
     ],
     external: ["react", "react-dom"],
   },

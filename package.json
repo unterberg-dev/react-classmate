@@ -1,13 +1,15 @@
 {
   "name": "react-classmate",
   "description": "A tool for managing react component class names, variants and styles",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/richard-unterberg/react-classmate.git"
   },
-  "workspaces": ["docs"],
+  "workspaces": [
+    "docs"
+  ],
   "keywords": [
     "react",
     "classmate",
@@ -38,6 +40,7 @@
     "bundle": "rollup -c",
     "========= Docs": "",
     "docs": "cd docs/ && npm run dev",
+    "docs:prod": "cd docs/ && npm run build && npm run preview",
     "docs:build": "cd docs/ && npm run build",
     "docs:preview": "cd docs/ && npm run preview"
   },

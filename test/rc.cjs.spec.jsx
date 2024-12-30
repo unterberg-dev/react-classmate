@@ -1,7 +1,7 @@
 const React = require("react")
 const { render } = require("@testing-library/react")
 
-const rc = require("../dist/index.cjs.js")
+const rc = require("../dist/index.cjs.js").default
 
 describe("CommonJS Build", () => {
   it("should import the library using require", () => {
