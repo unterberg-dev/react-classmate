@@ -53,5 +53,5 @@ export type { VariantsConfig } from "./types"
  * })
  * ```
  */
-export const rc = rcInit as RcComponentFactory
+const rc = rcInit as RcComponentFactory
 export default rc
