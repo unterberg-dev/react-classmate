@@ -1,4 +1,3 @@
-.vscode
 node_modules
 dist
 .npmrc
@@ -9,3 +8,6 @@ dist
 
 docs/node_modules
 docs/dist
+
+.vscode
+*.code-workspace

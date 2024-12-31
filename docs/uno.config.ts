@@ -1,13 +1,14 @@
 // uno.config.ts
 import { type Theme, colors } from "@unocss/preset-wind"
 import { type Preset, defineConfig, presetUno } from "unocss"
+import presetAnimations from "unocss-preset-animations"
 import presetTheme from "unocss-preset-theme"
 
 export const defaultColors = {
   transparent: "transparent",
   current: "currentColor",
   buttonTextColor: colors.neutral[50],
-  headerShadowColor: colors.neutral[300],
+  shadowNeutral: colors.neutral[300],
   black: colors.neutral[950],
   dark: colors.neutral[900],
   darkNeutral: colors.neutral[900],
@@ -23,28 +24,29 @@ export const defaultColors = {
   light: colors.neutral[50],
   white: "#ffffff",
 
-  primaryDarkNeutral: colors.sky[700],
-  buttonPrimaryDarkBg: colors.sky[700],
+  primaryDarkNeutral: colors.indigo[700],
+  buttonPrimaryDarkBg: colors.indigo[700],
   primarySuperDark: colors.slate[900],
-  primaryDark: colors.sky[700],
-  primary: colors.sky[500],
-  primaryLight: colors.sky[300],
-  primarySuperLight: colors.sky[100],
+  primaryDark: colors.indigo[700],
+  primary: colors.indigo[500],
+  primaryLight: colors.indigo[300],
+  primarySuperLight: colors.indigo[100],
 
-  successDarkNeutral: colors.emerald[800],
+  successDarkNeutral: colors.emerald[700],
+  success: colors.emerald[500],
   successSuperLight: colors.emerald[50],
   successLight: colors.emerald[200],
-  success: colors.emerald[500],
   successDark: colors.emerald[800],
   successSuperDark: colors.emerald[950],
 
-  warningDarkNeutral: colors.amber[800],
+  warningDarkNeutral: colors.amber[700],
   warning: colors.amber[500],
   warningSuperLight: colors.amber[50],
   warningLight: colors.amber[200],
   warningDark: colors.amber[800],
   warningSuperDark: colors.amber[950],
 
+  errorDarkNeutral: colors.red[700],
   errorSuperLight: colors.red[50],
   errorLight: colors.red[200],
   error: colors.red[500],
@@ -68,8 +70,8 @@ export const darkModeOverrides = {
   primaryLight: defaultColors.primaryDark,
   primarySuperLight: defaultColors.primarySuperDark,
 
-  headerShadowColor: defaultColors.black,
   lightBorder: defaultColors.darkBorder,
+  darkBorder: defaultColors.light,
 
   warningSuperLight: defaultColors.warningSuperDark,
   warningLight: defaultColors.warningDark,
@@ -78,14 +80,13 @@ export const darkModeOverrides = {
 
   errorSuperLight: defaultColors.errorSuperDark,
   errorLight: defaultColors.errorDark,
-  error: defaultColors.error,
   errorDark: defaultColors.errorLight,
   errorSuperDark: defaultColors.errorSuperLight,
 
   successSuperLight: defaultColors.successSuperDark,
   successLight: defaultColors.successDark,
-  success: defaultColors.successLight,
-  successDark: defaultColors.success,
+  successDark: defaultColors.successLight,
+  successSuperDark: defaultColors.successSuperLight,
 }
 
 export default defineConfig({
@@ -98,11 +99,19 @@ export default defineConfig({
         },
       },
     }) as Preset<Theme>,
+    presetAnimations({ fillMode: "both" }),
   ],
+  // gotta catch em all
+  content: {
+    pipeline: {
+      exclude: [/\.(css|postcss|node_modules|dist|sass|scss|less|stylus|stLyl)($|\?)/],
+      include: ["**/*.ts", "**/*.tsx"],
+    },
+  },
   theme: {
     colors: defaultColors,
     fontSize: {
-      base: ["16px", "24px"],
+      base: ["17px", "24px"],
       small: ["14px", "20px"],
       micro: ["10px", "12px"],
     },
@@ -110,11 +119,8 @@ export default defineConfig({
       sans: "Helvetica Neue, Arial, Tahoma, sans-serif",
     },
   },
-  // a good place to use the theme values directly
   preflights: [
     {
-      // outputs the css variables for colors and font sizes
-      // assigns base font styles to html and body
       getCSS: ({ theme }) => {
         let cssVariables = ""
 
@@ -133,11 +139,10 @@ export default defineConfig({
             }
           }
         }
-
         return `
           body, html {
-            background-color: ${theme.colors?.dark};
-            color: ${theme.colors?.light};
+            background-color: ${theme.colors?.light};
+            color: ${theme.colors?.dark};
             font-family: ${theme.fontFamily?.sans};
             font-size: ${theme.fontSize?.base[0]};
           }

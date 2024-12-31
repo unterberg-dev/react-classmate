@@ -1,31 +1,15 @@
 import rc from "react-classmate"
 
-import useSystemTheme from "#hooks/useSystemTheme"
-import type { UserTheme } from "#lib/types"
-
-// @todo: to variants
-const StyledCard = rc.div<{ $theme?: UserTheme }>`
-  p-2
-  md:p-4
-  rounded
+const Card = rc.div`
+  p-2 
+  md:p-4 
+  rounded 
   border-1
-  ${(p) =>
-    p.$theme === "dark"
-      ? `
-    border-graySuperLight
-    bg-light
-    shadow-white
-    shadow`
-      : `
-    border-white
-    bg-white
-    shadow
-    `}
+  border-grayLight/50 dark:border-graySuperLight/50 
+  bg-light dark:bg-lightBorder 
+  shadow-md
+  shadow-gray/20
+  dark:shadow-light/50
 `
-
-const Card = ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => {
-  const { theme } = useSystemTheme()
-  return <StyledCard $theme={theme} {...props} />
-}
 
 export default Card

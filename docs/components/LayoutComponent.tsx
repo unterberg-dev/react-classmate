@@ -1,27 +1,22 @@
 import rc from "react-classmate"
 
 interface LayoutComponentProps {
-  $type?: "full" | "normal" | "small" | "normalWithoutGutter"
+  type?: "full" | "normal" | "small" | "normalWithoutGutter"
 }
 
-// @todo: to variants
-const typeClass = (type: LayoutComponentProps["$type"]) => {
-  switch (type) {
-    case "full":
-      return "w-full"
-    case "small":
-      return "max-w-3xl px-3"
-    case "normalWithoutGutter":
-      return "max-w-5xl px-0"
-    default:
-      return "max-w-5xl px-3 sm:px-5"
-  }
-}
-
-const LayoutComponent = rc.div<LayoutComponentProps>`
-  m-auto
-  relative
-  ${(p) => typeClass(p.$type)}
-`
+const LayoutComponent = rc.div.variants<LayoutComponentProps>({
+  base: "m-auto relative",
+  variants: {
+    type: {
+      full: "w-full",
+      small: "max-w-3xl px-3",
+      normalWithoutGutter: "max-w-5xl px-0",
+      normal: "max-w-7xl px-3 sm:px-5",
+    },
+  },
+  defaultVariants: {
+    type: "normal",
+  },
+})
 
 export default LayoutComponent

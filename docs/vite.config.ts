@@ -3,15 +3,22 @@ import react from "@vitejs/plugin-react"
 import UnoCSS from "unocss/vite"
 import vike from "vike/plugin"
 import { defineConfig } from "vite"
+import rawPlugin from "vite-raw-plugin"
 
 export default defineConfig({
   plugins: [
     vike({
       prerender: true,
     }),
+    rawPlugin({
+      fileRegex: /\.rcx$/,
+    }),
     UnoCSS(),
     react({}),
   ],
+  ssr: {
+    noExternal: ["react-syntax-highlighter"],
+  },
   resolve: {
     alias: {
       "#hooks": path.resolve(__dirname, "./lib/hooks/"),
