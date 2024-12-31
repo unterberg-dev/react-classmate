@@ -49,15 +49,15 @@ const createExtendedComponent = <T extends object>(
 
   const computeMergedStyles = (props: T) => {
     const collectedStyles: Record<string, string | number> = {}
-    computeClassName(props, collectedStyles) // Collect dynamic styles
-    return { ...baseStyles, ...collectedStyles } // Merge base and collected styles
+    computeClassName(props, collectedStyles)
+    return { ...baseStyles, ...collectedStyles }
   }
 
   return createReactElement({
     tag,
     computeClassName: (props) => computeClassName(props, {}),
     displayName,
-    styles: (props) => computeMergedStyles(props), // Pass dynamic style computation
+    styles: (props) => computeMergedStyles(props),
   })
 }
 

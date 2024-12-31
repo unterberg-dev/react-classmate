@@ -59,4 +59,40 @@ describe("rc.extends", () => {
     const { container } = render(<StyledDiv $trigger />)
     expect(container.firstChild).toHaveClass("bg-white !border-error")
   })
+
+  it("add a variant with props and change them in a extended component", () => {
+    interface StyledSliderItemBaseProps {
+      $isActive: boolean
+      $color?: "red" | "blue"
+    }
+
+    const StyledSliderItemBase = rc.div.variants<StyledSliderItemBaseProps>({
+      base: ({ $isActive }) => `absolute top-0 ${$isActive ? "animate-in fade-in" : "animate-out fade-out"}`,
+      variants: {
+        $color: {
+          red: ({ $isActive }) => `${$isActive ? "bg-red" : "bg-red/50"} `,
+          blue: ({ $isActive }) => `${$isActive ? "bg-blue" : "bg-blue/50"} `,
+        },
+      },
+      defaultVariants: {
+        $color: "red",
+      },
+    })
+
+    const Extended = rc.extend(StyledSliderItemBase)`
+      rounded-lg
+      text-lg
+      ${({ $isActive }) => ($isActive ? "pointer-events-none" : "")}
+    `
+
+    const { container: inactiveElement } = render(<Extended $isActive />)
+    const { container: activeElement } = render(<Extended $isActive={false} />)
+
+    expect(inactiveElement.firstChild).toHaveClass(
+      "absolute top-0 animate-in fade-in bg-red rounded-lg text-lg pointer-events-none",
+    )
+    expect(activeElement.firstChild).toHaveClass(
+      "absolute top-0 animate-out fade-out bg-red/50 rounded-lg text-lg",
+    )
+  })
 })
