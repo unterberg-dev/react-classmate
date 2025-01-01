@@ -14,6 +14,8 @@
     "target": "ES2022",
     "baseUrl": ".",
     "paths": {
+      "#examples/*": ["./pages/docs/examples/*"],
+      "#docs/*": ["./pages/docs/*"],
       "#hooks/*": ["./lib/hooks/*"],
       "#zustand/*": ["./lib/zustand/*"],
       "#lib/*": ["./lib/*"],

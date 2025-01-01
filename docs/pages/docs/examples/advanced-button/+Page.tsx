@@ -2,12 +2,11 @@ import rc from "react-classmate"
 
 import HighlighterComponent from "#components/HighlighterComponent"
 import Button from "#components/common/Button"
-import Excerpt from "#components/common/Excerpt"
-import HeadlineGroup from "#components/common/HeadlineGroup"
+import { DocsHead } from "#docs/DocsHead"
+import { Section, SectionHeadline } from "#docs/elements"
 
-import { Section, SectionHeadline } from "#pages/docs/elements"
-import advancedButtonCode from "#pages/docs/examples/advanced-button/code/advanced-button.rcx"
-import sizingButtonCode from "#pages/docs/examples/advanced-button/code/sizes.rcx"
+import advancedButtonCode from "#examples/advanced-button/code/advanced-button.rcx"
+import sizingButtonCode from "#examples/advanced-button/code/sizes.rcx"
 
 const ButtonRow = rc.div`
   flex
@@ -19,11 +18,16 @@ const ButtonRow = rc.div`
 
 const AdvancedButtonPage = () => (
   <>
-    <HeadlineGroup main="Advanced Button Example" sub="Working with variants" />
-    <Excerpt>
-      An example of a advanced Button Component, where user can decide if it should be a link or a button with
-      the <code>link</code> attribute. Already some real world props to customize.
-    </Excerpt>
+    <DocsHead
+      main="Advanced Button Example"
+      sub="Working with variants"
+      excerpt={
+        <>
+          An example of a advanced Button Component, where user can decide if it should be a link or a button
+          with the <code>link</code> attribute. Already some real world props to customize.
+        </>
+      }
+    />
     <SectionHeadline>Button Component</SectionHeadline>
     <Section>
       <p>Ready to copy & paste</p>

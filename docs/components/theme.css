@@ -9,7 +9,7 @@ html {
 .highlighter > pre > code {
   background-color: transparent !important;
 }
-
+/* 
 .highlighter > pre > code {
   width: auto !important;
 }
@@ -19,4 +19,11 @@ html {
   min-width: 100px !important;
   width: 100% !important;
   overflow-x: auto !important;
+} */
+
+code {
+  background-color: var(--color-grayLight);
+  color: var(--color-dark);
+  padding: 0.2em 0.4em;
+  font-size: 14px;
 }

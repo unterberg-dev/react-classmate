@@ -1,4 +1,4 @@
-import { type AnchorHTMLAttributes, useMemo } from "react"
+import type { AnchorHTMLAttributes } from "react"
 import rc from "react-classmate"
 import { usePageContext } from "vike-react/usePageContext"
 import { APP_CONFIG } from "#lib/config"
@@ -17,26 +17,20 @@ const StyledLink = rc.a<StyledLinkProps>`
   ${(p) => (p.$isActive ? "text-primaryDark  underline" : "")}
 `
 
-const LinkComponent = ({ target = "_self", ...props }: AnchorHTMLAttributes<HTMLAnchorElement>) => {
-  const pageContext = usePageContext()
-  const { urlPathname } = pageContext
+const clean = (s: string) => s.replace(/^\/|\/$/g, "")
 
-  // clean up href and pathname
-  const hrefWithoutSlashes = props.href?.replace(/^\/|\/$/g, "") || ""
-  const pathnameWithoutSlashes = urlPathname.replace(/^\/|\/$/g, "")
+const LinkComponent = ({ target = "_self", href, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>) => {
+  const { urlPathname } = usePageContext()
 
-  const isExternal = useMemo(() => /^(http|mailto)/.test(props.href || ""), [props.href])
+  if (!href) return null
 
-  const isActive = useMemo(
-    () =>
-      hrefWithoutSlashes === ""
-        ? pathnameWithoutSlashes === hrefWithoutSlashes
-        : pathnameWithoutSlashes.startsWith(hrefWithoutSlashes),
-    [hrefWithoutSlashes, pathnameWithoutSlashes],
-  )
+  const [hrefNoSlash, pathNoSlash] = [clean(href), clean(urlPathname)]
+  const isExternal = /^(http|mailto)/.test(href)
+  const isActive = hrefNoSlash ? pathNoSlash.startsWith(hrefNoSlash) : pathNoSlash === hrefNoSlash
 
   return (
     <StyledLink
+      href={isExternal ? href : `${APP_CONFIG.viteUrl}${href}`}
       target={isExternal ? "_blank" : target}
       rel={isExternal ? "noreferrer" : ""}
       $isExternal={isExternal}

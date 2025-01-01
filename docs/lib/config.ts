@@ -1,5 +1,5 @@
 export const APP_CONFIG = {
-  viteUrl: import.meta.env.VITE_ROOT_URL,
+  viteUrl: `${import.meta.env.BASE_URL}`,
   headerHeightConfig: {
     heightClass: "h-16",
     footerPaddingBottomClass: "pb-16",

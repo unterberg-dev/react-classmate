@@ -6,6 +6,7 @@ import { defineConfig } from "vite"
 import rawPlugin from "vite-raw-plugin"
 
 export default defineConfig({
+  base: "/react-classmate",
   plugins: [
     vike({
       prerender: true,
@@ -21,6 +22,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      "#examples": path.resolve(__dirname, "./pages/docs/examples"),
+      "#docs": path.resolve(__dirname, "./pages/docs/"),
       "#hooks": path.resolve(__dirname, "./lib/hooks/"),
       "#zustand": path.resolve(__dirname, "./lib/zustand/"),
       "#lib": path.resolve(__dirname, "./lib/"),

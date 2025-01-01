@@ -31,6 +31,14 @@ const HeaderLayout = rc.extend(LayoutComponent)`
   z-25
 `
 
+const GhostBgInner = rc.div<{ $scrolled: boolean }>`
+  shadow-grayNeutral/08 
+  dark:shadow-darkNeutral/50 
+  bg-white 
+  top-0 absolute h-full w-full shadow-md
+  ${(p) => (p.$scrolled ? "animate-in fade-in" : "animate-out fade-out")}
+`
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const ghostBgRef = useRef<HTMLDivElement>(null)
@@ -80,10 +88,7 @@ const Header = () => {
         <ThemeSwitch />
       </HeaderLayout>
       <div ref={ghostBgRef} className="theme-header-shadow invisible pointer-events-none">
-        <div
-          className={`${scrolled ? "animate-in fade-in" : "animate-out fade-out"}
-  shadow-grayNeutral/08 dark:shadow-darkNeutral/50 bg-white animate-ease-out top-0 absolute h-full w-full shadow-md`}
-        />
+        <GhostBgInner $scrolled={scrolled} />
       </div>
     </HeaderOuter>
   )

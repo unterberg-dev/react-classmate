@@ -1,17 +1,25 @@
 import HighlighterComponent from "#components/HighlighterComponent"
 import Notebox from "#components/common/Notebox"
-import { ImplementationText, Section, SectionHeadline } from "#pages/docs/elements"
+import { DocsHead } from "#docs/DocsHead"
+import { ImplementationText } from "#docs/ImplementationText"
+import { Section, SectionHeadline } from "#docs/elements"
 
-import baseComponent from "#pages/docs/basic/baseComponent.rcx"
-import baseImplementation from "#pages/docs/basic/baseImplementation.rcx"
-import customProps from "#pages/docs/basic/customProps.rcx"
-import customPropsImplementation from "#pages/docs/basic/customPropsImplementation.rcx"
-import intrinsicProps from "#pages/docs/basic/intrinsicProps.rcx"
-import intrinsicPropsImplementation from "#pages/docs/basic/intrinsicPropsImplementation.rcx"
+import baseComponent from "#docs/basic/code/baseComponent.rcx"
+import baseImplementation from "#docs/basic/code/baseImplementation.rcx"
+import customProps from "#docs/basic/code/customProps.rcx"
+import customPropsImplementation from "#docs/basic/code/customPropsImplementation.rcx"
+import intrinsicProps from "#docs/basic/code/intrinsicProps.rcx"
+import intrinsicPropsImplementation from "#docs/basic/code/intrinsicPropsImplementation.rcx"
 
 const BasicPage = () => {
   return (
     <>
+      <DocsHead
+        main="Base Component Creation"
+        sub="Base Component"
+        excerpt="The following examples show how to create a base component and how to extend it with custom
+        properties."
+      />
       <SectionHeadline>Base Component</SectionHeadline>
       <Section>
         <p>
@@ -34,11 +42,11 @@ const BasicPage = () => {
         <ImplementationText />
         <HighlighterComponent input={customPropsImplementation} />
       </Section>
-      <SectionHeadline>Pass Intrinsic Properties</SectionHeadline>
+      <SectionHeadline>Use intrinsic Properties</SectionHeadline>
       <Section>
         <p>
-          By design the lib is passing intrinsic properties and you can use them in the interpolation string.
-          For typescript we provide the <code>JSX.IntrinsicElements</code> to get them properly validated.
+          rc is passing intrinsic properties and you can use them in the interpolation string. For typescript
+          we provide the <code>JSX.IntrinsicElements</code> to get them properly validated.
         </p>
         <HighlighterComponent input={intrinsicProps} />
         <ImplementationText />

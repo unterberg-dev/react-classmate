@@ -6,13 +6,13 @@ interface NoteboxProps {
 
 const Notebox = rc.div.variants<NoteboxProps>({
   base: `
-    p-2 md:p-4
-    rounded
+    p-3 md:p-5
+    rounded md:rounded-lg
     border-1
   `,
   variants: {
     $type: {
-      info: "border-graySuperLight bg-white",
+      info: "border-none bg-white",
       warning: "border-warningLight bg-warningSuperLight",
       error: "border-errorLight bg-errorSuperLight",
       success: "border-successLight bg-successSuperLight",
