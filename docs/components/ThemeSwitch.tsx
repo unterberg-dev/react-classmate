@@ -11,8 +11,8 @@ const CustomButton = rc.extend(Button)`
   !min-h-auto 
   animate-in fade-in 
   rounded-full
-  !bg-primary dark:!bg-grayLight 
-  !text-light dark:!text-grayDark
+  !bg-gray/20 dark:!bg-grayLight 
+  !text-dark dark:!text-grayDark
   `
 
 const Badge = rc.span`
@@ -41,7 +41,7 @@ const ThemeSwitch = () => {
   return (
     <div className="flex gap-2">
       {theme && (
-        <CustomButton type="button" noShadow noGutter onClick={toggleTheme} size="sm">
+        <CustomButton type="button" color="hollow" noShadow noGutter onClick={toggleTheme} size="sm">
           {theme === "light" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           {theme === getSystemTheme() ? (
             <Badge>

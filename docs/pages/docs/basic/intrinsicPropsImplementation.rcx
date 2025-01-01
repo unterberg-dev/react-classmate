@@ -1,0 +1,4 @@
+<CustomButton type="button" $customState>Button</CustomButton>
+
+// renders:
+// <button type="button" class="text-blue custom opacity-60 bg-black"></button>

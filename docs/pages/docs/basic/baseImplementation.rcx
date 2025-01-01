@@ -1,0 +1,4 @@
+<CustomButton>Hello World</CustomButton>
+
+// renders:
+// <button class="text-blue px-3 py-2">Hello World</button>

@@ -1,0 +1,15 @@
+<Button size="lg" type="button" color="error">
+  Button Big
+</Button>
+<Button type="button" color="error">
+  Button Medium
+</Button>
+<Button size="sm" type="button" color="error">
+  Button Small
+</Button>
+<Button type="button" disabled color="error">
+  Button Disabled
+</Button>
+<Button type="button" color="error" loading>
+  Button Loading
+</Button>

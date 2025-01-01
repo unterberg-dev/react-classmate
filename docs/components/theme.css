@@ -9,3 +9,14 @@ html {
 .highlighter > pre > code {
   background-color: transparent !important;
 }
+
+.highlighter > pre > code {
+  width: auto !important;
+}
+
+.highlighter > pre {
+  display: block !important;
+  min-width: 100px !important;
+  width: 100% !important;
+  overflow-x: auto !important;
+}

@@ -8,9 +8,9 @@ import Sidebar from "#layout/Sidebar"
 
 const DocsLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <LayoutComponent className="flex gap-2">
-      <Sidebar>Sidebar</Sidebar>
-      <div className="">{children}</div>
+    <LayoutComponent className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+      <Sidebar />
+      <div className="lg:col-span-3">{children}</div>
     </LayoutComponent>
   )
 }

@@ -1,22 +1,48 @@
-import rc from "react-classmate"
 import HighlighterComponent from "#components/HighlighterComponent"
-import H3Headline from "#components/common/H3Headline"
 import Notebox from "#components/common/Notebox"
-import content from "./example.rcx"
+import { ImplementationText, Section, SectionHeadline } from "#pages/docs/elements"
 
-const SectionHeadline = rc.extend(H3Headline)`mb-4`
-const Section = rc.extend(Notebox)`mb-8`
+import baseComponent from "#pages/docs/basic/baseComponent.rcx"
+import baseImplementation from "#pages/docs/basic/baseImplementation.rcx"
+import customProps from "#pages/docs/basic/customProps.rcx"
+import customPropsImplementation from "#pages/docs/basic/customPropsImplementation.rcx"
+import intrinsicProps from "#pages/docs/basic/intrinsicProps.rcx"
+import intrinsicPropsImplementation from "#pages/docs/basic/intrinsicPropsImplementation.rcx"
 
 const BasicPage = () => {
   return (
     <>
-      <SectionHeadline>Code Example</SectionHeadline>
+      <SectionHeadline>Base Component</SectionHeadline>
       <Section>
         <p>
-          This is a basic version of a Button Component, where user can decide if it should be a link or a
-          button with the <code>type</code> attribute. It has some real world props to customize.
+          In you IDE type <code>rc.</code> and then select the component tag you wish. For example{" "}
+          <code>rc.div</code> or <code>rc.button</code>.
         </p>
-        <HighlighterComponent input={content} />
+        <HighlighterComponent input={baseComponent} />
+        <ImplementationText />
+        <HighlighterComponent input={baseImplementation} />
+      </Section>
+      <SectionHeadline>With Custom Properties</SectionHeadline>
+      <Section>
+        <p>We can pass custom properties</p>
+        <Notebox $type="warning" className="mt-4 mb-4">
+          <p>
+            ⚠️ We prefix custom properties with <code>$</code> to avoid conflicts with intrinsic properties.
+          </p>
+        </Notebox>
+        <HighlighterComponent input={customProps} />
+        <ImplementationText />
+        <HighlighterComponent input={customPropsImplementation} />
+      </Section>
+      <SectionHeadline>Pass Intrinsic Properties</SectionHeadline>
+      <Section>
+        <p>
+          By design the lib is passing intrinsic properties and you can use them in the interpolation string.
+          For typescript we provide the <code>JSX.IntrinsicElements</code> to get them properly validated.
+        </p>
+        <HighlighterComponent input={intrinsicProps} />
+        <ImplementationText />
+        <HighlighterComponent input={intrinsicPropsImplementation} />
       </Section>
     </>
   )

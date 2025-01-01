@@ -112,7 +112,9 @@ export default defineConfig({
     colors: defaultColors,
     fontSize: {
       base: ["17px", "24px"],
-      small: ["14px", "20px"],
+      md: ["15.5px", "20px"],
+      sm: ["14px", "20px"],
+      xs: ["12px", "20px"],
       micro: ["10px", "12px"],
     },
     fontFamily: {

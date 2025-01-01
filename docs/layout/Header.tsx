@@ -5,6 +5,7 @@ import rc from "react-classmate"
 import LayoutComponent from "#components/LayoutComponent"
 import ThemeSwitch from "#components/ThemeSwitch"
 import H1Headline from "#components/common/H1Headline"
+import LinkComponent from "#components/common/LinkComponent"
 import { APP_CONFIG } from "#lib/config"
 
 const HeaderOuter = rc.header`
@@ -14,8 +15,10 @@ const HeaderOuter = rc.header`
   ${APP_CONFIG.headerHeightConfig.heightClass}
 `
 
-const LogoContainer = rc.div`
-  flex 
+const LogoContainer = rc.a`
+  relative  
+  block
+  flex
   items-center 
   space-x-2
 `
@@ -70,7 +73,7 @@ const Header = () => {
   return (
     <HeaderOuter>
       <HeaderLayout>
-        <LogoContainer>
+        <LogoContainer href="/">
           <Sticker className="text-dark h-6 w-6" strokeWidth={2} />
           <H1Headline className="!text-lg">react-classmate</H1Headline>
         </LogoContainer>
@@ -78,8 +81,8 @@ const Header = () => {
       </HeaderLayout>
       <div ref={ghostBgRef} className="theme-header-shadow invisible pointer-events-none">
         <div
-          className={`${scrolled ? "animate-in fade-in" : "animate-out fade-out"}   shadow-md
-  shadow-darkNeutral/20 bg-white animate-ease-out top-0 absolute h-full w-full shadow-md shadow-headerShadowColor shadow-opacity-30`}
+          className={`${scrolled ? "animate-in fade-in" : "animate-out fade-out"}
+  shadow-grayNeutral/08 dark:shadow-darkNeutral/50 bg-white animate-ease-out top-0 absolute h-full w-full shadow-md`}
         />
       </div>
     </HeaderOuter>

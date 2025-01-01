@@ -12,7 +12,7 @@ const CopyToClipboard = ({ handleCopy }: { handleCopy: () => void }) => {
   return (
     <div className="absolute top-2 right-2">
       <Button
-        size="sm"
+        size="xs"
         color="card"
         type="button"
         onClick={() => {
@@ -34,10 +34,16 @@ const HighlighterComponent = ({ input }: { input: string }) => {
   }, [input])
 
   return (
-    <div className="highlighter bg-lightBorder w-full relative my-3">
+    <div className="highlighter bg-lightBorder relative mt-3 !min-w-none w-[100%]">
       <CopyToClipboard handleCopy={handleCopy} />
       <SyntaxHighlighter
-        customStyle={{ padding: 16, margin: 0, fontSize: 14, maxHeight: 500, overflow: "auto" }}
+        customStyle={{
+          padding: 16,
+          margin: 0,
+          fontSize: 14,
+          minWidth: "none",
+          overflow: "auto",
+        }}
         language="tsx"
         style={theme === "dark" ? oneDark : oneLight}
       >

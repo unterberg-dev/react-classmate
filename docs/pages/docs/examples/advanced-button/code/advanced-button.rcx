@@ -1,10 +1,11 @@
+import { APP_CONFIG } from "#lib/config"
 import { LoaderCircle } from "lucide-react"
 import type { HTMLAttributes, ReactNode } from "react"
 import rc, { type VariantsConfig, convertRcProps } from "react-classmate"
 
 interface ButtonBaseProps {
   $size?: "sm" | "md" | "lg"
-  $color?: "primary" | "secondary" | "error" | "success" | "warning" | "card"
+  $color?: "primary" | "secondary" | "error" | "success" | "warning" | "card" | "hollow"
   $disabled?: boolean
   $loading?: boolean
   $noShadow?: boolean
@@ -18,18 +19,21 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
     font-bold
     text-lightNeutral
     shadow-darkNeutral/20
+    ${APP_CONFIG.uno.transitionWind}
     ${$noShadow ? "!shadow-none" : ""}
     ${$noGutter ? "!p-0" : ""}
-    ${$disabled ? "opacity-70 cursor-not-allowed" : ""}
+    ${$disabled ? "opacity-60 cursor-not-allowed" : ""}
     ${$loading ? "opacity-80 pointer-events-none" : ""}
   `,
   variants: {
     $size: {
-      sm: "py-2 px-3 rounded text-sm shadow-sm",
+      xs: "py-1 px-2 rounded text-xs shadow-sm",
+      sm: "py-1.5 px-2.5 rounded text-sm shadow-sm",
       md: "py-2 px-3 rounded shadow-sm",
       lg: "py-3 px-4 rounded-lg shadow-md",
     },
     $color: {
+      hollow: "bg-transparent",
       primary: ({ $disabled }) => `bg-primaryDarkNeutral ${!$disabled ? "hover:bg-primary" : ""}`,
       card: ({ $disabled }) => `
         bg-white
@@ -39,7 +43,7 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
         active:!text-lightNeutral
         active:dark:!bg-successDarkNeutral
         active:dark:!text-lightNeutral
-        ${!$disabled ? "hover:!text-dark hover:bg-gray/10 hover:dark:bg-gray/50" : ""}`,
+        ${!$disabled ? "hover:!text-dark hover:bg-grayLight/30 hover:dark:bg-gray/50" : ""}`,
       success: ({ $disabled }) => `bg-successDarkNeutral ${!$disabled ? "hover:bg-success" : ""}`,
       warning: ({ $disabled }) => `bg-warningDarkNeutral ${!$disabled ? "hover:bg-warning" : ""}`,
       error: ({ $disabled }) => `bg-errorDarkNeutral ${!$disabled ? "hover:bg-error" : ""}`,
@@ -90,4 +94,3 @@ const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
 }
 
 export default Button
-
