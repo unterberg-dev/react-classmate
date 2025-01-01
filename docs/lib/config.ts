@@ -7,7 +7,7 @@ export const APP_CONFIG = {
     footerNegativeMargin: "-mt-16",
   },
   uno: {
-    transitionUno: "animate-duration-450 animate-ease-out",
-    transitionWind: "duration-450 ease-out",
+    transitionUno: "animate-duration-350 animate-ease-out",
+    transitionWind: "duration-350 ease-out",
   },
 }

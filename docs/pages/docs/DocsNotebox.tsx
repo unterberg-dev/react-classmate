@@ -1,12 +1,12 @@
-import type { LucideIcon } from "lucide-react"
+import { CircleHelp, type LucideIcon } from "lucide-react"
 import type { HTMLAttributes, ReactNode } from "react"
 import Notebox from "#components/common/Notebox"
 
 interface DocsNoteboxProps extends HTMLAttributes<HTMLDivElement> {
-  icon: LucideIcon
+  icon?: LucideIcon
 }
 
-const DocsNotebox = ({ icon, ...props }: DocsNoteboxProps) => {
+const DocsNotebox = ({ icon = CircleHelp, ...props }: DocsNoteboxProps) => {
   const IconComponent = icon
 
   return (

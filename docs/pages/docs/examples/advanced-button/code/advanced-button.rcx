@@ -13,7 +13,7 @@ interface ButtonBaseProps {
 
 const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
   base: ({ $noShadow, $noGutter, $disabled, $loading }) => `
-    transition-colors duration-450 ease-out
+    transition-colors duration-350 ease-out
     inline-flex items-center justify-center gap-2 
     font-bold text-lightNeutral
     ${$noShadow ? "!shadow-none" : "shadow-darkNeutral/20"}

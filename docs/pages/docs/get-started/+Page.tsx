@@ -1,6 +1,7 @@
 import HighlighterComponent from "#components/HighlighterComponent"
 import LinkComponent from "#components/common/LinkComponent"
 import { DocsHead } from "#docs/DocsHead"
+import DocsNotebox from "#docs/DocsNotebox"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
 import { APP_CONFIG } from "#lib/config"
 
@@ -22,9 +23,7 @@ const DocsStartPage = () => {
       <SectionHeadline>Prerequisites</SectionHeadline>
       <Section>
         <p>
-          To get started we wanna make sure{" "}
-          <LinkComponent href="https://react.dev/">React {"(>16.8)"}</LinkComponent> is installed as it is the
-          only peer dependency for <code>react-classmate</code>
+          Make sure <LinkComponent href="https://react.dev/">React {"(>16.8)"}</LinkComponent> is installed
         </p>
         <SectionInnerHeadline>Install</SectionInnerHeadline>
         <HighlighterComponent language="bash" input={installString} />
@@ -32,6 +31,16 @@ const DocsStartPage = () => {
         <HighlighterComponent language="bash" input='import rc from "react-classmate"' />
         <SectionInnerHeadline>Import with CommonJS</SectionInnerHeadline>
         <HighlighterComponent language="bash" input='const rc = require("react-classmate").default' />
+        <DocsNotebox>
+          <p>
+            The <code>default</code> for CJS is currently needed because the package is designed as ES module.
+            Named CJS export version{" "}
+            <LinkComponent href="https://github.com/richard-unterberg/react-classmate/issues/7">
+              is coming soon
+            </LinkComponent>
+            .
+          </p>
+        </DocsNotebox>
       </Section>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -39,10 +48,10 @@ const DocsStartPage = () => {
           <Section>
             <ul>
               <li>
-                <LinkComponent href="/docs/basic">Learn the basics</LinkComponent>
+                <LinkComponent href="/docs/basic">Create a component</LinkComponent>
               </li>
               <li>
-                <LinkComponent href="/docs/extend">Extend components</LinkComponent>
+                <LinkComponent href="/docs/extend">Extend elements</LinkComponent>
               </li>
               <li>
                 <LinkComponent href="/docs/variants">Learn about variants</LinkComponent>

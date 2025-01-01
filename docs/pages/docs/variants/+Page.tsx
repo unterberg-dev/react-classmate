@@ -25,16 +25,16 @@ const DocsStartPage = () => {
           The <code>variants</code> function allows you to create a styled component with variants.
         </p>
         <HighlighterComponent input={basic} />
-        <p>The function is parsed differently expects you to pass the following properties</p>
-        <ul>
+        <SectionInnerHeadline>The function receives the following properties:</SectionInnerHeadline>
+        <ul className="mt-3">
           <li>
-            <code>base</code> - The base styles of the component
+            <code>base</code> - optional - The base classname of the component
           </li>
           <li>
-            <code>variants</code> - An object with the different variants
+            <code>variants</code> - required - An object with the different variants
           </li>
           <li>
-            <code>defaultVariants</code> - The different styles for the variant
+            <code>defaultVariants</code> - optional - a fallback for when no variant is passed
           </li>
         </ul>
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>

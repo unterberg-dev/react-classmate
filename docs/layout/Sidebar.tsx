@@ -121,8 +121,8 @@ const Sidebar = () => {
           <Headline>Examples</Headline>
           <List>
             <FlexLink href="/docs/examples/advanced-button">Avanced Button</FlexLink>
-            <FlexLink href="/docs/examples/link">Link Component</FlexLink>
-            <FlexLink href="/docs/examples/input">Input</FlexLink>
+            {/* <FlexLink href="/docs/examples/link">Link Component</FlexLink>
+            <FlexLink href="/docs/examples/input">Input</FlexLink> */}
           </List>
         </Section>
       </SidebarSticky>

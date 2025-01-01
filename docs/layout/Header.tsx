@@ -82,7 +82,7 @@ const Header = () => {
   return (
     <HeaderOuter>
       <HeaderLayout>
-        <LogoContainer href="/">
+        <LogoContainer href={`${APP_CONFIG.viteUrl}/`}>
           <Sticker className="text-dark h-6 w-6" strokeWidth={2} />
           <H1Headline className="!text-lg">react-classmate</H1Headline>
         </LogoContainer>

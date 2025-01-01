@@ -2,6 +2,7 @@ import { LoaderCircle } from "lucide-react"
 import type { HTMLAttributes, ReactNode } from "react"
 import rc, { type VariantsConfig, convertRcProps } from "react-classmate"
 import { APP_CONFIG } from "#lib/config"
+import { isLinkExternal } from "#lib/utils"
 
 interface ButtonBaseProps {
   $size?: "lg" | "md" | "sm" | "xs"
@@ -91,8 +92,10 @@ const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
     color: "$color",
   })
 
+  const isExternal = isLinkExternal(link)
+
   return (
-    <Component {...(link ? { href: link } : {})} {...preparedProps}>
+    <Component {...(link ? { href: link, target: isExternal ? "_blank" : "" } : {})} {...preparedProps}>
       {icon}
       {children}
       {buttonProps.loading && <LoaderCircle className="w-4 h-4 animate-spin" />}

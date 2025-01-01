@@ -6,7 +6,7 @@ import { DocsHead } from "#docs/DocsHead"
 import { Section, SectionHeadline } from "#docs/elements"
 
 import H5Headline from "#components/common/H5Headline"
-import Notebox from "#components/common/Notebox"
+import DocsNotebox from "#docs/DocsNotebox"
 import advancedButtonCode from "#examples/advanced-button/code/advanced-button.rcx"
 import sizingButtonCode from "#examples/advanced-button/code/sizes.rcx"
 
@@ -21,12 +21,12 @@ const ButtonRow = rc.div`
 const AdvancedButtonPage = () => (
   <>
     <DocsHead
-      main="Advanced Button Example"
+      main="Advanced Tailwind Button"
       pre="Working with variants"
       excerpt={
         <>
-          An example of a advanced Button Component, where user can decide if it should be a link or a button
-          with the <code>link</code> attribute. Already some real world props to customize.
+          An example of a advanced Tailwind / Uno (Windi) button component, where user (developer) can decide
+          if it should be a link or a button element. It has already some real world props to customize.
         </>
       }
     />
@@ -35,11 +35,17 @@ const AdvancedButtonPage = () => (
       <p>Ready to copy & paste</p>
       <HighlighterComponent input={advancedButtonCode} />
 
-      <Notebox $size="sm" $type="warning">
+      <DocsNotebox>
         <H5Headline>
-          Usage of important <code>!</code>
+          Usage of important <code>!</code> prefix from tailwind
         </H5Headline>
-      </Notebox>
+        <p className="mt-3">
+          In general I would not recommend using <code>!</code>-override (which is similar to !important) too
+          often in classmate components, since we should prereserve it's usage for the cases where it helps
+          the most (mainly local testing). In case of this button, we assume that we will cover all possible
+          styling scenarios on the spot and in an readable way.
+        </p>
+      </DocsNotebox>
     </Section>
 
     <SectionHeadline>Button Sizing</SectionHeadline>
