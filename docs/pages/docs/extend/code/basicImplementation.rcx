@@ -1,0 +1,9 @@
+<StyledInput type="text" $trigger />
+
+// renders:
+// <input type="text" class="bg-white border-1 border-error" />
+
+<ExtendedInput type="text" $trigger $someBool />
+
+// renders:
+// <input type="text" class="bg-white border-1 border-error custom-class shadow text-lg text-red" />

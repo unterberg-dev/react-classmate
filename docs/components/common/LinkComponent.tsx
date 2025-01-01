@@ -6,27 +6,36 @@ import { APP_CONFIG } from "#lib/config"
 interface StyledLinkProps {
   $isExternal: boolean
   $isActive: boolean
+  $isMenu: boolean
 }
 
 const StyledLink = rc.a<StyledLinkProps>`
+  link
   transition-colors
   ${APP_CONFIG.uno.transitionWind}
   text-dark 
-  inline-block 
+  inline-block
   hover:text-primary
-  ${(p) => (p.$isActive ? "text-primaryDark  underline" : "")}
+  ${(p) => (p.$isActive ? "!text-primaryDark/70 underline" : "")}
+  ${(p) => (p.$isMenu ? "" : "text-primaryDark underline")}
 `
 
 const clean = (s: string) => s.replace(/^\/|\/$/g, "")
 
-const LinkComponent = ({ target = "_self", href, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>) => {
+const LinkComponent = ({
+  target = "_self",
+  isMenu = false,
+  href,
+  ...props
+}: AnchorHTMLAttributes<HTMLAnchorElement> & { href?: string; isMenu?: boolean }) => {
   const { urlPathname } = usePageContext()
 
-  if (!href) return null
+  if (!href) return <div>Missing href</div>
 
   const [hrefNoSlash, pathNoSlash] = [clean(href), clean(urlPathname)]
   const isExternal = /^(http|mailto)/.test(href)
-  const isActive = hrefNoSlash ? pathNoSlash.startsWith(hrefNoSlash) : pathNoSlash === hrefNoSlash
+
+  const isActive = hrefNoSlash === pathNoSlash
 
   return (
     <StyledLink
@@ -35,6 +44,7 @@ const LinkComponent = ({ target = "_self", href, ...props }: AnchorHTMLAttribute
       rel={isExternal ? "noreferrer" : ""}
       $isExternal={isExternal}
       $isActive={isActive}
+      $isMenu={isMenu}
       {...props}
     />
   )

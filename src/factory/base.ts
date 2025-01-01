@@ -1,5 +1,5 @@
 import type { JSX } from "react"
-import type { InputComponent, Interpolation, MergeProps, RcBaseComponent, StyleDefinition } from "../types"
+import type { Interpolation, MergeProps, RcBaseComponent, StyleDefinition } from "../types"
 import createReactElement from "../util/createReactElement"
 
 /**

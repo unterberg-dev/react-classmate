@@ -51,13 +51,46 @@ describe("rc.extends", () => {
   it("extend a react component with an assigned class", () => {
     const MyInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />
 
-    const StyledDiv = rc.extend(MyInput)<{ $trigger?: boolean }>`
+    const StyledInput = rc.extend(MyInput)<{ $trigger?: boolean }>`
       bg-white
-      ${(p) => (p.$trigger ? "!border-error" : "")}
+      border-1
+      ${(p) => (p.$trigger ? "border-error" : "border-gray")}
     `
 
-    const { container } = render(<StyledDiv $trigger />)
-    expect(container.firstChild).toHaveClass("bg-white !border-error")
+    const { container } = render(<StyledInput type="text" $trigger />)
+    expect(container.firstChild).toHaveClass("bg-white border-error")
+    expect(container.firstChild).toBeInstanceOf(HTMLInputElement)
+    expect(container.firstChild).not.toHaveAttribute("$trigger")
+    expect(container.firstChild).toHaveAttribute("type", "text")
+  })
+
+  it("extend a extended react component", () => {
+    const MyInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />
+
+    const StyledInput = rc.extend(MyInput)<{ $trigger?: boolean }>`
+      bg-white
+      border-1
+      ${(p) => (p.$trigger ? "border-error" : "border-gray")}
+    `
+
+    const ExtendedStyledInput = rc.extend(StyledInput)<{ $someBool?: boolean }>`
+      custom-class
+      ${(p) => (p.$someBool ? "shadow" : "")}
+      ${(p) => (p.type === "text" ? "text-lg" : "")}
+      ${(p) => (p.$trigger ? "text-red" : "")}
+    `
+
+    const { container } = render(<ExtendedStyledInput type="text" $trigger $someBool />)
+    expect(container.firstChild).toHaveClass("bg-white border-1 border-error custom-class")
+    expect(container.firstChild).toHaveClass("shadow")
+    expect(container.firstChild).toHaveClass("text-lg")
+    expect(container.firstChild).toHaveClass("text-red")
+
+    expect(container.firstChild).toBeInstanceOf(HTMLInputElement)
+    expect(container.firstChild).not.toHaveAttribute("$trigger")
+    expect(container.firstChild).not.toHaveAttribute("$someBool")
+
+    expect(container.firstChild).toHaveAttribute("type", "text")
   })
 
   it("add a variant with props and change them in a extended component", () => {

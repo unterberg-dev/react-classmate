@@ -1,0 +1,4 @@
+<Alert $severity="warning" $isActive>Warning alert</Alert>
+
+// renders:
+// <button type="button" class="p-4 rounded-md bg-yellow-100 text-yellow-800 font-bold">Warning alert</button>

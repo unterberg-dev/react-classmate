@@ -5,7 +5,7 @@ import { APP_CONFIG } from "#lib/config"
 
 interface ButtonBaseProps {
   $size?: "lg" | "md" | "sm" | "xs"
-  $color?: "primary" | "secondary" | "error" | "success" | "warning" | "card" | "hollow"
+  $color?: "primary" | "secondary" | "error" | "success" | "warning" | "copy" | "hollow" | "icon"
   $disabled?: boolean
   $loading?: boolean
   $noShadow?: boolean
@@ -18,9 +18,8 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
     inline-flex items-center justify-center gap-2 
     font-bold
     text-lightNeutral
-    shadow-darkNeutral/20
     ${APP_CONFIG.uno.transitionWind}
-    ${$noShadow ? "!shadow-none" : ""}
+    ${$noShadow ? "!shadow-none" : "shadow-darkNeutral/20"}
     ${$noGutter ? "!p-0" : ""}
     ${$disabled ? "opacity-60 cursor-not-allowed" : ""}
     ${$loading ? "opacity-80 pointer-events-none" : ""}
@@ -35,7 +34,7 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
     $color: {
       hollow: "bg-transparent",
       primary: ({ $disabled }) => `bg-primaryDarkNeutral ${!$disabled ? "hover:bg-primary" : ""}`,
-      card: ({ $disabled }) => `
+      copy: ({ $disabled }) => `
         bg-white
         dark:bg-gray/30
         !text-dark
@@ -44,6 +43,14 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
         active:dark:!bg-successDarkNeutral
         active:dark:!text-lightNeutral
         ${!$disabled ? "hover:!text-dark hover:bg-grayLight/30 hover:dark:bg-gray/50" : ""}`,
+      icon: `
+        rounded-full
+        w-7 lg:w-8
+        h-7 lg:h-8
+        !min-h-auto 
+        !bg-gray/20 dark:!bg-grayLight 
+        !text-dark dark:!text-grayDark
+      `,
       success: ({ $disabled }) => `bg-successDarkNeutral ${!$disabled ? "hover:bg-success" : ""}`,
       warning: ({ $disabled }) => `bg-warningDarkNeutral ${!$disabled ? "hover:bg-warning" : ""}`,
       error: ({ $disabled }) => `bg-errorDarkNeutral ${!$disabled ? "hover:bg-error" : ""}`,
@@ -61,7 +68,7 @@ const LinkButton = rc.a.variants(buttonVariants)
 interface ButtonProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
   icon?: ReactNode
   link?: string
-  type: "button" | "submit" | "reset"
+  type?: "button" | "submit" | "reset"
 
   // we must redeclare these props here because $-props are not inherited from ButtonBaseProps
   size?: ButtonBaseProps["$size"]

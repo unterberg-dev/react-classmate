@@ -2,13 +2,14 @@ import rc from "react-classmate"
 
 interface NoteboxProps {
   $type?: "info" | "warning" | "error" | "success" | "aside"
+  $size?: "sm" | "md"
 }
 
 const Notebox = rc.div.variants<NoteboxProps>({
   base: `
-    p-3 md:p-5
-    rounded md:rounded-lg
+    rounded 
     border-1
+    p-3
   `,
   variants: {
     $type: {
@@ -18,9 +19,14 @@ const Notebox = rc.div.variants<NoteboxProps>({
       success: "border-successLight bg-successSuperLight",
       aside: "border-graySuperLight bg-light",
     },
+    $size: {
+      sm: "md:p-3",
+      md: "md:p-5 md:rounded-lg",
+    },
   },
   defaultVariants: {
     $type: "info",
+    $size: "md",
   },
 })
 

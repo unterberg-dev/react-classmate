@@ -1,0 +1,9 @@
+<MyBaseComponentBorderLeft />
+
+// renders:
+// <div class="bg-white border-color-gray border-left-1"></div>
+
+<MyBaseComponentBorderRight />
+
+// renders:
+// <div class="bg-white border-color-gray border-right-1"></div>

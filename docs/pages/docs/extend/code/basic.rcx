@@ -1,0 +1,7 @@
+const MyInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />
+
+const StyledInput = rc.extend(MyInput)<{ $trigger?: boolean }>`
+  bg-white
+  border-1
+  ${(p) => (p.$trigger ? "border-error" : "border-gray")}
+`

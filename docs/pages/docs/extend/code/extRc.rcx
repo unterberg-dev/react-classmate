@@ -1,0 +1,13 @@
+// this one is only extended, but not used
+const MyBaseComponent = rc.div`
+  bg-white
+  border-color-gray
+`
+
+export const MyBaseComponentBorderLeft = rc.extend(MyBaseComponent)`
+  border-left-1
+`
+
+export const MyBaseComponentBorderRight = rc.extend(MyBaseComponent)`
+  border-right-1
+`

@@ -1,9 +1,9 @@
+import type { ReactNode } from "react"
 import rc from "react-classmate"
 
-import { Blocks, BrickWall, Power, Siren, SwatchBook } from "lucide-react"
+import { Blocks, BrickWall, Link, Power, Siren, SwatchBook, TextCursorInput } from "lucide-react"
 import H4Headline from "#components/common/H4Headline"
 import LinkComponent from "#components/common/LinkComponent"
-import { APP_CONFIG } from "#lib/config"
 
 const SidebarWrap = rc.nav`
   absolute lg:relative p-0
@@ -33,15 +33,22 @@ const SubList = rc.ul`
   flex-col
   flex
   gap-1
+  mb-3
 `
 
 const Section = rc.div``
 
-const FlexLink = rc.extend(LinkComponent)`
+const FlexLinkBase = rc.extend(LinkComponent)`
   flex 
   items-center
   gap-x-2
 `
+
+const FlexLink = ({ ...props }: { children: ReactNode; href: string }) => (
+  <li>
+    <FlexLinkBase isMenu {...props} />
+  </li>
+)
 
 // @todo: outsource menu to static config file
 const Sidebar = () => {
@@ -51,64 +58,61 @@ const Sidebar = () => {
         <Section>
           <Headline>Get started</Headline>
           <List>
-            <li>
-              <FlexLink href="/docs/getting-started">
-                <Power className="w-4 h-4" />
-                Getting Started
-              </FlexLink>
-            </li>
-            <li>
-              <FlexLink href="/docs/basic">
-                <BrickWall className="w-4 h-4" />
-                Base
-              </FlexLink>
-            </li>
-            <li>
-              <FlexLink href="/docs/extend">
-                <Blocks className="w-4 h-4" />
-                Extend
-              </FlexLink>
-            </li>
-            <li>
-              <FlexLink href="/docs/variants">
-                <SwatchBook className="w-4 h-4" />
-                Variants
-              </FlexLink>
-            </li>
+            <FlexLink href="/docs/get-started">
+              <Power className="w-4 h-4" />
+              Getting Started
+            </FlexLink>
+            <FlexLink href="/docs/basic">
+              <BrickWall className="w-4 h-4" />
+              Base
+            </FlexLink>
+            <FlexLink href="/docs/extend">
+              <Blocks className="w-4 h-4" />
+              Extend
+            </FlexLink>
+            <FlexLink href="/docs/variants">
+              <SwatchBook className="w-4 h-4" />
+              Variants
+            </FlexLink>
           </List>
         </Section>
         <Section>
           <Headline>Utils</Headline>
           <List>
             <li>
-              <FlexLink href="/docs/utils/typescript">
-                <Siren className="w-4 h-4" />
-                Typescript
-              </FlexLink>
+              <span className="flex items-center gap-x-2 font-bold">
+                <TextCursorInput className="w-4 h-4" />
+                Interpolation
+              </span>
               <SubList>
-                <li>
-                  <LinkComponent href="/docs/utils/typescript#rcbasecomponent">
-                    <code>RcBaseComponent</code>
-                  </LinkComponent>
-                </li>
-                <li>
-                  <LinkComponent href="/docs/utils/typescript#variantsconfig">
-                    <code>VariantsConfig</code>
-                  </LinkComponent>
-                </li>
+                <FlexLink href="/docs/utils/typescript#rcbasecomponent">
+                  Use CSS - <code>p.style()</code>
+                </FlexLink>
               </SubList>
             </li>
             <li>
-              <span className="flex items-center gap-x-2">
+              <span className="flex items-center gap-x-2 font-bold">
+                <Siren className="w-4 h-4" />
+                Typescript
+              </span>
+              <SubList>
+                <FlexLink href="/docs/utils/typescript#rcbasecomponent">
+                  <code>RcBaseComponent</code>
+                </FlexLink>
+                <FlexLink href="/docs/utils/typescript#variantsconfig">
+                  <code>VariantsConfig</code>
+                </FlexLink>
+              </SubList>
+            </li>
+            <li>
+              <span className="flex items-center gap-x-2 font-bold">
                 <SwatchBook className="w-4 h-4" />
                 Interaction
               </span>
               <SubList>
-                <li>
-                  <LinkComponent href="/docs/utils/convertrcprops">
-                    <code>convertRcProps()</code>
-                  </LinkComponent>
-                </li>
+                <FlexLink href="/docs/utils/convertrcprops">
+                  <code>convertRcProps()</code>
+                </FlexLink>
               </SubList>
             </li>
           </List>
@@ -116,15 +120,9 @@ const Sidebar = () => {
         <Section>
           <Headline>Examples</Headline>
           <List>
-            <li>
-              <LinkComponent href="/docs/examples/advanced-button">Avanced Button</LinkComponent>
-            </li>
-            <li>
-              <LinkComponent href="/docs/examples/link">Link Component</LinkComponent>
-            </li>
-            <li>
-              <LinkComponent href="/docs/examples/input">Input</LinkComponent>
-            </li>
+            <FlexLink href="/docs/examples/advanced-button">Avanced Button</FlexLink>
+            <FlexLink href="/docs/examples/link">Link Component</FlexLink>
+            <FlexLink href="/docs/examples/input">Input</FlexLink>
           </List>
         </Section>
       </SidebarSticky>

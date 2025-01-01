@@ -1,9 +1,10 @@
-import { Sticker } from "lucide-react"
+import { Github, Moon, Sticker } from "lucide-react"
 import { useEffect, useMemo, useRef, useState } from "react"
 import rc from "react-classmate"
 
 import LayoutComponent from "#components/LayoutComponent"
 import ThemeSwitch from "#components/ThemeSwitch"
+import Button from "#components/common/Button"
 import H1Headline from "#components/common/H1Headline"
 import LinkComponent from "#components/common/LinkComponent"
 import { APP_CONFIG } from "#lib/config"
@@ -85,7 +86,12 @@ const Header = () => {
           <Sticker className="text-dark h-6 w-6" strokeWidth={2} />
           <H1Headline className="!text-lg">react-classmate</H1Headline>
         </LogoContainer>
-        <ThemeSwitch />
+        <div className="flex gap-2">
+          <Button className="relative" link={APP_CONFIG.repoUrl} color="icon" noShadow noGutter size="sm">
+            <Github className="h-4 w-4" />
+          </Button>
+          <ThemeSwitch />
+        </div>
       </HeaderLayout>
       <div ref={ghostBgRef} className="theme-header-shadow invisible pointer-events-none">
         <GhostBgInner $scrolled={scrolled} />

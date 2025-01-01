@@ -4,9 +4,9 @@ import H1Headline from "#components/common/H1Headline"
 const SubHeadline = rc.p`text-lg text-gray`
 const MainHeadline = rc.extend(H1Headline)`mb-8`
 
-const HeadlineGroup = ({ main, sub }: { main: string; sub: string }) => (
+const HeadlineGroup = ({ main, pre }: { main: string; pre: string }) => (
   <>
-    <SubHeadline>{sub}</SubHeadline>
+    <SubHeadline>{pre}</SubHeadline>
     <MainHeadline>{main}</MainHeadline>
   </>
 )
