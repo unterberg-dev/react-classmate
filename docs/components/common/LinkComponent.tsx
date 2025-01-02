@@ -21,7 +21,7 @@ const StyledLink = rc.a<StyledLinkProps>`
   ${(p) => (p.$isMenu ? "" : "text-primaryDark underline")}
 `
 
-const clean = (s: string) => s.replace(/^\/|\/$/g, "")
+const cleanStr = (s: string) => s.replace(/^\/|\/$/g, "")
 
 const LinkComponent = ({
   target = "_self",
@@ -33,7 +33,7 @@ const LinkComponent = ({
 
   if (!href) return <div>Missing href</div>
 
-  const [hrefNoSlash, pathNoSlash] = [clean(href), clean(urlPathname)]
+  const [hrefNoSlash, pathNoSlash] = [cleanStr(href), cleanStr(urlPathname)]
   const isExternal = isLinkExternal(href)
 
   const isActive = hrefNoSlash === pathNoSlash

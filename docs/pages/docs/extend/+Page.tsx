@@ -6,6 +6,7 @@ import { DocsHead } from "#docs/DocsHead"
 import DocsNotebox from "#docs/DocsNotebox"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
 
+import CodeElement from "#components/common/Code"
 import basic from "#docs/extend/code/basic.rcx"
 import basicImplementation from "#docs/extend/code/basicImplementation.rcx"
 import extendBasic from "#docs/extend/code/extBasic.rcx"
@@ -34,12 +35,12 @@ const BasicPage = () => {
         <DocsNotebox icon={CircleHelp}>
           Not sure what we do in the interpolation above? Head back to the{" "}
           <LinkComponent href="/docs/basic" className="!text-primaryDark">
-            <code>Base</code> documentation page
+            <CodeElement>Base</CodeElement> documentation page
           </LinkComponent>
         </DocsNotebox>
       </Section>
       <SectionHeadline>
-        Extend <code className="text-xl">classmate</code> components
+        Extend <CodeElement $size="xl">classmate</CodeElement> components
       </SectionHeadline>
       <Section>
         <p>

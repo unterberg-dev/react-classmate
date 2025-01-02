@@ -21,7 +21,7 @@ export const defaultColors = {
   grayLight: colors.neutral[300],
   graySuperLight: colors.neutral[200],
   lightBorder: colors.neutral[100],
-  light: colors.neutral[50],
+  light: "#f3f3f3",
   white: "#ffffff",
 
   primaryDarkNeutral: colors.indigo[700],

@@ -1,0 +1,19 @@
+const VariantButton = rc.button.variants<{ $size: "small" | "large"; $disabled?: boolean }>({
+  base: (p) => `
+    test-class
+    color-black
+    ${p.style({
+      border: p.$disabled ? "1px solid gray" : "1px solid blue",
+      boxShadow: p.$disabled ? "none" : "0 0 0 1px black",
+    })}
+  `,
+  variants: {
+    $size: {
+      small: (p) => p.style({ fontSize: "12px" }),
+      large: (p) => p.style({ fontSize: "18px" }),
+    },
+  },
+  defaultVariants: {
+    $size: "small",
+  },
+})

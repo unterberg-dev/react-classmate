@@ -1,6 +1,7 @@
 import { CircleAlert } from "lucide-react"
 
 import HighlighterComponent from "#components/HighlighterComponent"
+import CodeElement from "#components/common/Code"
 import { DocsHead } from "#docs/DocsHead"
 import DocsNotebox from "#docs/DocsNotebox"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
@@ -24,8 +25,8 @@ const BasicPage = () => {
       <SectionHeadline>Create a base component</SectionHeadline>
       <Section>
         <p>
-          Select the component tag you wish by using it's intrinsic tag name. For example <code>rc.div</code>{" "}
-          or <code>rc.button</code>.
+          Select the component tag you wish by using it's intrinsic tag name. For example{" "}
+          <CodeElement>rc.div</CodeElement> or <CodeElement>rc.button</CodeElement>.
         </p>
         <HighlighterComponent input={baseComponent} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
@@ -35,7 +36,8 @@ const BasicPage = () => {
       <Section>
         <p>We can pass custom properties</p>
         <DocsNotebox icon={CircleAlert}>
-          We prefix custom properties with <code>$</code> to avoid conflicts with intrinsic properties.
+          We prefix custom properties with <CodeElement $color="warning">$</CodeElement> to avoid conflicts
+          with intrinsic properties.
         </DocsNotebox>
         <HighlighterComponent input={customProps} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
@@ -45,7 +47,7 @@ const BasicPage = () => {
       <Section>
         <p>
           rc is passing intrinsic properties and you can use them in the interpolation string. For typescript
-          we provide the <code>JSX.IntrinsicElements</code> to get them properly validated.
+          we provide the <CodeElement>JSX.IntrinsicElements</CodeElement> to get them properly validated.
         </p>
         <HighlighterComponent input={intrinsicProps} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>

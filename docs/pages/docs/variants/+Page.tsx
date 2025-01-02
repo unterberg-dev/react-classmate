@@ -1,4 +1,5 @@
 import HighlighterComponent from "#components/HighlighterComponent"
+import CodeElement from "#components/common/Code"
 import LinkComponent from "#components/common/LinkComponent"
 import { DocsHead } from "#docs/DocsHead"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
@@ -22,19 +23,20 @@ const DocsStartPage = () => {
       <SectionHeadline>Basic syntax</SectionHeadline>
       <Section>
         <p>
-          The <code>variants</code> function allows you to create a styled component with variants.
+          The <CodeElement>variants</CodeElement> function allows you to create a styled component with
+          variants.
         </p>
         <HighlighterComponent input={basic} />
         <SectionInnerHeadline>The function receives the following properties:</SectionInnerHeadline>
         <ul className="mt-3">
           <li>
-            <code>base</code> - optional - The base classname of the component
+            <CodeElement>base</CodeElement> - optional - The base classname of the component
           </li>
           <li>
-            <code>variants</code> - required - An object with the different variants
+            <CodeElement>variants</CodeElement> - required - An object with the different variants
           </li>
           <li>
-            <code>defaultVariants</code> - optional - a fallback for when no variant is passed
+            <CodeElement>defaultVariants</CodeElement> - optional - a fallback for when no variant is passed
           </li>
         </ul>
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>

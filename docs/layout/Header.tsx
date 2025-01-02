@@ -1,12 +1,13 @@
-import { Github, Moon, Sticker } from "lucide-react"
+import { ChevronRight, Github, Logs, Sticker } from "lucide-react"
 import { useEffect, useMemo, useRef, useState } from "react"
 import rc from "react-classmate"
 
 import LayoutComponent from "#components/LayoutComponent"
+import SidebarInner from "#components/SidebarInner"
 import ThemeSwitch from "#components/ThemeSwitch"
 import Button from "#components/common/Button"
 import H1Headline from "#components/common/H1Headline"
-import LinkComponent from "#components/common/LinkComponent"
+import Sidebar from "#layout/Sidebar"
 import { APP_CONFIG } from "#lib/config"
 
 const HeaderOuter = rc.header`
@@ -27,6 +28,7 @@ const LogoContainer = rc.a`
 const HeaderLayout = rc.extend(LayoutComponent)`
   flex
   justify-between
+  relative
   items-center
   h-full
   z-25
@@ -40,9 +42,30 @@ const GhostBgInner = rc.div<{ $scrolled: boolean }>`
   ${(p) => (p.$scrolled ? "animate-in fade-in" : "animate-out fade-out")}
 `
 
+const GhostBgOuter = rc.div`
+  theme-header-shadow 
+  invisible 
+  pointer-events-none
+`
+
+const MenuSlideout = rc.div<{ $open: boolean }>`
+  bg-white dark:bg-darkNeutral
+  shadow-grayNeutral/20 dark:shadow-darkNeutral/20
+  p-4
+  rounded-md
+  absolute
+  top-0
+  left-0
+  h-full
+  w-full
+  z-1
+  ${(p) => (p.$open ? "animate-in fade-in" : "animate-out fade-out")}
+`
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const ghostBgRef = useRef<HTMLDivElement>(null)
+  const [menuOpen, setMenuOpen] = useState(true)
 
   const handleScroll = useMemo(
     () =>
@@ -65,7 +88,6 @@ const Header = () => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
 
-    // Initialize on mount
     // check if already scrolled
     if (window.scrollY > 5) {
       setScrolled(true)
@@ -73,7 +95,6 @@ const Header = () => {
         ghostBgRef.current.classList.remove("invisible")
       }
     }
-
     return () => {
       window.removeEventListener("scroll", handleScroll)
     }
@@ -83,8 +104,8 @@ const Header = () => {
     <HeaderOuter>
       <HeaderLayout>
         <LogoContainer href={`${APP_CONFIG.viteUrl}/`}>
-          <Sticker className="text-dark h-6 w-6" strokeWidth={2} />
-          <H1Headline className="!text-lg">react-classmate</H1Headline>
+          <Sticker className="text-dark h-4 w-4 lg:h-6 lg:w-6" />
+          <H1Headline className="!text-base lg:!text-lg">react-classmate</H1Headline>
         </LogoContainer>
         <div className="flex gap-2">
           <Button className="relative" link={APP_CONFIG.repoUrl} color="icon" noShadow noGutter size="sm">
@@ -93,8 +114,27 @@ const Header = () => {
           <ThemeSwitch />
         </div>
       </HeaderLayout>
-      <div ref={ghostBgRef} className="theme-header-shadow invisible pointer-events-none">
-        <GhostBgInner $scrolled={scrolled} />
+      <GhostBgOuter ref={ghostBgRef}>
+        <GhostBgInner $scrolled={scrolled || menuOpen} />
+      </GhostBgOuter>
+      <div className="lg:hidden gap-4 absolute top-12 left-0 w-full">
+        <GhostBgInner className="!bg-light dark:!bg-light" $scrolled={scrolled || menuOpen} />
+        <LayoutComponent>
+          <Button
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="!px-0 !py-2"
+            size="sm"
+            color="hollow"
+            noShadow
+          >
+            <span className="relative z-2 flex gap-1 items-center">
+              <Logs className="h-4 w-4" /> Menu
+            </span>
+          </Button>
+        </LayoutComponent>
+        <MenuSlideout className="min-h-dvh" $open={menuOpen}>
+          <SidebarInner />
+        </MenuSlideout>
       </div>
     </HeaderOuter>
   )

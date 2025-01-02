@@ -1,4 +1,5 @@
 import HighlighterComponent from "#components/HighlighterComponent"
+import CodeElement from "#components/common/Code"
 import LinkComponent from "#components/common/LinkComponent"
 import { DocsHead } from "#docs/DocsHead"
 import DocsNotebox from "#docs/DocsNotebox"
@@ -33,8 +34,8 @@ const DocsStartPage = () => {
         <HighlighterComponent language="bash" input='const rc = require("react-classmate").default' />
         <DocsNotebox>
           <p>
-            The <code>default</code> for CJS is currently needed because the package is designed as ES module.
-            Named CJS export version{" "}
+            The <CodeElement $color="warning">default</CodeElement> for CJS is currently needed because the
+            package is designed as ES module. Named CJS export version{" "}
             <LinkComponent href="https://github.com/richard-unterberg/react-classmate/issues/7">
               is coming soon
             </LinkComponent>
@@ -85,9 +86,8 @@ const DocsStartPage = () => {
       <SectionHeadline>Everything is documented in Typescript?</SectionHeadline>
       <Section>
         <p>
-          For now. It should be easy to remove the types and use the library in plain JavaScript. The types
-          are there to help you and to give you a better understanding of what is possible. Later on, I might
-          provide a JavaScript version of the documentation.
+          For now. It should be easy to remove the types and use the library in plain JavaScript. Later on, I
+          might provide a JavaScript version of the documentation.
         </p>
       </Section>
     </>

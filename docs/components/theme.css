@@ -10,21 +10,6 @@ html {
   background-color: transparent !important;
 }
 
-code {
-  background-color: var(--color-graySuperLight);
-  color: var(--color-dark);
-  padding: 0.2em 0.4em;
-  font-size: 14px;
-}
-
-.link > code {
-  color: inherit;
-}
-
-.dark .link > code {
-  background-color: var(--color-white);
-}
-
 .highlighter code {
   padding: 0;
 }

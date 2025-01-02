@@ -6,7 +6,7 @@ import { isLinkExternal } from "#lib/utils"
 
 interface ButtonBaseProps {
   $size?: "lg" | "md" | "sm" | "xs"
-  $color?: "primary" | "secondary" | "error" | "success" | "warning" | "copy" | "hollow" | "icon"
+  $color?: "primary" | "secondary" | "error" | "success" | "warning" | "copy" | "hollow" | "icon" | "neutral"
   $disabled?: boolean
   $loading?: boolean
   $noShadow?: boolean
@@ -18,7 +18,6 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
     transition-colors
     inline-flex items-center justify-center gap-2 
     font-bold
-    text-lightNeutral
     ${APP_CONFIG.uno.transitionWind}
     ${$noShadow ? "!shadow-none" : "shadow-darkNeutral/20"}
     ${$noGutter ? "!p-0" : ""}
@@ -34,27 +33,45 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
     },
     $color: {
       hollow: "bg-transparent",
-      primary: ({ $disabled }) => `bg-primaryDarkNeutral ${!$disabled ? "hover:bg-primary" : ""}`,
+      primary: ({ $disabled }) => `
+        text-lightNeutral 
+        bg-primaryDarkNeutral 
+        ${!$disabled ? "hover:bg-primary" : ""}
+      `,
+      success: ({ $disabled }) => `
+        text-lightNeutral 
+        bg-successDarkNeutral 
+        ${!$disabled ? "hover:bg-success" : ""}
+      `,
+      warning: ({ $disabled }) => `
+        text-lightNeutral 
+        bg-warningDarkNeutral 
+        ${!$disabled ? "hover:bg-warning" : ""}
+      `,
+      error: ({ $disabled }) => `
+        text-lightNeutral 
+        bg-errorDarkNeutral 
+        ${!$disabled ? "hover:bg-error" : ""}
+      `,
+      neutral: ({ $disabled }) => `
+        text-dark 
+        bg-light dark:bg-grayLight 
+        ${!$disabled ? "hover:bg-graySuperLight dark:hover:bg-gray" : ""}
+      `,
       copy: ({ $disabled }) => `
-        bg-white
-        dark:bg-gray/30
-        !text-dark
-        active:!bg-successDarkNeutral
-        active:!text-lightNeutral
-        active:dark:!bg-successDarkNeutral
-        active:dark:!text-lightNeutral
-        ${!$disabled ? "hover:!text-dark hover:bg-grayLight/30 hover:dark:bg-gray/50" : ""}`,
+        bg-white dark:bg-gray/30
+        text-dark
+        active:bg-successDarkNeutral active:text-lightNeutral
+        dark:active:bg-successDarkNeutral dark:active:text-lightNeutral
+        ${!$disabled ? "hover:text-dark hover:bg-grayLight/30 dark:hover:bg-gray/50" : ""}
+      `,
       icon: `
         rounded-full
         w-7 lg:w-8
         h-7 lg:h-8
-        !min-h-auto 
-        !bg-gray/20 dark:!bg-grayLight 
-        !text-dark dark:!text-grayDark
+        bg-gray/20 dark:bg-grayLight 
+        text-dark dark:text-grayDark
       `,
-      success: ({ $disabled }) => `bg-successDarkNeutral ${!$disabled ? "hover:bg-success" : ""}`,
-      warning: ({ $disabled }) => `bg-warningDarkNeutral ${!$disabled ? "hover:bg-warning" : ""}`,
-      error: ({ $disabled }) => `bg-errorDarkNeutral ${!$disabled ? "hover:bg-error" : ""}`,
     },
   },
   defaultVariants: {
