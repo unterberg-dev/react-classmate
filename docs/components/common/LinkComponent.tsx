@@ -14,11 +14,10 @@ const StyledLink = rc.a<StyledLinkProps>`
   link
   transition-colors
   ${APP_CONFIG.uno.transitionWind}
-  text-dark 
   inline-block
   hover:text-primary
   ${(p) => (p.$isActive ? "!text-primaryDark/70 underline" : "")}
-  ${(p) => (p.$isMenu ? "" : "text-primaryDark underline")}
+  ${(p) => (p.$isMenu ? "!text-dark" : "text-primary underline")}
 `
 
 const cleanStr = (s: string) => s.replace(/^\/|\/$/g, "")

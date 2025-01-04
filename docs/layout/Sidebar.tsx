@@ -1,10 +1,10 @@
 import rc from "react-classmate"
 
-import SidebarInner from "#components/SidebarInner"
+import Navigation from "#components/Navigation"
 
 const SidebarWrap = rc.nav`
   relative p-0
-  hidden 
+  hidden
   lg:block
 `
 
@@ -21,7 +21,7 @@ const Sidebar = () => {
   return (
     <SidebarWrap>
       <SidebarSticky>
-        <SidebarInner />
+        <Navigation />
       </SidebarSticky>
     </SidebarWrap>
   )

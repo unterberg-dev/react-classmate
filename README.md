@@ -400,6 +400,8 @@ const { default: rc } = require("react-classmate");
 
 ## Upcoming
 
+- bug / troubleshoot - lib is enforcing classnames, classnames set by ref will be overwritten as soon component rerenders
+  - needs a small article in the docs 
 - Variants for `rc.extend`
 - named lib import for CommonJS (currently only `.default`)
   -- Means we need to remove the named export in the ts file to not duplicate IDE import suggestions:

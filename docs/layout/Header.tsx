@@ -1,13 +1,13 @@
-import { ChevronRight, Github, Logs, Sticker } from "lucide-react"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { Github, Logs, Sticker } from "lucide-react"
+import { useEffect, useMemo, useState } from "react"
 import rc from "react-classmate"
 
 import LayoutComponent from "#components/LayoutComponent"
-import SidebarInner from "#components/SidebarInner"
+import Navigation from "#components/Navigation"
 import ThemeSwitch from "#components/ThemeSwitch"
 import Button from "#components/common/Button"
 import H1Headline from "#components/common/H1Headline"
-import Sidebar from "#layout/Sidebar"
+import useMenuStore from "#hooks/useMenuStore"
 import { APP_CONFIG } from "#lib/config"
 
 const HeaderOuter = rc.header`
@@ -34,21 +34,30 @@ const HeaderLayout = rc.extend(LayoutComponent)`
   z-25
 `
 
-const GhostBgInner = rc.div<{ $scrolled: boolean }>`
-  shadow-grayNeutral/08 
-  dark:shadow-darkNeutral/50 
-  bg-white 
-  top-0 absolute h-full w-full shadow-md
-  ${(p) => (p.$scrolled ? "animate-in fade-in" : "animate-out fade-out")}
-`
+// todo: not working on prod page init - header flickers
+// we need a generic version with a outer wrapper, since we can't know when the prop $isInit
+// the main problem is that "animate-out fade-out" causes flicker on page init
+const GhostBgInner = rc.div.variants<{ $scrolled: boolean; $isInit?: boolean }, { $type: "main" | "sub" }>({
+  base: (p) => `
+    absolute inset-0
+    shadow-lg
+    shadow-grayNeutral/05 
+    dark:shadow-darkNeutral/50
+    ${p.$isInit ? "" : "invisible"}
+    ${p.$scrolled ? "animate-in fade-in" : "animate-out fade-out"}
+  `,
+  variants: {
+    $type: {
+      main: "bg-white",
+      sub: "bg-light",
+    },
+  },
+  defaultVariants: {
+    $type: "main",
+  },
+})
 
-const GhostBgOuter = rc.div`
-  theme-header-shadow 
-  invisible 
-  pointer-events-none
-`
-
-const MenuSlideout = rc.div<{ $open: boolean }>`
+const MenuSlideout = rc.div<{ $open: boolean; $isInit: boolean }>`
   bg-white dark:bg-darkNeutral
   shadow-grayNeutral/20 dark:shadow-darkNeutral/20
   p-4
@@ -59,13 +68,18 @@ const MenuSlideout = rc.div<{ $open: boolean }>`
   h-full
   w-full
   z-1
-  ${(p) => (p.$open ? "animate-in fade-in" : "animate-out fade-out")}
+  min-h-dvh
+  ${(p) => (p.$isInit ? "" : "invisible")}
+  ${APP_CONFIG.uno.transitionUno}
+  ${(p) => (p.$open ? "animate-in fade-in" : "pointer-events-none animate-out fade-out")}
 `
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
-  const ghostBgRef = useRef<HTMLDivElement>(null)
-  const [menuOpen, setMenuOpen] = useState(true)
+  const [isInit, setIsInit] = useState(false)
+
+  const menuOpen = useMenuStore((state) => state.isOpen)
+  const toggleMenuOpen = useMenuStore((state) => state.toggle)
 
   const handleScroll = useMemo(
     () =>
@@ -75,9 +89,6 @@ const Header = () => {
           if (timeoutId) return
           timeoutId = setTimeout(() => {
             setScrolled(window.scrollY > 5)
-            if (ghostBgRef.current?.classList.contains("invisible")) {
-              ghostBgRef.current.classList.remove("invisible")
-            }
             timeoutId = null
           }, 70)
         }
@@ -87,13 +98,10 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
+    setIsInit(true)
 
-    // check if already scrolled
     if (window.scrollY > 5) {
       setScrolled(true)
-      if (ghostBgRef.current?.classList.contains("invisible")) {
-        ghostBgRef.current.classList.remove("invisible")
-      }
     }
     return () => {
       window.removeEventListener("scroll", handleScroll)
@@ -114,26 +122,22 @@ const Header = () => {
           <ThemeSwitch />
         </div>
       </HeaderLayout>
-      <GhostBgOuter ref={ghostBgRef}>
-        <GhostBgInner $scrolled={scrolled || menuOpen} />
-      </GhostBgOuter>
+      <GhostBgInner $isInit={isInit} $scrolled={scrolled || menuOpen} />
       <div className="lg:hidden gap-4 absolute top-12 left-0 w-full">
-        <GhostBgInner className="!bg-light dark:!bg-light" $scrolled={scrolled || menuOpen} />
+        <GhostBgInner $isInit={isInit} $scrolled={scrolled || menuOpen} $type="sub" />
         <LayoutComponent>
-          <Button
-            onClick={() => setMenuOpen((prev) => !prev)}
-            className="!px-0 !py-2"
-            size="sm"
-            color="hollow"
-            noShadow
-          >
+          <Button onClick={() => toggleMenuOpen()} className="!px-0 !py-2" size="sm" color="hollow" noShadow>
             <span className="relative z-2 flex gap-1 items-center">
               <Logs className="h-4 w-4" /> Menu
             </span>
           </Button>
         </LayoutComponent>
-        <MenuSlideout className="min-h-dvh" $open={menuOpen}>
-          <SidebarInner />
+        <MenuSlideout $isInit={isInit} className="" $open={menuOpen}>
+          {menuOpen && (
+            <div className="mt-13 p-1">
+              <Navigation isTablet />
+            </div>
+          )}
         </MenuSlideout>
       </div>
     </HeaderOuter>
