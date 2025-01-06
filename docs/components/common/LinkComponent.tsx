@@ -13,7 +13,7 @@ interface StyledLinkProps {
 const StyledLink = rc.a<StyledLinkProps>`
   link
   transition-colors
-  ${APP_CONFIG.uno.transitionWind}
+  ${APP_CONFIG.transition.tw}
   inline-block
   hover:text-primary
   ${(p) => (p.$isActive ? "!text-primaryDark/70 underline" : "")}
@@ -39,7 +39,7 @@ const LinkComponent = ({
 
   return (
     <StyledLink
-      href={isExternal ? href : `${APP_CONFIG.viteUrl}${href}`}
+      href={href}
       target={isExternal ? "_blank" : target}
       rel={isExternal ? "noreferrer" : ""}
       $isExternal={isExternal}

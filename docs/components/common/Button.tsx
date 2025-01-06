@@ -18,7 +18,7 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
     transition-colors
     inline-flex items-center justify-center gap-2 
     font-bold
-    ${APP_CONFIG.uno.transitionWind}
+    ${APP_CONFIG.transition.tw}
     ${$noShadow ? "!shadow-none" : "shadow-darkNeutral/20"}
     ${$noGutter ? "!p-0" : ""}
     ${$disabled ? "opacity-60 cursor-not-allowed" : ""}
@@ -28,7 +28,7 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
     $size: {
       xs: "py-1 px-2 rounded text-xs shadow-sm",
       sm: "py-1.5 px-2.5 rounded text-sm shadow-sm",
-      md: "py-2 px-3 rounded shadow-sm",
+      md: "py-1.5 px-3 rounded shadow-sm",
       lg: "py-3 px-4 rounded-lg shadow-md",
     },
     $color: {

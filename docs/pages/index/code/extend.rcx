@@ -1,0 +1,14 @@
+const MyButton = rc.button<ButtonProps>`
+  text-blue
+  bg-white
+  rounded-lg
+  ${(p) => (p.$isLoading" ? "opacity-50 pointer-events-none" : "")}
+`
+
+const CustomButton = rc.extend(MyButton)`
+  mb-3
+  text-center
+  ${(p) => (p.$customState ? "bg-black" : "")}
+`
+
+<CustomButton $customState type="button" />

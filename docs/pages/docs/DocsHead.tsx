@@ -7,11 +7,12 @@ interface DocsHeadProps {
   main: string
   pre: string
   excerpt: ReactNode
+  centered?: boolean
 }
 
-export const DocsHead = ({ excerpt, main, pre }: DocsHeadProps) => (
+export const DocsHead = ({ excerpt, main, pre, centered }: DocsHeadProps) => (
   <>
     <HeadlineGroup main={main} pre={pre} />
-    <Excerpt>{excerpt}</Excerpt>
+    <Excerpt $centered={centered}>{excerpt}</Excerpt>
   </>
 )

@@ -12,6 +12,7 @@ import basicImplementation from "#docs/extend/code/basicImplementation.rcx"
 import extendBasic from "#docs/extend/code/extBasic.rcx"
 import extendRc from "#docs/extend/code/extRc.rcx"
 import extendRcImplementation from "#docs/extend/code/extRcImplementation.rcx"
+import { internalLink } from "#lib/links"
 
 const BasicPage = () => {
   return (
@@ -33,14 +34,14 @@ const BasicPage = () => {
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
         <HighlighterComponent input={basicImplementation} />
         <DocsNotebox icon={CircleHelp}>
-          Not sure what we do in the interpolation above? Head back to the{" "}
-          <LinkComponent href="/docs/basic" className="!text-primaryDark">
+          Unsure what we do in the interpolation above? Head back to the{" "}
+          <LinkComponent href={internalLink.docs.basic} className="!text-primaryDark">
             <CodeElement>Base</CodeElement> documentation page
           </LinkComponent>
         </DocsNotebox>
       </Section>
       <SectionHeadline>
-        Extend <CodeElement $size="xl">classmate</CodeElement> components
+        Extend <CodeElement $size="2xl">classmate</CodeElement> components
       </SectionHeadline>
       <Section>
         <p>

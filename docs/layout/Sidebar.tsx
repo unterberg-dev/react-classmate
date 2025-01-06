@@ -16,7 +16,6 @@ const SidebarSticky = rc.div`
   gap-5
 `
 
-// @todo: outsource menu to static config file
 const Sidebar = () => {
   return (
     <SidebarWrap>

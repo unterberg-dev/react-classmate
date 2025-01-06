@@ -16,6 +16,7 @@
     "react": "^19.0.0",
     "react-classmate": "file:../.localPack",
     "react-dom": "^19.0.0",
+    "react-remove-scroll": "^2.6.2",
     "react-syntax-highlighter": "^15.6.1",
     "vike-react": "^0.5.10",
     "vite-raw-plugin": "^1.0.2",

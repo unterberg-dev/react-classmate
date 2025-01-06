@@ -12,6 +12,7 @@ import DocsNotebox from "#docs/DocsNotebox"
 import advancedButtonCode from "#examples/advanced-button/code/advanced-button.rcx"
 import sizingButtonCode from "#examples/advanced-button/code/sizes.rcx"
 import { APP_CONFIG } from "#lib/config"
+import { internalLink } from "#lib/links"
 
 const ButtonRow = rc.div`
   flex
@@ -44,7 +45,7 @@ const AdvancedButtonPage = () => (
         properly maintain it through the variability of project requirements and the resulting "horizontal
         styling". My wish was to read those heavily styled components like a book, with all the information I
         need to know about it's design and behavior. This is why I created{" "}
-        <LinkComponent href={`${APP_CONFIG.viteUrl}/`}>react-classmate</LinkComponent>.
+        <LinkComponent href={internalLink.start}>react-classmate</LinkComponent>.
       </p>
       <p className="mt-3">
         The main idea of this project is to engage myself to properly design and manage classnames and

@@ -1,4 +1,5 @@
 import { Blocks, BrickWall, Power, Siren, SwatchBook, TextCursorInput } from "lucide-react"
+import { internalLink } from "#lib/links"
 
 interface MenuItem {
   label: string
@@ -21,22 +22,22 @@ export const menuData: MenuSection[] = [
     items: [
       {
         label: "Getting Started",
-        href: "/docs/get-started",
+        href: internalLink.docs.getStarted,
         icon: Power,
       },
       {
         label: "Base",
-        href: "/docs/basic",
+        href: internalLink.docs.basic,
         icon: BrickWall,
       },
       {
         label: "Extend",
-        href: "/docs/extend",
+        href: internalLink.docs.extend,
         icon: Blocks,
       },
       {
         label: "Variants",
-        href: "/docs/variants",
+        href: internalLink.docs.variants,
         icon: SwatchBook,
       },
     ],
@@ -51,7 +52,7 @@ export const menuData: MenuSection[] = [
         subItems: [
           {
             label: "CSS-in-JS: style()",
-            href: "/docs/interpolation/style",
+            href: internalLink.util.style,
             hightlightCode: ["style()"],
           },
         ],
@@ -62,12 +63,12 @@ export const menuData: MenuSection[] = [
         subItems: [
           {
             label: "RcBaseComponent",
-            href: "/docs/utils/typescript#rcbasecomponent",
+            href: internalLink.typescript.rcBaseComponent,
             hightlightCode: ["RcBaseComponent"],
           },
           {
             label: "VariantsConfig",
-            href: "/docs/utils/typescript#variantsconfig",
+            href: internalLink.typescript.variantsConfig,
             hightlightCode: ["VariantsConfig"],
           },
         ],
@@ -78,7 +79,7 @@ export const menuData: MenuSection[] = [
         subItems: [
           {
             label: "convertRcProps()",
-            href: "/docs/utils/convertrcprops",
+            href: internalLink.util.convertRcProps,
             hightlightCode: ["convertRcProps()"],
           },
         ],
@@ -90,9 +91,8 @@ export const menuData: MenuSection[] = [
     items: [
       {
         label: "Avanced Button",
-        href: "/docs/examples/advanced-button",
+        href: internalLink.example.advancedButton,
       },
-      // You can include more items here if needed
     ],
   },
 ]

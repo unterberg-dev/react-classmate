@@ -29,17 +29,29 @@ const CopyToClipboard = ({ handleCopy }: { handleCopy: () => void }) => {
   )
 }
 
-const Highlighter = rc.div`
+const Highlighter = rc.div<{ $noGutter: boolean }>`
   highlighter 
   bg-lightBorder 
   relative 
-  mt-3 
   !min-w-none 
   w-[100%]
   rounded-md
+  ${(p) => (p.$noGutter ? "" : "mt-3")}
 `
 
-const HighlighterComponent = ({ input, language = "tsx" }: { input: string; language?: "tsx" | "bash" }) => {
+interface HighlighterComponentProps {
+  input: string
+  language?: "tsx" | "bash"
+  noGutter?: boolean
+  noCopy?: boolean
+}
+
+const HighlighterComponent = ({
+  input,
+  language = "tsx",
+  noGutter = false,
+  noCopy = false,
+}: HighlighterComponentProps) => {
   const { theme } = useThemeStore()
 
   const handleCopy = useCallback(() => {
@@ -47,8 +59,8 @@ const HighlighterComponent = ({ input, language = "tsx" }: { input: string; lang
   }, [input])
 
   return (
-    <Highlighter>
-      <CopyToClipboard handleCopy={handleCopy} />
+    <Highlighter $noGutter={noGutter}>
+      {!noCopy && <CopyToClipboard handleCopy={handleCopy} />}
       <SyntaxHighlighter
         customStyle={{
           padding: 16,
