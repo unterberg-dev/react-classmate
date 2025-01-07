@@ -111,7 +111,7 @@ export default defineConfig({
   theme: {
     colors: defaultColors,
     fontSize: {
-      base: ["17px", "24px"],
+      base: ["16.5px", "24px"],
       md: ["15.5px", "20px"],
       sm: ["14px", "20px"],
       xs: ["12px", "20px"],
@@ -123,6 +123,7 @@ export default defineConfig({
   },
   preflights: [
     {
+      // to get use of the theme colors as css variables
       getCSS: ({ theme }) => {
         let cssVariables = ""
 

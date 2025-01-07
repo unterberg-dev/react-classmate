@@ -2,8 +2,8 @@ import rc from "react-classmate"
 import Notebox from "#components/common/Notebox"
 
 const Card = rc.extend(Notebox)`
-  p-2 
-  md:p-4 
+  !p-2
+  md:!p-3
   rounded 
   border-1
   border-grayLight/50 dark:border-graySuperLight/50 

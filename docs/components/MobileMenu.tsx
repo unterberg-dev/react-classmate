@@ -27,13 +27,13 @@ interface AnimationTriggerProps {
 const SlideOut = rc.div<AnimationTriggerProps>`
   bg-white dark:bg-darkNeutral
   shadow-grayNeutral/20 dark:shadow-darkNeutral/20
-  p-3
   rounded-md
   absolute
   top-0
   left-0
   h-full
   w-full
+  pt-10
   z-1
   min-h-dvh
   ${(p) => (p.$isInit ? "" : "!invisible")}
@@ -68,13 +68,15 @@ const MobileMenu = ({ isInit, scrolled }: { isInit: boolean; scrolled: boolean }
         </Button>
       </LayoutComponent>
       <GhostBgInner $isInit={isInit} $scrolled={scrolled} $sub />
-      <SlideOut $isInit={isInit} $open={menuOpen}>
-        <RemoveScroll enabled={menuOpen}>
-          <Menu $isInit={isInit} $open={menuOpen}>
-            <Navigation isTablet />
-          </Menu>
-        </RemoveScroll>
-      </SlideOut>
+      <RemoveScroll enabled={menuOpen}>
+        <SlideOut $isInit={isInit} $open={menuOpen}>
+          <LayoutComponent>
+            <Menu $isInit={isInit} $open={menuOpen}>
+              <Navigation isTablet />
+            </Menu>
+          </LayoutComponent>
+        </SlideOut>
+      </RemoveScroll>
     </div>
   )
 }

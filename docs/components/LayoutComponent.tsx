@@ -9,7 +9,7 @@ const LayoutComponent = rc.div.variants<LayoutComponentProps>({
   variants: {
     type: {
       full: "w-full",
-      small: "max-w-4xl px-3",
+      small: "max-w-5xl xl:max-w-6xl px-3 sm:px-5",
       normalWithoutGutter: "max-w-7xl px-0",
       normal: "max-w-7xl px-3 sm:px-5",
     },
