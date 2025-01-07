@@ -7,21 +7,21 @@ import { fileURLToPath } from "node:url"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// Remove the types folder
+// Remove types folder
 fs.rmSync(path.resolve(__dirname, "dist/types"), { recursive: true, force: true })
 console.log("Removed dist/types folder.")
 
 // Paths
 const outputDir = path.resolve(__dirname, ".localPack")
 
-function cleanLocalPack() {
+const cleanLocalPack = () => {
   if (fs.existsSync(outputDir)) {
     fs.rmSync(outputDir, { recursive: true, force: true })
   }
   fs.mkdirSync(outputDir, { recursive: true })
 }
 
-function packAndExtract() {
+const packAndExtract = () => {
   try {
     console.log("Creating npm package...")
     const packResult = execSync("npm pack", { stdio: "pipe" }).toString().trim()
@@ -41,9 +41,9 @@ function packAndExtract() {
       for (const file of files) {
         const fromPath = path.join(packageDir, file)
         const toPath = path.join(outputDir, file)
-        fs.renameSync(fromPath, toPath) // Move each file/folder to the parent directory
+        fs.renameSync(fromPath, toPath)
       }
-      fs.rmdirSync(packageDir) // Remove the now-empty "package" folder
+      fs.rmdirSync(packageDir)
     }
 
     console.log(`Package extracted to ${outputDir}`)
