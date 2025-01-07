@@ -1,6 +1,4 @@
-<VariantButton $disabled={false} $size="large">
-  Variant Button
-</VariantButton>
+<VariantButton $disabled={false} $size="large">Variant Button</VariantButton>
 
 // renders:
-// <button class="test-class color-black" style="border: 1px solid blue; box-shadow: 0 0 0 1px black; font-size: 18px;">
+<button class="test-class color-black" style="border: 1px solid blue; box-shadow: 0 0 0 1px black; font-size: 18px;">Variant Button</button>

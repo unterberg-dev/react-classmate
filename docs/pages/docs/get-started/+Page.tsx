@@ -5,6 +5,7 @@ import { DocsHead } from "#docs/DocsHead"
 import DocsNotebox from "#docs/DocsNotebox"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
 import { APP_CONFIG } from "#lib/config"
+import { internalLink } from "#lib/links"
 
 const installString = `npm i react-classmate
 # or
@@ -49,13 +50,13 @@ const DocsStartPage = () => {
           <Section>
             <ul>
               <li>
-                <LinkComponent href="/docs/basic">Create a component</LinkComponent>
+                <LinkComponent href={internalLink.docs.basic}>Create a component</LinkComponent>
               </li>
               <li>
-                <LinkComponent href="/docs/extend">Extend elements</LinkComponent>
+                <LinkComponent href={internalLink.docs.extend}>Extend elements</LinkComponent>
               </li>
               <li>
-                <LinkComponent href="/docs/variants">Learn about variants</LinkComponent>
+                <LinkComponent href={internalLink.docs.variants}>Learn about variants</LinkComponent>
               </li>
             </ul>
           </Section>

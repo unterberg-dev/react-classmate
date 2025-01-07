@@ -1,7 +1,8 @@
-import { Github, Sticker } from "lucide-react"
+import { Github, Sparkle, Sparkles, Sticker } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
 import rc from "react-classmate"
 
+import { usePageContext } from "vike-react/usePageContext"
 import LayoutComponent from "#components/LayoutComponent"
 import MobileMenu, { GhostBgInner } from "#components/MobileMenu"
 import ThemeSwitch from "#components/ThemeSwitch"
@@ -37,6 +38,9 @@ const HeaderLayout = rc.extend(LayoutComponent)`
 const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [isInit, setIsInit] = useState(false)
+  const { urlPathname } = usePageContext()
+
+  const isStartPage = urlPathname === "/"
 
   const handleScroll = useMemo(
     () =>
@@ -83,6 +87,17 @@ const Header = () => {
           <H1Headline className="!text-base lg:!text-lg">react-classmate</H1Headline>
         </LogoContainer>
         <div className="flex gap-2">
+          {isStartPage && (
+            <Button
+              color="primary"
+              size="xs"
+              link={internalLink.docs.getStarted}
+              className="animate-in fade-in mr-2 !hidden !sm:inline-flex"
+            >
+              <Sparkles className="h-4 w-4" />
+              Get Started
+            </Button>
+          )}
           <Button className="relative" link={APP_CONFIG.repoUrl} color="icon" noShadow noGutter size="sm">
             <Github className="h-4 w-4" />
           </Button>

@@ -1,4 +1,4 @@
-import { Blocks, BrickWall, Power, Siren, SwatchBook, TextCursorInput } from "lucide-react"
+import { Blocks, BrickWall, Siren, Sparkles, SwatchBook, TextCursorInput } from "lucide-react"
 import { internalLink } from "#lib/links"
 
 interface MenuItem {
@@ -23,7 +23,7 @@ export const menuData: MenuSection[] = [
       {
         label: "Getting Started",
         href: internalLink.docs.getStarted,
-        icon: Power,
+        icon: Sparkles,
       },
       {
         label: "Base",
@@ -86,13 +86,13 @@ export const menuData: MenuSection[] = [
       },
     ],
   },
-  {
-    title: "Examples",
-    items: [
-      {
-        label: "Avanced Button",
-        href: internalLink.example.advancedButton,
-      },
-    ],
-  },
+  // {
+  //   title: "Examples",
+  //   items: [
+  //     {
+  //       label: "Avanced Button",
+  //       href: internalLink.example.advancedButton,
+  //     },
+  //   ],
+  // },
 ]

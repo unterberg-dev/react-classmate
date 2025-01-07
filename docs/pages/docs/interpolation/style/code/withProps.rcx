@@ -3,6 +3,7 @@ const VariantButton = rc.button.variants<{ $size: "small" | "large"; $disabled?:
     test-class
     color-black
     ${p.style({
+      // we use the props in the style function
       border: p.$disabled ? "1px solid gray" : "1px solid blue",
       boxShadow: p.$disabled ? "none" : "0 0 0 1px black",
     })}

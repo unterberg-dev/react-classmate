@@ -1,10 +1,8 @@
-import { CircleAlert } from "lucide-react"
-
 import HighlighterComponent from "#components/HighlighterComponent"
 import CodeElement from "#components/common/Code"
 import { DocsHead } from "#docs/DocsHead"
 import DocsNotebox from "#docs/DocsNotebox"
-import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
+import { Section, SectionHeadline, SectionInnerHeadline, SectionInnerParagraph } from "#docs/elements"
 
 import baseComponent from "#docs/basic/code/baseComponent.rcx"
 import baseImplementation from "#docs/basic/code/baseImplementation.rcx"
@@ -26,7 +24,8 @@ const BasicPage = () => {
       <Section>
         <p>
           Select the component tag you wish by using it's intrinsic tag name. For example{" "}
-          <CodeElement>rc.div</CodeElement> or <CodeElement>rc.button</CodeElement>.
+          <CodeElement>rc.div</CodeElement> or <CodeElement>rc.button</CodeElement>. Via the interpolation you
+          are able to pass classnames.
         </p>
         <HighlighterComponent input={baseComponent} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
@@ -34,10 +33,11 @@ const BasicPage = () => {
       </Section>
       <SectionHeadline>Custom Properties</SectionHeadline>
       <Section>
-        <p>We can pass custom properties</p>
-        <DocsNotebox icon={CircleAlert}>
-          We prefix custom properties with <CodeElement $color="warning">$</CodeElement> to avoid conflicts
-          with intrinsic properties.
+        <DocsNotebox className="!mt-0">
+          <strong>Important:</strong> Prefix <CodeElement $color="warning">rc</CodeElement>-specific
+          properties with <CodeElement $color="warning">$</CodeElement> to not pass them to the
+          created/extended component and to avoid conflicts with intrinsic properties (rc filters out props
+          prefixed with <CodeElement $color="warning">$</CodeElement>)
         </DocsNotebox>
         <HighlighterComponent input={customProps} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
@@ -46,8 +46,9 @@ const BasicPage = () => {
       <SectionHeadline>Intrinsic Properties</SectionHeadline>
       <Section>
         <p>
-          rc is passing intrinsic properties and you can use them in the interpolation string. For typescript
-          we provide the <CodeElement>JSX.IntrinsicElements</CodeElement> to get them properly validated.
+          <CodeElement>rc</CodeElement> is passing intrinsic properties and you can use them in the
+          interpolation string. For typescript we provide the type of{" "}
+          <CodeElement>IntrinsicElements</CodeElement> to get them properly validated.
         </p>
         <HighlighterComponent input={intrinsicProps} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>

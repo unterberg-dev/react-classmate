@@ -1,11 +1,10 @@
-const MyButton = rc.button`
-  text-blue
-  ${(p) => (p.$isLoading" ? "opacity-50 pointer-events-none" : "")}
+const SectionBase = rc.div`
+  px-3
+  text-dark
+  mx-auto
 `
 
-const CustomButton = rc.extend(MyButton)`
+const CustomSection = rc.extend(SectionBase)`
   mb-3
-  text-center
-  ${(p) => (p.$customState ? "bg-black" : "")}
-  ${(p) => (p.$isLoading" ? "animate-pulse" : "")}
+  ${(p) => (p.$small ? "text-sm" : "")}
 `

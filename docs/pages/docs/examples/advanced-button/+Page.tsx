@@ -3,7 +3,7 @@ import rc from "react-classmate"
 import HighlighterComponent from "#components/HighlighterComponent"
 import Button from "#components/common/Button"
 import { DocsHead } from "#docs/DocsHead"
-import { Section, SectionHeadline } from "#docs/elements"
+import { Section, SectionHeadline, SectionInnerParagraph } from "#docs/elements"
 
 import CodeElement from "#components/common/Code"
 import H5Headline from "#components/common/H5Headline"
@@ -11,7 +11,6 @@ import LinkComponent from "#components/common/LinkComponent"
 import DocsNotebox from "#docs/DocsNotebox"
 import advancedButtonCode from "#examples/advanced-button/code/advanced-button.rcx"
 import sizingButtonCode from "#examples/advanced-button/code/sizes.rcx"
-import { APP_CONFIG } from "#lib/config"
 import { internalLink } from "#lib/links"
 
 const ButtonRow = rc.div`
@@ -47,18 +46,18 @@ const AdvancedButtonPage = () => (
         need to know about it's design and behavior. This is why I created{" "}
         <LinkComponent href={internalLink.start}>react-classmate</LinkComponent>.
       </p>
-      <p className="mt-3">
+      <SectionInnerParagraph>
         The main idea of this project is to engage myself to properly design and manage classnames and
         separate them from the application logic.
-      </p>
-      <p className="mt-3">
+      </SectionInnerParagraph>
+      <SectionInnerParagraph>
         This example requires you to have a basic understanding of tailwind and the utility classes. If you
         are not familiar with it, I would recommend you to read the{" "}
         <LinkComponent href="https://tailwindcss.com/docs/utility-first">
           tailwind "Utility-First Fundamentals"
         </LinkComponent>{" "}
         first
-      </p>
+      </SectionInnerParagraph>
     </Section>
 
     <SectionHeadline>Button Component</SectionHeadline>
@@ -69,20 +68,20 @@ const AdvancedButtonPage = () => (
         , <CodeElement>loading</CodeElement>, <CodeElement>noShadow</CodeElement> and{" "}
         <CodeElement>type</CodeElement> properties.
       </p>
-      <p className="mt-3">
+      <SectionInnerParagraph>
         It will introduce the usage of the utility type <CodeElement>VariantsConfig</CodeElement> and the
         utility function <CodeElement>convertRcProps</CodeElement>. More on that both below
-      </p>
+      </SectionInnerParagraph>
       <HighlighterComponent input={advancedButtonCode} />
       <DocsNotebox>
         <H5Headline>
           Usage of important <CodeElement>!</CodeElement> prefix from tailwind
         </H5Headline>
-        <p className="mt-3">
+        <SectionInnerParagraph>
           In general I would not recommend using <CodeElement>!</CodeElement>-override (which is similar to
           !important) too often in classmate components, since we should prereserve it's usage. In case of
           this button, we only override the padding and the shadow which can be set as explicit props.
-        </p>
+        </SectionInnerParagraph>
       </DocsNotebox>
     </Section>
 

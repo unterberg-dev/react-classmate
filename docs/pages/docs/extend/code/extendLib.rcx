@@ -1,0 +1,11 @@
+import { ArrowBigDown } from "lucide-react"
+import rc from "react-classmate"
+
+const StyledLucideArrow = rc.extend(ArrowBigDown)`
+  md:-right-4.5
+  right-1
+  slide-in-r-20
+`
+
+// ts: we can pass only props which are accessible on a `lucid-react` Component
+export default () => <StyledLucideArrow stroke="3" />

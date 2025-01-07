@@ -4,14 +4,14 @@ import HighlighterComponent from "#components/HighlighterComponent"
 import LinkComponent from "#components/common/LinkComponent"
 import { DocsHead } from "#docs/DocsHead"
 import DocsNotebox from "#docs/DocsNotebox"
-import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
+import { Section, SectionHeadline, SectionInnerHeadline, SectionInnerParagraph } from "#docs/elements"
 
 import CodeElement from "#components/common/Code"
 import basic from "#docs/extend/code/basic.rcx"
 import basicImplementation from "#docs/extend/code/basicImplementation.rcx"
 import extendBasic from "#docs/extend/code/extBasic.rcx"
-import extendRc from "#docs/extend/code/extRc.rcx"
-import extendRcImplementation from "#docs/extend/code/extRcImplementation.rcx"
+import extendLib from "#docs/extend/code/extendLib.rcx"
+import extendToReduce from "#docs/extend/code/extendToReduce.rcx"
 import { internalLink } from "#lib/links"
 
 const BasicPage = () => {
@@ -41,16 +41,26 @@ const BasicPage = () => {
         </DocsNotebox>
       </Section>
       <SectionHeadline>
-        Extend <CodeElement $size="2xl">classmate</CodeElement> components
+        Where to use <CodeElement $size="2xl">rc.extend</CodeElement>?
       </SectionHeadline>
       <Section>
-        <p>
-          A classic scenario could be that you wanna create a base component with a set of properties and
-          extend it with custom classes.
-        </p>
-        <HighlighterComponent input={extendRc} />
-        <SectionInnerHeadline>Implementation</SectionInnerHeadline>
-        <HighlighterComponent input={extendRcImplementation} />
+        <p>There are two different scenarios where extending components is helpful:</p>
+        <SectionInnerHeadline>1. Reduce redundancy</SectionInnerHeadline>
+        <SectionInnerParagraph>
+          When you wanna extend a "base"-component, in which you desired to set less specific styling
+          classnames (e.g. outer margins, typography, etc.) <CodeElement>rc.extend</CodeElement> could be your
+          pick. For example these are some elements which are re-used all over this documentation:
+        </SectionInnerParagraph>
+        <HighlighterComponent input={extendToReduce} />
+        <DocsNotebox>
+          <p>
+            If you find yourself extending the same component multiple times to assign similar classnames, you
+            might want to consider creating a{" "}
+            <LinkComponent href={internalLink.docs.variants}>variant</LinkComponent> as your base component.
+          </p>
+        </DocsNotebox>
+        <SectionInnerHeadline>2. Extend classnames of a third-party library component</SectionInnerHeadline>
+        <HighlighterComponent input={extendLib} />
       </Section>
     </>
   )

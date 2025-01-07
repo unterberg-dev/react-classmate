@@ -6,7 +6,7 @@ import { isLinkExternal } from "#lib/utils"
 
 interface ButtonBaseProps {
   $size?: "lg" | "md" | "sm" | "xs"
-  $color?: "primary" | "secondary" | "error" | "success" | "warning" | "copy" | "hollow" | "icon" | "neutral"
+  $color?: "primary" | "error" | "success" | "warning" | "copy" | "hollow" | "icon" | "neutral"
   $disabled?: boolean
   $loading?: boolean
   $noShadow?: boolean

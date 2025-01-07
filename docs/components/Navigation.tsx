@@ -15,7 +15,7 @@ const List = rc.ul`
   mb-2 
   flex 
   flex-col 
-  gap-0.5
+  gap-1
 `
 
 const SubList = rc.ul`

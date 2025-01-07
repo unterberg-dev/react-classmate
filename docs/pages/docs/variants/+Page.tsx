@@ -12,7 +12,7 @@ const DocsStartPage = () => {
     <>
       <DocsHead
         main="Variants"
-        pre="Keep it modular"
+        pre="Keep it together"
         excerpt={
           <>
             This function allows you to create a styled component with different variants based on the props

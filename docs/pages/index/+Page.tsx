@@ -1,3 +1,4 @@
+import { Blocks, BrickWall, Sparkles, SwatchBook } from "lucide-react"
 import rc from "react-classmate"
 
 import HighlighterComponent from "#components/HighlighterComponent"
@@ -8,18 +9,19 @@ import H2Headline from "#components/common/H2Headline"
 import { DocsHead } from "#docs/DocsHead"
 import { internalLink } from "#lib/links"
 
-import { Blocks, BrickWall } from "lucide-react"
 import DocsNotebox from "#docs/DocsNotebox"
 import basicCode from "#pages/index/code/basic.rcx"
 import basicRenderCode from "#pages/index/code/basicRender.rcx"
 import extendCode from "#pages/index/code/extend.rcx"
 import extendRenderCode from "#pages/index/code/extendRender.rcx"
+import variantsCode from "#pages/index/code/variants.rcx"
+import variantsRenderCode from "#pages/index/code/variantsRender.rcx"
 
 const Section = rc.div`
   grid-cols-1 md:grid-cols-2 
-  grid gap-5
+  grid gap-10
   items-center
-  mb-10
+  mb-20
 `
 
 const ExplanationHeadline = rc.extend(H2Headline)`
@@ -43,15 +45,21 @@ const SecondarySectionGradient = rc.div`
 const StartPage = () => (
   <>
     <LayoutComponent type="small" className="px-0 z-3">
-      <div className="text-center w-3/4 mx-auto">
+      <div className="text-center w-3/4 mx-auto mb-20">
         <DocsHead
-          excerpt="A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva. Developed with Typescript in mind."
+          excerpt="A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva."
           main="React Classmate"
           pre="Welcome to"
           centered
         />
+        <div className="flex justify-center gap-4">
+          <Button color="primary" link={internalLink.docs.getStarted} className="animate-in fade-in">
+            <Sparkles className="h-4 w-4" />
+            Get Started
+          </Button>
+        </div>
       </div>
-      <Section className="mt-20">
+      <Section>
         <div>
           <ExplanationHeadline>
             <BrickWall />
@@ -76,31 +84,36 @@ const StartPage = () => (
         <div className="order-1 md:order-2">
           <ExplanationHeadline>
             <Blocks />
-            Extend Components
+            Keep it modular
           </ExplanationHeadline>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hend rerit
             arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.
           </p>
-          <ReferToDocButton link={internalLink.docs.extend}>Extend</ReferToDocButton>
+          <ReferToDocButton link={internalLink.docs.extend}>Extend Components</ReferToDocButton>
         </div>
       </Section>
     </LayoutComponent>
+    {/* Secondary Section */}
     <LayoutComponent type="full" className="px-0 bg-primarySuperLight">
       <SecondarySectionGradient />
       <LayoutComponent type="small" className="px-0">
         <Section>
           <div>
-            <ExplanationHeadline>Variants</ExplanationHeadline>
+            <ExplanationHeadline>
+              <SwatchBook />
+              Variants
+            </ExplanationHeadline>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hend
               rerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh
               porttitor.
             </p>
-            <ReferToDocButton link={internalLink.docs.extend}>Extend</ReferToDocButton>
+            <ReferToDocButton link={internalLink.docs.variants}>Variants</ReferToDocButton>
           </div>
           <Card>
-            <HighlighterComponent noCopy input={extendCode} noGutter />
+            <HighlighterComponent noCopy input={variantsCode} noGutter />
+            <HighlighterComponent noCopy input={variantsRenderCode} />
           </Card>
         </Section>
         <DocsNotebox className="mt-5">
