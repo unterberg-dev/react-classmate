@@ -6,7 +6,7 @@ interface CodeProps {
 }
 
 const CodeElement = rc.code.variants<CodeProps>({
-  base: "bg-graySuperLight dark:bg-graySuperLight px-1 py-1 rounded",
+  base: "bg-graySuperLight/50 dark:bg-graySuperLight/50 px-1 py-1 rounded",
   variants: {
     $size: {
       sm: "text-xs",

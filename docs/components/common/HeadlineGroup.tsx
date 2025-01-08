@@ -1,8 +1,8 @@
 import rc from "react-classmate"
-import H1Headline from "#components/common/H1Headline"
+import { h2HeadlineClass } from "#components/common/H2Headline"
 
 const SubHeadline = rc.p`text-lg text-gray`
-const MainHeadline = rc.extend(H1Headline)`mb-8`
+const MainHeadline = rc.h2`mb-8 ${h2HeadlineClass}`
 
 const HeadlineGroup = ({ main, pre }: { main: string; pre: string }) => (
   <>

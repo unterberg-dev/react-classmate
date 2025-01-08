@@ -2,7 +2,6 @@ import rcInit from "./rc"
 import type { RcComponentFactory } from "./types"
 import convertRcProps from "./util/convertRcProps"
 
-/* the classmates BaseComponent type */
 export type { RcBaseComponent } from "./types"
 export type { VariantsConfig } from "./types"
 

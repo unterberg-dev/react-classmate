@@ -1,14 +1,15 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react"
 import rc from "react-classmate"
-import H4Headline from "#components/common/H4Headline"
+import { h4HeadlineClass } from "#components/common/H4Headline"
 import LinkComponent from "#components/common/LinkComponent"
 import useMenuStore from "#hooks/useMenuStore"
 import { menuData } from "#lib/menuData"
 import stringToCodeElement from "#lib/utils/stringToCodeElement"
 
-const Headline = rc.extend(H4Headline)`
-  mb-5 
+const Headline = rc.p`
+  mb-5
   text-grayDark
+  ${h4HeadlineClass}
 `
 
 const List = rc.ul`

@@ -30,7 +30,7 @@ export default [
         babelHelpers: "bundled",
         extensions: [".ts", ".tsx"],
       }),
-      // minify(),
+      minify(),
     ],
     external: ["react", "react-dom"],
   },

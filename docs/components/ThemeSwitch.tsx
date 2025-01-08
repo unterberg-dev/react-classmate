@@ -31,6 +31,7 @@ const ThemeSwitch = () => {
   return (
     <Button
       id="theme-switch"
+      aria-label="Toggle Visual theme"
       className="relative"
       type="button"
       color="icon"

@@ -2,7 +2,7 @@ import { CircleAlert } from "lucide-react"
 
 import { DocsHead } from "#components/DocsHead"
 import HighlighterComponent from "#components/HighlighterComponent"
-import CodeElement from "#components/common/Code"
+import CodeElement from "#components/common/CodeElement"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
 
 import basic from "#docs/interpolation/style/code/basic.rcx"

@@ -1,4 +1,4 @@
-import CodeElement from "#components/common/Code"
+import CodeElement from "#components/common/CodeElement"
 
 /**
  * Takes a label (string) and an array of code snippet substrings (string[]).

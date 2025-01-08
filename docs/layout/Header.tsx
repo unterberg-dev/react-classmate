@@ -91,6 +91,7 @@ const Header = () => {
             <Button
               color="primary"
               size="xs"
+              noShadow
               link={internalLink.docs.getStarted}
               className="animate-in fade-in mr-2 !hidden !sm:inline-flex"
             >
@@ -98,7 +99,15 @@ const Header = () => {
               Get Started
             </Button>
           )}
-          <Button className="relative" link={APP_CONFIG.repoUrl} color="icon" noShadow noGutter size="sm">
+          <Button
+            aria-label="Visit Github Repository"
+            className="relative"
+            link={APP_CONFIG.repoUrl}
+            color="icon"
+            noShadow
+            noGutter
+            size="sm"
+          >
             <Github className="h-4 w-4" />
           </Button>
           <ThemeSwitch />

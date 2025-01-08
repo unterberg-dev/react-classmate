@@ -1,6 +1,6 @@
 import { DocsHead } from "#components/DocsHead"
 import HighlighterComponent from "#components/HighlighterComponent"
-import CodeElement from "#components/common/Code"
+import CodeElement from "#components/common/CodeElement"
 import LinkComponent from "#components/common/LinkComponent"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
 

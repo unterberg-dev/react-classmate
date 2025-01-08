@@ -21,7 +21,7 @@ cleanTypesDir()
 
 /**
  * mostly used to locally "install" a clone of the npm package
- * `"react-classmate": "file:../.localPack"`,
+ * `"react-classmate": "file:{relativePathToLibrary}/.localPack"`,
  */
 const prePack = () => {
   if (fs.existsSync(localPackageDir)) {

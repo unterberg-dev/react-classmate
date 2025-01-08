@@ -6,7 +6,7 @@ import HighlighterComponent from "#components/HighlighterComponent"
 import LinkComponent from "#components/common/LinkComponent"
 import { Section, SectionHeadline, SectionInnerHeadline, SectionInnerParagraph } from "#docs/elements"
 
-import CodeElement from "#components/common/Code"
+import CodeElement from "#components/common/CodeElement"
 import basic from "#docs/extend/code/basic.rcx"
 import basicImplementation from "#docs/extend/code/basicImplementation.rcx"
 import extendBasic from "#docs/extend/code/extBasic.rcx"
@@ -35,8 +35,8 @@ const BasicPage = () => {
         <HighlighterComponent input={basicImplementation} />
         <DocsNotebox icon={CircleHelp}>
           Unsure what we do in the interpolation above? Head back to the{" "}
-          <LinkComponent href={internalLink.docs.basic} className="!text-primaryDark">
-            <CodeElement>Base</CodeElement> documentation page
+          <LinkComponent href={internalLink.docs.basic} className="!text-warningDark">
+            <CodeElement $color="warning">Base</CodeElement> documentation page
           </LinkComponent>
         </DocsNotebox>
       </Section>
@@ -56,7 +56,10 @@ const BasicPage = () => {
           <p>
             If you find yourself extending the same component multiple times to assign similar classnames, you
             might want to consider creating a{" "}
-            <LinkComponent href={internalLink.docs.variants}>variant</LinkComponent> as your base component.
+            <LinkComponent className="!text-warningDark" href={internalLink.docs.variants}>
+              variant
+            </LinkComponent>{" "}
+            as your base component.
           </p>
         </DocsNotebox>
         <SectionInnerHeadline>2. Extend classnames of a third-party library component</SectionInnerHeadline>

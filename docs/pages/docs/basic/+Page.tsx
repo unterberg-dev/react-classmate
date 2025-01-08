@@ -1,7 +1,7 @@
 import { DocsHead } from "#components/DocsHead"
 import DocsNotebox from "#components/DocsNotebox"
 import HighlighterComponent from "#components/HighlighterComponent"
-import CodeElement from "#components/common/Code"
+import CodeElement from "#components/common/CodeElement"
 import { Section, SectionHeadline, SectionInnerHeadline, SectionInnerParagraph } from "#docs/elements"
 
 import baseComponent from "#docs/basic/code/baseComponent.rcx"
