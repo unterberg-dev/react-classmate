@@ -29,7 +29,16 @@ const ThemeSwitch = () => {
   }
 
   return (
-    <Button className="relative" type="button" color="icon" noShadow noGutter onClick={toggleTheme} size="sm">
+    <Button
+      id="theme-switch"
+      className="relative"
+      type="button"
+      color="icon"
+      noShadow
+      noGutter
+      onClick={toggleTheme}
+      size="sm"
+    >
       {theme && (
         <>
           {theme === "light" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}

@@ -2,8 +2,9 @@ import { defineConfig } from "@playwright/test"
 
 const config = defineConfig({
   testDir: "./test/docs",
-  timeout: 30000,
+  timeout: 5000,
   retries: 0,
+  reporter: "list",
   use: {
     headless: true,
     baseURL: "npm run docs:preview",

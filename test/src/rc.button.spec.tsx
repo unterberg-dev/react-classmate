@@ -4,8 +4,6 @@ import React, { type ReactNode, type HTMLAttributes } from "react"
 
 import rc, { type VariantsConfig, convertRcProps } from "../../dist"
 
-// export default convertAndFilterProps
-
 interface ButtonBaseProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
   $size?: "sm" | "md" | "lg"
   $color?: "primary" | "secondary" | "error" | "success" | "warning" | "card"

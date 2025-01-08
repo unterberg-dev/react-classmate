@@ -10,8 +10,6 @@ const __dirname = dirname(__filename)
 const typesDir = path.resolve(__dirname, "dist/types")
 const localPackageDir = path.resolve(__dirname, ".localPack")
 
-console.log("MODE:", process.env.MODE)
-
 const cleanTypesDir = () => {
   if (fs.existsSync(typesDir)) {
     fs.rmSync(typesDir, { recursive: true, force: true })
@@ -19,7 +17,12 @@ const cleanTypesDir = () => {
   }
 }
 
-// pre-pack script
+cleanTypesDir()
+
+/**
+ * mostly used to locally "install" a clone of the npm package
+ * `"react-classmate": "file:../.localPack"`,
+ */
 const prePack = () => {
   if (fs.existsSync(localPackageDir)) {
     fs.rmSync(localPackageDir, { recursive: true, force: true })
@@ -54,8 +57,6 @@ const prePack = () => {
     process.exit(1)
   }
 }
-
-cleanTypesDir()
 
 if (process.env.MODE === "prepack") {
   prePack()

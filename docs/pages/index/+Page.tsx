@@ -53,7 +53,12 @@ const StartPage = () => (
           centered
         />
         <div className="flex justify-center gap-4">
-          <Button color="primary" link={internalLink.docs.getStarted} className="animate-in fade-in">
+          <Button
+            id="get-started-button"
+            color="primary"
+            link={internalLink.docs.getStarted}
+            className="animate-in fade-in"
+          >
             <Sparkles className="h-4 w-4" />
             Get Started
           </Button>

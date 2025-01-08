@@ -36,21 +36,21 @@
     "lefthook": "lefthook install",
     "playwright": "npx playwright install",
     "========= Test": "",
-    "test": "npm run test-clear && npm run build:all && npm run test:src && npm run test:docs",
     "test-clear": "jest --clearCache",
-    "test:docs": "playwright test",
-    "test:docs-ui": "npm run docs:build && playwright test --ui",
+    "test:all": "npm run test-clear && npm run build && npm run docs:build && npm run test:src && npm run test:docs",
+    "test:docs": "playwright test ./test/docs",
+    "test:docs-ui": "playwright test ./test/docs --ui",
     "test:src": "jest --testPathPattern=test/src",
     "========= Lib": "",
-    "build:base": "npm run clean && npm run bundle && npm run test:src",
-    "build": "npm run build:base && npm run postbuild ",
-    "build:prepack": "npm run build:base && npm run postbuild:prepack",
+    "build:base": "npm run clean && npm run bundle",
+    "build": "npm run build:base && npm run postbuild",
+    "prepack": "npm run build:base && npm run postbuild:prepack",
     "package": "npm run build && npm publish --access public",
     "postbuild": "npx tsx postbuild.ts",
     "postbuild:prepack": "cross-env MODE=prepack npx tsx postbuild.ts",
     "bundle": "rollup -c",
     "========= Docs": "",
-    "docs:build": "cd docs/ && vite build && cd .. && npm run test:docs",
+    "docs:build": "cd docs/ && vite build",
     "docs": "cd docs/ && vite",
     "docs:prod": "cd docs/ && vite build && vite preview",
     "docs:preview": "cd docs/ && vite preview"
@@ -96,6 +96,7 @@
     "rollup-plugin-esbuild-minify": "^1.2.0",
     "ts-jest": "^29.2.5",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "ts-node": "^10.9.2"
   }
 }
