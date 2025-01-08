@@ -1,9 +1,9 @@
 import { CircleHelp } from "lucide-react"
 
+import { DocsHead } from "#components/DocsHead"
+import DocsNotebox from "#components/DocsNotebox"
 import HighlighterComponent from "#components/HighlighterComponent"
 import LinkComponent from "#components/common/LinkComponent"
-import { DocsHead } from "#docs/DocsHead"
-import DocsNotebox from "#docs/DocsNotebox"
 import { Section, SectionHeadline, SectionInnerHeadline, SectionInnerParagraph } from "#docs/elements"
 
 import CodeElement from "#components/common/Code"

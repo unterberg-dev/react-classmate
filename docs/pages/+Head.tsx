@@ -8,6 +8,9 @@ export default function HeadDefault() {
         dangerouslySetInnerHTML={{
           __html: `
             (function() {
+              const addDarkClass = () => {
+                document.documentElement.classList.add('dark')
+              }
               const isLocalStorageAvailable = () => {
                   try {
                     const testKey = 't'
@@ -20,13 +23,16 @@ export default function HeadDefault() {
               }
               const checkDarkMode = () => {
                 const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)')
-                if (!isLocalStorageAvailable()) {
+                const systemTheme = prefersDarkScheme.matches ? 'dark' : 'light'
+                const themeStore = JSON.parse(localStorage.getItem('theme-appearance'))
+
+                if (!isLocalStorageAvailable() ||!themeStore) {
+                  if (systemTheme === 'dark') {
+                    addDarkClass()
+                  }
                   return
                 }
-                const themeStore = JSON.parse(localStorage.getItem('theme-appearance'))
-                const systemTheme = prefersDarkScheme.matches ? 'dark' : 'light'
-                const isAutoDark = themeStore.state.theme && themeStore.state.theme === 'auto' && systemTheme === 'dark'
-                if (themeStore.state.theme === 'dark' || isAutoDark) {
+                if (themeStore.state.theme === 'dark') {
                   document.documentElement.classList.add('dark')
                 }
               }

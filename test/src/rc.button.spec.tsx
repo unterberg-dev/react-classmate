@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React, { type ReactNode, type HTMLAttributes } from "react"
 
-import rc, { type VariantsConfig, convertRcProps } from "../dist"
+import rc, { type VariantsConfig, convertRcProps } from "../../dist"
 
 // export default convertAndFilterProps
 

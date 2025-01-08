@@ -1,7 +1,7 @@
+import { DocsHead } from "#components/DocsHead"
 import HighlighterComponent from "#components/HighlighterComponent"
 import CodeElement from "#components/common/Code"
 import LinkComponent from "#components/common/LinkComponent"
-import { DocsHead } from "#docs/DocsHead"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
 
 import basic from "#docs/variants/code/basic.rcx"

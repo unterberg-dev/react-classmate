@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React from "react"
 
-import rc from "../dist"
+import rc from "../../dist"
 
 describe("Style Capabilities", () => {
   it("applies styles correctly in createBaseComponent", () => {

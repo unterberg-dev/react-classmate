@@ -1,14 +1,14 @@
 import rc from "react-classmate"
 
+import { DocsHead } from "#components/DocsHead"
 import HighlighterComponent from "#components/HighlighterComponent"
 import Button from "#components/common/Button"
-import { DocsHead } from "#docs/DocsHead"
 import { Section, SectionHeadline, SectionInnerParagraph } from "#docs/elements"
 
+import DocsNotebox from "#components/DocsNotebox"
 import CodeElement from "#components/common/Code"
 import H5Headline from "#components/common/H5Headline"
 import LinkComponent from "#components/common/LinkComponent"
-import DocsNotebox from "#docs/DocsNotebox"
 import advancedButtonCode from "#examples/advanced-button/code/advanced-button.rcx"
 import sizingButtonCode from "#examples/advanced-button/code/sizes.rcx"
 import { internalLink } from "#lib/links"

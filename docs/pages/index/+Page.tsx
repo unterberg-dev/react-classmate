@@ -1,15 +1,15 @@
 import { Blocks, BrickWall, Sparkles, SwatchBook } from "lucide-react"
 import rc from "react-classmate"
 
+import { DocsHead } from "#components/DocsHead"
 import HighlighterComponent from "#components/HighlighterComponent"
 import LayoutComponent from "#components/LayoutComponent"
 import Button from "#components/common/Button"
 import Card from "#components/common/Card"
 import H2Headline from "#components/common/H2Headline"
-import { DocsHead } from "#docs/DocsHead"
 import { internalLink } from "#lib/links"
 
-import DocsNotebox from "#docs/DocsNotebox"
+import DocsNotebox from "#components/DocsNotebox"
 import basicCode from "#pages/index/code/basic.rcx"
 import basicRenderCode from "#pages/index/code/basicRender.rcx"
 import extendCode from "#pages/index/code/extend.rcx"
