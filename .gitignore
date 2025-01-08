@@ -11,3 +11,5 @@ docs/dist
 
 .vscode
 *.code-workspace
+
+test-results
