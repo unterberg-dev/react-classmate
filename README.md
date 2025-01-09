@@ -400,13 +400,13 @@ const { default: rc } = require("react-classmate");
 
 ## Upcoming
 
-- bug / troubleshoot - lib is enforcing classnames, classnames set by ref will be overwritten as soon component rerenders
-  - needs a small article in the docs 
+- bug / troubleshoot: classnames set by ref.current (useRef) will be overwritten as soon component rerenders
+  - needs at least a small article in the docs
+- `rc.raw()` and `rc.raw.variants()` for only using `rc` syntax for classnames (output as string)
 - Variants for `rc.extend`
 - named lib import for CommonJS (currently only `.default`)
   -- Means we need to remove the named export in the ts file to not duplicate IDE import suggestions:
   --- Change postbuild script to remove named esm export
-- Nest components?
 - Integrate more tests, benchmarks focused on SSR and React
 - Advanced IDE integration
   - show generated default class on hover
