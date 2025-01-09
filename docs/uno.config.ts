@@ -24,6 +24,7 @@ export const defaultColors = {
   light: "#f3f3f3",
   white: "#ffffff",
 
+  primaryDarkAlternative: colors.indigo[800],
   primaryDarkNeutral: colors.indigo[700],
   buttonPrimaryDarkBg: colors.indigo[700],
   primarySuperDark: colors.slate[900],
@@ -31,6 +32,7 @@ export const defaultColors = {
   primary: colors.indigo[500],
   primaryLight: colors.indigo[300],
   primarySuperLight: colors.indigo[100],
+  primaryLightAlternative: colors.indigo[200],
 
   successDarkNeutral: colors.emerald[700],
   success: colors.emerald[500],
@@ -65,10 +67,13 @@ export const darkModeOverrides = {
   graySuperLight: defaultColors.grayDarkBorder,
   light: defaultColors.dark,
   white: defaultColors.black,
+
+  primaryDarkAlternative: defaultColors.primaryLightAlternative,
   primarySuperDark: defaultColors.primarySuperLight,
   primaryDark: defaultColors.primaryLight,
   primaryLight: defaultColors.primaryDark,
   primarySuperLight: defaultColors.primarySuperDark,
+  primaryLightAlternative: defaultColors.primaryDarkAlternative,
 
   lightBorder: defaultColors.darkBorder,
   darkBorder: defaultColors.light,

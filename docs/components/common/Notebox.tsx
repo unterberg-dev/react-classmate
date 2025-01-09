@@ -1,7 +1,9 @@
 import rc from "react-classmate"
 
+export type NoteboxType = "info" | "warning" | "error" | "success" | "aside"
+
 interface NoteboxProps {
-  $type?: "info" | "warning" | "error" | "success" | "aside"
+  $type?: NoteboxType
   $size?: "sm" | "md"
 }
 
@@ -17,7 +19,7 @@ const Notebox = rc.div.variants<NoteboxProps>({
       warning: "border-warningLight bg-warningSuperLight",
       error: "border-errorLight bg-errorSuperLight",
       success: "border-successLight bg-successSuperLight",
-      aside: "border-graySuperLight bg-light",
+      aside: "border-graySuperLight bg-white dark:bg-light",
     },
     $size: {
       sm: "md:p-3",

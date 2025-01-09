@@ -1,18 +1,18 @@
 import type { ReactNode } from "react"
 
 import Excerpt from "#components/common/Excerpt"
-import HeadlineGroup from "#components/common/HeadlineGroup"
+import HeadlineGroup, { type HeadlineGroupHeadlineStyle } from "#components/common/HeadlineGroup"
 
-interface DocsHeadProps {
+interface DocsHeadProps extends HeadlineGroupHeadlineStyle {
   main: string
   pre: string
-  excerpt: ReactNode
+  excerpt?: ReactNode
   centered?: boolean
 }
 
-export const DocsHead = ({ excerpt, main, pre, centered }: DocsHeadProps) => (
+export const DocsHead = ({ excerpt, main, pre, centered, headingStyle }: DocsHeadProps) => (
   <>
-    <HeadlineGroup main={main} pre={pre} />
-    <Excerpt $centered={centered}>{excerpt}</Excerpt>
+    <HeadlineGroup main={main} pre={pre} centered={centered} headingStyle={headingStyle} />
+    {excerpt && <Excerpt $centered={centered}>{excerpt}</Excerpt>}
   </>
 )

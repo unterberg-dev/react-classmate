@@ -1,10 +1,11 @@
 import rc from "react-classmate"
 
-const H1Headline = rc.h1`
+export const h1HeadlineClass = `
   text-3xl
   md:text-4xl
   font-bold
-  text-dark
 `
+
+const H1Headline = rc.h1`${h1HeadlineClass}`
 
 export default H1Headline
