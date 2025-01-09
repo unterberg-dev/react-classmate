@@ -16,7 +16,7 @@ const StyledLink = rc.a<StyledLinkProps>`
   ${APP_CONFIG.transition.tw}
   inline-block
   hover:text-primary
-  ${(p) => (p.$isActive ? "!text-primaryDark/70 underline" : "")}
+  ${(p) => (p.$isActive ? "!text-primaryDark/70 underline isActive" : "")}
   ${(p) => (p.$isMenu ? "!text-dark" : "text-primary underline")}
 `
 
@@ -28,11 +28,11 @@ const LinkComponent = ({
   href,
   ...props
 }: AnchorHTMLAttributes<HTMLAnchorElement> & { href?: string; isMenu?: boolean }) => {
-  const { urlPathname } = usePageContext()
+  const { urlOriginal } = usePageContext()
 
   if (!href) return <div>Missing href</div>
 
-  const [hrefNoSlash, pathNoSlash] = [cleanStr(href), cleanStr(urlPathname)]
+  const [hrefNoSlash, pathNoSlash] = [cleanStr(href), cleanStr(urlOriginal)]
   const isExternal = isLinkExternal(href)
 
   const isActive = hrefNoSlash === pathNoSlash

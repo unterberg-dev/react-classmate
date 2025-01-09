@@ -1,7 +1,5 @@
 import rc from "react-classmate"
-
-import { h1HeadlineClass } from "#components/common/H1Headline"
-import { h2HeadlineClass } from "#components/common/H2Headline"
+import Headline from "#components/common/Headline"
 
 export type HeadlineGroupHeadlineStyle = {
   headingStyle?: "h1" | "h2"
@@ -14,18 +12,10 @@ const PreHeadline = rc.p<{ $centered: boolean }>`
   ${(p) => (p.$centered ? "text-center" : "")}
 `
 
-const MainHeadline = rc.h2.variants<{
-  $centered: boolean
-  $headingStyle: HeadlineGroupHeadlineStyle["headingStyle"]
-}>({
-  base: (p) => `mb-8 ${p.$centered ? "text-center" : ""}`,
-  variants: {
-    $headingStyle: {
-      h1: h1HeadlineClass,
-      h2: h2HeadlineClass,
-    },
-  },
-})
+const MainHeadline = rc.extend(Headline)<{ $centered?: boolean }>`
+  mb-8 
+  ${(p) => (p.$centered ? "text-center" : "")}
+`
 
 interface HeadlineGroupProps extends HeadlineGroupHeadlineStyle {
   main: string
@@ -36,7 +26,7 @@ interface HeadlineGroupProps extends HeadlineGroupHeadlineStyle {
 const HeadlineGroup = ({ main, pre, centered = false, headingStyle = "h2" }: HeadlineGroupProps) => (
   <>
     <PreHeadline $centered={centered}>{pre}</PreHeadline>
-    <MainHeadline $headingStyle={headingStyle} $centered={centered}>
+    <MainHeadline as="h2" variant={headingStyle} $centered={centered}>
       {main}
     </MainHeadline>
   </>

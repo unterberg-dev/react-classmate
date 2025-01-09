@@ -1,7 +1,6 @@
 import rc from "react-classmate"
 
-import H3Headline from "#components/common/H3Headline"
-import H4Headline from "#components/common/H4Headline"
+import { H3Headline, H4Headline } from "#components/common/Headline"
 import Notebox from "#components/common/Notebox"
 
 export const Section = rc.extend(Notebox)`mb-8`

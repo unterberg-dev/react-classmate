@@ -1,6 +1,6 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react"
 import rc from "react-classmate"
-import { h4HeadlineClass } from "#components/common/H4Headline"
+import { h4HeadlineClass } from "#components/common/Headline"
 import LinkComponent from "#components/common/LinkComponent"
 import useMenuStore from "#hooks/useMenuStore"
 import { menuData } from "#lib/menuData"

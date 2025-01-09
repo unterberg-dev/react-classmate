@@ -7,7 +7,6 @@ import LayoutComponent from "#components/LayoutComponent"
 import MobileMenu, { GhostBgInner } from "#components/MobileMenu"
 import ThemeSwitch from "#components/ThemeSwitch"
 import Button from "#components/common/Button"
-import H1Headline from "#components/common/H1Headline"
 import { APP_CONFIG } from "#lib/config"
 import { internalLink } from "#lib/links"
 
@@ -83,8 +82,8 @@ const Header = () => {
     <HeaderOuter>
       <HeaderLayout>
         <LogoContainer href={internalLink.start}>
-          <Sticker className="text-dark h-4 w-4 lg:h-6 lg:w-6" />
-          <H1Headline className="!text-base lg:!text-lg">react-classmate</H1Headline>
+          <Sticker className="text-dark h-4 w-4 lg:h-5 lg:w-5" />
+          <span className="font-bold text-base lg:text-lg">react-classmate</span>
         </LogoContainer>
         <div className="flex gap-2">
           {isStartPage && (

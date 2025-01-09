@@ -6,10 +6,11 @@ import HighlighterComponent from "#components/HighlighterComponent"
 import LayoutComponent from "#components/LayoutComponent"
 import Button from "#components/common/Button"
 import Card from "#components/common/Card"
-import H2Headline from "#components/common/H2Headline"
+import Headline, { H3Headline } from "#components/common/Headline"
 import { internalLink } from "#lib/links"
 
 import DocsNotebox from "#components/DocsNotebox"
+import CodeElement from "#components/common/CodeElement"
 import HeadlineGroup from "#components/common/HeadlineGroup"
 import { SectionInnerParagraph } from "#docs/elements"
 import basicCode from "#pages/index/code/basic.rcx"
@@ -26,7 +27,7 @@ const Section = rc.div`
   mb-20
 `
 
-const ExplanationHeadline = rc.extend(H2Headline)`
+const ExplanationHeadline = rc.extend(H3Headline)`
   flex md:items-center items-start
   gap-2
   mb-8
@@ -60,7 +61,7 @@ const StartPage = () => (
       <div className="text-center sm:w-3/4 lg:w-3/5 mx-auto mb-20">
         <DocsHead
           headingStyle="h1"
-          excerpt="A tiny package for managing React component class names, variants and styles with the simplicity of styled-components and cva."
+          excerpt="A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva."
           main="React Classmate"
           pre="Welcome to"
           centered
@@ -83,16 +84,13 @@ const StartPage = () => (
       <Section>
         <div>
           <ExplanationHeadline>
-            <BrickWall />
-            Separate classname / style logic
+            <BrickWall className="h-5 w-5" />
+            Base Component
           </ExplanationHeadline>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hend rerit
-            arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.
-          </p>
+          <p>Create elements on the fly. No need to write repetitive classnames or style logic.</p>
           <SectionInnerParagraph>
-            <strong>React Classmate</strong> allows you to separate your classname and style logic from your
-            components. This way you can keep your components clean and modular.
+            Allows to separate classnames and style logic from your components. This way you can keep your
+            components clean and modular.
           </SectionInnerParagraph>
           <ReferToDocButton link={internalLink.docs.basic}>Base Component</ReferToDocButton>
         </div>
@@ -108,25 +106,28 @@ const StartPage = () => (
         </Card>
         <div className="order-1 md:order-2">
           <ExplanationHeadline>
-            <Blocks />
-            Keep it modular
+            <Blocks className="h-5 w-5" />
+            Adapt components with <CodeElement $size="xl">rc.extend</CodeElement>
           </ExplanationHeadline>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hend rerit
-            arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.
+            Extend components with additional classes or styles with the common syntax. Properties from the
+            base component stay accessible.
           </p>
+          <SectionInnerParagraph>
+            Especially useful when working with other libraries which components support classnames or styles.
+          </SectionInnerParagraph>
           <ReferToDocButton link={internalLink.docs.extend}>Extend Components</ReferToDocButton>
         </div>
       </Section>
     </LayoutComponent>
     {/* Secondary Section */}
-    <LayoutComponent type="full" className="px-0 z-8 bg-primarySuperLight">
+    <LayoutComponent type="full" className="z-8 bg-primarySuperLight">
       <SectionGradient $type="variants" />
-      <LayoutComponent type="small" className="px-0 z-4">
+      <LayoutComponent type="small" className="z-4">
         <Section>
           <div>
             <ExplanationHeadline>
-              <SwatchBook />
+              <SwatchBook className="h-5 w-5" />
               Variants
             </ExplanationHeadline>
             <p>
@@ -148,12 +149,29 @@ const StartPage = () => (
           </p>
         </DocsNotebox>
       </LayoutComponent>
-    </LayoutComponent>
-    <LayoutComponent type="full" className="px-0 z-6 bg-primarySuperLight">
-      <LayoutComponent type="small" className="px-0 z-4">
-        <DocsHead headingStyle="h2" excerpt="" main="React Classmate" pre="Welcome to" centered />
+
+      <LayoutComponent type="tiny" className="z-4">
+        <HeadlineGroup headingStyle="h2" centered main="Special Thanks" pre="Overview" />
+        <div className="grid grid-cols-3 gap-4">
+          <Card>
+            <Headline as="h3" variant="h5">
+              tailwind-styled-components
+            </Headline>
+            <p>
+              This brought the idea of using tailwind classes with styled-components. It was the inspiration
+              for the base component. I extended the idea to support variants and the updated interpolation
+              syntax.
+            </p>
+          </Card>
+          <Card>
+            <h3>cva</h3>
+          </Card>
+          <Card>
+            <h3>styled-components</h3>
+          </Card>
+        </div>
       </LayoutComponent>
-      {/* <SectionGradient $type="footer" /> */}
+      <SectionGradient $type="footer" />
     </LayoutComponent>
   </>
 )

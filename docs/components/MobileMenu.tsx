@@ -44,10 +44,10 @@ const SlideOut = rc.div<AnimationTriggerProps>`
 
 const Menu = rc.div<AnimationTriggerProps>`
   mt-24
-  ${(p) => (p.$isInit ? "" : "!invisible")}
-  ${APP_CONFIG.transition.uno}
-  ${(p) => (p.$open ? "animate-in slide-in-l-50%" : "pointer-events-none animate-out slide-out-l-50%")}
   overflow-y-auto
+  ${APP_CONFIG.transition.uno}
+  ${(p) => (p.$isInit ? "" : "!invisible")}
+  ${(p) => (p.$open ? "animate-in slide-in-l-50%" : "pointer-events-none animate-out slide-out-l-50%")}
   ${(p) =>
     p.style({
       height: "calc(100vh - 10rem)",
