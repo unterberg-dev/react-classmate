@@ -21,11 +21,11 @@ export default [
       },
     ],
     plugins: [
+      resolve({ extensions: [".ts", ".tsx"] }),
+      commonjs(),
       typescript({
         tsconfig: "./tsconfig.json",
       }),
-      resolve({ extensions: [".ts", ".tsx"] }),
-      commonjs(),
       babel({
         babelHelpers: "bundled",
         extensions: [".ts", ".tsx"],

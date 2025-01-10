@@ -50,10 +50,10 @@
     "postbuild:prepack": "cross-env MODE=prepack npx tsx postbuild.ts",
     "bundle": "rollup -c",
     "========= Docs": "",
-    "docs:build": "cd docs/ && vite build",
-    "docs": "cd docs/ && vite",
-    "docs:prod": "cd docs/ && vite build && vite preview",
-    "docs:preview": "cd docs/ && vite preview"
+    "docs:build": "cd docs/ && vike build",
+    "docs": "cd docs/ && vike dev",
+    "docs:prod": "cd docs/ && vike build && vike preview",
+    "docs:preview": "cd docs/ && vike preview"
   },
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
@@ -96,6 +96,7 @@
     "rollup-plugin-esbuild-minify": "^1.2.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
+    "tslib": "^2.8.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }
