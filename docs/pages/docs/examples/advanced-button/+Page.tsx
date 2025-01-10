@@ -7,7 +7,7 @@ import { Section, SectionHeadline, SectionInnerParagraph } from "#docs/elements"
 
 import DocsNotebox from "#components/DocsNotebox"
 import CodeElement from "#components/common/CodeElement"
-import H5Headline from "#components/common/H5Headline"
+import { H5Headline } from "#components/common/Headline"
 import LinkComponent from "#components/common/LinkComponent"
 import advancedButtonCode from "#examples/advanced-button/code/advanced-button.rcx"
 import sizingButtonCode from "#examples/advanced-button/code/sizes.rcx"

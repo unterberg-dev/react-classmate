@@ -1,16 +1,10 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react"
 import rc from "react-classmate"
-import { h4HeadlineClass } from "#components/common/Headline"
+import { H4Headline } from "#components/common/Headline"
 import LinkComponent from "#components/common/LinkComponent"
 import useMenuStore from "#hooks/useMenuStore"
 import { menuData } from "#lib/menuData"
 import stringToCodeElement from "#lib/utils/stringToCodeElement"
-
-const Headline = rc.p`
-  mb-5
-  text-grayDark
-  ${h4HeadlineClass}
-`
 
 const List = rc.ul`
   mb-2 
@@ -57,7 +51,7 @@ const Navigation = ({ isTablet }: { isTablet?: boolean }) => {
     <>
       {menuData.map((section) => (
         <Section key={section.title}>
-          <Headline>{section.title}</Headline>
+          <H4Headline as="p">{section.title}</H4Headline>
           <List>
             {section.items.map((item) =>
               item.href ? (

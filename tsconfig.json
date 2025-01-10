@@ -12,8 +12,9 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDir": "."
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", ".localPack"]
+  "exclude": ["node_modules", "dist", ".localPack", "docs"]
 }

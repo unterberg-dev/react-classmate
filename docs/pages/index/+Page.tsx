@@ -6,7 +6,13 @@ import HighlighterComponent from "#components/HighlighterComponent"
 import LayoutComponent from "#components/LayoutComponent"
 import Button from "#components/common/Button"
 import Card from "#components/common/Card"
-import Headline, { H3Headline } from "#components/common/Headline"
+import Headline, {
+  H1Headline,
+  H2Headline,
+  H3Headline,
+  H4Headline,
+  H5Headline,
+} from "#components/common/Headline"
 import { internalLink } from "#lib/links"
 
 import DocsNotebox from "#components/DocsNotebox"
@@ -78,6 +84,23 @@ const StartPage = () => (
           </Button>
         </div>
       </div>
+
+      <div className="my-100">
+        <H1Headline>H1 Headline</H1Headline>
+        <H2Headline>H2 Headline</H2Headline>
+        <H3Headline>H3 Headline</H3Headline>
+        <H4Headline>H4 Headline</H4Headline>
+        <H5Headline>H5 Headline</H5Headline>
+      </div>
+
+      <div className="my-100">
+        <H1Headline as="p">H1 Headline</H1Headline>
+        <H2Headline as="div">H2 Headline</H2Headline>
+        <H3Headline as="h1">H3 Headline</H3Headline>
+        <H4Headline as="span">H4 Headline</H4Headline>
+        <H5Headline as="p">H5 Headline</H5Headline>
+      </div>
+
       <div className="text-center mb-12">
         <HeadlineGroup centered main="What's inside?" pre="Overview" />
       </div>
