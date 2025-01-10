@@ -1,10 +1,12 @@
 import { Copy } from "lucide-react"
 import { useCallback } from "react"
 import rc from "react-classmate"
-import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter"
+
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter"
 import bash from "react-syntax-highlighter/dist/esm/languages/prism/bash"
 import tsx from "react-syntax-highlighter/dist/esm/languages/prism/tsx"
 import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism"
+
 import Button from "#components/common/Button"
 import useThemeStore from "#hooks/useThemeStore"
 
