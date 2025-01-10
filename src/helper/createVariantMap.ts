@@ -1,4 +1,5 @@
 import type { JSX, JSXElementConstructor } from "react"
+
 import rc from "../rc"
 import type { VariantsConfig } from "../types"
 
@@ -9,17 +10,17 @@ import type { VariantsConfig } from "../types"
  * @param variants - VariantsConfig to apply to each element.
  * @returns A map where each key is an element name and the value is the variant-enhanced component.
  */
-// export function createVariantMap<T extends keyof JSX.IntrinsicElements>(
-//   elements: T[],
-//   variants: VariantsConfig<any, any>,
-// ): {
-//   [K in T]: JSXElementConstructor<any>
-// } {
-//   return elements.reduce(
-//     (acc, tag) => {
-//       acc[tag] = rc[tag].variants(variants)
-//       return acc
-//     },
-//     {} as { [K in T]: JSXElementConstructor<any> },
-//   )
-// }
+export function createVariantMap<T extends keyof JSX.IntrinsicElements>(
+  elements: T[],
+  variants: VariantsConfig<any, any>,
+): {
+  [K in T]: JSXElementConstructor<any>
+} {
+  return elements.reduce(
+    (acc, tag) => {
+      acc[tag] = rc[tag].variants(variants)
+      return acc
+    },
+    {} as { [K in T]: JSXElementConstructor<any> },
+  )
+}
