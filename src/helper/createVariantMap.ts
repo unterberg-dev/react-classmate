@@ -1,58 +1,54 @@
-// // createVariantMap.ts
-// import rc from "../rc"
-// import type { RcBaseComponent, VariantsConfig } from "../types"
+// createVariantMap.ts
+import rc from "../rc"
+import type { RcBaseComponent, VariantsConfig } from "../types"
+import type { AllowedTags } from "../util/domElements"
 
-// type RcKeys = keyof typeof rc
+/**
+ * Interface for the options accepted by createVariantMap.
+ */
+interface CreateVariantMapOptions<T extends AllowedTags> {
+  elements: readonly T[]
+  variantsConfig: VariantsConfig<any, any>
+}
 
-// interface CreateVariantMapOptions<T extends string> {
-//   elements: readonly T[]
-//   variantsConfig: VariantsConfig<any, any>
-// }
+/**
+ * Generates a map of variant components based on the provided elements and variants configuration.
+ *
+ * @param options - An object containing the elements and variants configuration.
+ * @returns A record mapping each element name to its corresponding variant component.
+ */
+const createVariantMap = <T extends AllowedTags>({
+  elements,
+  variantsConfig,
+}: CreateVariantMapOptions<T>): Record<T, RcBaseComponent<any>> => {
+  // Check for duplicates
+  const uniqueElements = new Set(elements)
+  if (uniqueElements.size !== elements.length) {
+    // Find duplicates
+    const duplicates = elements.filter((item, index) => elements.indexOf(item) !== index)
+    // Remove duplicate entries for clarity
+    const uniqueDuplicates = Array.from(new Set(duplicates))
+    throw new Error(
+      `react classmate: Duplicate elements detected in createVariantMap: ${uniqueDuplicates.join(
+        ", ",
+      )}. Each element must be unique.`,
+    )
+  }
 
-// /**
-//  * Type guard to check if a tag is a key of rc.
-//  *
-//  * @param tag - The tag to check.
-//  * @returns True if tag is a key of rc, false otherwise.
-//  */
-// function isRcKey(tag: string): tag is RcKeys {
-//   return tag in rc
-// }
+  return elements.reduce(
+    (acc, tag) => {
+      if (rc[tag]) {
+        acc[tag] = rc[tag].variants(variantsConfig)
+      } else {
+        console.warn(
+          `react classmate: Element "${tag}" is not supported by react-classmate. Falling back to 'div'.`,
+        )
+        acc[tag] = rc.div.variants(variantsConfig) // Fallback to div if element not found
+      }
+      return acc
+    },
+    {} as Record<T, RcBaseComponent<any>>,
+  )
+}
 
-// /**
-//  * Generates a map of variant components based on the provided elements and variants configuration.
-//  *
-//  * @param options - An object containing the elements and variants configuration.
-//  * @returns A record mapping each element name to its corresponding variant component.
-//  */
-// function createVariantMap<T extends string>({ elements, variantsConfig }: CreateVariantMapOptions<T>) {
-//   return elements.reduce(
-//     (acc, tag) => {
-//       if (isRcKey(tag)) {
-//         acc[tag] = rc[tag].variants(variantsConfig)
-//       } else {
-//         console.warn(`Element "${tag}" is not supported by react-classmate.`)
-//         acc[tag] = rc.div.variants(variantsConfig) // Fallback to div if element not found
-//       }
-//       return acc
-//     },
-//     {} as Record<T, RcBaseComponent<any>>,
-//   )
-// }
-
-// const e = createVariantMap({
-//   elements: ["div", "button", "test"],
-//   variantsConfig: {
-//     variants: {
-//       size: {
-//         sm: "p-1",
-//         lg: "p-3",
-//       },
-//     },
-//     defaultVariants: {
-//       size: "sm",
-//     },
-//   },
-// })
-
-// export default createVariantMap
+export default createVariantMap

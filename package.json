@@ -1,7 +1,7 @@
 {
   "name": "react-classmate",
   "description": "A tool for managing react component class names, variants and styles",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "author": "https://github.com/richard-unterberg",
   "repository": {
     "type": "git",
@@ -44,10 +44,10 @@
     "========= Lib": "",
     "build:base": "npm run clean && npm run bundle",
     "build": "npm run build:base && npm run postbuild",
-    "prepack": "npm run build:base && npm run postbuild:prepack",
+    "packLocal": "npm run build:base && npm run postbuild:packLocal",
     "package": "npm run build && npm publish --access public",
     "postbuild": "npx tsx postbuild.ts",
-    "postbuild:prepack": "cross-env MODE=prepack npx tsx postbuild.ts",
+    "postbuild:packLocal": "cross-env MODE=packLocal npx tsx postbuild.ts",
     "bundle": "rollup -c",
     "========= Docs": "",
     "docs:build": "cd docs/ && vike build",

@@ -14,7 +14,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "lucide-react": "^0.469.0",
     "react": "^19.0.0",
-    "react-classmate": "^1.0.15",
+    "react-classmate": "file:../.localPack",
     "react-dom": "^19.0.0",
     "react-remove-scroll": "^2.6.2",
     "react-syntax-highlighter": "^15.6.1",

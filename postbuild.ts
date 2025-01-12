@@ -58,6 +58,6 @@ const prePack = () => {
   }
 }
 
-if (process.env.MODE === "prepack") {
+if (process.env.MODE === "packLocal") {
   prePack()
 }

@@ -1,4 +1,4 @@
-export type DOMElement = (typeof domElements)[number]
+export type AllowedTags = (typeof domElements)[number]
 
 export const domElements = [
   "a",

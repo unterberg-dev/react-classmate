@@ -1,6 +1,6 @@
 import { LoaderCircle } from "lucide-react"
 import type { HTMLAttributes, ReactNode } from "react"
-import rc, { type VariantsConfig, convertRcProps } from "react-classmate"
+import { type VariantsConfig, convertRcProps, createVariantMap } from "react-classmate"
 import { APP_CONFIG } from "#lib/config"
 import { isLinkExternal } from "#lib/utils"
 
@@ -80,8 +80,10 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
   },
 }
 
-const ButtonBase = rc.button.variants(buttonVariants)
-const LinkButton = rc.a.variants(buttonVariants)
+const button = createVariantMap({
+  elements: ["button", "a"],
+  variantsConfig: buttonVariants,
+})
 
 interface ButtonProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
   icon?: ReactNode
@@ -98,7 +100,7 @@ interface ButtonProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEleme
 }
 
 const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
-  const Component = link ? LinkButton : ButtonBase
+  const Component = link ? button.a : button.button
 
   const preparedProps = convertRcProps(buttonProps, {
     size: "$size",
