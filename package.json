@@ -45,7 +45,7 @@
     "build:base": "npm run clean && npm run bundle",
     "build": "npm run build:base && npm run postbuild",
     "packLocal": "npm run build:base && npm run postbuild:packLocal",
-    "package": "npm run build && npm publish --access public",
+    "package": "npm run build && npm publish",
     "postbuild": "npx tsx postbuild.ts",
     "postbuild:packLocal": "cross-env MODE=packLocal npx tsx postbuild.ts",
     "bundle": "rollup -c",
