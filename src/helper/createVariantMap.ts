@@ -1,11 +1,7 @@
-// createVariantMap.ts
 import rc from "../rc"
 import type { RcBaseComponent, VariantsConfig } from "../types"
 import type { AllowedTags } from "../util/domElements"
 
-/**
- * Interface for the options accepted by createVariantMap.
- */
 interface CreateVariantMapOptions<T extends AllowedTags> {
   elements: readonly T[]
   variantsConfig: VariantsConfig<any, any>
