@@ -7,7 +7,7 @@ const config = defineConfig({
   reporter: "list",
   use: {
     headless: true,
-    baseURL: "npm run docs:preview",
+    baseURL: "http://localhost:3000",
     ignoreHTTPSErrors: true,
   },
   webServer: {

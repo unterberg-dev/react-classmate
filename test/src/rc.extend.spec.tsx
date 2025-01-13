@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React, { type InputHTMLAttributes } from "react"
 
-import rc from "../../dist"
+import rc from "../../src/index"
 
 describe("rc.extends", () => {
   it("extends the base component with new props", () => {

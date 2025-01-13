@@ -1,3 +1,5 @@
+// @todo: move to /scripts dir
+
 import { execSync } from "node:child_process"
 import fs from "node:fs"
 import path from "node:path"
@@ -23,7 +25,7 @@ cleanTypesDir()
  * mostly used to locally "install" a clone of the npm package
  * `"react-classmate": "file:{relativePathToLibrary}/.localPack"`,
  */
-const prePack = () => {
+const testBuild = () => {
   if (fs.existsSync(localPackageDir)) {
     fs.rmSync(localPackageDir, { recursive: true, force: true })
   }
@@ -59,5 +61,5 @@ const prePack = () => {
 }
 
 if (process.env.MODE === "packLocal") {
-  prePack()
+  testBuild()
 }
