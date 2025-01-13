@@ -51,7 +51,9 @@ const Navigation = ({ isTablet }: { isTablet?: boolean }) => {
     <>
       {menuData.map((section) => (
         <Section key={section.title}>
-          <H4Headline as="p">{section.title}</H4Headline>
+          <H4Headline as="p" className="mb-4">
+            {section.title}
+          </H4Headline>
           <List>
             {section.items.map((item) =>
               item.href ? (

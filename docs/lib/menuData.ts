@@ -31,14 +31,14 @@ export const menuData: MenuSection[] = [
         icon: BrickWall,
       },
       {
-        label: "Extend",
-        href: internalLink.docs.extend,
-        icon: Blocks,
-      },
-      {
         label: "Variants",
         href: internalLink.docs.variants,
         icon: SwatchBook,
+      },
+      {
+        label: "Extend",
+        href: internalLink.docs.extend,
+        icon: Blocks,
       },
     ],
   },

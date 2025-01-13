@@ -84,23 +84,6 @@ const StartPage = () => (
           </Button>
         </div>
       </div>
-
-      <div className="my-100">
-        <H1Headline>H1 Headline</H1Headline>
-        <H2Headline>H2 Headline</H2Headline>
-        <H3Headline>H3 Headline</H3Headline>
-        <H4Headline>H4 Headline</H4Headline>
-        <H5Headline>H5 Headline</H5Headline>
-      </div>
-
-      <div className="my-100">
-        <H1Headline as="p">H1 Headline</H1Headline>
-        <H2Headline as="div">H2 Headline</H2Headline>
-        <H3Headline as="h1">H3 Headline</H3Headline>
-        <H4Headline as="span">H4 Headline</H4Headline>
-        <H5Headline as="p">H5 Headline</H5Headline>
-      </div>
-
       <div className="text-center mb-12">
         <HeadlineGroup centered main="What's inside?" pre="Overview" />
       </div>
@@ -108,7 +91,7 @@ const StartPage = () => (
         <div>
           <ExplanationHeadline>
             <BrickWall className="h-5 w-5" />
-            Base Component
+            Compose simple components
           </ExplanationHeadline>
           <p>Create elements on the fly. No need to write repetitive classnames or style logic.</p>
           <SectionInnerParagraph>
@@ -124,22 +107,19 @@ const StartPage = () => (
       </Section>
       <Section>
         <Card className="order-2 md:order-1">
-          <HighlighterComponent noCopy input={extendCode} noGutter />
-          <HighlighterComponent noCopy input={extendRenderCode} />
+          <HighlighterComponent noCopy input={variantsCode} noGutter />
+          <HighlighterComponent noCopy input={variantsRenderCode} />
         </Card>
         <div className="order-1 md:order-2">
           <ExplanationHeadline>
-            <Blocks className="h-5 w-5" />
-            Adapt components with <CodeElement $size="xl">rc.extend</CodeElement>
+            <SwatchBook className="h-5 w-5" />
+            Variants
           </ExplanationHeadline>
           <p>
-            Extend components with additional classes or styles with the common syntax. Properties from the
-            base component stay accessible.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hend rerit
+            arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.
           </p>
-          <SectionInnerParagraph>
-            Especially useful when working with other libraries which components support classnames or styles.
-          </SectionInnerParagraph>
-          <ReferToDocButton link={internalLink.docs.extend}>Extend Components</ReferToDocButton>
+          <ReferToDocButton link={internalLink.docs.variants}>Variants</ReferToDocButton>
         </div>
       </Section>
     </LayoutComponent>
@@ -150,19 +130,23 @@ const StartPage = () => (
         <Section>
           <div>
             <ExplanationHeadline>
-              <SwatchBook className="h-5 w-5" />
-              Variants
+              <Blocks className="h-5 w-5" />
+              Adapt components with <CodeElement $size="xl">rc.extend</CodeElement>
             </ExplanationHeadline>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hend
-              rerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh
-              porttitor.
+              Extend components with additional classes or styles with the common syntax. Properties from the
+              base component stay accessible.
             </p>
-            <ReferToDocButton link={internalLink.docs.variants}>Variants</ReferToDocButton>
+            <SectionInnerParagraph>
+              Especially useful when working with other libraries which components support classnames or
+              styles.
+            </SectionInnerParagraph>
+            <ReferToDocButton link={internalLink.docs.extend}>Extend Components</ReferToDocButton>
           </div>
-          <Card>
-            <HighlighterComponent noCopy input={variantsCode} noGutter />
-            <HighlighterComponent noCopy input={variantsRenderCode} />
+
+          <Card className="order-2 md:order-1">
+            <HighlighterComponent noCopy input={extendCode} noGutter />
+            <HighlighterComponent noCopy input={extendRenderCode} />
           </Card>
         </Section>
         <DocsNotebox type="aside" className="!my-10 md:w-3/4 mx-auto" icon={Sparkles}>
