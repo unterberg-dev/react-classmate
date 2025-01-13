@@ -1,4 +1,3 @@
-import babel from "@rollup/plugin-babel"
 import commonjs from "@rollup/plugin-commonjs"
 import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
@@ -26,10 +25,10 @@ export default [
       typescript({
         tsconfig: "./tsconfig.json",
       }),
-      babel({
-        babelHelpers: "bundled",
-        extensions: [".ts", ".tsx"],
-      }),
+      // babel({
+      //   babelHelpers: "bundled",
+      //   extensions: [".ts", ".tsx"],
+      // }),
       minify(),
     ],
     external: ["react", "react-dom"],
