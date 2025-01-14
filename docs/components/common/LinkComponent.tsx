@@ -31,11 +31,9 @@ const LinkComponent = ({
   const { urlOriginal, urlParsed, urlPathname } = usePageContext()
 
   if (!href) return <div>Missing href</div>
-
-  const [hrefNoSlash, pathNoSlash] = [cleanStr(href), cleanStr(urlOriginal)]
   const isExternal = isLinkExternal(href)
 
-  const isActive = hrefNoSlash === pathNoSlash
+  const isActive = href === urlOriginal
 
   useEffect(() => {
     console.log({
@@ -43,6 +41,7 @@ const LinkComponent = ({
       urlParsed,
       urlPathname,
       href,
+      base: import.meta.env.BASE_URL,
     })
   }, [urlOriginal, urlParsed, urlPathname, href])
 
