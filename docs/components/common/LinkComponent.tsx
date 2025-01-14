@@ -30,20 +30,21 @@ const LinkComponent = ({
 }: AnchorHTMLAttributes<HTMLAnchorElement> & { href?: string; isMenu?: boolean }) => {
   const { urlOriginal, urlParsed, urlPathname } = usePageContext()
 
-  useEffect(() => {
-    console.log({
-      urlOriginal,
-      urlParsed,
-      urlPathname,
-    })
-  }, [urlOriginal, urlParsed, urlPathname])
-
   if (!href) return <div>Missing href</div>
 
   const [hrefNoSlash, pathNoSlash] = [cleanStr(href), cleanStr(urlOriginal)]
   const isExternal = isLinkExternal(href)
 
   const isActive = hrefNoSlash === pathNoSlash
+
+  useEffect(() => {
+    console.log({
+      urlOriginal,
+      urlParsed,
+      urlPathname,
+      href,
+    })
+  }, [urlOriginal, urlParsed, urlPathname, href])
 
   return (
     <StyledLink
