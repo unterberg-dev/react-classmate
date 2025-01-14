@@ -8,14 +8,13 @@ export default function HeadDefault() {
       {/* Open Graph */}
       <meta property="og:type" content="website" />
       <meta property="og:url" content={`${APP_CONFIG.viteUrl}`} />
-      <meta property="og:title" content="Ladetarif-Check" />
+      <meta property="og:title" content="react-classmate" />
       <meta
         property="og:description"
-        content="Vergleiche bundesweit Ladetarife und Verfügbarkeit für dein E-Auto, ohne Anmeldung"
+        content="A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva."
       />
-      <meta property="og:locale" content="de_DE" />
-      <meta property="og:site_name" content="Ladetarif-Check" />
-      <meta property="og:image" content={`${APP_CONFIG.viteUrl}og-image.png`} />
+      <meta property="og:locale" content="en" />
+      <meta property="og:site_name" content="react-classmate" />
       <script
         id="check-dark-mode"
         nonce="2t4f394ea52c937db4f319231a53fcc8"
