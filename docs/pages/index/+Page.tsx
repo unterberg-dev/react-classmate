@@ -78,21 +78,11 @@ const StartPage = () => (
           centered
         />
         <div className="flex justify-center gap-4">
-          <Button
-            id="get-started-button"
-            color="primary"
-            link={internalLink.docs.getStarted}
-            className="animate-in fade-in"
-          >
+          <Button id="get-started-button" color="primary" link={internalLink.docs.getStarted}>
             <Sparkles className="h-4 w-4" />
             Get Started
           </Button>
-          <Button
-            aria-label="Visit NPM Package"
-            link={externalLink.npm}
-            color="secondary"
-            className="animate-in fade-in"
-          >
+          <Button aria-label="Visit NPM Package" link={externalLink.npm} color="secondary">
             <div className="h-4.5 w-4.5">
               <NpmLogo color="lightNeutral" />
             </div>
