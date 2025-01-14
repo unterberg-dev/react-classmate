@@ -21,10 +21,10 @@ export default defineConfig({
   ssr: {
     noExternal: ["react-syntax-highlighter"],
   },
-  build: {
-    cssMinify: "esbuild",
-    minify: true,
-  },
+  // build: {
+  //   cssMinify: "esbuild",
+  //   minify: true,
+  // },
   optimizeDeps: {
     include: ["react/jsx-runtime", "react", "react-dom"],
   },
