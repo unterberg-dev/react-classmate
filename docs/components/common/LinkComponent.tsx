@@ -18,7 +18,7 @@ const StyledLink = rc.a<StyledLinkProps>`
   inline-block
   hover:text-primary
   ${(p) => (p.$isActive ? "!text-primaryDark/70 underline isActive" : "")}
-  ${(p) => (p.$isMenu ? "!text-dark" : "text-primary underline")}
+  ${(p) => (p.$isMenu ? "!text-dark" : "text-primaryDark underline underline-0.5")}
 `
 
 const LinkComponent = ({
