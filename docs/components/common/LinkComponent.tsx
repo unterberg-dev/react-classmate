@@ -26,22 +26,22 @@ const LinkComponent = ({
   href,
   ...props
 }: AnchorHTMLAttributes<HTMLAnchorElement> & { href?: string; isMenu?: boolean }) => {
-  const { urlOriginal } = usePageContext()
+  const { ...context } = usePageContext()
 
   if (!href) return <div>Missing href</div>
   const isExternal = isLinkExternal(href)
 
-  const isActive = href === urlOriginal
+  const isActive = href === context.urlOriginal
 
   useEffect(() => {
     console.log({
-      urlOriginal,
+      urlOriginal: context.urlOriginal,
       href,
       base: import.meta.env.BASE_URL,
       isActive,
       isExternal,
     })
-  }, [urlOriginal, href, isActive, isExternal])
+  }, [context.urlOriginal, href, isActive, isExternal])
 
   return (
     <StyledLink
