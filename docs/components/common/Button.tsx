@@ -1,12 +1,14 @@
 import { LoaderCircle } from "lucide-react"
 import type { HTMLAttributes, ReactNode } from "react"
 import { type VariantsConfig, convertRcProps, createVariantMap } from "react-classmate"
+
 import { APP_CONFIG } from "#lib/config"
+import type { Colors } from "#lib/types"
 import { isLinkExternal } from "#lib/utils"
 
 interface ButtonBaseProps {
   $size?: "lg" | "md" | "sm" | "xs"
-  $color?: "primary" | "error" | "success" | "warning" | "copy" | "hollow" | "icon" | "neutral" | "secondary"
+  $color?: Colors
   $disabled?: boolean
   $loading?: boolean
   $noShadow?: boolean

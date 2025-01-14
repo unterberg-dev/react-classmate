@@ -29,7 +29,10 @@ const LinkComponent = ({
 }: AnchorHTMLAttributes<HTMLAnchorElement> & { href?: string; isMenu?: boolean }) => {
   const { urlOriginal } = usePageContext()
 
-  if (!href) return <div>Missing href</div>
+  if (!href) {
+    return <div>Missing href</div>
+  }
+
   const isExternal = isLinkExternal(href)
   const isActive = urlOriginal === href
 

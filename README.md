@@ -2,6 +2,8 @@
 
 A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
 
+See it in action: [https://richard-unterberg.github.io/react-classmate/](https://richard-unterberg.github.io/react-classmate/)
+
 ## 🚩 Transform this
 
 ```jsx
@@ -47,6 +49,10 @@ const ButtonBase = rc.button`
 [![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
 
+### New Documentation online!
+
+#### [Head over to the new docs page](https://richard-unterberg.github.io/react-classmate/)
+
 ## Contents
 
 - [Features](#features)
@@ -86,23 +92,9 @@ const Container = rc.div`
 // transforms to: <div className="py-2 px-5 min-h-24" />
 ```
 
-## Extend
+Additional Information: [See "Base usage" documentation](https://richard-unterberg.github.io/react-classmate/docs/basic/)
 
-Extend a component directly by passing the component and the tag name.
-
-```tsx
-import MyOtherComponent from "./MyOtherComponent"; // () => <button className="text-lg mt-5" />
-import rc from "react-classmate";
-
-const Container = rc.extend(MyOtherComponent)`
-  py-2
-  px-5
-  min-h-24
-`;
-// transforms to: <button className="text-lg mt-5 py-2 px-5 min-h-24" />
-```
-
-## Use with props
+### Use with props
 
 Pass props to the component and use them in the template literal string and in the component prop validation.
 
@@ -164,6 +156,8 @@ export default () => <Alert $severity="info" $isActive />;
 // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
 ```
 
+Additional Information: [See "Variants" documentation](https://richard-unterberg.github.io/react-classmate/docs/variants/)
+
 ### Typescript: Separate base props and variants with a second type parameter
 
 As seen above, we also pass `AlertProps` to the variants, which can cause loose types. If you want to separate the base props from the variants, you can pass a second type to the `variants` function so that only those props are available in the variants.
@@ -194,6 +188,24 @@ const Alert = rc.div.variants<AlertProps, AlertVariants>({
   },
 });
 ```
+
+## Extend
+
+Extend a component directly by passing the component and the tag name.
+
+```tsx
+import MyOtherComponent from "./MyOtherComponent"; // () => <button className="text-lg mt-5" />
+import rc from "react-classmate";
+
+const Container = rc.extend(MyOtherComponent)`
+  py-2
+  px-5
+  min-h-24
+`;
+// transforms to: <button className="text-lg mt-5 py-2 px-5 min-h-24" />
+```
+
+Additional Information: ["Extend" documentation](https://richard-unterberg.github.io/react-classmate/docs/extend/)
 
 ## Add CSS Styles
 
@@ -273,7 +285,7 @@ interface NewStyledSliderItemProps extends StyledSliderItemBaseProps {
   $secondBool: boolean;
 }
 const NewStyledSliderItemWithNewProps = rc.extend(
-  StyledSliderItemBase
+  StyledSliderItemBase,
 )<NewStyledSliderItemProps>`
   rounded-lg
   text-lg

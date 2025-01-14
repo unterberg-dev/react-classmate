@@ -7,7 +7,7 @@ test.describe("Doc Test (E2E)", () => {
   })
 
   test("should display the homepage container with correct classes", async ({ page }) => {
-    await page.goto("react-classmate")
+    await page.goto("react-classmate/")
 
     const rootContainer = page.locator("#root")
 
@@ -20,7 +20,7 @@ test.describe("Doc Test (E2E)", () => {
   })
 
   test("check dark mode init", async ({ page }) => {
-    await page.goto("react-classmate")
+    await page.goto("react-classmate/")
 
     // not have dark mode class
     const htmlDarkContainer = page.locator("html")
@@ -28,7 +28,7 @@ test.describe("Doc Test (E2E)", () => {
   })
 
   test("toggle to light mode and back to dark mode", async ({ page }) => {
-    await page.goto("react-classmate")
+    await page.goto("react-classmate/")
 
     // not have dark mode class
     const themeSwitchButton = page.locator("#theme-switch")
@@ -42,13 +42,13 @@ test.describe("Doc Test (E2E)", () => {
   })
 
   test("navigate to get-started-page", async ({ page }) => {
-    await page.goto("react-classmate")
+    await page.goto("react-classmate/")
 
     // not have dark mode class
     const getStartedButton = page.locator("#get-started-button")
     await getStartedButton.click()
 
     // get current url
-    await page.waitForURL("react-classmate/docs/get-started")
+    await page.waitForURL("react-classmate/docs/get-started/")
   })
 })
