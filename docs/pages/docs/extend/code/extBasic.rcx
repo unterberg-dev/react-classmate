@@ -1,0 +1,6 @@
+const ExtendedStyledInput = rc.extend(StyledInput)<{ $someBool?: boolean }>`
+  custom-class
+  ${(p) => (p.$someBool ? "shadow" : "")}
+  ${(p) => (p.type === "text" ? "text-lg" : "")}
+  ${(p) => (p.$trigger ? "text-red" : "")}
+`

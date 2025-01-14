@@ -4,7 +4,7 @@
     "declaration": true,
     "declarationDir": "./dist/types",
     "emitDeclarationOnly": true,
-    "types": ["@testing-library/jest-dom"],
+    "types": ["@testing-library/jest-dom", "node"],
     "module": "ESNext",
     "target": "ESNext",
     "strict": true,
@@ -15,5 +15,5 @@
     "skipLibCheck": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", ".localPack"]
+  "exclude": ["node_modules", "dist", ".localPack", "docs"]
 }

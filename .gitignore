@@ -1,4 +1,3 @@
-.vscode
 node_modules
 dist
 .npmrc
@@ -6,3 +5,11 @@ dist
 
 # local packages - only use for local development
 .localPack
+
+docs/node_modules
+docs/dist
+
+.vscode
+*.code-workspace
+
+test-results

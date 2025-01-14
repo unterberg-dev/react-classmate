@@ -1,0 +1,9 @@
+export const CustomButton = rc.button`
+  text-blue
+  px-3
+  py-2
+  ${i => i.style({
+    borderRadius: "10%",
+    height: "calc(100% - 1rem)",
+  })}
+`

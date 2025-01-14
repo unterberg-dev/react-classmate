@@ -1,0 +1,4 @@
+<CustomButton>Click me</CustomButton>
+
+// renders:
+<button class="text-blue px-3 py-2" style="border-radius: 10%; height: calc(100% - 1rem);">Click me</button>

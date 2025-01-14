@@ -1,5 +1,5 @@
 import type { JSX } from "react"
-import type { InputComponent, Interpolation, MergeProps, RcBaseComponent, StyleDefinition } from "../types"
+import type { Interpolation, MergeProps, RcBaseComponent, StyleDefinition } from "../types"
 import createReactElement from "../util/createReactElement"
 
 /**
@@ -7,15 +7,15 @@ import createReactElement from "../util/createReactElement"
  *
  * @typeParam T - The type of the props passed to the interpolation function.
  * @typeParam E - The type of the component or intrinsic element.
- * @param tag - The base component or intrinsic element to style.
+ * @param tag - The base component
  * @param strings - Template strings array for the styles.
  * @param interpolations - Interpolations for the styles.
  * @returns A new styled component with computed class names and styles.
  */
-const createBaseComponent = <T extends object, E extends keyof JSX.IntrinsicElements | InputComponent>(
+const createBaseComponent = <T extends object, E extends keyof JSX.IntrinsicElements>(
   tag: E,
   strings: TemplateStringsArray,
-  interpolations: Interpolation<MergeProps<E, T>>[],
+  interpolations: Interpolation<T>[],
 ): RcBaseComponent<MergeProps<E, T>> => {
   const styles: Record<string, string | number> = {}
   const displayName = `Styled(${typeof tag === "string" ? tag : "Component"})`

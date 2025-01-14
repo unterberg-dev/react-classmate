@@ -1,3 +1,5 @@
+import type { JSX } from "react"
+
 import createBaseComponent from "./factory/base"
 import createExtendedComponent from "./factory/extend"
 import createVariantsComponent from "./factory/variants"
@@ -17,7 +19,7 @@ const rcTarget: Partial<RcComponentFactory> = {}
  * - `rc.extend`: returns function to extend an existing component
  * - `rc.button`, `rc.div`, etc.: returns factory for base components, with `.variants`
  */
-const rcFactory = new Proxy(rcTarget, {
+const rc: RcComponentFactory = new Proxy(rcTarget, {
   get(_, prop: string) {
     // calls `rc.extend`
     if (prop === "extend") {
@@ -52,4 +54,4 @@ const rcFactory = new Proxy(rcTarget, {
   },
 }) as RcComponentFactory
 
-export default rcFactory as RcComponentFactory
+export default rc

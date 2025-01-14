@@ -1,0 +1,4 @@
+<Button type="button" size="lg" >Button Big</Button>
+<Button type="button">Button Medium</Button> // falls back to default size (md)
+<Button type="button" size="sm" >Button Small</Button>
+<Button type="button" size="xs">Button Extra Small</Button>

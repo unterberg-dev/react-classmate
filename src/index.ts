@@ -1,8 +1,7 @@
-import rc from "./rc"
+import convertRcProps from "./helper/convertRcProps"
+import createVariantMap from "./helper/createVariantMap"
+import rcInit from "./rc"
 import type { RcComponentFactory } from "./types"
-
-/* the classmates BaseComponent type */
-export type { RcBaseComponent } from "./types"
 
 /**
  * The `rc` instance is the main entry point for creating our classmate-components.
@@ -52,4 +51,12 @@ export type { RcBaseComponent } from "./types"
  * })
  * ```
  */
-export default rc as RcComponentFactory
+const rc = rcInit as RcComponentFactory
+
+export type { RcBaseComponent } from "./types"
+export type { VariantsConfig } from "./types"
+
+export { convertRcProps }
+export { createVariantMap }
+
+export default rc

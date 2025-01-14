@@ -1,4 +1,4 @@
-import { type JSXElementConstructor, type RefAttributes, createElement, forwardRef } from "react"
+import { type JSX, type JSXElementConstructor, type RefAttributes, createElement, forwardRef } from "react"
 
 import type { RcBaseComponent, StyleDefinition } from "../types"
 

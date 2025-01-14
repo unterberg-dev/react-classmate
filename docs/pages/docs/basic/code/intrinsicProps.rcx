@@ -1,0 +1,10 @@
+interface ButtonProps extends JSX.IntrinsicElements["button"] {
+  $customState?: "button"
+}
+
+const CustomButton = rc.button<ButtonProps>`
+  text-blue 
+  custom
+  ${(p) => (p.$customState" ? "bg-black" : "")}
+  ${(p) => (p.type === "button" ? "opacity-60" : "")}
+`

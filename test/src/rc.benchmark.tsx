@@ -1,9 +1,12 @@
+/**
+  benchmark for rc - not implement -> if you want to implement, please add "spec" to the file name (see sibling files)
+*/
 import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React from "react"
 import type { InputHTMLAttributes, ReactNode } from "react"
 
-import rc from "../dist"
+import rc from "../../dist"
 
 const NUM_COMPONENTS = 50
 

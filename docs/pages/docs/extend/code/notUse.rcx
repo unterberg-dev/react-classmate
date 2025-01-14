@@ -1,0 +1,20 @@
+// probably unused :/
+const GradientBase = rc.div`
+  absolute -mt-100 left-0 w-full
+  h-100 
+  bg-gradient-to-t
+  pointer-events-none
+`
+
+const VariantsGradient = rc.extend(GradientBase)`
+  from-primarySuperLight 
+  top-0
+`
+const ThanksGradient = rc.extend(GradientBase)`
+ from-primaryLight/40
+ bottom-0
+`
+const FooterGradient = rc.extend(GradientBase)`
+ from-light
+ bottom-0
+`
