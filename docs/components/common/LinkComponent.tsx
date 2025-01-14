@@ -1,4 +1,4 @@
-import type { AnchorHTMLAttributes } from "react"
+import { type AnchorHTMLAttributes, useEffect } from "react"
 import rc from "react-classmate"
 import { usePageContext } from "vike-react/usePageContext"
 import { APP_CONFIG } from "#lib/config"
@@ -28,7 +28,15 @@ const LinkComponent = ({
   href,
   ...props
 }: AnchorHTMLAttributes<HTMLAnchorElement> & { href?: string; isMenu?: boolean }) => {
-  const { urlOriginal } = usePageContext()
+  const { urlOriginal, urlParsed, urlPathname } = usePageContext()
+
+  useEffect(() => {
+    console.log({
+      urlOriginal,
+      urlParsed,
+      urlPathname,
+    })
+  }, [urlOriginal, urlParsed, urlPathname])
 
   if (!href) return <div>Missing href</div>
 
