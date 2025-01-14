@@ -6,13 +6,7 @@ import HighlighterComponent from "#components/HighlighterComponent"
 import LayoutComponent from "#components/LayoutComponent"
 import Button from "#components/common/Button"
 import Card from "#components/common/Card"
-import Headline, {
-  H1Headline,
-  H2Headline,
-  H3Headline,
-  H4Headline,
-  H5Headline,
-} from "#components/common/Headline"
+import Headline, { H3Headline } from "#components/common/Headline"
 import { externalLink, internalLink } from "#lib/links"
 
 import DocsNotebox from "#components/DocsNotebox"
@@ -51,13 +45,12 @@ const SectionGradient = rc.div.variants<{ $type: GradientType }>({
   base: `
     absolute -mt-100 left-0 w-full
     h-100 
-    bg-gradient-to-t
     pointer-events-none
   `,
   variants: {
     $type: {
-      variants: "from-primarySuperLight top-0",
-      footer: "from-light",
+      variants: "from-primarySuperLight top-0 bg-gradient-to-t",
+      footer: "from-primarySuperLight -bottom-100 bg-gradient-to-b",
     },
   },
 })
@@ -108,57 +101,61 @@ const StartPage = () => (
           </Button>
         </div>
       </div>
-      <div className="text-center mb-12">
+      <div className="text-center mb-16">
         <HeadlineGroup centered main="What's inside?" pre="Overview" />
       </div>
       <Section>
         <div>
-          <ExplanationHeadline>
-            <BrickWall className="h-5 w-5" />
-            Compose simple components
-          </ExplanationHeadline>
+          <ExplanationHeadline>Compose simple components</ExplanationHeadline>
           <IntroParagraph>
             Create elements on the fly. No need to write repetitive classnames or style logic.
           </IntroParagraph>
-          <ReferToDocButton link={internalLink.docs.basic}>Base Component</ReferToDocButton>
+          <ReferToDocButton color="secondary" link={internalLink.docs.basic}>
+            <BrickWall className="h-4 w-4" /> Create a classmate component
+          </ReferToDocButton>
         </div>
         <Card>
           <HighlighterComponent noCopy input={basicCode} noGutter />
           <HighlighterComponent noCopy input={basicRenderCode} />
         </Card>
       </Section>
-      <Section>
-        <Card className="order-2 md:order-1">
-          <HighlighterComponent noCopy input={variantsCode} noGutter />
-          <HighlighterComponent noCopy input={variantsRenderCode} />
-        </Card>
-        <div className="order-1 md:order-2">
-          <ExplanationHeadline>
-            <SwatchBook className="h-5 w-5" />
-            Variants
-          </ExplanationHeadline>
-          <IntroParagraph>
-            Create styled components with different variants based on the props you pass to it.
-          </IntroParagraph>
-          <ReferToDocButton link={internalLink.docs.variants}>Variants</ReferToDocButton>
-        </div>
-      </Section>
     </LayoutComponent>
-    {/* Secondary Section */}
     <LayoutComponent type="full" className="z-8 bg-primarySuperLight">
       <SectionGradient $type="variants" />
       <LayoutComponent type="small" className="z-4">
         <Section>
+          <Card className="order-2 md:order-1">
+            <HighlighterComponent noCopy input={variantsCode} noGutter />
+            <HighlighterComponent noCopy input={variantsRenderCode} />
+          </Card>
+          <div className="order-1 md:order-2">
+            <ExplanationHeadline>Variants</ExplanationHeadline>
+            <IntroParagraph>
+              Create styled components with different variants based on the props you pass to it.
+            </IntroParagraph>
+            <ReferToDocButton link={internalLink.docs.variants} color="secondary">
+              <SwatchBook className="h-4 w-4" /> Use variants
+            </ReferToDocButton>
+          </div>
+        </Section>
+      </LayoutComponent>
+      <SectionGradient $type="footer" />
+    </LayoutComponent>
+    {/* Secondary Section */}
+    <LayoutComponent type="full" className="z-8">
+      <LayoutComponent type="small" className="z-4">
+        <Section>
           <div>
             <ExplanationHeadline>
-              <Blocks className="h-5 w-5" />
               Adapt components with <CodeElement $size="xl">rc.extend</CodeElement>
             </ExplanationHeadline>
             <IntroParagraph>
               Extend components with additional classes or styles with the common syntax. Properties from the
               base component stay accessible.
             </IntroParagraph>
-            <ReferToDocButton link={internalLink.docs.extend}>Extend Components</ReferToDocButton>
+            <ReferToDocButton color="secondary" link={internalLink.docs.extend}>
+              <Blocks className="h-4 w-4" /> Extend Components
+            </ReferToDocButton>
           </div>
           <Card className="order-2 md:order-1">
             <HighlighterComponent noCopy input={extendCode} noGutter />
@@ -202,7 +199,6 @@ const StartPage = () => (
           </Card>
         </div>
       </LayoutComponent> */}
-      <SectionGradient $type="footer" />
     </LayoutComponent>
   </>
 )

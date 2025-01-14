@@ -38,7 +38,7 @@ export const defaultColors = {
   secondaryDarkAlternative: colors.cyan[800],
   secondarySuperDark: colors.cyan[900],
   secondaryDark: colors.cyan[700],
-  secondary: colors.cyan[500],
+  secondary: colors.cyan[600],
   secondaryLight: colors.cyan[300],
   secondarySuperLight: colors.cyan[100],
   secondaryLightAlternative: colors.cyan[200],
