@@ -49,7 +49,7 @@ const ButtonBase = rc.button`
 [![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
 
-### New Documentation online!
+## New Documentation online!
 
 #### [Head over to the new docs page](https://richard-unterberg.github.io/react-classmate/)
 
