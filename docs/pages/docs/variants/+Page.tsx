@@ -1,7 +1,6 @@
 import { DocsHead } from "#components/DocsHead"
 import HighlighterComponent from "#components/HighlighterComponent"
 import CodeElement from "#components/common/CodeElement"
-import LinkComponent from "#components/common/LinkComponent"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
 
 import basic from "#docs/variants/code/basic.rcx"
@@ -22,10 +21,6 @@ const DocsStartPage = () => {
       />
       <SectionHeadline>Basic syntax</SectionHeadline>
       <Section>
-        <p>
-          The <CodeElement>variants</CodeElement> function allows you to create a styled component with
-          variants.
-        </p>
         <HighlighterComponent input={basic} />
         <SectionInnerHeadline>The function receives the following properties:</SectionInnerHeadline>
         <ul className="mt-3">

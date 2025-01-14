@@ -24,3 +24,8 @@ export const internalLink = {
     link: `${base}docs/examples/advanced-button/`,
   },
 }
+
+export const externalLink = {
+  npm: "https://www.npmjs.com/package/react-classmate",
+  github: "https://github.com/richard-unterberg/react-classmate",
+}

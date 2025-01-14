@@ -7,8 +7,9 @@ import LayoutComponent from "#components/LayoutComponent"
 import MobileMenu, { GhostBgInner } from "#components/MobileMenu"
 import ThemeSwitch from "#components/ThemeSwitch"
 import Button from "#components/common/Button"
+import NpmLogo from "#components/common/NpmLogo"
 import { APP_CONFIG } from "#lib/config"
-import { internalLink } from "#lib/links"
+import { externalLink, internalLink } from "#lib/links"
 
 const HeaderOuter = rc.header`
   fixed
@@ -99,9 +100,22 @@ const Header = () => {
             </Button>
           )}
           <Button
+            aria-label="Visit NPM Package"
+            className="relative"
+            link={externalLink.npm}
+            color="icon"
+            noShadow
+            noGutter
+            size="sm"
+          >
+            <div className="h-4.5 w-4.5">
+              <NpmLogo />
+            </div>
+          </Button>
+          <Button
             aria-label="Visit Github Repository"
             className="relative"
-            link={APP_CONFIG.repoUrl}
+            link={externalLink.github}
             color="icon"
             noShadow
             noGutter

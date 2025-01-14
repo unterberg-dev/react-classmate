@@ -6,7 +6,7 @@ import { isLinkExternal } from "#lib/utils"
 
 interface ButtonBaseProps {
   $size?: "lg" | "md" | "sm" | "xs"
-  $color?: "primary" | "error" | "success" | "warning" | "copy" | "hollow" | "icon" | "neutral"
+  $color?: "primary" | "error" | "success" | "warning" | "copy" | "hollow" | "icon" | "neutral" | "secondary"
   $disabled?: boolean
   $loading?: boolean
   $noShadow?: boolean
@@ -37,6 +37,11 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
         text-lightNeutral 
         bg-primaryDarkNeutral 
         ${!$disabled ? "hover:bg-primary" : ""}
+      `,
+      secondary: ({ $disabled }) => `
+        text-lightNeutral 
+        bg-secondaryDarkNeutral 
+        ${!$disabled ? "hover:bg-secondary" : ""}
       `,
       success: ({ $disabled }) => `
         text-lightNeutral 

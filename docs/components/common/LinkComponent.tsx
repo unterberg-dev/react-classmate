@@ -1,6 +1,7 @@
-import { type AnchorHTMLAttributes, useEffect } from "react"
+import type { AnchorHTMLAttributes } from "react"
 import rc from "react-classmate"
 import { usePageContext } from "vike-react/usePageContext"
+
 import { APP_CONFIG } from "#lib/config"
 import { isLinkExternal } from "#lib/utils"
 
@@ -30,8 +31,7 @@ const LinkComponent = ({
 
   if (!href) return <div>Missing href</div>
   const isExternal = isLinkExternal(href)
-
-  const isActive = href === urlOriginal
+  const isActive = urlOriginal === href
 
   return (
     <StyledLink

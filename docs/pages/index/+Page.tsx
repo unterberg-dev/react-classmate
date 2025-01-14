@@ -13,11 +13,12 @@ import Headline, {
   H4Headline,
   H5Headline,
 } from "#components/common/Headline"
-import { internalLink } from "#lib/links"
+import { externalLink, internalLink } from "#lib/links"
 
 import DocsNotebox from "#components/DocsNotebox"
 import CodeElement from "#components/common/CodeElement"
 import HeadlineGroup from "#components/common/HeadlineGroup"
+import NpmLogo from "#components/common/NpmLogo"
 import { SectionInnerParagraph } from "#docs/elements"
 import basicCode from "#pages/index/code/basic.rcx"
 import basicRenderCode from "#pages/index/code/basicRender.rcx"
@@ -61,6 +62,10 @@ const SectionGradient = rc.div.variants<{ $type: GradientType }>({
   },
 })
 
+const IntroParagraph = rc.p`
+  text-lg
+`
+
 const ThanksHeadline = rc.extend(Headline)`
   mb-4
 `
@@ -90,6 +95,17 @@ const StartPage = () => (
             <Sparkles className="h-4 w-4" />
             Get Started
           </Button>
+          <Button
+            aria-label="Visit NPM Package"
+            link={externalLink.npm}
+            color="secondary"
+            className="animate-in fade-in"
+          >
+            <div className="h-4.5 w-4.5">
+              <NpmLogo color="lightNeutral" />
+            </div>
+            Check on NPM
+          </Button>
         </div>
       </div>
       <div className="text-center mb-12">
@@ -101,11 +117,9 @@ const StartPage = () => (
             <BrickWall className="h-5 w-5" />
             Compose simple components
           </ExplanationHeadline>
-          <p>Create elements on the fly. No need to write repetitive classnames or style logic.</p>
-          <SectionInnerParagraph>
-            Allows to separate classnames and style logic from your components. This way you can keep your
-            components clean and modular.
-          </SectionInnerParagraph>
+          <IntroParagraph>
+            Create elements on the fly. No need to write repetitive classnames or style logic.
+          </IntroParagraph>
           <ReferToDocButton link={internalLink.docs.basic}>Base Component</ReferToDocButton>
         </div>
         <Card>
@@ -123,10 +137,9 @@ const StartPage = () => (
             <SwatchBook className="h-5 w-5" />
             Variants
           </ExplanationHeadline>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hend rerit
-            arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor.
-          </p>
+          <IntroParagraph>
+            Create styled components with different variants based on the props you pass to it.
+          </IntroParagraph>
           <ReferToDocButton link={internalLink.docs.variants}>Variants</ReferToDocButton>
         </div>
       </Section>
@@ -141,17 +154,12 @@ const StartPage = () => (
               <Blocks className="h-5 w-5" />
               Adapt components with <CodeElement $size="xl">rc.extend</CodeElement>
             </ExplanationHeadline>
-            <p>
+            <IntroParagraph>
               Extend components with additional classes or styles with the common syntax. Properties from the
               base component stay accessible.
-            </p>
-            <SectionInnerParagraph>
-              Especially useful when working with other libraries which components support classnames or
-              styles.
-            </SectionInnerParagraph>
+            </IntroParagraph>
             <ReferToDocButton link={internalLink.docs.extend}>Extend Components</ReferToDocButton>
           </div>
-
           <Card className="order-2 md:order-1">
             <HighlighterComponent noCopy input={extendCode} noGutter />
             <HighlighterComponent noCopy input={extendRenderCode} />
@@ -164,7 +172,7 @@ const StartPage = () => (
           </p>
         </DocsNotebox>
       </LayoutComponent>
-
+      {/* 
       <LayoutComponent type="tiny" className="z-4">
         <HeadlineGroup headingStyle="h2" centered main="Special Thanks" pre="Overview" />
         <div className="grid grid-cols-3 gap-4">
@@ -193,7 +201,7 @@ const StartPage = () => (
             </ThanksHeadline>
           </Card>
         </div>
-      </LayoutComponent>
+      </LayoutComponent> */}
       <SectionGradient $type="footer" />
     </LayoutComponent>
   </>
