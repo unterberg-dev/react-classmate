@@ -15,6 +15,10 @@ export default function HeadDefault() {
       />
       <meta property="og:locale" content="en" />
       <meta property="og:site_name" content="react-classmate" />
+      <meta
+        property="description"
+        content="A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva."
+      />
       <script
         id="check-dark-mode"
         nonce="2t4f394ea52c937db4f319231a53fcc8"
