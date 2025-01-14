@@ -3,7 +3,7 @@ name: Deploy Documentation
 on:
   push:
     branches:
-      - master # Change to 'main' if that's your default branch
+      - master
 
 jobs:
   build-and-deploy:
@@ -17,21 +17,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18" # Use a stable LTS version
+          node-version: "18"
 
       - name: Install Dependencies
         run: npm install
-        # If you prefer using Yarn, replace with:
-        # run: yarn install
 
       - name: Build Documentation
         run: npm run docs:publish
-        # Ensure that 'docs:publish' correctly builds your documentation to 'docs/dist/client'
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/dist/client # Adjust if your build output path is different
-          # Optional: Specify the publish branch if different from 'gh-pages'
-          # publish_branch: gh-pages
+          publish_dir: ./docs/dist/client
