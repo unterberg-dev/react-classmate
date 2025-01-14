@@ -11,10 +11,9 @@
     "format": "biome format --write ."
   },
   "dependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
     "lucide-react": "^0.469.0",
     "react": "^19.0.0",
-    "react-classmate": "file:../.localPack",
+    "react-classmate": "^1.0.18",
     "react-dom": "^19.0.0",
     "react-remove-scroll": "^2.6.2",
     "react-syntax-highlighter": "^15.6.1",
@@ -26,6 +25,7 @@
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@vitejs/plugin-react": "^4.3.4",
     "typescript": "^5.7.2",
     "unocss": "^0.65.3",
     "unocss-preset-animations": "^1.1.0",

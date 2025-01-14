@@ -2,15 +2,13 @@ import babel from "@rollup/plugin-babel"
 import commonjs from "@rollup/plugin-commonjs"
 import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
-import camelCase from "camelcase"
 import dts from "rollup-plugin-dts"
 import { minify } from "rollup-plugin-esbuild-minify"
 
-import { getPackageJson } from "./scripts/get-package-json.cjs"
+// node <= v21 experimental: https://github.com/tc39/proposal-import-attributes
+import packageJson from "./package.json" with { type: "json" }
 
-const pkg = getPackageJson()
-
-const name = camelCase(pkg.name)
+const pkg = packageJson
 
 const globals = {
   react: "React",
@@ -42,14 +40,12 @@ export default [
         file: pkg.main,
         format: "cjs",
         exports: "named",
-        name,
       },
       // ES module
       {
         file: pkg.module,
         format: "esm",
         exports: "named",
-        name,
       },
     ],
     plugins: [

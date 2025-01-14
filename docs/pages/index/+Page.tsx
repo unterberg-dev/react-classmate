@@ -61,6 +61,14 @@ const SectionGradient = rc.div.variants<{ $type: GradientType }>({
   },
 })
 
+const ThanksHeadline = rc.extend(Headline)`
+  mb-4
+`
+
+const ThanksParagraph = rc.p`
+  text-sm
+`
+
 const StartPage = () => (
   <>
     <LayoutComponent type="small" className="px-0 z-10">
@@ -149,9 +157,9 @@ const StartPage = () => (
             <HighlighterComponent noCopy input={extendRenderCode} />
           </Card>
         </Section>
-        <DocsNotebox type="aside" className="!my-10 md:w-3/4 mx-auto" icon={Sparkles}>
+        <DocsNotebox type="warning" className="!my-10 md:w-3/4 mx-auto shadow-md" icon={Sparkles}>
           <p>
-            Typescript Users: The following examples are simplified for demonstration purposes. For a more
+            Typescript Users: The examples above are simplified for demonstration purposes. For a more
             detailed explanation how to keep your types, please refer to the documentation.
           </p>
         </DocsNotebox>
@@ -161,20 +169,28 @@ const StartPage = () => (
         <HeadlineGroup headingStyle="h2" centered main="Special Thanks" pre="Overview" />
         <div className="grid grid-cols-3 gap-4">
           <Card>
-            <Headline as="h3" variant="h5">
+            <ThanksHeadline as="h3" variant="h6">
               tailwind-styled-components
-            </Headline>
-            <p>
+            </ThanksHeadline>
+            <ThanksParagraph>
               This brought the idea of using tailwind classes with styled-components. It was the inspiration
               for the base component. I extended the idea to support variants and the updated interpolation
               syntax.
-            </p>
+            </ThanksParagraph>
           </Card>
           <Card>
-            <h3>cva</h3>
+            <ThanksHeadline as="h3" variant="h6">
+              cva - class variance authority
+            </ThanksHeadline>
+            <ThanksParagraph>
+              cva's idea of thinking in variants is the foundation for <CodeElement>rc</CodeElement>`s variant
+              system. It provides a simple and powerful way to manage classnames and styles based on props.
+            </ThanksParagraph>
           </Card>
           <Card>
-            <h3>styled-components</h3>
+            <ThanksHeadline as="h3" variant="h6">
+              cva - class variance authority
+            </ThanksHeadline>
           </Card>
         </div>
       </LayoutComponent>

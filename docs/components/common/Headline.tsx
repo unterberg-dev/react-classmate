@@ -8,13 +8,14 @@ const headlineClasses: Record<string, string> = {
   h3: "text-xl md:text-2xl font-bold",
   h4: "text-lg md:text-xl font-bold",
   h5: "text-lg font-bold",
+  h6: "text-base font-bold",
   blank: "",
 }
 
 const additionalElements = ["strong", "span", "p", "div"] as const
 type AdditionalHeadlineTypes = (typeof additionalElements)[number]
 
-const headlineLevels = ["h1", "h2", "h3", "h4", "h5"] as const
+const headlineLevels = ["h1", "h2", "h3", "h4", "h5", "h6"] as const
 type HeadlineLevels = (typeof headlineLevels)[number]
 
 type VariantType = HeadlineLevels | "blank"
@@ -61,5 +62,6 @@ export const H2Headline = createHeadlineComponent("h2")
 export const H3Headline = createHeadlineComponent("h3")
 export const H4Headline = createHeadlineComponent("h4")
 export const H5Headline = createHeadlineComponent("h5")
+export const H6Headline = createHeadlineComponent("h6")
 
 export default Headline

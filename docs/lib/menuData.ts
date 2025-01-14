@@ -42,50 +42,55 @@ export const menuData: MenuSection[] = [
       },
     ],
   },
-  {
-    title: "Utils",
-    items: [
-      {
-        label: "Interpolation",
-        icon: TextCursorInput,
-        // subItems for nested links
-        subItems: [
-          {
-            label: "CSS-in-JS: style()",
-            href: internalLink.util.style,
-            hightlightCode: ["style()"],
-          },
-        ],
-      },
-      {
-        label: "Typescript",
-        icon: Siren,
-        subItems: [
-          {
-            label: "RcBaseComponent",
-            href: internalLink.typescript.rcBaseComponent,
-            hightlightCode: ["RcBaseComponent"],
-          },
-          {
-            label: "VariantsConfig",
-            href: internalLink.typescript.variantsConfig,
-            hightlightCode: ["VariantsConfig"],
-          },
-        ],
-      },
-      {
-        label: "Interaction",
-        icon: SwatchBook,
-        subItems: [
-          {
-            label: "convertRcProps()",
-            href: internalLink.util.convertRcProps,
-            hightlightCode: ["convertRcProps()"],
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   title: "Utils",
+  //   items: [
+  //     {
+  //       label: "Interpolation",
+  //       icon: TextCursorInput,
+  //       // subItems for nested links
+  //       subItems: [
+  //         {
+  //           label: "CSS-in-JS: style()",
+  //           href: internalLink.util.style,
+  //           hightlightCode: ["style()"],
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label: "Typescript",
+  //       icon: Siren,
+  //       subItems: [
+  //         {
+  //           label: "RcBaseComponent",
+  //           href: internalLink.typescript.rcBaseComponent,
+  //           hightlightCode: ["RcBaseComponent"],
+  //         },
+  //         {
+  //           label: "VariantsConfig",
+  //           href: internalLink.typescript.variantsConfig,
+  //           hightlightCode: ["VariantsConfig"],
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       label: "Helper",
+  //       icon: SwatchBook,
+  //       subItems: [
+  //         {
+  //           label: "convertRcProps()",
+  //           href: internalLink.util.convertRcProps,
+  //           hightlightCode: ["convertRcProps()"],
+  //         },
+  //         {
+  //           label: "createVariantMap()",
+  //           href: internalLink.util.createVariantMap,
+  //           hightlightCode: ["createVariantMap()"],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   // {
   //   title: "Examples",
   //   items: [

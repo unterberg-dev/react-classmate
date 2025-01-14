@@ -12,7 +12,8 @@ export const internalLink = {
   },
   util: {
     style: `${base}/docs/interpolation/style`,
-    convertRcProps: `${base}/docs/util/convertrcprops`,
+    convertRcProps: `${base}/docs/helper/convertrcprops`,
+    createVariantMap: `${base}/docs/helper/createvariantmap`,
   },
   typescript: {
     rcBaseComponent: `${base}/docs/typescript/rcbasecomponent`,

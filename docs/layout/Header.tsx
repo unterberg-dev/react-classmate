@@ -1,4 +1,4 @@
-import { Github, Sparkle, Sparkles, Sticker } from "lucide-react"
+import { Github, Sparkles, Sticker } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
 import rc from "react-classmate"
 
