@@ -10,7 +10,7 @@ export default defineConfig({
   plugins: [
     vike({
       prerender: true,
-      trailingSlash: false,
+      trailingSlash: true,
     }),
     rawPlugin({
       fileRegex: /\.rcx$/,
