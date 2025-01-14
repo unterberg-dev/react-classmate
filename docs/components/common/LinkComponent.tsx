@@ -33,21 +33,9 @@ const LinkComponent = ({
 
   const isActive = href === urlOriginal
 
-  useEffect(() => {
-    console.log({
-      urlOriginal: urlOriginal,
-      href,
-      base: import.meta.env.BASE_URL,
-      isActive,
-      isExternal,
-    })
-  }, [urlOriginal, href, isActive, isExternal])
-
   return (
     <StyledLink
       href={href}
-      {...(isActive ? { "aria-current": "page" } : {})}
-      className={isActive ? "testClassActiveINIT" : ""}
       target={isExternal ? "_blank" : target}
       rel={isExternal ? "noreferrer" : ""}
       $isExternal={isExternal}
