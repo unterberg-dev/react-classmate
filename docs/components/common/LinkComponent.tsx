@@ -20,15 +20,13 @@ const StyledLink = rc.a<StyledLinkProps>`
   ${(p) => (p.$isMenu ? "!text-dark" : "text-primary underline")}
 `
 
-const cleanStr = (s: string) => s.replace(/^\/|\/$/g, "")
-
 const LinkComponent = ({
   target = "_self",
   isMenu = false,
   href,
   ...props
 }: AnchorHTMLAttributes<HTMLAnchorElement> & { href?: string; isMenu?: boolean }) => {
-  const { urlOriginal, urlParsed, urlPathname } = usePageContext()
+  const { urlOriginal } = usePageContext()
 
   if (!href) return <div>Missing href</div>
   const isExternal = isLinkExternal(href)
@@ -38,12 +36,12 @@ const LinkComponent = ({
   useEffect(() => {
     console.log({
       urlOriginal,
-      urlParsed,
-      urlPathname,
       href,
       base: import.meta.env.BASE_URL,
+      isActive,
+      isExternal,
     })
-  }, [urlOriginal, urlParsed, urlPathname, href])
+  }, [urlOriginal, href, isActive, isExternal])
 
   return (
     <StyledLink
