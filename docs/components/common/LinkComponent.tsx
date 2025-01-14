@@ -46,6 +46,7 @@ const LinkComponent = ({
   return (
     <StyledLink
       href={href}
+      {...(isActive ? { "aria-current": "page" } : {})}
       className={isActive ? "testClassActiveINIT" : ""}
       target={isExternal ? "_blank" : target}
       rel={isExternal ? "noreferrer" : ""}

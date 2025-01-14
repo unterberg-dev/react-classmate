@@ -6,7 +6,7 @@ import { defineConfig } from "vite"
 import rawPlugin from "vite-raw-plugin"
 
 export default defineConfig({
-  base: "/react-classmate",
+  base: "/react-classmate/",
   plugins: [
     vike({
       prerender: true,
