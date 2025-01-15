@@ -34,10 +34,7 @@ const ExplanationHeadline = rc.extend(H3Headline)`
   !text-xl
 `
 
-const ReferToDocButton = rc.extend(Button)`
-  mt-8
-`
-
+const ReferToDocButton = rc.extend(Button)`mt-8`
 type GradientType = "variants" | "footer"
 
 const SectionGradient = rc.div.variants<{ $type: GradientType }>({
@@ -54,17 +51,9 @@ const SectionGradient = rc.div.variants<{ $type: GradientType }>({
   },
 })
 
-const IntroParagraph = rc.p`
-  text-lg
-`
-
-const ThanksHeadline = rc.extend(Headline)`
-  mb-4
-`
-
-const ThanksParagraph = rc.p`
-  text-sm
-`
+const IntroParagraph = rc.p`text-lg`
+const ThanksHeadline = rc.extend(Headline)`mb-4`
+const ThanksParagraph = rc.p`text-sm`
 
 const StartPage = () => (
   <>
