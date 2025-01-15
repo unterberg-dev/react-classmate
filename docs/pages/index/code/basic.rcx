@@ -1,6 +1,0 @@
-const MyButton = rc.button`
-  text-blue
-  bg-white
-  rounded-lg
-  ${(p) => (p.$isLoading" ? "opacity-50 pointer-events-none" : "")}
-`
