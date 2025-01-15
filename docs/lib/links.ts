@@ -27,5 +27,5 @@ export const internalLink = {
 
 export const externalLink = {
   npm: "https://www.npmjs.com/package/react-classmate",
-  github: "https://github.com/richard-unterberg/react-classmate",
+  github: "https://github.com/unterberg-dev/react-classmate",
 }

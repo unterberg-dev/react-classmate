@@ -5,7 +5,7 @@ import CodeElement from "#components/common/CodeElement"
 import LinkComponent from "#components/common/LinkComponent"
 import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
 import { APP_CONFIG } from "#lib/config"
-import { internalLink } from "#lib/links"
+import { externalLink, internalLink } from "#lib/links"
 
 const installString = `npm i react-classmate
 # or
@@ -81,7 +81,7 @@ const DocsStartPage = () => {
       <Section>
         <p>
           If you are having problems or any other feedback, please{" "}
-          <LinkComponent href={`${APP_CONFIG.repoUrl}/issues/new`}>file an issue on GitHub</LinkComponent>
+          <LinkComponent href={`${externalLink.github}/issues/new`}>file an issue on GitHub</LinkComponent>
         </p>
       </Section>
       <SectionHeadline>Everything is documented in Typescript?</SectionHeadline>
