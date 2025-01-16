@@ -3,8 +3,7 @@ import type { Config } from "vike/types"
 
 export default {
   title: "react-classmate",
-  description:
-    "A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.",
+  description: "A react tool to separate class name logic, create variants and manage styles.",
   extends: vikeReact,
   lang: "en",
   clientRouting: true,
