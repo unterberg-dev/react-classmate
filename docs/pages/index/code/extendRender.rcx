@@ -1,4 +1,15 @@
-<CustomButton $isLoading $customState type="button" />
+const SectionBase = rc.div`
+  px-3
+  text-dark
+  mx-auto
+`
+
+const CustomSection = rc.extend(SectionBase)`
+  mb-3
+  ${(p) => (p.$small ? "text-sm" : "")}
+`
+
+<CustomSection $small>Custom Section</CustomSection>
 
 // renders to:
-<button class="text-blue bg-white rounded-lg opacity-50 pointer-events-none mb-3 text-center bg-black animate-pulse" type="button">Click here</button>
+<div class="px-3 text-dark mx-auto mb-3 text-sm">Custom Section</div>
