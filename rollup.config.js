@@ -1,4 +1,5 @@
 import babel from "@rollup/plugin-babel"
+import resolve from "@rollup/plugin-node-resolve"
 import typescript from "@rollup/plugin-typescript"
 import dts from "rollup-plugin-dts"
 import { minify } from "rollup-plugin-esbuild-minify"
@@ -24,6 +25,10 @@ for (const key of Object.keys(pkg.peerDependencies || {})) {
   }
 }
 
+const resolveConfig = {
+  extensions: [".ts", ".tsx"],
+}
+
 export default [
   {
     input: "src/index.ts",
@@ -43,6 +48,7 @@ export default [
       },
     ],
     plugins: [
+      resolve(resolveConfig),
       typescript({
         tsconfig: "./tsconfig.json",
       }),

@@ -38,13 +38,13 @@
     "clean:all": "rm -rf dist && rm -rf .localPack && rm -rf node_modules",
     "lefthook": "lefthook install",
     "playwright": "npx playwright install",
+    "prepareE2E": "npm run packLocal && cd docs && npm i ../.localPack && cd ..",
     "========= Test": "",
     "test-clear": "jest --clearCache",
     "test:all": "npm run test-clear && npm run test:src && npm run test:docs",
-    "prepareE2E": "npm run packLocal && cd docs && npm i ../.localPack && cd ..",
     "test:docs": "npm run prepareE2E && playwright test ./test/docs",
     "test:docs-ui": "npm run prepareE2E && playwright test ./test/docs --ui",
-    "test:src": "jest --testPathPattern=test/src",
+    "test:src": "npm run build && jest --testPathPattern=test/src",
     "========= Lib": "",
     "build:base": "npm run clean && npm run bundle",
     "build": "npm run build:base && npm run postbuild",
@@ -54,12 +54,12 @@
     "postbuild:packLocal": "cross-env MODE=packLocal npx tsx postbuild.ts",
     "bundle": "rollup -c",
     "========= Docs": "",
-    "docs:build": "npm run packLocal && cd docs/ && vike build",
+    "docs:build": "cd docs/ && vike build",
     "docs": "cd docs/ && vike dev",
     "docs:prod": "npm run docs:build && cd docs/ && vike preview",
     "docs:preview": "cd docs/ && vike preview",
-    "========= Make sure we always use a fresh react-classmate for github pages": "",
-    "docs:publish": "cd docs/ && npm remove react-classmate && npm remove ../.localPack && npm i react-classmate && vike build"
+    "========= gh-pages": "",
+    "docs:publish": "npm run docs:build"
   },
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
@@ -76,6 +76,9 @@
   "peerDependencies": {
     "react": ">=16.8.0"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.30.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
@@ -84,6 +87,7 @@
     "@biomejs/biome": "1.9.4",
     "@playwright/test": "^1.49.1",
     "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-typescript": "^12.1.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
