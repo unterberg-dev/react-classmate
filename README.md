@@ -2,7 +2,7 @@
 
 A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
 
-See it in action: [https://unterberg-dev.github.io/react-classmate/](https://unterberg-dev.github.io/react-classmate/)
+See it in action: [https://react-classmate.dev/](https://react-classmate.dev/)
 
 ## 🚩 Transform this
 
@@ -51,7 +51,7 @@ const ButtonBase = rc.button`
 
 ## New Documentation online!
 
-#### [Head over to the new docs page](https://unterberg-dev.github.io/react-classmate/)
+#### [Head over to the new docs page](https://react-classmate.dev/)
 
 ## Contents
 
@@ -92,7 +92,7 @@ const Container = rc.div`
 // transforms to: <div className="py-2 px-5 min-h-24" />
 ```
 
-Additional Information: [See "Base usage" documentation](https://unterberg-dev.github.io/react-classmate/docs/basic/)
+Additional Information: [See "Base usage" documentation](https://react-classmate.dev/docs/basic/)
 
 ### Use with props
 
@@ -156,7 +156,7 @@ export default () => <Alert $severity="info" $isActive />;
 // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
 ```
 
-Additional Information: [See "Variants" documentation](https://unterberg-dev.github.io/react-classmate/docs/variants/)
+Additional Information: [See "Variants" documentation](https://react-classmate.dev/docs/variants/)
 
 ### Typescript: Separate base props and variants with a second type parameter
 
@@ -205,7 +205,7 @@ const Container = rc.extend(MyOtherComponent)`
 // transforms to: <button className="text-lg mt-5 py-2 px-5 min-h-24" />
 ```
 
-Additional Information: ["Extend" documentation](https://unterberg-dev.github.io/react-classmate/docs/extend/)
+Additional Information: ["Extend" documentation](https://react-classmate.dev/docs/extend/)
 
 ## Add CSS Styles
 
