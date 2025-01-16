@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React, { type ReactNode, type HTMLAttributes } from "react"
 
-import rc, { type VariantsConfig, convertRcProps } from "../../src/index"
+import rc, { type VariantsConfig, convertRcProps } from "../../dist"
 
 interface ButtonBaseProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
   $size?: "sm" | "md" | "lg"

@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React, { type JSX } from "react"
 
-import rc from "../../src/index"
+import rc from "../../dist"
 
 describe("rc base", () => {
   it("renders a rc.div with assigned classes", () => {
