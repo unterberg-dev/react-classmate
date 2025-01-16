@@ -59,7 +59,7 @@
     "docs:prod": "npm run docs:build && cd docs/ && vike preview",
     "docs:preview": "cd docs/ && vike preview",
     "========= Make sure we always use a fresh react-classmate for github pages": "",
-    "docs:publish": "cd docs/ && npm remove react-classmate && npm remove ../.localPack && npm i react-classmate && vike build"
+    "docs:publish": "cd docs/ && npm remove react-classmate && npm i react-classmate && npm i && vike build"
   },
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.js",
