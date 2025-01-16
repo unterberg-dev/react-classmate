@@ -25,66 +25,64 @@ const AdvancedButtonPage = () => (
   <>
     <DocsHead
       main="Advanced Tailwind Button"
-      pre="Working with variants"
+      pre="Working with Variants"
       excerpt={
         <>
-          An example of a advanced Tailwind / Uno (Windi) button component, which fully utilizes the features
-          of
-          <CodeElement>variants</CodeElement> and tailwind classes.
+          An example of an advanced Tailwind / Uno (Windi) button component that fully utilizes the features
+          of <CodeElement>variants</CodeElement> and Tailwind classes.
         </>
       }
     />
 
-    <SectionHeadline>Developers Note</SectionHeadline>
+    <SectionHeadline>Dev Note: It all started here</SectionHeadline>
     <Section>
       <p>
-        It all started here: The task of blueprinting a redundantly placed button, fully utilizing it's design
-        thru property-controlled utility classes. Writing this only as react component is a nightmare. And
-        even then, at this point when you think you finally have this one "perfect button", you are unable to
+        The task of blueprinting a redundantly placed button, fully utilizing its design through
+        property-controlled utility classes. Writing this only as a React component is a nightmare. And even
+        then, at the point when you think you finally have this one "perfect button," you are unable to
         properly maintain it through the variability of project requirements and the resulting "horizontal
-        styling". My wish was to read those heavily styled components like a book, with all the information I
-        need to know about it's design and behavior. This is why I created{" "}
+        styling." My wish was to read those heavily styled components like a book, with all the information I
+        need to know about its design and behavior. This is why I created{" "}
         <LinkComponent href={internalLink.start}>react-classmate</LinkComponent>.
       </p>
       <SectionInnerParagraph>
-        The main idea of this project is to engage myself to properly design and manage classnames and
-        separate them from the application logic.
+        The main idea of this project is to engage myself in properly designing and managing class names and
+        separating them from the application logic.
       </SectionInnerParagraph>
       <SectionInnerParagraph>
-        This example requires you to have a basic understanding of tailwind and the utility classes. If you
-        are not familiar with it, I would recommend you to read the{" "}
+        This example requires you to have a basic understanding of Tailwind and its utility classes. If you
+        are not familiar with it, I recommend that you read the{" "}
         <LinkComponent href="https://tailwindcss.com/docs/utility-first">
-          tailwind "Utility-First Fundamentals"
+          Tailwind "Utility-First Fundamentals"
         </LinkComponent>{" "}
-        first
+        first.
       </SectionInnerParagraph>
     </Section>
 
     <SectionHeadline>Button Component</SectionHeadline>
     <Section>
       <p>
-        The below code features dark (:dark) mode, hover (:hover) and active (:active) state as utility
-        classes. You can also control <CodeElement>noGutter</CodeElement>, <CodeElement>disabled</CodeElement>
-        , <CodeElement>loading</CodeElement>, <CodeElement>noShadow</CodeElement> and{" "}
-        <CodeElement>type</CodeElement> properties.
+        The code below features dark (:dark) mode, hover (:hover), and active (:active) states as utility
+        classes. You can also control the <CodeElement>noGutter</CodeElement>,{" "}
+        <CodeElement>disabled</CodeElement>,<CodeElement>loading</CodeElement>,{" "}
+        <CodeElement>noShadow</CodeElement>, and <CodeElement>type</CodeElement> properties.
       </p>
       <SectionInnerParagraph>
-        It will introduce the usage of the utility type <CodeElement>VariantsConfig</CodeElement> and the
-        utility function <CodeElement>convertRcProps</CodeElement>. More on that both below
+        This introduces the usage of the utility type <CodeElement>VariantsConfig</CodeElement> and the
+        utility function <CodeElement>convertRcProps</CodeElement>. More on both below.
       </SectionInnerParagraph>
       <HighlighterComponent input={advancedButtonCode} />
       <DocsNotebox>
         <H5Headline>
-          Usage of important <CodeElement>!</CodeElement> prefix from tailwind
+          Usage of the Important <CodeElement>!</CodeElement> Prefix in Tailwind
         </H5Headline>
         <SectionInnerParagraph>
-          In general I would not recommend using <CodeElement>!</CodeElement>-override (which is similar to
-          !important) too often in classmate components, since we should prereserve it's usage. In case of
-          this button, we only override the padding and the shadow which can be set as explicit props.
+          In general, I would not recommend using the <CodeElement>!</CodeElement> override (which is similar
+          to !important) too often in classmate components, since we should preserve its usage. In the case of
+          this button, we only override the padding and the shadow, which can be set using explicit props.
         </SectionInnerParagraph>
       </DocsNotebox>
     </Section>
-
     <SectionHeadline>Button Sizing</SectionHeadline>
     <Section>
       <p>

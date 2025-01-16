@@ -1,4 +1,5 @@
 import { Blocks, BrickWall, Sparkles, SwatchBook } from "lucide-react"
+
 import rc from "react-classmate"
 
 import { DocsHead } from "#components/DocsHead"
