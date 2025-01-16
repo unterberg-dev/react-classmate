@@ -1,1 +1,0 @@
-import{X as e,f as n,g as t}from"./chunk-DhzhJU0f.js";import{N as a}from"./chunk-B1cbtA_Z.js";const i=e.extend(a)`mb-8`,c=e.extend(n)`mb-4`,r=e.extend(t)`mt-6`,m=e.p`mt-4`;export{c as S,i as a,r as b,m as c};
