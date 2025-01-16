@@ -96,13 +96,13 @@ export const menuData: MenuSection[] = [
       //     },
     ],
   },
-  // {
-  //   title: "Examples",
-  //   items: [
-  //     {
-  //       label: "Avanced Button",
-  //       href: internalLink.example.advancedButton,
-  //     },
-  //   ],
-  // },
+  {
+    title: "Examples",
+    items: [
+      {
+        label: "Avanced Button",
+        href: internalLink.example.advancedButton,
+      },
+    ],
+  },
 ]

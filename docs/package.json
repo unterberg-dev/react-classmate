@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "prod": "vite build && vite preview",
-    "preview": "vite preview",
+    "build": "vike build",
+    "dev": "vike dev",
+    "preview": "vike preview",
+    "prod": "npm run build && npm run preview",
     "lint": "biome lint --write .",
     "format": "biome format --write ."
   },
