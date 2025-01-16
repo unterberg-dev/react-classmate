@@ -1,4 +1,4 @@
-import{j as e,L as t,C as l,b as i,e as n,i as d,o as c,a as h}from"../chunks/chunk-wwLhu-sb.js";import{i as p}from"../chunks/chunk-CQLo-83p.js";import{D as u,H as s}from"../chunks/chunk-BURnBoZs.js";import{D as m}from"../chunks/chunk-BoW_o5WG.js";import{S as a,a as r,b as o}from"../chunks/chunk-T25ksXFe.js";/* empty css                      */import"../chunks/chunk-CYDrz2XN.js";/* empty css                      *//* empty css                      *//* empty css                      */const x=`npm i react-classmate
+import{j as e,L as t,C as l,b as i,e as n,i as d,o as c,a as h}from"../chunks/chunk-D9omzb_q.js";import{i as p}from"../chunks/chunk-BIcnJ08U.js";import{D as u,H as s}from"../chunks/chunk-LWXXMUun.js";import{D as m}from"../chunks/chunk-F-X9b3Cv.js";import{S as a,a as r,b as o}from"../chunks/chunk-CuSZpGbS.js";/* empty css                      */import"../chunks/chunk-CYDrz2XN.js";/* empty css                      *//* empty css                      *//* empty css                      */const x=`npm i react-classmate
 # or
 yarn add react-classmate
 # or
