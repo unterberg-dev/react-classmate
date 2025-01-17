@@ -4,7 +4,6 @@ import rc from "react-classmate"
 import { clientOnly } from "vike-react/clientOnly"
 
 import Button from "#components/common/Button"
-import Skeleton from "#components/common/Skeleton"
 
 const HighlighterClient = clientOnly(() => import("#components/HighlighterClient"))
 
@@ -57,7 +56,17 @@ const HighlighterComponent = ({
   return (
     <Highlighter $noGutter={noGutter}>
       {!noCopy && <CopyToClipboard handleCopy={handleCopy} />}
-      <HighlighterClient fallback={<div className="h-30" />} input={input} language={language} />
+      <HighlighterClient
+        fallback={
+          <div className="h-full w-full overflow-scroll p-4">
+            <code className="w-full text-sm block  leading-5">
+              <pre>{input}</pre>
+            </code>
+          </div>
+        }
+        input={input}
+        language={language}
+      />
     </Highlighter>
   )
 }
