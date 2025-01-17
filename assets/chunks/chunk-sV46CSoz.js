@@ -1,4 +1,4 @@
-import{X as o,j as e,N as t,L as r}from"./chunk-DqwNV_u0.js";const a=o.nav`
+import{X as o,j as e,N as t,L as r}from"./chunk-BGQOIIQZ.js";const a=o.nav`
   relative p-0
   hidden
   lg:block
