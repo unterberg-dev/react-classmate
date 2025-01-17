@@ -32,7 +32,6 @@ const Highlighter = rc.div<{ $noGutter: boolean }>`
   !min-w-none 
   w-[100%]
   rounded-md
-  animate-in fade-in
   ${(p) => (p.$noGutter ? "" : "mb-4")}
 `
 
@@ -59,7 +58,7 @@ const HighlighterComponent = ({
       <HighlighterClient
         fallback={
           <div className="h-full w-full overflow-scroll p-4">
-            <code className="w-full text-sm block  leading-5">
+            <code className="w-full text-sm block leading-5 text-grayDark">
               <pre>{input}</pre>
             </code>
           </div>
