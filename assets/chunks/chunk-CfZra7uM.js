@@ -1,4 +1,4 @@
-import{p as Rt,X as ye,h as It,j as P,R as te,q as Fe,r as wn,s as jt,t as $t,B as _t}from"./chunk-DhzhJU0f.js";/**
+import{c as Rt,X as ye,l as It,j as P,R as te,s as Fe,t as wn,v as jt,w as $t,B as _t}from"./chunk-DqwNV_u0.js";/**
  * @license lucide-react v0.469.0 - ISC
  *
  * This source code is licensed under the ISC license.
@@ -39,5 +39,5 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   !min-w-none 
   w-[100%]
   rounded-md
-  ${e=>e.$noGutter?"":"mt-4"}
+  ${e=>e.$noGutter?"":"mb-4"}
 `,nl=({input:e,language:n="tsx",noGutter:r=!1,noCopy:t=!1})=>{const{theme:l}=jt(),c=$t.useCallback(()=>{navigator.clipboard.writeText(e)},[e]);return P.jsxs(Yo,{$noGutter:r,children:[!t&&P.jsx(Zo,{handleCopy:c}),P.jsx(we,{customStyle:{padding:16,margin:0,fontSize:14,maxHeight:420,minWidth:"none",overflow:"auto"},language:n,style:l==="dark"?Vo:Ko,children:e})]})};export{Qo as D,nl as H,el as N,Ht as a};
