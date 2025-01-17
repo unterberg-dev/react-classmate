@@ -27,12 +27,13 @@ const CopyToClipboard = ({ handleCopy }: { handleCopy: () => void }) => {
 }
 
 const Highlighter = rc.div<{ $noGutter: boolean }>`
-  highlighter 
+  highlighter
   bg-lightBorder 
   relative 
   !min-w-none 
   w-[100%]
   rounded-md
+  animate-in fade-in
   ${(p) => (p.$noGutter ? "" : "mb-4")}
 `
 
@@ -56,11 +57,7 @@ const HighlighterComponent = ({
   return (
     <Highlighter $noGutter={noGutter}>
       {!noCopy && <CopyToClipboard handleCopy={handleCopy} />}
-      <HighlighterClient
-        fallback={<Skeleton className="h-30 !bg-light" />}
-        input={input}
-        language={language}
-      />
+      <HighlighterClient fallback={<div className="h-30" />} input={input} language={language} />
     </Highlighter>
   )
 }
