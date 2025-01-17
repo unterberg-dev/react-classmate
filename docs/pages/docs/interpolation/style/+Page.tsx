@@ -3,7 +3,7 @@ import { CircleAlert } from "lucide-react"
 import { DocsHead } from "#components/DocsHead"
 import HighlighterComponent from "#components/HighlighterComponent"
 import CodeElement from "#components/common/CodeElement"
-import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
+import { Section, SectionHeadline, SectionInnerHeadline, SectionInnerParagraph } from "#docs/elements"
 
 import basic from "#docs/interpolation/style/code/basic.rcx"
 import baseImplementation from "#docs/interpolation/style/code/basicImplementation.rcx"
@@ -25,11 +25,11 @@ const InterpolationStylePage = () => {
       />
       <SectionHeadline>Basic Styling</SectionHeadline>
       <Section>
-        <p>
+        <SectionInnerParagraph>
           The interpolation system supports CSS with the <CodeElement>style()</CodeElement> function to add
           CSS in JS to the components. We are able to append this on every of the classmate "builders":
-        </p>
-        <ul className="mt-3">
+        </SectionInnerParagraph>
+        <ul className="mb-4">
           <li>
             <CodeElement>{"rc.{intrinsicElement}"}</CodeElement>
           </li>
@@ -46,9 +46,9 @@ const InterpolationStylePage = () => {
       </Section>
       <SectionHeadline>Use Properties</SectionHeadline>
       <Section>
-        <p>
+        <SectionInnerParagraph>
           Using properties as they can be extracted from the same entity (<CodeElement>p</CodeElement>)
-        </p>
+        </SectionInnerParagraph>
         <HighlighterComponent input={withProps} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
         <HighlighterComponent input={withPropsImplementation} />

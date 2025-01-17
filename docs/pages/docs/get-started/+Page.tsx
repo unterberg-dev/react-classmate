@@ -3,7 +3,7 @@ import DocsNotebox from "#components/DocsNotebox"
 import HighlighterComponent from "#components/HighlighterComponent"
 import CodeElement from "#components/common/CodeElement"
 import LinkComponent from "#components/common/LinkComponent"
-import { Section, SectionHeadline, SectionInnerHeadline } from "#docs/elements"
+import { Section, SectionHeadline, SectionInnerHeadline, SectionInnerParagraph } from "#docs/elements"
 import { APP_CONFIG } from "#lib/config"
 import { externalLink, internalLink } from "#lib/links"
 
@@ -24,16 +24,16 @@ const DocsStartPage = () => {
       />
       <SectionHeadline>Prerequisites</SectionHeadline>
       <Section>
-        <p>
+        <SectionInnerParagraph>
           Make sure <LinkComponent href="https://react.dev/">React {"(>16.8)"}</LinkComponent> is installed
-        </p>
+        </SectionInnerParagraph>
         <SectionInnerHeadline>Install</SectionInnerHeadline>
         <HighlighterComponent language="bash" input={installString} />
         <SectionInnerHeadline>Import with ES</SectionInnerHeadline>
         <HighlighterComponent language="bash" input='import rc from "react-classmate"' />
         <SectionInnerHeadline>Import with CommonJS</SectionInnerHeadline>
         <HighlighterComponent language="bash" input='const rc = require("react-classmate").default' />
-        <DocsNotebox>
+        <DocsNotebox className="!mb-0">
           <p>
             The <CodeElement $color="warning">default</CodeElement> for CJS is currently needed because the
             package is designed as ES module. Named CJS export version{" "}

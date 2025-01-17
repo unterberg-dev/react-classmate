@@ -1,7 +1,8 @@
 import type { HTMLAttributes } from "react"
 import { type RcBaseComponent, type VariantsConfig, createVariantMap } from "react-classmate"
 
-// 1. setup accepted elements and types
+// 1. Setup Accepted Elements and Types
+
 const headlineLevels = ["h1", "h2", "h3", "h4", "h5", "h6"] as const
 type HeadlineLevels = (typeof headlineLevels)[number]
 
@@ -10,16 +11,18 @@ type AdditionalHeadlineTypes = (typeof additionalElements)[number]
 
 type RcVariantType = HeadlineLevels | "blank"
 
-// 1. Setup Accepted Elements and Types
+// 2. Setup Variants
+
 interface HeadlineVariantProps extends HTMLAttributes<HTMLElement> {
   $as?: RcVariantType
 }
+
 const headlineVariants: VariantsConfig<HeadlineVariantProps, HeadlineVariantProps> = {
   base: "",
   variants: {
     $as: {
       h1: "text-3xl md:text-4xl font-bold",
-      h2: "text-2xl md:text-3xl font-bold",
+      h2: "text-2xl md:text-3xl font-bold"
       h3: "text-xl md:text-2xl font-bold",
       h4: "text-lg md:text-xl font-bold",
       h5: "text-lg font-bold",
@@ -29,18 +32,20 @@ const headlineVariants: VariantsConfig<HeadlineVariantProps, HeadlineVariantProp
   },
 }
 
-// 3. create variant map
+// 3. Create Variant Map
+
 const hVariantMap: Record<string, RcBaseComponent<HeadlineVariantProps>> = createVariantMap({
   elements: [...additionalElements, ...headlineLevels],
   variantsConfig: headlineVariants,
 })
 
-// 4 define the react component
-// due large variety of elements, we just type for "HTMLAttributes<HTMLElement>" - adjust as needed
+// 4. Define the React Component
+
 interface HeadlineProps extends HTMLAttributes<HTMLElement> {
   variant?: RcVariantType
   as: Exclude<RcVariantType, "blank"> | AdditionalHeadlineTypes
 }
+
 const Headline = ({ as, variant, ...props }: HeadlineProps) => {
   const isHeadline = headlineLevels.includes(as as HeadlineLevels)
   const variantToUse = variant || (isHeadline ? (as as RcVariantType) : "blank")
@@ -54,7 +59,8 @@ const Headline = ({ as, variant, ...props }: HeadlineProps) => {
   )
 }
 
-// 5. create convenience components
+// 5. Create Convenience Components
+
 type HeadlineComponentProps = { as?: HeadlineProps["as"] } & HTMLAttributes<HTMLElement>
 const createHeadlineComponent = (level: HeadlineLevels) => {
   return ({ as = level, ...props }: HeadlineComponentProps) => (
@@ -62,7 +68,8 @@ const createHeadlineComponent = (level: HeadlineLevels) => {
   )
 }
 
-// 6. export(s)
+// 6. Export(s)
+
 export const H1Headline = createHeadlineComponent("h1")
 export const H2Headline = createHeadlineComponent("h2")
 export const H3Headline = createHeadlineComponent("h3")

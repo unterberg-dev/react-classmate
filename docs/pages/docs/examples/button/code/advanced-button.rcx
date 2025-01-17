@@ -1,28 +1,26 @@
-// Button.tsx
 import { LoaderCircle } from "lucide-react"
 import type { HTMLAttributes, ReactNode } from "react"
-import rc, { type VariantsConfig, convertRcProps } from "react-classmate"
+import { type RcBaseComponent, type VariantsConfig, convertRcProps, createVariantMap } from "react-classmate"
 
 import { APP_CONFIG } from "#lib/config"
+import type { Colors } from "#lib/types"
 import { isLinkExternal } from "#lib/utils"
 
+// 1. types
 interface ButtonBaseProps {
   $size?: "lg" | "md" | "sm" | "xs"
-  $color?: "primary" | "secondary" | "error" | "success" | "warning" | "copy" | "hollow" | "icon"
+  $color?: Colors
   $disabled?: boolean
   $loading?: boolean
-  $noShadow?: boolean
-  $noGutter?: boolean
 }
 
+// 2. setup variants
 const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
-  base: ({ $noShadow, $noGutter, $disabled, $loading }) => `
-    transition-colors duration-350 ease-out
+  base: ({ $disabled, $loading }) => `
+    transition-colors
     inline-flex items-center justify-center gap-2 
     font-bold
-    ${APP_CONFIG.uno.transitionWind}
-    ${$noShadow ? "!shadow-none" : "shadow-darkNeutral/20"}
-    ${$noGutter ? "!p-0" : ""}
+    ${APP_CONFIG.transition.tw}
     ${$disabled ? "opacity-60 cursor-not-allowed" : ""}
     ${$loading ? "opacity-80 pointer-events-none" : ""}
   `,
@@ -30,15 +28,19 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
     $size: {
       xs: "py-1 px-2 rounded text-xs shadow-sm",
       sm: "py-1.5 px-2.5 rounded text-sm shadow-sm",
-      md: "py-2 px-3 rounded shadow-sm",
+      md: "py-1.5 px-3 rounded shadow-sm",
       lg: "py-3 px-4 rounded-lg shadow-md",
     },
     $color: {
-      hollow: "bg-transparent",
       primary: ({ $disabled }) => `
         text-lightNeutral 
         bg-primaryDarkNeutral 
         ${!$disabled ? "hover:bg-primary" : ""}
+      `,
+      secondary: ({ $disabled }) => `
+        text-lightNeutral 
+        bg-secondaryDarkNeutral 
+        ${!$disabled ? "hover:bg-secondary" : ""}
       `,
       success: ({ $disabled }) => `
         text-lightNeutral 
@@ -55,19 +57,10 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
         bg-errorDarkNeutral 
         ${!$disabled ? "hover:bg-error" : ""}
       `,
-      copy: ({ $disabled }) => `
-        bg-white
-        dark:bg-gray/30
-        text-dark
-        active:bg-successDarkNeutral active:text-lightNeutral
-        dark:active:bg-successDarkNeutral dark:active:text-lightNeutral
-        ${!$disabled ? "hover:text-dark hover:bg-grayLight/30 dark:hover:bg-gray/50" : ""}
-      `,
-      icon: `
-        rounded-full
-        w-7 lg:w-8 h-7 lg:h-8
-        bg-gray/20 dark:bg-grayLight 
-        text-dark dark:text-grayDark
+      neutral: ({ $disabled }) => `
+        text-dark 
+        bg-light dark:bg-grayLight 
+        ${!$disabled ? "hover:bg-graySuperLight dark:hover:bg-gray" : ""}
       `,
     },
   },
@@ -77,36 +70,38 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, ButtonBaseProps> = {
   },
 }
 
-const ButtonBase = rc.button.variants(buttonVariants)
-const LinkButton = rc.a.variants(buttonVariants)
+// 3. create variant map
+const button = createVariantMap({
+  elements: ["button", "a"],
+  variantsConfig: buttonVariants,
+})
 
+// 4 define the react component
 interface ButtonProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
   icon?: ReactNode
   link?: string
   type?: "button" | "submit" | "reset"
 
-  // we must redeclare these props here because $-props are not inherited from ButtonBaseProps
+  // we don't want to expose the classmate props to the user (devs) -> redeclare them here
   size?: ButtonBaseProps["$size"]
   color?: ButtonBaseProps["$color"]
   disabled?: ButtonBaseProps["$disabled"]
   loading?: ButtonBaseProps["$loading"]
-  noShadow?: ButtonBaseProps["$noShadow"]
-  noGutter?: ButtonBaseProps["$noGutter"]
 }
 
 const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
-  const Component = link ? LinkButton : ButtonBase
+  // cast types
+  const Component = link
+    ? (button.a as RcBaseComponent<ButtonBaseProps & HTMLAttributes<HTMLAnchorElement>>)
+    : (button.button as RcBaseComponent<ButtonBaseProps & HTMLAttributes<HTMLButtonElement>>)
+  const isExternal = isLinkExternal(link)
 
   const preparedProps = convertRcProps(buttonProps, {
     size: "$size",
-    noShadow: "$noShadow",
-    noGutter: "$noGutter",
     loading: "$loading",
     disabled: "$disabled",
     color: "$color",
   })
-
-  const isExternal = isLinkExternal(link)
 
   return (
     <Component {...(link ? { href: link, target: isExternal ? "_blank" : "" } : {})} {...preparedProps}>
@@ -117,4 +112,5 @@ const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
   )
 }
 
+// 6. export(s)
 export default Button

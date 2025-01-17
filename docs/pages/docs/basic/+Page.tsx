@@ -22,18 +22,18 @@ const BasicPage = () => {
       />
       <SectionHeadline>Create a base component</SectionHeadline>
       <Section>
-        <p>
+        <SectionInnerParagraph>
           Select the component tag you wish by using it's intrinsic tag name. For example{" "}
           <CodeElement>rc.div</CodeElement> or <CodeElement>rc.button</CodeElement>. Via the interpolation you
           are able to pass classnames.
-        </p>
+        </SectionInnerParagraph>
         <HighlighterComponent input={baseComponent} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
         <HighlighterComponent input={baseImplementation} />
       </Section>
       <SectionHeadline>Custom Properties</SectionHeadline>
       <Section>
-        <DocsNotebox className="!mt-0">
+        <DocsNotebox>
           <strong>Important:</strong> Prefix <CodeElement $color="warning">rc</CodeElement>-specific
           properties with <CodeElement $color="warning">$</CodeElement> to not pass them to the
           created/extended component and to avoid conflicts with intrinsic properties (rc filters out props
@@ -45,11 +45,11 @@ const BasicPage = () => {
       </Section>
       <SectionHeadline>Intrinsic Properties</SectionHeadline>
       <Section>
-        <p>
+        <SectionInnerParagraph>
           <CodeElement>rc</CodeElement> is passing intrinsic properties and you can use them in the
           interpolation string. For typescript we provide the type of{" "}
           <CodeElement>IntrinsicElements</CodeElement> to get them properly validated.
-        </p>
+        </SectionInnerParagraph>
         <HighlighterComponent input={intrinsicProps} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
         <HighlighterComponent input={intrinsicPropsImplementation} />

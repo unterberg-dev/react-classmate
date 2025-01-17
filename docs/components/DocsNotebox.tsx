@@ -9,7 +9,7 @@ interface DocsNoteboxProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const StyledNotebox = rc.extend(Notebox)`
-  mt-4
+  mb-4
   flex
   gap-2 
   items-baseline 

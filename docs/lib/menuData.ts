@@ -100,8 +100,20 @@ export const menuData: MenuSection[] = [
     title: "Examples",
     items: [
       {
-        label: "Avanced Button",
-        href: internalLink.example.advancedButton,
+        label: "Variants",
+        icon: SwatchBook,
+        subItems: [
+          {
+            label: "Headline (h1, h2, ..)",
+            href: internalLink.example.headline,
+            hightlightCode: ["h1", "h2"],
+          },
+          {
+            label: "Button (a, button)",
+            href: internalLink.example.button,
+            hightlightCode: ["a", "button"],
+          },
+        ],
       },
     ],
   },

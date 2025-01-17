@@ -96,8 +96,7 @@ interface ButtonProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEleme
   icon?: ReactNode
   link?: string
   type?: "button" | "submit" | "reset"
-
-  // we must redeclare these props here because $-props are not inherited from ButtonBaseProps
+  // we must redeclare these props here we don't want this $ on the outside
   size?: ButtonBaseProps["$size"]
   color?: ButtonBaseProps["$color"]
   disabled?: ButtonBaseProps["$disabled"]
@@ -108,6 +107,7 @@ interface ButtonProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEleme
 
 const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
   const Component = link ? button.a : button.button
+  const isExternal = isLinkExternal(link)
 
   const preparedProps = convertRcProps(buttonProps, {
     size: "$size",
@@ -117,8 +117,6 @@ const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
     disabled: "$disabled",
     color: "$color",
   })
-
-  const isExternal = isLinkExternal(link)
 
   return (
     <Component {...(link ? { href: link, target: isExternal ? "_blank" : "" } : {})} {...preparedProps}>

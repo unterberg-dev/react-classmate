@@ -38,7 +38,7 @@ const Highlighter = rc.div<{ $noGutter: boolean }>`
   !min-w-none 
   w-[100%]
   rounded-md
-  ${(p) => (p.$noGutter ? "" : "mt-4")}
+  ${(p) => (p.$noGutter ? "" : "mb-4")}
 `
 
 interface HighlighterComponentProps {

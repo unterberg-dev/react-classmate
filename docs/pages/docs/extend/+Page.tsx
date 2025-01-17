@@ -8,7 +8,6 @@ import { Section, SectionHeadline, SectionInnerHeadline, SectionInnerParagraph }
 import { internalLink } from "#lib/links"
 
 import CodeElement from "#components/common/CodeElement"
-import H3Headline from "#components/common/H3Headline"
 import basic from "#docs/extend/code/basic.rcx"
 import basicImplementation from "#docs/extend/code/basicImplementation.rcx"
 import correctUse from "#docs/extend/code/correctUse.rcx"
@@ -27,12 +26,12 @@ const BasicPage = () => {
       />
       <SectionHeadline>Basic Syntax</SectionHeadline>
       <Section>
-        <p>
+        <SectionInnerParagraph>
           We pass a input component and extend it with our classmate syntax. The extend function returns a new
           component.
-        </p>
+        </SectionInnerParagraph>
         <HighlighterComponent input={basic} />
-        <p className="mt-4">Extend as often as you want:</p>
+        <SectionInnerParagraph>Extend as often as you want:</SectionInnerParagraph>
         <HighlighterComponent input={extendBasic} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
         <HighlighterComponent input={basicImplementation} />
@@ -48,7 +47,9 @@ const BasicPage = () => {
         When to use <CodeElement $size="2xl">rc.extend</CodeElement>?
       </SectionHeadline>
       <Section>
-        <p>There are two different scenarios where extending components is helpful:</p>
+        <SectionInnerParagraph>
+          There are two different scenarios where extending components is helpful:
+        </SectionInnerParagraph>
         <SectionInnerHeadline>1. Reduce redundancy</SectionInnerHeadline>
         <SectionInnerParagraph>
           When you wanna extend a "base"-component, in which you desired to set less specific styling
@@ -64,13 +65,13 @@ const BasicPage = () => {
         When to <strong>not</strong> use{" "}
       </SectionHeadline>
       <Section>
-        <p>
+        <SectionInnerParagraph>
           A classic example where you find yourself extending the same component multiple times to assign
           almost similar classnames:
-        </p>
+        </SectionInnerParagraph>
         <HighlighterComponent input={notUse} />
         <SectionInnerHeadline>Why is this bad practice?</SectionInnerHeadline>
-        <ul className="list-disc list-inside mt-4 ml-4">
+        <ul className="list-disc list-inside mb-4 ml-4">
           <li>Cluttered, redundant code</li>
           <li>Base component is likely going to be unused</li>
         </ul>

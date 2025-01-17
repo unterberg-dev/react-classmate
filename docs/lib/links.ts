@@ -20,8 +20,8 @@ export const internalLink = {
     variantsConfig: `${base}docs/typescript/variantsconfig/`,
   },
   example: {
-    advancedButton: `${base}docs/examples/advanced-button/`,
-    link: `${base}docs/examples/advanced-button/`,
+    button: `${base}docs/examples/button/`,
+    headline: `${base}docs/examples/headline/`,
   },
 }
 

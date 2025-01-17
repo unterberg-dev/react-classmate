@@ -10,6 +10,7 @@ interface CreateReactElementParams<T, E> {
   propsToFilter?: (keyof T)[]
 }
 
+// @todo: we wanna check if the output had a classname, if not remove it from the final output
 /**
  * Creates a forwardRef render component with computed class names.
  *

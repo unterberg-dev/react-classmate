@@ -23,7 +23,7 @@ const DocsStartPage = () => {
       <Section>
         <HighlighterComponent input={basic} />
         <SectionInnerHeadline>The function receives the following properties:</SectionInnerHeadline>
-        <ul className="mt-3">
+        <ul className="mb-4">
           <li>
             <CodeElement>base</CodeElement> - optional - The base classname of the component
           </li>

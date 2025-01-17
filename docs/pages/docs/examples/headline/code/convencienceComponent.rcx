@@ -1,0 +1,6 @@
+type HeadlineComponentProps = { as?: HeadlineProps["as"] } & HTMLAttributes<HTMLElement>
+const createHeadlineComponent = (level: HeadlineLevels) => {
+  return ({ as = level, ...props }: HeadlineComponentProps) => (
+    <Headline as={as} {...(as !== level ? { variant: level } : {})} {...props} />
+  )
+}

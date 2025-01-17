@@ -11,6 +11,7 @@ const List = rc.ul`
   flex 
   flex-col 
   gap-1
+  ml-2
 `
 
 const SubList = rc.ul`
@@ -19,7 +20,7 @@ const SubList = rc.ul`
   flex-col
   flex
   gap-1
-  mb-3
+  mb-2
 `
 
 const Section = rc.div``
