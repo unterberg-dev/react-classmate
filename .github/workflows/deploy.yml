@@ -20,10 +20,10 @@ jobs:
           node-version: "18"
 
       - name: Install Dependencies
-        run: npm install
+        run: cd docs && npm install
 
       - name: Build Documentation
-        run: npm run docs:publish
+        run: cd .. && npm run docs:publish
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
