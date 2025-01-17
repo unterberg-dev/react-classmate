@@ -1,7 +1,7 @@
 {
   "name": "react-classmate",
   "description": "A react tool to separate class name logic, create variants and manage styles.",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "author": "https://github.com/richard-unterberg",
   "homepage": "https://react-classmate.dev/",
   "repository": {
