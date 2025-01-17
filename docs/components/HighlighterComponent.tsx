@@ -1,17 +1,12 @@
 import { Copy } from "lucide-react"
 import { useCallback } from "react"
 import rc from "react-classmate"
-
-import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter"
-import bash from "react-syntax-highlighter/dist/esm/languages/prism/bash"
-import tsx from "react-syntax-highlighter/dist/esm/languages/prism/tsx"
-import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { clientOnly } from "vike-react/clientOnly"
 
 import Button from "#components/common/Button"
-import useThemeStore from "#hooks/useThemeStore"
+import Skeleton from "#components/common/Skeleton"
 
-SyntaxHighlighter.registerLanguage("tsx", tsx)
-SyntaxHighlighter.registerLanguage("bash", bash)
+const HighlighterClient = clientOnly(() => import("#components/HighlighterClient"))
 
 const CopyToClipboard = ({ handleCopy }: { handleCopy: () => void }) => {
   return (
@@ -54,8 +49,6 @@ const HighlighterComponent = ({
   noGutter = false,
   noCopy = false,
 }: HighlighterComponentProps) => {
-  const { theme } = useThemeStore()
-
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(input)
   }, [input])
@@ -63,20 +56,11 @@ const HighlighterComponent = ({
   return (
     <Highlighter $noGutter={noGutter}>
       {!noCopy && <CopyToClipboard handleCopy={handleCopy} />}
-      <SyntaxHighlighter
-        customStyle={{
-          padding: 16,
-          margin: 0,
-          fontSize: 14,
-          maxHeight: 420,
-          minWidth: "none",
-          overflow: "auto",
-        }}
+      <HighlighterClient
+        fallback={<Skeleton className="h-30 !bg-light" />}
+        input={input}
         language={language}
-        style={theme === "dark" ? oneDark : oneLight}
-      >
-        {input}
-      </SyntaxHighlighter>
+      />
     </Highlighter>
   )
 }
