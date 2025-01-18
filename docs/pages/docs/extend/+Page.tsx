@@ -31,16 +31,16 @@ const BasicPage = () => {
           component.
         </SectionInnerParagraph>
         <HighlighterComponent input={basic} />
-        <SectionInnerParagraph>Extend as often as you want:</SectionInnerParagraph>
+        <SectionInnerParagraph>Extend as often as you wish:</SectionInnerParagraph>
         <HighlighterComponent input={extendBasic} />
-        <SectionInnerHeadline>Implementation</SectionInnerHeadline>
-        <HighlighterComponent input={basicImplementation} />
         <DocsNotebox icon={CircleHelp}>
           Unsure what we do in the interpolation above? Head back to the{" "}
           <LinkComponent href={internalLink.docs.basic} className="!text-warningDark">
             <CodeElement $color="warning">Base</CodeElement> documentation page
           </LinkComponent>
         </DocsNotebox>
+        <SectionInnerHeadline>Implementation</SectionInnerHeadline>
+        <HighlighterComponent input={basicImplementation} />
       </Section>
 
       <SectionHeadline>

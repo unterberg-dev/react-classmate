@@ -8,7 +8,7 @@ const Layout = rc.div`
   h-full
   min-h-dvh
   relative
-  z-15
+  z-15 
   ${APP_CONFIG.headerHeightConfig.footerPaddingBottomClass}
 `
 

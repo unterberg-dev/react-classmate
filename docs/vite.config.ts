@@ -5,8 +5,14 @@ import vike from "vike/plugin"
 import { defineConfig } from "vite"
 import rawPlugin from "vite-raw-plugin"
 
+import viteFlattenTemplatePlugin from "#lib/viteFlattenTemplatePlugin"
+
 export default defineConfig({
   plugins: [
+    // remove line breaks from rc interpolated strings
+    viteFlattenTemplatePlugin({
+      handles: ["rc"],
+    }),
     vike({
       prerender: true,
       trailingSlash: true,
@@ -14,8 +20,8 @@ export default defineConfig({
     rawPlugin({
       fileRegex: /\.rcx$/,
     }),
-    UnoCSS(),
     react({}),
+    UnoCSS(),
   ],
   ssr: {
     noExternal: ["react-syntax-highlighter"],

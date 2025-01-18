@@ -51,7 +51,7 @@ export const menuData: MenuSection[] = [
     title: "Utils",
     items: [
       {
-        label: "Interpolation",
+        label: "Interpolation / Literals",
         icon: TextCursorInput,
         // subItems for nested links
         subItems: [

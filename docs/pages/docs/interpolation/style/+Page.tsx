@@ -1,5 +1,3 @@
-import { CircleAlert } from "lucide-react"
-
 import { DocsHead } from "#components/DocsHead"
 import HighlighterComponent from "#components/HighlighterComponent"
 import CodeElement from "#components/common/CodeElement"
@@ -19,7 +17,7 @@ const InterpolationStylePage = () => {
         excerpt={
           <>
             While the library is mainly class name based, we can use our old friend CSS-in-JS alongside the{" "}
-            interpolation string. This allows us to add CSS to the components.
+            Template strings. This allows us to add CSS to the components.
           </>
         }
       />

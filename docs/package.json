@@ -26,6 +26,7 @@
     "@types/react-dom": "^19.0.2",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^4.3.4",
+    "terser": "^5.37.0",
     "typescript": "^5.7.2",
     "unocss": "^0.65.3",
     "unocss-preset-animations": "^1.1.0",

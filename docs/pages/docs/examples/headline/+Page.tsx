@@ -155,15 +155,16 @@ const HeadlineExamplePage = () => {
         </SectionInnerParagraph>
         <HighlighterComponent input={defineTypes} />
         <SectionInnerParagraph>
-          Additionally, we introduce a custom variant type (`RcVariantType`) that includes both the headline
-          levels and a "blank" variant. The "blank" variant allows the component to render non-heading
-          elements without applying any specific headline styles.
+          Additionally, we introduce a custom variant type <CodeElement>RcVariantType</CodeElement> that
+          includes both the headline levels and a "blank" variant. The "blank" variant allows the component to
+          render non-heading elements without applying any specific headline styles.
         </SectionInnerParagraph>
 
         <SectionInnerHeadline>2. Setup Variants</SectionInnerHeadline>
         <SectionInnerParagraph>
-          Here, we configure the styling variants for each headline level using the `VariantsConfig` type from
-          `react-classmate`. This configuration maps each variant to specific CSS classes or dynamic styles.
+          Here, we configure the styling variants for each headline level using the{" "}
+          <CodeElement>VariantsConfig</CodeElement> type from <CodeElement>react-classmate</CodeElement>. This
+          configuration maps each variant to specific CSS classes or dynamic styles.
         </SectionInnerParagraph>
         <HighlighterComponent input={setupVariants} />
         <SectionInnerParagraph>

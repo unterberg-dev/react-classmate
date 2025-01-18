@@ -57,9 +57,16 @@ const HighlighterComponent = ({
       {!noCopy && <CopyToClipboard handleCopy={handleCopy} />}
       <HighlighterClient
         fallback={
-          <div className="h-full w-full overflow-scroll max-h-105 p-4">
-            <code className="w-full text-sm block leading-5 text-grayDark">
-              <pre>{input}</pre>
+          <div className="h-full w-full">
+            <code className="w-full block overflow-hidden max-h-102 text-gray">
+              <pre
+                className="p-4 overflow-hidden font-mono text-sm"
+                style={{
+                  lineHeight: 1.49,
+                }}
+              >
+                {input}
+              </pre>
             </code>
           </div>
         }
