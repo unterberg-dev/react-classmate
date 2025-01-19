@@ -36,11 +36,7 @@ const DocsStartPage = () => {
         <DocsNotebox className="!mb-0">
           <p>
             The <CodeElement $color="warning">default</CodeElement> for CJS is currently needed because the
-            package is designed as ES module. Named CJS export version{" "}
-            <LinkComponent href="https://github.com/richard-unterberg/react-classmate/issues/7">
-              is coming soon
-            </LinkComponent>
-            .
+            package is designed as ES module. Named CJS export version is coming soon.
           </p>
         </DocsNotebox>
       </Section>
@@ -69,9 +65,7 @@ const DocsStartPage = () => {
                 <LinkComponent href="https://www.npmjs.com/package/react-classmate">npm</LinkComponent>
               </li>
               <li>
-                <LinkComponent href="https://github.com/richard-unterberg/react-classmate">
-                  Github
-                </LinkComponent>
+                <LinkComponent href={externalLink.github}>Github</LinkComponent>
               </li>
             </ul>
           </Section>
