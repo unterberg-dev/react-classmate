@@ -7,7 +7,7 @@ export default function HeadDefault() {
       <link rel="icon" href={`${APP_CONFIG.viteUrl}favicon.ico`} />
       {/* Open Graph */}
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={`${APP_CONFIG.viteUrl}`} />
+      <meta property="og:url" content="https://react-classmate.dev/" />
       <meta property="og:title" content="react-classmate" />
       <meta
         property="og:description"

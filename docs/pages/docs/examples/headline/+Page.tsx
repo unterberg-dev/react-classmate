@@ -86,7 +86,7 @@ const HeadlineExamplePage = () => {
         </SectionInnerParagraph>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <aside>
-            <SectionInnerHeadline>Regular Ordering</SectionInnerHeadline>
+            <SectionInnerHeadline>Regular Elements</SectionInnerHeadline>
             <HighlighterComponent input={headlineHelperCodeRegular} />
             <SectionInnerExampleCode>
               <H1Headline>Heading 1</H1Headline>
@@ -98,7 +98,7 @@ const HeadlineExamplePage = () => {
             </SectionInnerExampleCode>
           </aside>
           <aside>
-            <SectionInnerHeadline>Custom Order</SectionInnerHeadline>
+            <SectionInnerHeadline>Same style, different element</SectionInnerHeadline>
             <HighlighterComponent input={headlineHelperCodeCustom} />
             <SectionInnerExampleCode>
               <H1Headline as="div">Heading 1</H1Headline>
