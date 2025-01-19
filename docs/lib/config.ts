@@ -1,6 +1,6 @@
 export const APP_CONFIG = {
   viteUrl: `${import.meta.env.BASE_URL}`,
-  prodUrl: "https://react-classmate.dev",
+  prodUrl: import.meta.env.PROD ? "https://react-classmate.dev" : "http://localhost:3000",
   defaultDescription: "A react tool to separate class name logic, create variants and manage styles.",
   headerHeightConfig: {
     heightClass: " h-12 lg:h-16",
