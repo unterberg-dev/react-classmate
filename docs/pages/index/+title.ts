@@ -1,1 +1,1 @@
-export default () => "Overview | react-classmate"
+export default () => "React Classmate - Simplify React Component Styling & Class Management"

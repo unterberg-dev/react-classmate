@@ -1,1 +1,1 @@
-export default () => "Base Component | react-classmate"
+export default () => "Base Implementation - React Classmate Documentation"

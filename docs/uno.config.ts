@@ -144,7 +144,7 @@ export default defineConfig({
   },
   preflights: [
     {
-      // to get use of the theme colors as css variables
+      // export theme to css variables
       getCSS: ({ theme }) => {
         let cssVariables = ""
 

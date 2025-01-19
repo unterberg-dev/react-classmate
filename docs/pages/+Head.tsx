@@ -1,20 +1,29 @@
+import { usePageContext } from "vike-react/usePageContext"
 import { APP_CONFIG } from "#lib/config"
 
 export default function HeadDefault() {
+  const { urlParsed, config } = usePageContext()
+
+  const ogDesc = (config.description || APP_CONFIG.defaultDescription) as string
+  const ogTitle = (config.title || APP_CONFIG.defaultDescription) as string
+  const ogLang = (config.lang || "en") as string
+
+  const canonicalUrl = `${APP_CONFIG.prodUrl}${urlParsed.pathname}`
+
   return (
     <>
-      <link rel="manifest" href={`${APP_CONFIG.viteUrl}site.webmanifest`} />
-      <link rel="icon" href={`${APP_CONFIG.viteUrl}favicon.ico`} />
+      <link rel="manifest" href="site.webmanifest" />
+      <link rel="icon" href="favicon.ico" />
+      <link rel="canonical" href={canonicalUrl} />
+
       {/* Open Graph */}
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://react-classmate.dev/" />
-      <meta property="og:title" content="react-classmate" />
-      <meta
-        property="og:description"
-        content="A react tool to separate class name logic, create variants and manage styles."
-      />
-      <meta property="og:locale" content="en" />
-      <meta property="og:site_name" content="react-classmate" />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:title" content={ogTitle} />
+      <meta property="og:description" content={ogDesc} />
+      <meta property="og:locale" content={ogLang} />
+
+      {/* Inline dark mode check - zero delay set */}
       <script
         id="check-dark-mode"
         nonce="2t4f394ea52c937db4f319231a53fcc8"

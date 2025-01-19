@@ -10,7 +10,7 @@ interface DocsHeadProps extends HeadlineGroupHeadlineStyle {
   centered?: boolean
 }
 
-export const DocsHead = ({ excerpt, main, pre, centered, headingStyle }: DocsHeadProps) => (
+export const DocsHead = ({ excerpt, main, pre, centered, headingStyle = "h1" }: DocsHeadProps) => (
   <>
     <HeadlineGroup main={main} pre={pre} centered={centered} headingStyle={headingStyle} />
     {excerpt && <Excerpt $centered={centered}>{excerpt}</Excerpt>}

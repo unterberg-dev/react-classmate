@@ -1,1 +1,1 @@
-export default () => "Variants | react-classmate"
+export default () => "Variants - React Classmate Documentation"

@@ -26,7 +26,7 @@ interface HeadlineGroupProps extends HeadlineGroupHeadlineStyle {
 const HeadlineGroup = ({ main, pre, centered = false, headingStyle = "h2" }: HeadlineGroupProps) => (
   <>
     <PreHeadline $centered={centered}>{pre}</PreHeadline>
-    <MainHeadline as="h2" variant={headingStyle} $centered={centered}>
+    <MainHeadline as={headingStyle} variant={headingStyle} $centered={centered}>
       {main}
     </MainHeadline>
   </>

@@ -1,1 +1,1 @@
-export default () => "Example Headline Component | react-classmate"
+export default () => "Building Headline Components with Tailwind CSS - React Classmate Documentation"

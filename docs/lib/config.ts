@@ -1,5 +1,7 @@
 export const APP_CONFIG = {
   viteUrl: `${import.meta.env.BASE_URL}`,
+  prodUrl: "https://react-classmate.dev",
+  defaultDescription: "A react tool to separate class name logic, create variants and manage styles.",
   headerHeightConfig: {
     heightClass: " h-12 lg:h-16",
     footerPaddingBottomClass: " pb-12 lg:pb-16",
