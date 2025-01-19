@@ -1,1 +1,1 @@
-export default () => "Get Started with React Classmate - Installation and Setup Guide"
+export default () => "Get Started with React Classmate - Installation and Setup"

@@ -5,7 +5,7 @@ import DocsNotebox from "#components/DocsNotebox"
 import HighlighterComponent from "#components/HighlighterComponent"
 import Button from "#components/common/Button"
 import CodeElement from "#components/common/CodeElement"
-import { H5Headline } from "#components/common/Headline"
+import { H4Headline, H5Headline } from "#components/common/Headline"
 import LinkComponent from "#components/common/LinkComponent"
 import { Section, SectionHeadline, SectionInnerParagraph } from "#docs/elements"
 import { internalLink } from "#lib/links"
@@ -80,7 +80,7 @@ const ButtonPage = () => (
       </SectionInnerParagraph>
       <HighlighterComponent input={advancedButtonCode} />
       <DocsNotebox className="!mb-0">
-        <H5Headline>
+        <H5Headline as="h3">
           Usage of the Important <CodeElement>!</CodeElement> Prefix in Tailwind
         </H5Headline>
         <SectionInnerParagraph>

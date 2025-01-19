@@ -1,1 +1,1 @@
-export default () => "Styling Button Components with Tailwind CSS - React Classmate Documentation"
+export default () => "Flexible Tailwind Button Component with React Classmate"
