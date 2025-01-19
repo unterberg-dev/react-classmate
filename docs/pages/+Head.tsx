@@ -8,7 +8,7 @@ export default function HeadDefault() {
   const ogTitle = (config.title || APP_CONFIG.defaultDescription) as string
   const ogLang = (config.lang || "en") as string
 
-  const canonicalUrl = `${APP_CONFIG.prodUrl}${urlParsed.pathname}`
+  const canonicalUrl = `${APP_CONFIG.prodUrl}${urlParsed.pathname}/`
 
   return (
     <>
