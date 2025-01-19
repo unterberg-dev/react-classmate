@@ -12,8 +12,8 @@ export default function HeadDefault() {
 
   return (
     <>
-      <link rel="manifest" href={`${APP_CONFIG.viteUrl}/site.webmanifest`} />
-      <link rel="icon" href={`${APP_CONFIG.viteUrl}/favicon.ico`} />
+      <link rel="manifest" href={`${APP_CONFIG.prodUrl}/site.webmanifest`} />
+      <link rel="icon" href={`${APP_CONFIG.prodUrl}/favicon.ico`} />
       <link rel="canonical" href={canonicalUrl} />
 
       {/* Open Graph */}
