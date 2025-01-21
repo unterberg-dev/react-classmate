@@ -36,7 +36,6 @@ async function criticalCss() {
         pruneSource: true,
         reduceInlineStyles: false,
         preload: "body",
-        logLevel: "trace",
       })
 
       for (const file of htmlFiles) {
@@ -50,45 +49,68 @@ async function criticalCss() {
   }
 }
 
-// New function to remove duplicate Uno CSS links
-async function removeDuplicateUnoCss() {
+// New function to empty duplicate Uno CSS files
+async function emptyDuplicateUnoCss() {
   try {
     const htmlFiles = await findHtmlFiles(targetDir)
     if (htmlFiles.length === 0) {
-      console.log("No HTML files found for duplicate Uno CSS removal.")
+      console.log("No HTML files found for duplicate Uno CSS processing.")
       return
     }
 
+    // To keep track of which CSS files have been emptied to avoid redundant operations
+    const emptiedCssFiles = new Set<string>()
+
     for (const file of htmlFiles) {
-      let fileContent = await fs.promises.readFile(file, "utf-8")
+      const fileContent = await fs.promises.readFile(file, "utf-8")
+
+      // Regular expression to match <link> tags with href starting with "/assets/static/uno-" and ending with ".css"
       const unoLinkRegex = /<link\s+[^>]*href="(\/assets\/static\/uno-[^"]+\.css)"[^>]*>/g
 
       const matches = [...fileContent.matchAll(unoLinkRegex)]
 
       if (matches.length > 1) {
-        console.log(`Duplicate Uno CSS links found in ${file}, removing duplicates...`)
+        console.log(`Duplicate Uno CSS links found in ${file}, processing duplicates...`)
 
-        const linksToRemove = matches.slice(1)
+        // Keep the first occurrence and process the rest
+        const duplicateMatches = matches.slice(1)
 
-        for (const match of linksToRemove) {
-          const linkTag = match[0]
-          fileContent = fileContent.replace(linkTag, "")
+        for (const match of duplicateMatches) {
+          const unoHref = match[1] // Extracted href value
+
+          // Resolve the CSS file path
+          // Remove the leading '/' to correctly join with targetDir
+          const relativeCssPath = unoHref.startsWith("/") ? unoHref.slice(1) : unoHref
+          const cssFilePath = path.join(targetDir, relativeCssPath)
+
+          if (!emptiedCssFiles.has(cssFilePath)) {
+            try {
+              // Check if the CSS file exists
+              await fs.promises.access(cssFilePath, fs.constants.F_OK)
+
+              // Empty the CSS file by truncating its content
+              await fs.promises.truncate(cssFilePath, 0)
+              console.log(`Emptied duplicate CSS file: ${cssFilePath}`)
+
+              // Mark this CSS file as emptied
+              emptiedCssFiles.add(cssFilePath)
+            } catch (cssError) {
+              console.error(`Error processing CSS file ${cssFilePath}:`, cssError)
+            }
+          } else {
+            console.log(`CSS file already emptied: ${cssFilePath}`)
+          }
         }
-
-        fileContent = fileContent.replace(/\n\s*\n/g, "\n")
-
-        await fs.promises.writeFile(file, fileContent)
-        console.log(`Duplicates removed from ${file}`)
       }
     }
   } catch (error) {
-    console.error("Error while removing duplicate Uno CSS links:", error)
+    console.error("Error while emptying duplicate Uno CSS files:", error)
   }
 }
 
 // Main postBuild function to execute all post-build tasks sequentially
 async function postBuild() {
-  // await removeDuplicateUnoCss()
+  await emptyDuplicateUnoCss()
   await criticalCss()
 }
 
