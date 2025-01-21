@@ -88,7 +88,7 @@ async function removeDuplicateUnoCss() {
 
 // Main postBuild function to execute all post-build tasks sequentially
 async function postBuild() {
-  await removeDuplicateUnoCss()
+  // await removeDuplicateUnoCss()
   await criticalCss()
 }
 
