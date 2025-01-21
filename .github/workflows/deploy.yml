@@ -14,30 +14,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Get npm cache directory path
-        id: npm-cache-dir-path
-        run: |
-          echo "::set-output name=dir::$(npm cache dir)"
-          echo "::set-output name=version::$(npm -v)"
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
 
       - name: Cache node_modules
-        id: cache-npm
+        id: cache-nodemodules
         uses: actions/cache@v3
         with:
-          path: |
-            **/node_modules
-            ${{ steps.npm-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-npm-${{ steps.npm-cache-dir-path.outputs.version }}-${{ hashFiles('**/package-lock.json') }}
+          path: docs/node_modules
+          key: ${{ runner.os }}-cache-docs-nodemodules-${{ hashFiles('docs/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node-modules-
+            ${{ runner.os }}-cache-docs-nodemodules-
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}
         name: List the state of node modules
         continue-on-error: true
         run: cd docs && npm list
