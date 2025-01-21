@@ -209,10 +209,10 @@ async function postBuild() {
   try {
     const htmlFiles = await findHtmlFiles(CONFIG.targetDir)
 
-    // Execute tasks concurrently but within controlled limits
+    // execute tasks concurrently
     await emptyDuplicateUnoCss(htmlFiles)
     await criticalCss(htmlFiles)
-    await addBackgroundToHtmlTag(htmlFiles)
+    // await addBackgroundToHtmlTag(htmlFiles)
 
     await markPostBuildRun()
 
