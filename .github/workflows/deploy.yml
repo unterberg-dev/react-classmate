@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install Dependencies & Cache node_modules
+      - name: Cache node_modules
         id: cache-nodemodules
         uses: actions/cache@v3
         with:
@@ -28,16 +28,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cache-docs-nodemodules-
 
-      - if: steps.cache-docs-nodemodules.outputs.cache-hit != 'true'
-        name: Install if no cache hit
-        continue-on-error: true
+      - name: Install Dependencies if Cache Miss
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: |
-          cd docs && npm install
+          cd docs
+          npm install
           echo "Listing node_modules as cache was not hit:"
           ls -la node_modules
 
       - name: Build Documentation
-        run: npm run docs:publish
+        run: |
+          npm run docs:publish
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
