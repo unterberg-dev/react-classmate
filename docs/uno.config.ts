@@ -112,7 +112,6 @@ export const darkModeOverrides = {
 
 export default defineConfig({
   presets: [
-    presetUno(),
     presetTheme<Theme>({
       theme: {
         dark: {
@@ -121,6 +120,7 @@ export default defineConfig({
       },
     }) as Preset<Theme>,
     presetAnimations({ fillMode: "both" }),
+    presetUno(),
   ],
   // gotta catch em all
   content: {

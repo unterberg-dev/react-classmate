@@ -30,18 +30,18 @@ export default function HeadDefault() {
       {/* prevent flashing content due beasties defer */}
       <style>
         {`
-          :root {
-            --color-light: ${lightColor};
-            --color-dark: ${darkColor};
-          }
-          html.dark {
-            --color-light: ${darkColor};
-            --color-dark: ${lightColor};
-          }
+          /* beasties:include start */
           body, html {
-            background-color: var(--color-light);
-            color: var(--color-dark);
+            background-color: ${lightColor};
+            color: ${darkColor};
           }
+          @media (prefers-color-scheme: dark) {
+            body, html {
+              background-color: ${darkColor};
+              color: ${lightColor};
+            }
+          }
+          /* beasties:include end */
         `}
       </style>
 

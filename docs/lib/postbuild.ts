@@ -33,8 +33,8 @@ async function criticalCss() {
     } else {
       const beasties = new Beasties({
         path: targetDir,
-        reduceInlineStyles: false,
         preload: "body",
+        // pruneSource: true,
       })
 
       for (const file of htmlFiles) {
@@ -109,7 +109,7 @@ async function emptyDuplicateUnoCss() {
 
 // Main postBuild function to execute all post-build tasks sequentially
 async function postBuild() {
-  // await emptyDuplicateUnoCss()
+  await emptyDuplicateUnoCss()
   await criticalCss()
 }
 
