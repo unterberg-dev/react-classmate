@@ -71,6 +71,7 @@ const Header = () => {
       }, APP_CONFIG.transition.time)
     }
 
+    // the case when the user refreshes the page while being scrolled down or history backs to the page which was scrolled down
     if (window.scrollY > 5) {
       setScrolled(true)
     }

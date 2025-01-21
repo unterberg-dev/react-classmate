@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "vike build",
+    "build": "vike build && npm run critical",
     "dev": "vike dev",
     "preview": "vike preview",
     "prod": "npm run build && npm run preview",
     "lint": "biome lint --write .",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "critical": "npx tsx lib/critical.ts"
   },
   "dependencies": {
     "lucide-react": "^0.469.0",
@@ -26,6 +27,7 @@
     "@types/react-dom": "^19.0.2",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^4.3.4",
+    "beasties": "^0.2.0",
     "terser": "^5.37.0",
     "typescript": "^5.7.2",
     "unocss": "^0.65.3",
