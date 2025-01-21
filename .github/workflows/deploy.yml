@@ -49,9 +49,7 @@ jobs:
           ls -la docs/node_modules
 
       - name: Build Documentation
-        run: |
-          cd docs
-          npm run docs:publish
+        run: npm run docs:publish
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
