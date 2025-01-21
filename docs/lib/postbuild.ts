@@ -24,6 +24,9 @@ async function findHtmlFiles(dir: string, htmlFiles: string[] = []): Promise<str
 
 const targetDir = path.resolve(__dirname, "../dist/client")
 
+// Path to the flag file indicating postBuild has run
+const flagFilePath = path.join(targetDir, "postbuild.done")
+
 // Existing criticalCss function
 async function criticalCss() {
   try {
@@ -87,12 +90,9 @@ async function emptyDuplicateUnoCss() {
               // Check if the CSS file exists
               await fs.promises.access(cssFilePath, fs.constants.F_OK)
 
-              // Empty the CSS file by truncating its content
-              // await fs.promises.truncate(cssFilePath, 0)
-              // console.log(`Emptied duplicate CSS file: ${cssFilePath}`)
-
-              // replace file content with one comment line
+              // Replace file content with one comment line
               await fs.promises.writeFile(cssFilePath, "/* empty */")
+              console.log(`Emptied duplicate CSS file: ${cssFilePath}`)
 
               // Mark this CSS file as emptied
               emptiedCssFiles.add(cssFilePath)
@@ -110,10 +110,42 @@ async function emptyDuplicateUnoCss() {
   }
 }
 
+// New function to check if postBuild has already run
+async function hasPostBuildRun(): Promise<boolean> {
+  try {
+    await fs.promises.access(flagFilePath, fs.constants.F_OK)
+    return true // Flag file exists
+  } catch {
+    return false // Flag file does not exist
+  }
+}
+
+// New function to mark that postBuild has run by creating the flag file
+async function markPostBuildRun(): Promise<void> {
+  try {
+    await fs.promises.writeFile(flagFilePath, "Post-build tasks have been executed.", { flag: "w" })
+    console.log(`Post-build flag file created at ${flagFilePath}`)
+  } catch (error) {
+    console.error("Error creating post-build flag file:", error)
+  }
+}
+
 // Main postBuild function to execute all post-build tasks sequentially
 async function postBuild() {
+  const alreadyRun = await hasPostBuildRun()
+  if (alreadyRun) {
+    console.log("Post-build tasks have already been executed. Skipping.")
+    return
+  }
+
+  console.log("Starting post-build tasks...")
+
   await emptyDuplicateUnoCss()
   await criticalCss()
+
+  await markPostBuildRun()
+
+  console.log("Post-build tasks completed successfully.")
 }
 
 // Execute the postBuild function
