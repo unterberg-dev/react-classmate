@@ -21,40 +21,13 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Cache node_modules
-        id: cache-nodemodules
-        uses: actions/cache@v3
-        with:
-          path: docs/node_modules
-          key: ${{ runner.os }}-cache-docs-nodemodules-${{ hashFiles('docs/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-cache-docs-nodemodules-
-
-      - name: Install Dependencies if Cache Miss
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+      - name: Install Dependencies
         run: |
           cd docs
           npm ci
-          echo "Listing node_modules as cache was not hit:"
-          ls -la node_modules
-
-      - name: Log node_modules Contents if Cache Hit
-        if: steps.cache-nodemodules.outputs.cache-hit == 'true'
-        run: |
-          echo "Cache was hit. Listing node_modules contents:"
-          ls -la docs/node_modules
-          echo "Checking for 'vike' package:"
-          ls -la docs/node_modules/.bin
-          npm ls vike
 
       - name: Build Documentation
         run: npm run docs:publish
-
-      # - name: Deploy to GitHub Pages
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./docs/dist/client
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
