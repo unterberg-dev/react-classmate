@@ -163,10 +163,14 @@ export default defineConfig({
             }
           }
         }
-        return `
-          body, html {
+
+        /* 
             background-color: ${theme.colors?.light};
             color: ${theme.colors?.dark};
+        */
+
+        return `
+          body, html {
             font-family: ${theme.fontFamily?.sans};
             font-size: ${theme.fontSize?.base[0]};
           }
