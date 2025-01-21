@@ -34,7 +34,7 @@ async function criticalCss() {
       const beasties = new Beasties({
         path: targetDir,
         preload: "body",
-        pruneSource: true,
+        // pruneSource: true,
       })
 
       for (const file of htmlFiles) {
@@ -88,8 +88,11 @@ async function emptyDuplicateUnoCss() {
               await fs.promises.access(cssFilePath, fs.constants.F_OK)
 
               // Empty the CSS file by truncating its content
-              await fs.promises.truncate(cssFilePath, 0)
-              console.log(`Emptied duplicate CSS file: ${cssFilePath}`)
+              // await fs.promises.truncate(cssFilePath, 0)
+              // console.log(`Emptied duplicate CSS file: ${cssFilePath}`)
+
+              // replace file content with one comment line
+              await fs.promises.writeFile(cssFilePath, "/* empty */")
 
               // Mark this CSS file as emptied
               emptiedCssFiles.add(cssFilePath)
@@ -109,7 +112,7 @@ async function emptyDuplicateUnoCss() {
 
 // Main postBuild function to execute all post-build tasks sequentially
 async function postBuild() {
-  // await emptyDuplicateUnoCss()
+  await emptyDuplicateUnoCss()
   await criticalCss()
 }
 
