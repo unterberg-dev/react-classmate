@@ -19,14 +19,14 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Cache NPM Cache
-        id: cache-npm-cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-cache-
+      # - name: Cache NPM Cache
+      #   id: cache-npm-cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.npm
+      #     key: ${{ runner.os }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-npm-cache-
 
       - name: Cache node_modules
         id: cache-node-modules
