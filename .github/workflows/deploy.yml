@@ -32,12 +32,22 @@ jobs:
         if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: |
           cd docs
-          npm install
+          npm ci
           echo "Listing node_modules as cache was not hit:"
           ls -la node_modules
 
+      - name: Log node_modules Contents if Cache Hit
+        if: steps.cache-nodemodules.outputs.cache-hit == 'true'
+        run: |
+          echo "Cache was hit. Listing node_modules contents:"
+          ls -la docs/node_modules
+          echo "Checking for 'vike' package:"
+          ls -la docs/node_modules/.bin
+          npm ls vike
+
       - name: Build Documentation
         run: |
+          cd docs
           npm run docs:publish
 
       - name: Deploy to GitHub Pages
