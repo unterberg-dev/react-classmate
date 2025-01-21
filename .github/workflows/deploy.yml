@@ -29,7 +29,7 @@ jobs:
             ${{ runner.os }}-cache-docs-nodemodules-
 
       - if: ${{ steps.cache-docs-nodemodules.cache-hit != 'true' }}
-        name: List the state of node modules
+        name: Install if no cache hit
         continue-on-error: true
         run: cd docs && npm install
 
