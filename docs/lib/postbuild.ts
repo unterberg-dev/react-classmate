@@ -34,6 +34,7 @@ async function criticalCss() {
       const beasties = new Beasties({
         path: targetDir,
         pruneSource: true,
+        reduceInlineStyles: false,
         preload: "body",
         logLevel: "trace",
       })
