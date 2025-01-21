@@ -30,7 +30,7 @@ jobs:
         run: npm run docs:publish
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4
+        uses: JamesIves/github-pages-deploy-action@4.7.2
         with:
           branch: gh-pages
           folder: docs/dist/client
