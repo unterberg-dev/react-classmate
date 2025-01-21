@@ -1,136 +1,202 @@
-import fs from "node:fs"
+import fs from "node:fs/promises"
 import path from "node:path"
 import { dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 import Beasties from "beasties"
+import { JSDOM } from "jsdom"
+import pLimit from "p-limit"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-// Function to recursively find all HTML files in a directory
-async function findHtmlFiles(dir: string, htmlFiles: string[] = []): Promise<string[]> {
-  const entries = await fs.promises.readdir(dir, { withFileTypes: true })
+const CONFIG = {
+  targetDir: path.resolve(__dirname, "../dist/client"),
+  flagFileName: "postbuild.done",
+  backgroundColor: "#171717",
+  concurrency: 5,
+}
 
-  for (const entry of entries) {
+// Find all HTML files recursively in a directory
+async function findHtmlFiles(dir: string, htmlFiles: string[] = []) {
+  const entries = await fs.readdir(dir, { withFileTypes: true })
+
+  const promises = entries.map(async (entry) => {
     const fullPath = path.join(dir, entry.name)
     if (entry.isDirectory()) {
       await findHtmlFiles(fullPath, htmlFiles)
     } else if (entry.isFile() && path.extname(entry.name).toLowerCase() === ".html") {
       htmlFiles.push(fullPath)
     }
-  }
+  })
+
+  await Promise.all(promises)
   return htmlFiles
 }
 
-const targetDir = path.resolve(__dirname, "../dist/client")
-
-// Path to the flag file indicating postBuild has run
-const flagFilePath = path.join(targetDir, "postbuild.done")
-
-// Existing criticalCss function
-async function criticalCss() {
+// Check if a file exists
+async function fileExists(filePath: string) {
   try {
-    const htmlFiles = await findHtmlFiles(targetDir)
-    if (htmlFiles.length === 0) {
-      console.log("No HTML files found.")
-    } else {
-      const beasties = new Beasties({
-        path: targetDir,
-        preload: "body",
-        pruneSource: true,
-      })
-
-      for (const file of htmlFiles) {
-        const fileContent = await fs.promises.readFile(file, "utf-8")
-        const inlined = await beasties.process(fileContent)
-        await fs.promises.writeFile(file, inlined)
-      }
-    }
-  } catch (error) {
-    console.error("Error while processing critical CSS:", error)
+    await fs.access(filePath)
+    return true
+  } catch {
+    return false
   }
 }
 
-// New function to empty duplicate Uno CSS files
-async function emptyDuplicateUnoCss() {
-  try {
-    const htmlFiles = await findHtmlFiles(targetDir)
-    if (htmlFiles.length === 0) {
-      console.log("No HTML files found for duplicate Uno CSS processing.")
-      return
-    }
+// Process Critical CSS using Beasties
+async function criticalCss(htmlFiles: string[]) {
+  if (htmlFiles.length === 0) {
+    console.log("No HTML files found for critical CSS processing.")
+    return
+  }
 
-    // To keep track of which CSS files have been emptied to avoid redundant operations
-    const emptiedCssFiles = new Set<string>()
+  const beasties = new Beasties({
+    path: CONFIG.targetDir,
+    preload: "body",
+    pruneSource: true,
+  })
 
-    for (const file of htmlFiles) {
-      const fileContent = await fs.promises.readFile(file, "utf-8")
+  const limit = pLimit(CONFIG.concurrency)
 
-      // Regular expression to match <link> tags with href starting with "/assets/static/uno-" and ending with ".css"
-      const unoLinkRegex = /<link\s+[^>]*href="(\/assets\/static\/uno-[^"]+\.css)"[^>]*>/g
+  const tasks = htmlFiles.map((file) =>
+    limit(async () => {
+      try {
+        const fileContent = await fs.readFile(file, "utf-8")
+        const inlined = await beasties.process(fileContent)
+        await fs.writeFile(file, inlined)
+        console.log(`Processed critical CSS for: ${file}`)
+      } catch (error) {
+        console.error(`Error processing critical CSS for ${file}:`, error)
+      }
+    }),
+  )
 
-      const matches = [...fileContent.matchAll(unoLinkRegex)]
+  await Promise.all(tasks)
+}
 
-      if (matches.length > 1) {
-        console.log(`Duplicate Uno CSS links found in ${file}, processing duplicates...`)
+// Empty Duplicate Uno CSS Files
+async function emptyDuplicateUnoCss(htmlFiles: string[]) {
+  if (htmlFiles.length === 0) {
+    console.log("No HTML files found for duplicate Uno CSS processing.")
+    return
+  }
 
-        // Keep the first occurrence and process the rest
-        const duplicateMatches = matches.slice(1)
+  const emptiedCssFiles = new Set()
+  const unoLinkRegex = /<link\s+[^>]*href="(\/assets\/static\/uno-[^"]+\.css)"[^>]*>/g
 
-        for (const match of duplicateMatches) {
-          const unoHref = match[1] // Extracted href value
+  const limit = pLimit(CONFIG.concurrency)
 
-          // Resolve the CSS file path
-          // Remove the leading '/' to correctly join with targetDir
-          const relativeCssPath = unoHref.startsWith("/") ? unoHref.slice(1) : unoHref
-          const cssFilePath = path.join(targetDir, relativeCssPath)
+  const tasks = htmlFiles.map((file) =>
+    limit(async () => {
+      try {
+        const fileContent = await fs.readFile(file, "utf-8")
+        const matches = [...fileContent.matchAll(unoLinkRegex)]
 
-          if (!emptiedCssFiles.has(cssFilePath)) {
-            try {
-              // Check if the CSS file exists
-              await fs.promises.access(cssFilePath, fs.constants.F_OK)
+        if (matches.length > 1) {
+          console.log(`Duplicate Uno CSS links found in ${file}, processing duplicates...`)
 
-              // Replace file content with one comment line
-              await fs.promises.writeFile(cssFilePath, "/* empty */")
-              console.log(`Emptied duplicate CSS file: ${cssFilePath}`)
+          const duplicateMatches = matches.slice(1)
 
-              // Mark this CSS file as emptied
-              emptiedCssFiles.add(cssFilePath)
-            } catch (cssError) {
-              console.error(`Error processing CSS file ${cssFilePath}:`, cssError)
+          for (const match of duplicateMatches) {
+            const unoHref = match[1]
+
+            const relativeCssPath = unoHref.startsWith("/") ? unoHref.slice(1) : unoHref
+            const cssFilePath = path.join(CONFIG.targetDir, relativeCssPath)
+
+            if (!emptiedCssFiles.has(cssFilePath)) {
+              if (await fileExists(cssFilePath)) {
+                try {
+                  await fs.writeFile(cssFilePath, "/* empty */")
+                  console.log(`Emptied duplicate CSS file: ${cssFilePath}`)
+                  emptiedCssFiles.add(cssFilePath)
+                } catch (cssError) {
+                  console.error(`Error emptying CSS file ${cssFilePath}:`, cssError)
+                }
+              } else {
+                console.warn(`CSS file does not exist: ${cssFilePath}`)
+              }
+            } else {
+              console.log(`CSS file already emptied: ${cssFilePath}`)
             }
-          } else {
-            console.log(`CSS file already emptied: ${cssFilePath}`)
           }
         }
+      } catch (error) {
+        console.error(`Error processing duplicate Uno CSS in ${file}:`, error)
       }
-    }
-  } catch (error) {
-    console.error("Error while emptying duplicate Uno CSS files:", error)
-  }
+    }),
+  )
+
+  await Promise.all(tasks)
 }
 
-// New function to check if postBuild has already run
-async function hasPostBuildRun(): Promise<boolean> {
-  try {
-    await fs.promises.access(flagFilePath, fs.constants.F_OK)
-    return true // Flag file exists
-  } catch {
-    return false // Flag file does not exist
+// Add Background Color to <html> Tag
+async function addBackgroundToHtmlTag(htmlFiles: string[]) {
+  if (htmlFiles.length === 0) {
+    console.log("No HTML files found for modifying <html> tag.")
+    return
   }
+
+  const limit = pLimit(CONFIG.concurrency)
+
+  const tasks = htmlFiles.map((file) =>
+    limit(async () => {
+      try {
+        const fileContent = await fs.readFile(file, "utf-8")
+        const dom = new JSDOM(fileContent)
+        const document = dom.window.document
+        const htmlElement = document.documentElement
+
+        if (htmlElement) {
+          const existingStyle = htmlElement.getAttribute("style") || ""
+          const newStyle = `background-color: ${CONFIG.backgroundColor}`
+
+          const backgroundColorRegex = /background-color\s*:\s*[^;]+;?/
+
+          if (backgroundColorRegex.test(existingStyle)) {
+            // Replace existing background-color
+            const updatedStyle = existingStyle.replace(backgroundColorRegex, newStyle)
+            htmlElement.setAttribute("style", updatedStyle)
+            console.log(`Updated background-color in ${file}`)
+          } else {
+            // Append new background-color
+            const separator = existingStyle.endsWith(";") || existingStyle === "" ? "" : "; "
+            const updatedStyle = `${existingStyle}${separator}${newStyle}`
+            htmlElement.setAttribute("style", updatedStyle)
+            console.log(`Added background-color to ${file}`)
+          }
+
+          // Serialize and write back
+          const updatedContent = dom.serialize()
+          await fs.writeFile(file, updatedContent)
+        } else {
+          console.warn(`No <html> tag found in ${file}. Skipping.`)
+        }
+      } catch (error) {
+        console.error(`Error modifying <html> tag in ${file}:`, error)
+      }
+    }),
+  )
+
+  await Promise.all(tasks)
 }
 
-// New function to mark that postBuild has run by creating the flag file
-async function markPostBuildRun(): Promise<void> {
+// Check if Post-Build Has Already Run
+async function hasPostBuildRun() {
+  const flagFilePath = path.join(CONFIG.targetDir, CONFIG.flagFileName)
+  return await fileExists(flagFilePath)
+}
+
+// Mark Post-Build as Run
+async function markPostBuildRun() {
+  const flagFilePath = path.join(CONFIG.targetDir, CONFIG.flagFileName)
   try {
-    await fs.promises.writeFile(flagFilePath, "Post-build tasks have been executed.", { flag: "w" })
+    await fs.writeFile(flagFilePath, "Post-build tasks have been executed.", { flag: "w" })
     console.log(`Post-build flag file created at ${flagFilePath}`)
   } catch (error) {
     console.error("Error creating post-build flag file:", error)
   }
 }
 
-// Main postBuild function to execute all post-build tasks sequentially
 async function postBuild() {
   const alreadyRun = await hasPostBuildRun()
   if (alreadyRun) {
@@ -140,13 +206,20 @@ async function postBuild() {
 
   console.log("Starting post-build tasks...")
 
-  await emptyDuplicateUnoCss()
-  await criticalCss()
+  try {
+    const htmlFiles = await findHtmlFiles(CONFIG.targetDir)
 
-  await markPostBuildRun()
+    // Execute tasks concurrently but within controlled limits
+    await emptyDuplicateUnoCss(htmlFiles)
+    await criticalCss(htmlFiles)
+    await addBackgroundToHtmlTag(htmlFiles)
 
-  console.log("Post-build tasks completed successfully.")
+    await markPostBuildRun()
+
+    console.log("Post-build tasks completed successfully.")
+  } catch (error) {
+    console.error("Error during post-build tasks:", error)
+  }
 }
 
-// Execute the postBuild function
 postBuild()
