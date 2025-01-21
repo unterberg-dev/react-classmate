@@ -52,7 +52,7 @@ async function criticalCss(htmlFiles: string[]) {
 
   const beasties = new Beasties({
     path: CONFIG.targetDir,
-    preload: "body",
+    preload: "swap",
     pruneSource: true,
   })
 
