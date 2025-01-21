@@ -10,6 +10,7 @@ import viteFlattenTemplatePlugin from "#lib/viteFlattenTemplatePlugin"
 export default defineConfig({
   plugins: [
     // remove line breaks from rc interpolated strings
+    UnoCSS(),
     viteFlattenTemplatePlugin({
       handles: ["rc"],
     }),
@@ -21,7 +22,6 @@ export default defineConfig({
       fileRegex: /\.rcx$/,
     }),
     react({}),
-    UnoCSS(),
   ],
   ssr: {
     noExternal: ["react-syntax-highlighter"],

@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "vike build && npm run critical",
+    "build": "vike build && npm run postbuild",
     "dev": "vike dev",
     "preview": "vike preview",
     "prod": "npm run build && npm run preview",
     "lint": "biome lint --write .",
     "format": "biome format --write .",
-    "critical": "npx tsx lib/critical.ts"
+    "postbuild": "npx tsx lib/postbuild.ts"
   },
   "dependencies": {
     "lucide-react": "^0.469.0",

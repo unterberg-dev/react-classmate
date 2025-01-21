@@ -5,9 +5,7 @@ import useActiveSystemTheme from "#hooks/useActiveSystemTheme"
 import Footer from "#layout/Footer"
 import Header from "#layout/Header"
 
-// using the reset of @unocss/..somereset will cause uno css to be included twice :/
-import "#components/tailwind-reset.css"
-
+import "@unocss/reset/tailwind.css"
 import "#components/theme.css"
 import "virtual:uno.css"
 

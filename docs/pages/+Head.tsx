@@ -1,6 +1,8 @@
 import { usePageContext } from "vike-react/usePageContext"
 import { APP_CONFIG } from "#lib/config"
 
+import uno from "../uno.config"
+
 export default function HeadDefault() {
   const { urlParsed, config } = usePageContext()
 
@@ -8,6 +10,8 @@ export default function HeadDefault() {
   const ogTitle = (config.title || APP_CONFIG.defaultDescription) as string
   const ogLang = (config.lang || "en") as string
 
+  const darkColor = uno.theme?.colors?.dark
+  const lightColor = uno.theme?.colors?.light
   const canonicalUrl = `${APP_CONFIG.prodUrl}${urlParsed.pathname}${urlParsed.pathname.endsWith("/") ? "" : "/"}`
 
   return (
@@ -22,6 +26,24 @@ export default function HeadDefault() {
       <meta property="og:title" content={ogTitle} />
       <meta property="og:description" content={ogDesc} />
       <meta property="og:locale" content={ogLang} />
+
+      {/* prevent flashing content due beasties defer */}
+      <style>
+        {`
+          :root {
+            --color-light: ${lightColor};
+            --color-dark: ${darkColor};
+          }
+          html.dark {
+            --color-light: ${darkColor};
+            --color-dark: ${lightColor};
+          }
+          body, html {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+          }
+        `}
+      </style>
 
       {/* Inline dark mode check - zero delay set */}
       <script
