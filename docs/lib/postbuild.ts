@@ -109,7 +109,7 @@ async function emptyDuplicateUnoCss() {
 
 // Main postBuild function to execute all post-build tasks sequentially
 async function postBuild() {
-  // await emptyDuplicateUnoCss()
+  await emptyDuplicateUnoCss()
   await criticalCss()
 }
 

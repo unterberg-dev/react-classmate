@@ -10,17 +10,18 @@ import viteFlattenTemplatePlugin from "#lib/viteFlattenTemplatePlugin"
 export default defineConfig({
   plugins: [
     // remove line breaks from rc interpolated strings
-    UnoCSS(),
     viteFlattenTemplatePlugin({
       handles: ["rc"],
+    }),
+    rawPlugin({
+      fileRegex: /\.rcx$/,
     }),
     vike({
       prerender: true,
       trailingSlash: true,
     }),
-    rawPlugin({
-      fileRegex: /\.rcx$/,
-    }),
+
+    UnoCSS(),
     react({}),
   ],
   ssr: {
