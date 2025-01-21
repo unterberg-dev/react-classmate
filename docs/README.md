@@ -13,4 +13,3 @@ Simple documentation template fully utilizing `react-classmate` 🫰
 - Lucide Icons
 - Zustand
 - React Syntax Highlighter
--
