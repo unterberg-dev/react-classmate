@@ -28,13 +28,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cache-docs-nodemodules-
 
-      - if: ${{ steps.cache-nodemodules.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.cache-docs-nodemodules.cache-hit != 'true' }}
         name: List the state of node modules
         continue-on-error: true
         run: cd docs && npm install
 
-      - name: List node_modules (for debugging)
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      - if: ${{ steps.cache-docs-nodemodules.outputs.cache-hit != 'true' }}
         continue-on-error: true
         run: |
           echo "Listing node_modules as cache was not hit:"
