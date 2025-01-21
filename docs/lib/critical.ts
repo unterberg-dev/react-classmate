@@ -45,4 +45,4 @@ async function criticalCss() {
 }
 
 // Execute the postBuild function
-// criticalCss()
+criticalCss()
