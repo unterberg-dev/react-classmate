@@ -33,7 +33,6 @@ async function criticalCss() {
     } else {
       const beasties = new Beasties({
         path: targetDir,
-        pruneSource: true,
         reduceInlineStyles: false,
         preload: "body",
       })
