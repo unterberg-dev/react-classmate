@@ -27,24 +27,6 @@ export default function HeadDefault() {
       <meta property="og:description" content={ogDesc} />
       <meta property="og:locale" content={ogLang} />
 
-      {/* prevent flashing content due beasties defer */}
-      <style>
-        {`
-          /* beasties:include start */
-          body, html {
-            background-color: ${lightColor};
-            color: ${darkColor};
-          }
-          @media (prefers-color-scheme: dark) {
-            body, html {
-              background-color: ${darkColor};
-              color: ${lightColor};
-            }
-          }
-          /* beasties:include end */
-        `}
-      </style>
-
       {/* Inline dark mode check - zero delay set */}
       <script
         id="check-dark-mode"

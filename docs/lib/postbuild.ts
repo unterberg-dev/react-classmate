@@ -34,7 +34,7 @@ async function criticalCss() {
       const beasties = new Beasties({
         path: targetDir,
         preload: "body",
-        // pruneSource: true,
+        pruneSource: true,
       })
 
       for (const file of htmlFiles) {
