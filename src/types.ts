@@ -31,7 +31,7 @@ export type InputComponent =
  * @typeParam P - Props of the component.
  */
 export interface RcBaseComponent<P>
-  extends ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<HTMLElement>> {
+  extends ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<any>> {
   __rcComputeClassName?: (props: P) => string
   __rcTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>
   __rcStyles?: StyleDefinition<P> | ((props: P) => StyleDefinition<P>)

@@ -1,7 +1,7 @@
 import type { HTMLAttributes } from "react"
 import rc from "react-classmate"
 
-import { H3Headline, H4Headline, type HeadlineComponentProps } from "#components/common/Headline"
+import { H3Headline, H4Headline } from "#components/common/Headline"
 import Notebox from "#components/common/Notebox"
 
 export const Section = rc.extend(Notebox)`mb-8`
