@@ -31,7 +31,7 @@ const createReactElement = <
   styles = {},
   propsToFilter = [],
 }: CreateReactElementParams<T, E>): RcBaseComponent<T> => {
-  const element = forwardRef<HTMLElement, T & RefAttributes<HTMLElement>>((props, ref) => {
+  const element = forwardRef<HTMLElement, T & RefAttributes<any>>((props, ref) => {
     const computedClassName = computeClassName(props as T)
 
     // Filter out $-prefixed props and any props in propsToFilter

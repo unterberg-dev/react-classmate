@@ -35,7 +35,7 @@ export default [
         exports: "named",
       },
       {
-        format: "es",
+        format: "esm",
         file: pkg.module,
         exports: "named",
       },
@@ -49,8 +49,8 @@ export default [
     ],
   },
   {
-    input: "./dist/types/index.d.ts",
-    output: [{ file: pkg.types, format: "es" }],
+    input: "./dist/types/src/index.d.ts",
+    output: [{ file: pkg.types, format: "esm" }],
     plugins: [dts()],
   },
 ]
