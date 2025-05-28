@@ -1,4 +1,5 @@
 import { type JSX, type JSXElementConstructor, type RefAttributes, createElement, forwardRef } from "react"
+import { twMerge } from "tailwind-merge"
 
 import type { RcBaseComponent, StyleDefinition } from "../types"
 
@@ -52,11 +53,13 @@ const createReactElement = <
     }
 
     const incomingClassName = domProps.className || ""
-    const finalClassName = [computedClassName, incomingClassName].filter(Boolean).join(" ").trim()
+
+    // merge computed class names with incoming className - local classname always first prio
+    const mergedClassName = twMerge(computedClassName, [incomingClassName].filter(Boolean).join(" ").trim())
 
     return createElement(tag, {
       ...domProps,
-      className: finalClassName,
+      className: mergedClassName,
       style: mergedStyles,
       ref,
     })

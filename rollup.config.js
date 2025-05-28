@@ -10,6 +10,7 @@ const pkg = packageJson
 
 const globals = {
   react: "React",
+  "tailwind-merge": "tailwind-merge",
 }
 
 const babelOptions = {

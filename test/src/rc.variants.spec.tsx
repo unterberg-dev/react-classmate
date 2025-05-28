@@ -45,7 +45,7 @@ describe("extend rc variants component", () => {
       base: "p-4",
       variants: {
         $severity: {
-          info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
+          info: (p) => `${p.$isActive ? "shadow-lg" : ""}`,
         },
       },
     })
@@ -55,9 +55,7 @@ describe("extend rc variants component", () => {
       `
 
     const { container } = render(<ExtendedButton type="submit" $severity="info" $isActive $test />)
-    expect(container.firstChild).toHaveClass(
-      "p-4 bg-blue-100 text-blue-800 shadow-lg bg-green-100 text-green-800",
-    )
+    expect(container.firstChild).toHaveClass("p-4 shadow-lg bg-green-100 text-green-800")
     expect(container.firstChild).not.toHaveAttribute("$severity")
     expect(container.firstChild).not.toHaveAttribute("$isActive")
     expect(container.firstChild).not.toHaveAttribute("$test")
@@ -76,8 +74,6 @@ describe("extend rc variants component", () => {
       const StyledButton = rc.button.variants<ButtonProps>({
         base: (p) => `
           ${p.$noGutter ? "!p-0" : ""}
-          px-3
-          py-2
           flex
           items-center
           justify-center
@@ -101,7 +97,7 @@ describe("extend rc variants component", () => {
         </ExtendedButton>,
       )
       expect(container.firstChild).toHaveClass(
-        "px-3 py-2 flex items-center justify-center gap-1 text-small border",
+        "!p-0 px-2 py-1 flex items-center justify-center gap-1 text-small border",
       )
       expect(container.firstChild).not.toHaveAttribute("$size")
       expect(container.firstChild).not.toHaveAttribute("$noGutter")
@@ -117,6 +113,8 @@ describe("extend rc variants component", () => {
           mt-5
           border-1
           transition-all
+          px-5
+          py-3
         `,
       variants: {
         state: {

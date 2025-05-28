@@ -45,6 +45,7 @@ const ButtonBase = rc.button`
 - Dynamic styles
 - TypeScript support
 - Tested with SSR Frameworks
+- Classname merging (w/ [tailwind-merge](https://github.com/dcastil/tailwind-merge)]
 
 [![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
