@@ -52,7 +52,7 @@ jobs:
             echo "Version is new – will publish."
           fi
 
-      - run: npm ci
+      - run: npm i
       - run: npm run build
 
       # ────────────────────────────────────────────────────────────────
