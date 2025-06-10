@@ -25,6 +25,13 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: npm
 
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node_modules-src-${{hashFiles('package-lock.json')}}
+          restore-keys: node_modules-src-
+
       # ────────────────────────────────────────────────────────────────
       # 1️⃣  Version-bump sentinel
       #     sets `should_publish` output to "true" or "false"
