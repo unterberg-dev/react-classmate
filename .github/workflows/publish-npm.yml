@@ -1,0 +1,65 @@
+name: Publish Package
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - 'docs/**'     
+  tags:
+    - 'v*'            
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
+          cache: npm
+
+      # ────────────────────────────────────────────────────────────────
+      # 1️⃣  Version-bump sentinel
+      #     sets `should_publish` output to "true" or "false"
+      # ────────────────────────────────────────────────────────────────
+      - name: Check if version is new
+        id: version
+        env:
+          # Needed only for private scopes; harmless for public
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -eo pipefail
+          PKG_NAME=$(node -p "require('./package.json').name")
+          PKG_VER=$(node -p "require('./package.json').version")
+          echo "Local version:  $PKG_NAME@$PKG_VER"
+
+          # Returns nothing if package has never been published
+          REG_VER=$(npm view "$PKG_NAME" version 2>/dev/null || true)
+          echo "Registry version: ${REG_VER:-<none>}"
+
+          if [ "$PKG_VER" = "$REG_VER" ]; then
+            echo "should_publish=false" >> "$GITHUB_OUTPUT"
+            echo "Version already on registry – skipping publish."
+          else
+            echo "should_publish=true"  >> "$GITHUB_OUTPUT"
+            echo "Version is new – will publish."
+          fi
+
+      - run: npm ci
+      - run: npm run build
+
+      # ────────────────────────────────────────────────────────────────
+      # 2️⃣  Publish only when the sentinel says so
+      # ────────────────────────────────────────────────────────────────
+      - name: Publish to npm
+        if: steps.version.outputs.should_publish == 'true'
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
