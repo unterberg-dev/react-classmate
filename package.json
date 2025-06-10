@@ -1,9 +1,9 @@
 {
   "name": "react-classmate",
   "description": "A react tool to separate class name logic, create variants and manage styles.",
-  "version": "1.1.2",
-  "author": "https://github.com/richard-unterberg",
-  "homepage": "https://react-classmate.dev/",
+  "version": "1.1.3",
+  "bugs":  { "url": "https://github.com/unterberg-dev/react-classmate/issues" },
+  "homepage": "https://github.com/unterberg-dev/react-classmate/#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unterberg-dev/react-classmate.git"
@@ -50,7 +50,6 @@
     "build:base": "npm run clean && npm run bundle",
     "build": "npm run build:base && npm run postbuild",
     "packLocal": "npm run build:base && npm run postbuild:packLocal",
-    "package": "npm run build && npm publish",
     "postbuild": "npx tsx postbuild.ts",
     "postbuild:packLocal": "cross-env MODE=packLocal npx tsx postbuild.ts",
     "bundle": "rollup -c",

@@ -1,8 +1,9 @@
 # react-classmate
 
-A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
+[![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
 
-See it in action: [https://react-classmate.dev/](https://react-classmate.dev/)
+A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
 
 ## 🚩 Transform this
 
@@ -45,10 +46,8 @@ const ButtonBase = rc.button`
 - Dynamic styles
 - TypeScript support
 - Tested with SSR Frameworks
+- Compatible with UI-libraries ([DaisyUI](https://daisyui.com/), [Flowbite](https://flowbite.com/), [Radix UI](https://www.radix-ui.com/))
 - Classname merging (w/ [tailwind-merge](https://github.com/dcastil/tailwind-merge)]
-
-[![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
-[![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
 
 ## New Documentation online!
 
