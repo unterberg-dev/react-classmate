@@ -32,7 +32,7 @@ jobs:
       - name: Install Dependencies
         run: |
           cd docs
-          npm ci
+          npm i
 
       - name: Build Documentation
         run: npm run docs:publish
