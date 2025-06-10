@@ -411,6 +411,10 @@ const rc = require("react-classmate").default;
 const { default: rc } = require("react-classmate");
 ```
 
+## Tailwind Merge
+
+React-classmate uses [tailwind-merge](https://github.com/dcastil/tailwind-merge) under the hood to merge class names. The last class name will always win, so you can use it to override classes.
+
 ## Upcoming
 
 - bug / troubleshoot: classnames set by ref.current (useRef) will be overwritten as soon component rerenders
