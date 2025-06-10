@@ -14,3 +14,4 @@ Simple documentation template fully utilizing `react-classmate` 🫰
 - Zustand
 - React Syntax Highlighter
 - Vite
+- React-classmate
