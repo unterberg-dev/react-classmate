@@ -2,12 +2,11 @@ name: Publish Package
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
     paths-ignore:
       - 'docs/**'     
-  tags:
-    - 'v*'            
+    tags:
+      - 'v*'            
 
 jobs:
   publish-npm:
