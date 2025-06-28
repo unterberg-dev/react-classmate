@@ -55,6 +55,7 @@
     "postbuild": "npx tsx postbuild.ts",
     "postbuild:packLocal": "cross-env MODE=packLocal npx tsx postbuild.ts",
     "bundle": "rollup -c",
+    "package": "npm run build && npm publish",
     "========= Docs": "",
     "docs:build": "cd docs/ && npm run build",
     "docs": "cd docs/ && npm run dev",
