@@ -1,7 +1,7 @@
 {
   "name": "react-classmate",
   "description": "A react tool to separate class name logic, create variants and manage styles.",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "bugs": {
     "url": "https://github.com/unterberg-dev/react-classmate/issues"
   },

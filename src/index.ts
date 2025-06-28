@@ -1,3 +1,4 @@
+import { twMerge } from "tailwind-merge"
 import convertRcProps from "./helper/convertRcProps"
 import createVariantMap from "./helper/createVariantMap"
 import rcInit from "./rc"
@@ -60,3 +61,7 @@ export { convertRcProps }
 export { createVariantMap }
 
 export default rc
+
+/** the `twMerge` lib from react-classmate */
+const rcMerge = twMerge
+export { rcMerge }
