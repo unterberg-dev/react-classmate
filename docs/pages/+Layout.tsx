@@ -16,7 +16,6 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <div className="bg-light text-dark">
-      <TestComponentWithClassmateInside />
       <Header />
       <LayoutPageWrapper>{children}</LayoutPageWrapper>
       <Footer />
