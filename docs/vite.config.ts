@@ -16,11 +16,7 @@ export default defineConfig({
     rawPlugin({
       fileRegex: /\.rcx$/,
     }),
-    vike({
-      prerender: true,
-      trailingSlash: true,
-    }),
-
+    vike(),
     UnoCSS(),
     react({}),
   ],

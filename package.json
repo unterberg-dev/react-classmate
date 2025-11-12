@@ -1,7 +1,7 @@
 {
   "name": "react-classmate",
   "description": "A react tool to separate class name logic, create variants and manage styles.",
-  "version": "1.1.8",
+  "version": "1.2.0",
   "bugs": {
     "url": "https://github.com/unterberg-dev/react-classmate/issues"
   },
@@ -44,6 +44,7 @@
     "test-clear": "jest --clearCache",
     "test:all": "npm run test-clear && npm run test:src",
     "test:src": "npm run build && jest --testPathPattern=test/src",
+    "check:all": "tsc --noEmit",
     "========= Lib": "",
     "build:base": "npm run clean && npm run bundle",
     "build": "npm run build:base && npm run postbuild",

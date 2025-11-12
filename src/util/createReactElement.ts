@@ -1,14 +1,19 @@
 import { type JSX, type JSXElementConstructor, type RefAttributes, createElement, forwardRef } from "react"
 import { twMerge } from "tailwind-merge"
 
-import type { RcBaseComponent, StyleDefinition } from "../types"
+import type { LogicHandler, RcBaseComponent, StyleDefinition } from "../types"
+import applyLogicHandlers from "./applyLogicHandlers"
 
-interface CreateReactElementParams<T, E> {
+interface CreateReactElementParams<
+  T extends object,
+  E extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>,
+> {
   tag: E
   computeClassName: (props: T) => string
   displayName: string
   styles?: StyleDefinition<T> | ((props: T) => StyleDefinition<T>)
   propsToFilter?: (keyof T)[]
+  logicHandlers?: LogicHandler<T>[]
 }
 
 // @todo: we wanna check if the output had a classname, if not remove it from the final output
@@ -31,19 +36,23 @@ const createReactElement = <
   displayName,
   styles = {},
   propsToFilter = [],
+  logicHandlers = [],
 }: CreateReactElementParams<T, E>): RcBaseComponent<T> => {
   const element = forwardRef<HTMLElement, T & RefAttributes<any>>((props, ref) => {
-    const computedClassName = computeClassName(props as T)
+    const baseProps = props as T
+    const enhancedProps = logicHandlers.length > 0 ? applyLogicHandlers(baseProps, logicHandlers) : baseProps
+    const normalizedProps = enhancedProps as T & Record<string, any>
+    const computedClassName = computeClassName(normalizedProps)
 
     // Filter out $-prefixed props and any props in propsToFilter
     const domProps: Record<string, unknown> = {}
-    for (const key in props) {
+    for (const key in normalizedProps) {
       if (!key.startsWith("$") && !propsToFilter.includes(key as unknown as keyof T)) {
-        domProps[key] = props[key]
+        domProps[key] = normalizedProps[key]
       }
     }
 
-    const dynamicStyles = typeof styles === "function" ? styles(props as T) : styles
+    const dynamicStyles = typeof styles === "function" ? styles(normalizedProps) : styles
 
     // component level styles
     const localStyle = typeof domProps.style === "object" && domProps.style !== null ? domProps.style : {}
@@ -52,7 +61,7 @@ const createReactElement = <
       ...localStyle,
     }
 
-    const incomingClassName = domProps.className || ""
+    const incomingClassName = typeof domProps.className === "string" ? domProps.className : ""
 
     // merge computed class names with incoming className - local classname always first prio
     const mergedClassName = twMerge(computedClassName, [incomingClassName].filter(Boolean).join(" ").trim())
@@ -66,9 +75,11 @@ const createReactElement = <
   }) as RcBaseComponent<T>
 
   element.displayName = displayName || "Rc Component"
-  element.__rcComputeClassName = computeClassName
+  element.__rcComputeClassName = (props: T) =>
+    computeClassName(logicHandlers.length > 0 ? applyLogicHandlers(props, logicHandlers) : props)
   element.__rcStyles = styles
   element.__rcTag = tag
+  element.__rcLogic = logicHandlers
 
   return element
 }

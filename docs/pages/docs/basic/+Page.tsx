@@ -10,6 +10,8 @@ import customProps from "#docs/basic/code/customProps.rcx"
 import customPropsImplementation from "#docs/basic/code/customPropsImplementation.rcx"
 import intrinsicProps from "#docs/basic/code/intrinsicProps.rcx"
 import intrinsicPropsImplementation from "#docs/basic/code/intrinsicPropsImplementation.rcx"
+import logicHeader from "#docs/basic/code/logicHeader.rcx"
+import useClassmateExample from "#docs/basic/code/useClassmateExample.rcx"
 
 const BasicPage = () => {
   return (
@@ -53,6 +55,26 @@ const BasicPage = () => {
         <HighlighterComponent input={intrinsicProps} />
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
         <HighlighterComponent input={intrinsicPropsImplementation} />
+      </Section>
+      <SectionHeadline>Declare rc components inside React components</SectionHeadline>
+      <Section>
+        <SectionInnerParagraph>
+          Need to define a component during render? Wrap the factory in{" "}
+          <CodeElement>useClassmate</CodeElement> to memoize it between renders and avoid re-instantiating the
+          element tree. Pass dependencies just like you would to <CodeElement>React.useMemo</CodeElement> if
+          the factory relies on runtime values.
+        </SectionInnerParagraph>
+        <HighlighterComponent input={useClassmateExample} />
+      </Section>
+      <SectionHeadline>Colocate logic with your component</SectionHeadline>
+      <Section>
+        <SectionInnerParagraph>
+          Use <CodeElement>.logic()</CodeElement> before calling your template literal to run arbitrary
+          JavaScript for every render. Whatever object you return is merged back into the props so you can
+          derive variant values, data attributes, or additional <CodeElement>$</CodeElement> props without
+          wiring extra hooks.
+        </SectionInnerParagraph>
+        <HighlighterComponent input={logicHeader} />
       </Section>
     </>
   )

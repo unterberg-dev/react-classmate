@@ -1,4 +1,4 @@
-import type { Interpolation, RcBaseComponent, StyleDefinition } from "../types"
+import type { Interpolation, LogicHandler, RcBaseComponent, StyleDefinition } from "../types"
 import createReactElement from "../util/createReactElement"
 
 /**
@@ -15,11 +15,14 @@ const createExtendedComponent = <T extends object>(
   baseComponent: RcBaseComponent<any>,
   strings: TemplateStringsArray,
   interpolations: Interpolation<T>[],
+  logicHandlers: LogicHandler<T>[] = [],
 ): RcBaseComponent<T> => {
   const displayName = `Extended(${baseComponent.displayName || "Component"})`
   const baseComputeClassName = baseComponent.__rcComputeClassName || (() => "")
   const baseStyles = baseComponent.__rcStyles || {}
   const tag = baseComponent.__rcTag || baseComponent
+  const baseLogic = (baseComponent.__rcLogic as LogicHandler<any>[]) || []
+  const combinedLogic = [...baseLogic, ...logicHandlers]
 
   const computeClassName = (props: T, collectedStyles: Record<string, string | number>) => {
     const styleUtility = (styleDef: StyleDefinition<T>) => {
@@ -58,6 +61,7 @@ const createExtendedComponent = <T extends object>(
     computeClassName: (props) => computeClassName(props, {}),
     displayName,
     styles: (props) => computeMergedStyles(props),
+    logicHandlers: combinedLogic as LogicHandler<any>[],
   })
 }
 

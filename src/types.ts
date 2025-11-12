@@ -20,6 +20,8 @@ import type {
 type InterpolationBase<T> = string | boolean | ((props: T) => string) | null | undefined
 export type Interpolation<T> = InterpolationBase<T & { style: (styleDef: StyleDefinition<T>) => string }>
 
+export type LogicHandler<P extends object> = (props: P) => Partial<P> | undefined
+
 export type InputComponent =
   | ForwardRefExoticComponent<any>
   | JSXElementConstructor<any>
@@ -30,11 +32,12 @@ export type InputComponent =
  *
  * @typeParam P - Props of the component.
  */
-export interface RcBaseComponent<P>
+export interface RcBaseComponent<P extends object = object>
   extends ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<any>> {
   __rcComputeClassName?: (props: P) => string
   __rcTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>
   __rcStyles?: StyleDefinition<P> | ((props: P) => StyleDefinition<P>)
+  __rcLogic?: LogicHandler<P>[]
 }
 
 /**
@@ -81,10 +84,21 @@ type ExtendFunction =
    */
   <E extends InputComponent, I extends keyof JSX.IntrinsicElements>(
     component: E,
-  ) => <T extends object>(
+  ) => ExtendTemplateBuilder<E, I>
+
+export interface ExtendTemplateBuilder<
+  E extends InputComponent,
+  I extends keyof JSX.IntrinsicElements,
+  LogicProps extends object = object,
+> {
+  <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: Interpolation<MergeProps<E, T> & JSX.IntrinsicElements[I]>[]
-  ) => RcBaseComponent<MergeProps<E, T>>
+  ): RcBaseComponent<MergeProps<E, T>>
+  logic<NextLogic extends object = object>(
+    handler: LogicHandler<MergeProps<E, LogicProps & NextLogic>>,
+  ): ExtendTemplateBuilder<E, I, LogicProps & NextLogic>
+}
 
 /**
  * Base type for the base classes in the variants configuration.
@@ -185,16 +199,19 @@ type VariantsFunction<K> =
 /**
  * Factory for creating styled components with intrinsic elements.
  */
-export type RcComponentFactory = {
-  [K in keyof JSX.IntrinsicElements]: {
-    <T>(
-      strings: TemplateStringsArray,
-      ...interpolations: Interpolation<T>[]
-    ): RcBaseComponent<MergeProps<K, T>>
+export interface RcFactoryFunction<K extends keyof JSX.IntrinsicElements> {
+  <T extends object>(
+    strings: TemplateStringsArray,
+    ...interpolations: Interpolation<T>[]
+  ): RcBaseComponent<MergeProps<K, T>>
+  logic<LogicProps extends object = object>(
+    handler: LogicHandler<MergeProps<K, LogicProps>>,
+  ): RcFactoryFunction<K>
+  variants: VariantsFunction<K>
+}
 
-    // add rc.*.variants
-    variants: VariantsFunction<K>
-  }
+export type RcComponentFactory = {
+  [K in keyof JSX.IntrinsicElements]: RcFactoryFunction<K>
 } & {
   extend: ExtendFunction
 }

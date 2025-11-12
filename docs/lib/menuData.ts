@@ -45,6 +45,16 @@ export const menuData: MenuSection[] = [
         href: internalLink.docs.extend,
         icon: Blocks,
       },
+      {
+        label: "useClassmate",
+        href: internalLink.docs.useClassmate,
+        icon: Sparkles,
+      },
+      {
+        label: ".logic()",
+        href: internalLink.docs.logic,
+        icon: Siren,
+      },
     ],
   },
   {

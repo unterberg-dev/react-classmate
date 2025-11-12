@@ -1,6 +1,17 @@
 import type { JSX } from "react"
-import type { InputComponent, MergeProps, RcBaseComponent, StyleDefinition, VariantsConfig } from "../types"
+import type {
+  InputComponent,
+  LogicHandler,
+  MergeProps,
+  RcBaseComponent,
+  StyleDefinition,
+  VariantsConfig,
+} from "../types"
 import createReactElement from "../util/createReactElement"
+
+interface CreateVariantsOptions<T extends object> {
+  logic?: LogicHandler<T>[]
+}
 
 /**
  * Creates a React component with variant-based class names and styles.
@@ -20,11 +31,13 @@ const createVariantsComponent = <
 >(
   tag: E,
   config: VariantsConfig<VariantProps, ExtraProps>,
+  options: CreateVariantsOptions<MergeProps<E, ExtraProps & Partial<VariantProps>>> = {},
 ): RcBaseComponent<MergeProps<E, ExtraProps & Partial<VariantProps>>> => {
   const { base, variants, defaultVariants = {} } = config
   const propsToFilter = Object.keys(variants)
   const styles: Record<string, string | number> = {}
   const displayName = `Variants(${typeof tag === "string" ? tag : "Component"})`
+  const logicHandlers = options.logic ?? []
 
   const computeClassName = (
     props: MergeProps<E, Partial<VariantProps> & ExtraProps>,
@@ -58,6 +71,7 @@ const createVariantsComponent = <
     displayName,
     styles,
     propsToFilter,
+    logicHandlers,
   }) as RcBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>
 }
 

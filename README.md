@@ -63,6 +63,8 @@ const SomeButton = rc.button`
 - [Create Variants](#create-variants)
 - [Extend components](#extend)
 - [Add CSS Styles](#add-css-styles)
+- [Use inside React components](#use-inside-react-components)
+- [Add logic headers](#add-logic-headers)
 - [Recipes for `rc.extend`](#receipes-for-rcextend)
   - [Use rc for creating base component](#use-rc-for-creating-base-component)
   - [Auto infer types for props](#auto-infer-types-for-props)
@@ -260,6 +262,81 @@ const ExtendedButton = rc.extend(BaseButton)<{ $isLoading?: boolean }>`
 export default () => <ExtendedButton $isActive $isLoading />;
 // outputs: <button className="bg-red" style="opacity: 0.5; pointer-events: none;" />
 ```
+
+### Use inside React components - `useClassmate`
+
+When you need to create a classmate component inside another React component
+(for example, when the configuration depends on runtime-only values), wrap the
+factory with `useClassmate`. This memoizes the result and avoids creating a
+brand-new component on every render.
+
+```tsx
+import rc, { useClassmate } from "react-classmate";
+
+const WorkoutDay = ({ status }: { status: "completed" | "pending" }) => {
+  const StyledDay = useClassmate(
+    () =>
+      rc.div.variants({
+        base: "rounded border p-4 text-sm",
+        variants: {
+          $status: {
+            completed: "border-green-400 bg-green-50",
+            pending: "border-yellow-400 bg-yellow-50",
+          },
+        },
+      }),
+    [status], // recompute when dependencies change
+  );
+
+  return <StyledDay $status={status}>Workout details</StyledDay>;
+};
+```
+
+> The dependency array behaves like `React.useMemo`. Pass everything the factory
+> closes over if you expect the component to update when those values change.
+
+### Add logic headers
+
+Use `.logic()` to run arbitrary JavaScript once per render before your class
+names or variants are computed. The return value is shallow-merged back into the
+props, so you can derive `$` props, DOM attributes, or anything else your
+component needs without additional hooks.
+
+```tsx
+type DayStatus = "completed" | "pending"
+
+interface WorkoutProps {
+  workouts: unknown[]
+  allResolved: boolean
+  hasCompleted: boolean
+  hasSkipped: boolean
+  $status?: DayStatus
+}
+
+const WorkoutDay = rc.div
+  .logic<WorkoutProps>((props) => {
+    const status = deriveDayStatus(props)
+    return {
+      $status: status,
+      ["data-status"]: status,
+    }
+  })
+  .variants<WorkoutProps, { $status: DayStatus }>({
+    base: "rounded border p-4",
+    variants: {
+      $status: {
+        completed: "bg-green-50 border-green-400",
+        pending: "bg-white border-slate-200",
+      },
+    },
+  })
+
+// Consumers only pass raw workout data – the logic header derives $status for you.
+<WorkoutDay workouts={workouts} allResolved hasCompleted hasSkipped={false} />
+```
+
+> Return values from `.logic()` are merged in order, so later logic calls can
+> reference earlier results or override them.
 
 ## Recipes for `rc.extend`
 

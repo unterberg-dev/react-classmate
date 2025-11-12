@@ -1,0 +1,32 @@
+import rc from "react-classmate"
+
+interface NotificationProps {
+  events: { type: "error" | "info" }[]
+  $severity?: "idle" | "error"
+  $hasErrors?: boolean
+}
+
+export const NotificationBadge = rc.button
+  .logic<NotificationProps>((props) => {
+    const hasErrors = props.events.some((event) => event.type === "error")
+    return {
+      $hasErrors: hasErrors,
+      $severity: hasErrors ? "error" : "idle",
+    }
+  })
+  .logic<NotificationProps>((props) => ({
+    ["aria-live"]: props.$hasErrors ? "assertive" : "polite",
+    ["data-has-errors"]: props.$hasErrors ? "true" : "false",
+  }))
+  .variants<NotificationProps, { $severity: "idle" | "error" }>({
+    base: `
+      inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm
+      border transition-colors duration-150
+    `,
+    variants: {
+      $severity: {
+        idle: "border-slate-300 bg-white text-slate-900",
+        error: "border-red-500 bg-red-50 text-red-900",
+      },
+    },
+  })

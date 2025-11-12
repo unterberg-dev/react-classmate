@@ -1,7 +1,10 @@
 import type { JSX } from "react"
-import type { Interpolation, MergeProps, RcBaseComponent, StyleDefinition } from "../types"
+import type { Interpolation, LogicHandler, MergeProps, RcBaseComponent, StyleDefinition } from "../types"
 import createReactElement from "../util/createReactElement"
 
+interface CreateBaseComponentOptions<T extends object> {
+  logic?: LogicHandler<T>[]
+}
 /**
  * Core function to create classmate components.
  *
@@ -16,9 +19,11 @@ const createBaseComponent = <T extends object, E extends keyof JSX.IntrinsicElem
   tag: E,
   strings: TemplateStringsArray,
   interpolations: Interpolation<T>[],
+  options: CreateBaseComponentOptions<MergeProps<E, T>> = {},
 ): RcBaseComponent<MergeProps<E, T>> => {
   const styles: Record<string, string | number> = {}
   const displayName = `Styled(${typeof tag === "string" ? tag : "Component"})`
+  const logicHandlers = options.logic ?? []
 
   const computeClassName = (props: MergeProps<E, T>, collectedStyles: Record<string, string | number>) => {
     const styleUtility = (styleDef: StyleDefinition<MergeProps<E, T>>) => {
@@ -44,6 +49,7 @@ const createBaseComponent = <T extends object, E extends keyof JSX.IntrinsicElem
     computeClassName: (props) => computeClassName(props, styles),
     displayName,
     styles,
+    logicHandlers,
   })
 }
 

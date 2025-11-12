@@ -9,6 +9,8 @@ export const internalLink = {
     basic: `${base}docs/basic/`,
     extend: `${base}docs/extend/`,
     variants: `${base}docs/variants/`,
+    useClassmate: `${base}docs/use-classmate/`,
+    logic: `${base}docs/logic/`,
   },
   util: {
     style: `${base}docs/interpolation/style/`,

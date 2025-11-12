@@ -1,0 +1,21 @@
+import rc, { useClassmate } from "react-classmate"
+
+type WorkoutStatus = "completed" | "pending"
+
+const WorkoutDay = ({ status }: { status: WorkoutStatus }) => {
+  const StyledDay = useClassmate(
+    () =>
+      rc.div.variants<{ $status: WorkoutStatus }>({
+        base: "rounded-md border p-4 text-sm",
+        variants: {
+          $status: {
+            completed: "border-green-400 bg-green-50",
+            pending: "border-yellow-400 bg-yellow-50",
+          },
+        },
+      }),
+    [status],
+  )
+
+  return <StyledDay $status={status}>Workout details</StyledDay>
+}

@@ -7,4 +7,6 @@ export default {
   extends: vikeReact,
   lang: "en",
   clientRouting: true,
+  prerender: true,
+  trailingSlash: true,
 } satisfies Config

@@ -59,6 +59,7 @@ export type { VariantsConfig } from "./types"
 
 export { convertRcProps }
 export { createVariantMap }
+export { default as useClassmate } from "./useClassmate"
 
 export default rc
 

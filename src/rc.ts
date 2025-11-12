@@ -6,6 +6,7 @@ import createVariantsComponent from "./factory/variants"
 import type {
   InputComponent,
   Interpolation,
+  LogicHandler,
   RcBaseComponent,
   RcComponentFactory,
   VariantsConfig,
@@ -19,38 +20,58 @@ const rcTarget: Partial<RcComponentFactory> = {}
  * - `rc.extend`: returns function to extend an existing component
  * - `rc.button`, `rc.div`, etc.: returns factory for base components, with `.variants`
  */
+const createExtendBuilder = (
+  baseComponent: RcBaseComponent<any>,
+  logicHandlers: LogicHandler<any>[] = [],
+) => {
+  const builder = <T extends object>(strings: TemplateStringsArray, ...interpolations: Interpolation<T>[]) =>
+    createExtendedComponent<T>(baseComponent, strings, interpolations, logicHandlers as LogicHandler<T>[])
+
+  const builderWithLogic = builder as typeof builder & {
+    logic: (handler: LogicHandler<any>) => ReturnType<typeof createExtendBuilder>
+  }
+
+  builderWithLogic.logic = (handler: LogicHandler<any>) =>
+    createExtendBuilder(baseComponent, [...logicHandlers, handler])
+
+  return builderWithLogic
+}
+
+const createFactoryFunction = (tag: keyof JSX.IntrinsicElements, logicHandlers: LogicHandler<any>[] = []) => {
+  const factory = <T extends object>(strings: TemplateStringsArray, ...interpolations: Interpolation<T>[]) =>
+    createBaseComponent<T, keyof JSX.IntrinsicElements>(tag, strings, interpolations, {
+      logic: logicHandlers as LogicHandler<any>[],
+    })
+
+  const factoryWithLogic = factory as typeof factory & {
+    logic: (handler: LogicHandler<any>) => ReturnType<typeof createFactoryFunction>
+    variants: <ExtraProps extends object, VariantProps extends object = ExtraProps>(
+      config: VariantsConfig<VariantProps, ExtraProps>,
+    ) => RcBaseComponent<any>
+  }
+
+  factoryWithLogic.logic = (handler: LogicHandler<any>) =>
+    createFactoryFunction(tag, [...logicHandlers, handler])
+
+  factoryWithLogic.variants = <ExtraProps extends object, VariantProps extends object = ExtraProps>(
+    config: VariantsConfig<VariantProps, ExtraProps>,
+  ) =>
+    createVariantsComponent<keyof JSX.IntrinsicElements, ExtraProps, VariantProps>(tag, config, {
+      logic: logicHandlers as LogicHandler<any>[],
+    })
+
+  return factoryWithLogic
+}
+
 const rc: RcComponentFactory = new Proxy(rcTarget, {
   get(_, prop: string) {
     // calls `rc.extend`
     if (prop === "extend") {
       return <BCProps extends object>(baseComponent: RcBaseComponent<BCProps> | InputComponent) =>
-        <T extends object>(strings: TemplateStringsArray, ...interpolations: Interpolation<T>[]) => {
-          const rcBaseComponent = baseComponent as RcBaseComponent<any> // Ensure proper type
-          return createExtendedComponent<T>(rcBaseComponent, strings, interpolations)
-        }
+        createExtendBuilder(baseComponent as RcBaseComponent<any>)
     }
 
-    // calls `rc.button`, `rc.div`, etc.
-    const factoryFunction = <T extends object>(
-      strings: TemplateStringsArray,
-      ...interpolations: Interpolation<T>[]
-    ) =>
-      createBaseComponent<T, keyof JSX.IntrinsicElements>(
-        prop as keyof JSX.IntrinsicElements,
-        strings,
-        interpolations,
-      )
-
-    // attach `.variants` to factory components
-    factoryFunction.variants = <ExtraProps extends object, VariantProps extends object = ExtraProps>(
-      config: VariantsConfig<VariantProps, ExtraProps>,
-    ) => {
-      return createVariantsComponent<keyof JSX.IntrinsicElements, ExtraProps, VariantProps>(
-        prop as keyof JSX.IntrinsicElements,
-        config,
-      )
-    }
-    return factoryFunction
+    return createFactoryFunction(prop as keyof JSX.IntrinsicElements)
   },
 }) as RcComponentFactory
 
