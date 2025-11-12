@@ -9,11 +9,14 @@ import "@unocss/reset/tailwind.css"
 import "#components/theme.css"
 import "virtual:uno.css"
 
+import TestComponentWithClassmateInside from "#root/TestComponentWithClassmateInside"
+
 const AppLayout = ({ children }: { children: ReactNode }) => {
   useActiveSystemTheme()
 
   return (
     <div className="bg-light text-dark">
+      <TestComponentWithClassmateInside />
       <Header />
       <LayoutPageWrapper>{children}</LayoutPageWrapper>
       <Footer />

@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
 [![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
 
-A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva. Designed and tested for use with utility-first CSS libraries and SSR/SSG frameworks.
+A tool for managing React component class names, variants and styles.
 
 ## 🚩 Transform this
 
@@ -16,7 +16,9 @@ const SomeButton = ({ isLoading, ...props }) => {
   return (
     <button
       {...props}
-      className={`transition-all mt-5 border-1 md:text-lg text-normal ${someConfig.transitionDurationEaseClass} ${activeClass} ${props.className || ""}`}
+      className={`transition-all mt-5 border-1 md:text-lg text-normal ${someConfig.transitionDurationEaseClass} ${activeClass} ${
+        props.className || ""
+      }`}
     >
       {props.children}
     </button>
@@ -27,14 +29,14 @@ const SomeButton = ({ isLoading, ...props }) => {
 ## 🌤️ Into
 
 ```js
-const ButtonBase = rc.button`
+const SomeButton = rc.button`
   text-normal
   md:text-lg
   mt-5
   border-1
   transition-all
   ${someConfig.transitionDurationEaseClass}
-  ${(p) => (p.$isLoading ? "opacity-90 pointer-events-none" : "")}
+  ${({ $isLoading }) => ($isLoading ? "opacity-90 pointer-events-none" : "")}
 `;
 ```
 
@@ -46,8 +48,7 @@ const ButtonBase = rc.button`
 - Dynamic styles
 - TypeScript support
 - Tested with SSR Frameworks
-- Compatible with UI-libraries ([DaisyUI](https://daisyui.com/), [Flowbite](https://flowbite.com/), [Radix UI](https://www.radix-ui.com/))
-- Classname merging (w/ [tailwind-merge](https://github.com/dcastil/tailwind-merge)]
+- Classname merging
 
 ## New Documentation online!
 
@@ -69,7 +70,8 @@ const ButtonBase = rc.button`
 
 ## Getting started
 
-Make sure you have installed [React](https://react.dev/) (> 16.8.0) in your project.
+Make sure you have installed [React](https://react.dev/) (> 16.8.0) in your
+project.
 
 ```bash
 npm i react-classmate
@@ -79,7 +81,8 @@ yarn add react-classmate
 
 ## Basic
 
-Create a component by calling `rc` with a tag name and a template literal string.
+Create a component by calling `rc` with a tag name and a template literal
+string.
 
 ```tsx
 import rc from "react-classmate";
@@ -92,11 +95,13 @@ const Container = rc.div`
 // transforms to: <div className="py-2 px-5 min-h-24" />
 ```
 
-Additional Information: [See "Base usage" documentation](https://react-classmate.dev/docs/basic/)
+Additional Information:
+[See "Base usage" documentation](https://react-classmate.dev/docs/basic/)
 
 ### Use with props
 
-Pass props to the component and use them in the template literal string and in the component prop validation.
+Pass props to the component and use them in the template literal string and in
+the component prop validation.
 
 ```tsx
 // hey typescript
@@ -107,7 +112,9 @@ interface ButtonProps {
 const SomeButton = rc.button<ButtonProps>`
   text-lg
   mt-5
-  ${(p) => (p.$isActive ? "bg-blue-400 text-white" : "bg-blue-400 text-blue-200")}
+  ${(
+  p,
+) => (p.$isActive ? "bg-blue-400 text-white" : "bg-blue-400 text-blue-200")}
   ${(p) => (p.$isLoading ? "opacity-90 pointer-events-none" : "")}
 `;
 // transforms to <button className="text-lg mt-5 bg-blue-400 text-white opacity-90 pointer-events-none" />
@@ -115,14 +122,17 @@ const SomeButton = rc.button<ButtonProps>`
 
 ### Prefix incoming props with `$`
 
-**we prefix the props incoming to dc with a `$` sign**. This is a important convention to distinguish dynamic props from the ones we pass to the component.
+**we prefix the props incoming to dc with a `$` sign**. This is a important
+convention to distinguish dynamic props from the ones we pass to the component.
 
 _This pattern should also avoid conflicts with reserved prop names._
 
 ## Create Variants
 
-Create variants by passing an object to the `variants` key like in [cva](https://cva.style/docs/getting-started/variants).
-The key should match the prop name and the value should be a function that returns a string. You could also re-use the props in the function.
+Create variants by passing an object to the `variants` key like in
+[cva](https://cva.style/docs/getting-started/variants). The key should match the
+prop name and the value should be a function that returns a string. You could
+also re-use the props in the function.
 
 ```tsx
 interface AlertProps {
@@ -156,11 +166,15 @@ export default () => <Alert $severity="info" $isActive />;
 // outputs: <div className="custom-active p-4 rounded-md bg-blue-100 text-blue-800 shadow-lg" />
 ```
 
-Additional Information: [See "Variants" documentation](https://react-classmate.dev/docs/variants/)
+Additional Information:
+[See "Variants" documentation](https://react-classmate.dev/docs/variants/)
 
 ### Typescript: Separate base props and variants with a second type parameter
 
-As seen above, we also pass `AlertProps` to the variants, which can cause loose types. If you want to separate the base props from the variants, you can pass a second type to the `variants` function so that only those props are available in the variants.
+As seen above, we also pass `AlertProps` to the variants, which can cause loose
+types. If you want to separate the base props from the variants, you can pass a
+second type to the `variants` function so that only those props are available in
+the variants.
 
 ```tsx
 interface AlertProps {
@@ -205,21 +219,24 @@ const Container = rc.extend(MyOtherComponent)`
 // transforms to: <button className="text-lg mt-5 py-2 px-5 min-h-24" />
 ```
 
-Additional Information: ["Extend" documentation](https://react-classmate.dev/docs/extend/)
+Additional Information:
+["Extend" documentation](https://react-classmate.dev/docs/extend/)
 
 ## Add CSS Styles
 
-You can use CSS styles in the template literal string with the `style` function. This function takes an object with CSS properties and returns a string. We can use the props from before.
+You can use CSS styles in the template literal string with the `style` function.
+This function takes an object with CSS properties and returns a string. We can
+use the props from before.
 
 ```tsx
 // Base:
 const StyledButton = rc.button<{ $isDisabled: boolean }>`
   text-blue
   ${(p) =>
-    p.style({
-      boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
-      cursor: p.$isDisabled ? "not-allowed" : "pointer",
-    })}
+  p.style({
+    boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
+    cursor: p.$isDisabled ? "not-allowed" : "pointer",
+  })}
 `;
 export default () => <StyledButton $isDisabled />;
 // outputs: <button className="text-blue" style="box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); cursor: not-allowed;" />
@@ -229,16 +246,16 @@ export default () => <StyledButton $isDisabled />;
 // Extended:
 const BaseButton = rc.button<{ $isActive?: boolean }>`
   ${(p) =>
-    p.style({
-      backgroundColor: p.$isActive ? "green" : "red",
-    })}
+  p.style({
+    backgroundColor: p.$isActive ? "green" : "red",
+  })}
 `;
 const ExtendedButton = rc.extend(BaseButton)<{ $isLoading?: boolean }>`
   ${(p) =>
-    p.style({
-      opacity: p.$isLoading ? 0.5 : 1,
-      pointerEvents: p.$isLoading ? "none" : "auto",
-    })}
+  p.style({
+    opacity: p.$isLoading ? 0.5 : 1,
+    pointerEvents: p.$isLoading ? "none" : "auto",
+  })}
 `;
 export default () => <ExtendedButton $isActive $isLoading />;
 // outputs: <button className="bg-red" style="opacity: 0.5; pointer-events: none;" />
@@ -246,7 +263,9 @@ export default () => <ExtendedButton $isActive $isLoading />;
 
 ## Recipes for `rc.extend`
 
-With `rc.extend`, you can build upon any base React component, adding new styles and even supporting additional props. This makes it easy to create reusable component variations without duplicating logic.
+With `rc.extend`, you can build upon any base React component, adding new styles
+and even supporting additional props. This makes it easy to create reusable
+component variations without duplicating logic.
 
 ```tsx
 import { ArrowBigDown } from "lucide-react";
@@ -262,9 +281,12 @@ const StyledLucideArrow = rc.extend(ArrowBigDown)`
 export default () => <StyledLucideArrow stroke="3" />;
 ```
 
-⚠️ Having problems by extending third party components, see: [Extending other lib components](#extending-other-lib-components--juggling-with-components-that-are-any)
+⚠️ Having problems by extending third party components, see:
+[Extending other lib components](#extending-other-lib-components--juggling-with-components-that-are-any)
 
-Now we can define a base component, extend it with additional styles and classes, and pass properties. You can pass the types to the `extend` function to get autocompletion and type checking.
+Now we can define a base component, extend it with additional styles and
+classes, and pass properties. You can pass the types to the `extend` function to
+get autocompletion and type checking.
 
 ```tsx
 import rc from "react-classmate";
@@ -336,8 +358,9 @@ export default () => <ExtendedButton $severity="info" $test />;
 
 ### Auto infer types for props
 
-By passing the component, we can validate the component to accept tag related props.
-This is useful if you wanna rely on the props for a specific element without the `$` prefix.
+By passing the component, we can validate the component to accept tag related
+props. This is useful if you wanna rely on the props for a specific element
+without the `$` prefix.
 
 ```tsx
 // if you pass rc component it's types are validated
@@ -359,7 +382,9 @@ const StyledDiv = rc.extend(MyInput)<{ $trigger?: boolean }>`
 
 ### Extending other lib components / `any` as Input
 
-Unfortunately we cannot infer the type directly of the component if it's `any` or loosely typed. But we can use a intermediate step to pass the type to the `extend` function.
+Unfortunately we cannot infer the type directly of the component if it's `any`
+or loosely typed. But we can use a intermediate step to pass the type to the
+`extend` function.
 
 ```tsx
 import { ComponentProps } from 'react'
@@ -396,7 +421,8 @@ const StyledField = rc.extend(FieldComponent)<{ $error: boolean }>`
 export const Component = () => <StyledField placeholder="placeholder" as="select" name="name" $error />
 ```
 
-⚠️ This is a workaround! This is a _bug_ - we should be able to pass the types directly in the interface in which we pass `$error`. Contributions welcome.
+⚠️ This is a workaround! This is a _bug_ - we should be able to pass the types
+directly in the interface in which we pass `$error`. Contributions welcome.
 
 ## CommonJS
 
@@ -412,17 +438,21 @@ const { default: rc } = require("react-classmate");
 
 ## Tailwind Merge
 
-React-classmate uses [tailwind-merge](https://github.com/dcastil/tailwind-merge) under the hood to merge class names. The last class name will always win, so you can use it to override classes.
+React-classmate uses [tailwind-merge](https://github.com/dcastil/tailwind-merge)
+under the hood to merge class names. The last class name will always win, so you
+can use it to override classes.
 
 ## Upcoming
 
-- bug / troubleshoot: classnames set by ref.current (useRef) will be overwritten as soon component rerenders
+- bug / troubleshoot: classnames set by ref.current (useRef) will be overwritten
+  as soon component rerenders
   - needs at least a small article in the docs
-- `rc.raw()` and `rc.raw.variants()` for only using `rc` syntax for classnames (output as string)
+- `rc.raw()` and `rc.raw.variants()` for only using `rc` syntax for classnames
+  (output as string)
 - Variants for `rc.extend`
-- named lib import for CommonJS (currently only `.default`)
-  -- Means we need to remove the named export in the ts file to not duplicate IDE import suggestions:
-  --- Change postbuild script to remove named esm export
+- named lib import for CommonJS (currently only `.default`) -- Means we need to
+  remove the named export in the ts file to not duplicate IDE import
+  suggestions: --- Change postbuild script to remove named esm export
 - Integrate more tests, benchmarks focused on SSR and React
 - Advanced IDE integration
   - show generated default class on hover

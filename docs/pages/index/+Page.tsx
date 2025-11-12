@@ -61,7 +61,7 @@ const StartPage = () => (
       <div className="text-center sm:w-3/4 lg:w-3/5 mx-auto mb-20">
         <DocsHead
           headingStyle="h1"
-          excerpt="A tool for managing React component class names, variants and styles with the simplicity of styled-components and cva."
+          excerpt="A react tool to separate class name logic, create variants and manage component styles."
           main="React Classmate"
           pre="Welcome to"
           centered
@@ -78,9 +78,6 @@ const StartPage = () => (
             Check on NPM
           </Button>
         </div>
-      </div>
-      <div className="text-center mb-16">
-        <HeadlineGroup centered main="What's inside?" pre="Overview" />
       </div>
       <Section>
         <div>

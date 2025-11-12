@@ -6,5 +6,5 @@ const SectionBase = rc.div`
 
 const CustomSection = rc.extend(SectionBase)`
   mb-3
-  ${(p) => (p.$small ? "text-sm" : "")}
+  ${({$small}) => ($small ? "text-sm" : "")}
 `
