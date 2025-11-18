@@ -54,7 +54,7 @@ describe("sc base", () => {
   it("merges multiple classes using tailwind-merge - overwrite on className", () => {
     const MergedDiv = sc.div`mt-2 mt-8 mt-1`
 
-    const { container } = render(() => <MergedDiv className="mt-10" />)
+    const { container } = render(() => <MergedDiv class="mt-10" />)
 
     expect(container.firstChild).toHaveClass("mt-10")
     expect(container.firstChild).toBeInstanceOf(HTMLDivElement)

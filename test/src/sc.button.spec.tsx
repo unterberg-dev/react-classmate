@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render } from "@solidjs/testing-library"
 import type { JSX } from "solid-js"
 
-import sc, { type VariantsConfig, convertScProps } from "../../dist"
+import sc, { convertScProps, type VariantsConfig } from "../../dist"
 
 type ButtonBaseProps = JSX.IntrinsicElements["button"] & {
   $size?: "sm" | "md" | "lg"
@@ -62,11 +62,9 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, object> = {
 }
 
 const ButtonBase = sc.button.variants(buttonVariants)
-const LinkButton = sc.a.variants(buttonVariants)
 
 type ButtonProps = JSX.IntrinsicElements["button"] & {
   icon?: JSX.Element
-  link?: string
   type: "button" | "submit" | "reset"
 
   // we must redeclare these props here because $-props are not inherited from ButtonBaseProps
@@ -78,9 +76,7 @@ type ButtonProps = JSX.IntrinsicElements["button"] & {
   noGutter?: ButtonBaseProps["$noGutter"]
 }
 
-const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
-  const Component = link ? LinkButton : ButtonBase
-
+const Button = ({ children, icon, ...buttonProps }: ButtonProps) => {
   const preparedProps = convertScProps(buttonProps, {
     size: "$size",
     noShadow: "$noShadow",
@@ -90,10 +86,10 @@ const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
   })
 
   return (
-    <Component {...(link ? { href: link } : {})} {...preparedProps}>
+    <ButtonBase {...preparedProps}>
       {icon}
       {children}
-    </Component>
+    </ButtonBase>
   )
 }
 

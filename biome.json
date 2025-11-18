@@ -1,13 +1,12 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
-    "ignore": ["dist", ".localPack", "node_modules", "package.json"]
+    "ignoreUnknown": false
   },
   "formatter": {
     "enabled": true,
@@ -15,20 +14,16 @@
     "indentStyle": "space",
     "lineWidth": 110,
     "lineEnding": "lf",
-    "ignore": ["dist", ".localPack", "node_modules", "package.json"]
-  },
-  "organizeImports": {
-    "enabled": true
+    "includes": ["**", "!**/_data", "!**/.vscode", "!**/dist", "!**/node_modules", "!**/package.json"]
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
-      "suspicious": {
-        "noExplicitAny": "off"
-      }
+      "recommended": true
     },
-    "ignore": ["dist", ".localPack", "node_modules", "package.json"]
+    "domains": {
+      "solid": "recommended"
+    }
   },
   "javascript": {
     "formatter": {

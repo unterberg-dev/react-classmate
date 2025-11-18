@@ -32,7 +32,7 @@ describe("Style Capabilities", () => {
     expect(baseButton).toHaveStyle("color: gray")
 
     const ExtendedButton = sc.extend(BaseButton)<{ $test?: boolean }>`
-      ${(p) => p.style({ outlineColor: p.$test ? "black" : "red" })}
+      ${(p) => p.style({ "outline-color": p.$test ? "black" : "red" })}
     `
     const { container: extendedButtonContainer } = render(() => (
       <ExtendedButton $disabled={true} $test={false}>
@@ -55,13 +55,13 @@ describe("Style Capabilities", () => {
         color-black
         ${p.style({
           border: p.$disabled ? "1px solid gray" : "1px solid blue",
-          boxShadow: p.$disabled ? "none" : "0 0 0 1px black",
+          "box-shadow": p.$disabled ? "none" : "0 0 0 1px black",
         })}
       `,
       variants: {
         $size: {
-          small: (p) => p.style({ fontSize: "12px" }),
-          large: (p) => p.style({ fontSize: "18px" }),
+          small: (p) => p.style({ "font-size": "12px" }),
+          large: (p) => p.style({ "font-size": "18px" }),
         },
       },
       defaultVariants: {

@@ -1,4 +1,5 @@
 import type { Component, JSX } from "solid-js"
+import { children as resolveChildren } from "solid-js"
 import { Dynamic } from "solid-js/web"
 import { twMerge } from "tailwind-merge"
 
@@ -85,6 +86,11 @@ const createSolidElement = <T extends object, E extends keyof JSX.IntrinsicEleme
         filteredProps[key] = normalizedProps[key]
       }
     }
+    const childAccessor = normalizedProps.children
+    if ("children" in filteredProps) {
+      // biome-ignore lint/performance/noDelete: <explanation>
+      delete filteredProps.children
+    }
 
     const initialClass = typeof filteredProps.class === "string" ? filteredProps.class : ""
     if ("class" in filteredProps) {
@@ -117,7 +123,13 @@ const createSolidElement = <T extends object, E extends keyof JSX.IntrinsicEleme
     // biome-ignore lint/performance/noDelete: <explanation>
     delete filteredProps.className
 
-    return <Dynamic component={tag as any} {...filteredProps} class={mergedClassName} style={mergedStyles} />
+    const resolvedChildren = resolveChildren(() => childAccessor)
+
+    return (
+      <Dynamic component={tag as any} {...filteredProps} class={mergedClassName} style={mergedStyles}>
+        {resolvedChildren()}
+      </Dynamic>
+    )
   }) as ScBaseComponent<T>
 
   element.displayName = displayName || "Sc Component"
