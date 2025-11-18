@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
-    "jsx": "react-jsx",
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
     "declaration": true,
     "declarationDir": "./dist/types",
     "emitDeclarationOnly": true,
-    "types": ["@testing-library/jest-dom", "node"],
+    "types": ["@testing-library/jest-dom", "node", "solid-js"],
     "module": "ESNext",
     "target": "ESNext",
     "strict": true,
@@ -15,5 +16,5 @@
     "skipLibCheck": true
   },
   "include": ["src", "postbuild.ts"],
-  "exclude": ["node_modules", "dist", ".localPack", "docs"]
+  "exclude": ["node_modules", "dist", ".localPack"]
 }

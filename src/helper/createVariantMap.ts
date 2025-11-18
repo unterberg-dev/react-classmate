@@ -1,5 +1,5 @@
-import rc from "../rc"
-import type { RcBaseComponent, VariantsConfig } from "../types"
+import sc from "../sc"
+import type { ScBaseComponent, VariantsConfig } from "../types"
 import type { AllowedTags } from "../util/domElements"
 
 interface CreateVariantMapOptions<T extends AllowedTags> {
@@ -36,14 +36,14 @@ const hVariantMap = createVariantMap({
  * will result in:
  * ```tsx
  * const button = {
- *  button: RcBaseComponent<any>, // rc.button.variants(buttonVariants)
- *  a: RcBaseComponent<any>, // rc.a.variants(buttonVariants)
+ *  button: ScBaseComponent<any>, // sc.button.variants(buttonVariants)
+ *  a: ScBaseComponent<any>, // sc.a.variants(buttonVariants)
  * }
  */
 const createVariantMap = <T extends AllowedTags>({
   elements,
   variantsConfig,
-}: CreateVariantMapOptions<T>): Record<T, RcBaseComponent<any>> => {
+}: CreateVariantMapOptions<T>): Record<T, ScBaseComponent<any>> => {
   // Check for duplicates
   const uniqueElements = new Set(elements)
   if (uniqueElements.size !== elements.length) {
@@ -52,7 +52,7 @@ const createVariantMap = <T extends AllowedTags>({
     // Remove duplicate entries for clarity
     const uniqueDuplicates = Array.from(new Set(duplicates))
     throw new Error(
-      `react-classmate: Duplicate elements detected in createVariantMap: ${uniqueDuplicates.join(
+      `solid-classmate: Duplicate elements detected in createVariantMap: ${uniqueDuplicates.join(
         ", ",
       )}. Each element must be unique.`,
     )
@@ -60,17 +60,17 @@ const createVariantMap = <T extends AllowedTags>({
 
   return elements.reduce(
     (acc, tag) => {
-      if (rc[tag]) {
-        acc[tag] = rc[tag].variants(variantsConfig)
+      if (sc[tag]) {
+        acc[tag] = sc[tag].variants(variantsConfig)
       } else {
         console.warn(
-          `react-classmate: Element "${tag}" is not supported by react-classmate. Falling back to 'div'.`,
+          `solid-classmate: Element "${tag}" is not supported by solid-classmate. Falling back to 'div'.`,
         )
-        acc[tag] = rc.div.variants(variantsConfig) // Fallback to div if element not found
+        acc[tag] = sc.div.variants(variantsConfig) // Fallback to div if element not found
       }
       return acc
     },
-    {} as Record<T, RcBaseComponent<any>>,
+    {} as Record<T, ScBaseComponent<any>>,
   )
 }
 

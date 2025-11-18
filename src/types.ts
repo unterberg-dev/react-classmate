@@ -1,11 +1,4 @@
-import type {
-  CSSProperties,
-  ForwardRefExoticComponent,
-  JSX,
-  JSXElementConstructor,
-  PropsWithoutRef,
-  RefAttributes,
-} from "react"
+import type { Component, JSX } from "solid-js"
 
 /**
  * Interpolation type for "styled components".
@@ -22,22 +15,19 @@ export type Interpolation<T> = InterpolationBase<T & { style: (styleDef: StyleDe
 
 export type LogicHandler<P extends object> = (props: P) => Partial<P> | undefined
 
-export type InputComponent =
-  | ForwardRefExoticComponent<any>
-  | JSXElementConstructor<any>
-  | RcBaseComponent<any>
+export type InputComponent = Component<any> | ScBaseComponent<any>
 
 /**
  * Base type for styled React components with forward refs.
  *
  * @typeParam P - Props of the component.
  */
-export interface RcBaseComponent<P extends object = object>
-  extends ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<any>> {
-  __rcComputeClassName?: (props: P) => string
-  __rcTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>
-  __rcStyles?: StyleDefinition<P> | ((props: P) => StyleDefinition<P>)
-  __rcLogic?: LogicHandler<P>[]
+export interface ScBaseComponent<P extends object = object> extends Component<P> {
+  displayName?: string
+  __scComputeClassName?: (props: P) => string
+  __scTag?: keyof JSX.IntrinsicElements | Component<any>
+  __scStyles?: StyleDefinition<P> | ((props: P) => StyleDefinition<P>)
+  __scLogic?: LogicHandler<P>[]
 }
 
 /**
@@ -49,14 +39,14 @@ export interface RcBaseComponent<P extends object = object>
  * @example
  * ```tsx
  * // Extending a custom component without intrinsic element type
- * const SomeBase = rc.div<{ $active?: boolean }>`color: red;`
- * const Extended = rc.extend(SomeBase)<{ $highlighted?: boolean }>`
+ * const SomeBase = sc.div<{ $active?: boolean }>`color: red;`
+ * const Extended = sc.extend(SomeBase)<{ $highlighted?: boolean }>`
  *   ${p => p.$highlighted ? 'bg-yellow' : ''}
  *   ${p => p.$active ? 'text-red' : ''}
  * `
  *
  * // Extending with specific props:
- * const ExtendedButton = rc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
+ * const ExtendedButton = sc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
  *   ${p => p.type === 'submit' ? 'font-bold' : ''}
  * ```
  */
@@ -71,14 +61,14 @@ type ExtendFunction =
    * @example
    * ```tsx
    * // Extending a custom component without intrinsic element type
-   * const SomeBase = rc.div<{ $active?: boolean }>`color: red;`
-   * const Extended = rc.extend(SomeBase)<{ $highlighted?: boolean }>`
+   * const SomeBase = sc.div<{ $active?: boolean }>`color: red;`
+   * const Extended = sc.extend(SomeBase)<{ $highlighted?: boolean }>`
    *   ${p => p.$highlighted ? 'bg-yellow' : ''}
    *   ${p => p.$active ? 'text-red' : ''}
    * `
    *
    * // Extending with specific props:
-   * const ExtendedButton = rc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
+   * const ExtendedButton = sc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
    *   ${p => p.type === 'submit' ? 'font-bold' : ''}
    * ```
    */
@@ -94,7 +84,7 @@ export interface ExtendTemplateBuilder<
   <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: Interpolation<MergeProps<E, T> & JSX.IntrinsicElements[I]>[]
-  ): RcBaseComponent<MergeProps<E, T>>
+  ): ScBaseComponent<MergeProps<E, T>>
   logic<NextLogic extends object = object>(
     handler: LogicHandler<MergeProps<E, LogicProps & NextLogic>>,
   ): ExtendTemplateBuilder<E, I, LogicProps & NextLogic>
@@ -177,7 +167,7 @@ type VariantsFunction<K> =
    *   $severity: "info" | "warning" | "error";
    * }
    *
-   * const Alert = rc.div.variants<AlertProps, AlertVariants>({
+   * const Alert = sc.div.variants<AlertProps, AlertVariants>({
    *   base: p => `${p.$isActive ? "pointer-cursor" : ""} p-4 rounded-md`,
    *   variants: {
    *     $severity: {
@@ -194,24 +184,24 @@ type VariantsFunction<K> =
    */
   <ExtraProps extends object, VariantProps extends object = ExtraProps>(
     config: VariantsConfig<VariantProps, ExtraProps>,
-  ) => RcBaseComponent<MergeProps<K, ExtraProps & Partial<VariantProps>>>
+  ) => ScBaseComponent<MergeProps<K, ExtraProps & Partial<VariantProps>>>
 
 /**
  * Factory for creating styled components with intrinsic elements.
  */
-export interface RcFactoryFunction<K extends keyof JSX.IntrinsicElements> {
+export interface ScFactoryFunction<K extends keyof JSX.IntrinsicElements> {
   <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: Interpolation<T>[]
-  ): RcBaseComponent<MergeProps<K, T>>
+  ): ScBaseComponent<MergeProps<K, T>>
   logic<LogicProps extends object = object>(
     handler: LogicHandler<MergeProps<K, LogicProps>>,
-  ): RcFactoryFunction<K>
+  ): ScFactoryFunction<K>
   variants: VariantsFunction<K>
 }
 
-export type RcComponentFactory = {
-  [K in keyof JSX.IntrinsicElements]: RcFactoryFunction<K>
+export type ScComponentFactory = {
+  [K in keyof JSX.IntrinsicElements]: ScFactoryFunction<K>
 } & {
   extend: ExtendFunction
 }
@@ -224,8 +214,6 @@ export type RcComponentFactory = {
  *
  * @typeParam P - The type of the component to extract props from.
  */
-type InnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any> ? U : P
-
 /**
  * Merges additional props with the base props of a given component or intrinsic element.
  *
@@ -234,11 +222,9 @@ type InnerProps<P> = P extends PropsWithoutRef<infer U> & RefAttributes<any> ? U
  */
 export type MergeProps<E, T> = E extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[E] & T
-  : E extends ForwardRefExoticComponent<infer P>
-    ? InnerProps<P> & T
-    : E extends JSXElementConstructor<infer P2>
-      ? P2 & T
-      : T
+  : E extends Component<infer P>
+    ? P & T
+    : T
 
 // styles
 type StaticStyleValue = string | number
@@ -246,5 +232,5 @@ type DynamicStyleValue<P> = (props: P) => StaticStyleValue
 
 // todo: document this
 export type StyleDefinition<P> = {
-  [Key in keyof CSSProperties]?: StaticStyleValue | DynamicStyleValue<P>
+  [Key in keyof JSX.CSSProperties]?: StaticStyleValue | DynamicStyleValue<P>
 }

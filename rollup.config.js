@@ -9,7 +9,7 @@ import packageJson from "./package.json" with { type: "json" }
 const pkg = packageJson
 
 const globals = {
-  react: "React",
+  "solid-js": "solidJs",
   "tailwind-merge": "tailwind-merge",
 }
 
@@ -28,7 +28,7 @@ for (const key of Object.keys(pkg.peerDependencies || {})) {
 export default [
   {
     input: "src/index.ts",
-    external: Object.keys(globals),
+    external: [...Object.keys(globals), "solid-js/web"],
     output: [
       {
         format: "cjs",

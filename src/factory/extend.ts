@@ -1,5 +1,5 @@
-import type { Interpolation, LogicHandler, RcBaseComponent, StyleDefinition } from "../types"
-import createReactElement from "../util/createReactElement"
+import type { Interpolation, LogicHandler, ScBaseComponent, StyleDefinition } from "../types"
+import createSolidElement from "../util/createSolidElement"
 
 /**
  * Create an extended component builder.
@@ -12,16 +12,16 @@ import createReactElement from "../util/createReactElement"
  * @returns A new styled component with merged class names and styles.
  */
 const createExtendedComponent = <T extends object>(
-  baseComponent: RcBaseComponent<any>,
+  baseComponent: ScBaseComponent<any>,
   strings: TemplateStringsArray,
   interpolations: Interpolation<T>[],
   logicHandlers: LogicHandler<T>[] = [],
-): RcBaseComponent<T> => {
+): ScBaseComponent<T> => {
   const displayName = `Extended(${baseComponent.displayName || "Component"})`
-  const baseComputeClassName = baseComponent.__rcComputeClassName || (() => "")
-  const baseStyles = baseComponent.__rcStyles || {}
-  const tag = baseComponent.__rcTag || baseComponent
-  const baseLogic = (baseComponent.__rcLogic as LogicHandler<any>[]) || []
+  const baseComputeClassName = baseComponent.__scComputeClassName || (() => "")
+  const baseStyles = baseComponent.__scStyles || {}
+  const tag = baseComponent.__scTag || baseComponent
+  const baseLogic = (baseComponent.__scLogic as LogicHandler<any>[]) || []
   const combinedLogic = [...baseLogic, ...logicHandlers]
 
   const computeClassName = (props: T, collectedStyles: Record<string, string | number>) => {
@@ -56,7 +56,7 @@ const createExtendedComponent = <T extends object>(
     return { ...baseStyles, ...collectedStyles }
   }
 
-  return createReactElement({
+  return createSolidElement({
     tag,
     computeClassName: (props) => computeClassName(props, {}),
     displayName,

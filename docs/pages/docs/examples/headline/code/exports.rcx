@@ -1,7 +1,0 @@
-export const H1Headline = createHeadlineComponent("h1")
-export const H2Headline = createHeadlineComponent("h2")
-export const H3Headline = createHeadlineComponent("h3")
-export const H4Headline = createHeadlineComponent("h4")
-export const H5Headline = createHeadlineComponent("h5")
-export const H6Headline = createHeadlineComponent("h6")
-export default Headline

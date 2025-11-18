@@ -1,4 +1,4 @@
 // mainly here for jest to work with typescript
 module.exports = {
-  presets: ["@babel/preset-typescript", "@babel/preset-react", "@babel/preset-env"],
+  presets: ["babel-preset-solid", "@babel/preset-typescript", "@babel/preset-env"],
 }

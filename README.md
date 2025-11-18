@@ -1,9 +1,9 @@
-# react-classmate
+# solid-classmate
 
-[![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
-[![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
+[![npm](https://img.shields.io/npm/v/solid-classmate)](https://www.npmjs.com/package/solid-classmate)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/solid-classmate)](https://bundlephobia.com/result?p=solid-classmate)
 
-A tool for managing React component class names, variants and styles.
+A tool for managing Solid component class names, variants and styles.
 
 ## 🚩 Transform this
 
@@ -29,7 +29,7 @@ const SomeButton = ({ isLoading, ...props }) => {
 ## 🌤️ Into
 
 ```js
-const SomeButton = rc.button`
+const SomeButton = sc.button`
   text-normal
   md:text-lg
   mt-5
@@ -52,7 +52,7 @@ const SomeButton = rc.button`
 
 ## New Documentation online!
 
-#### [Head over to the new docs page](https://react-classmate.dev/)
+#### [Head over to the new docs page](https://solid-classmate.dev/)
 
 ## Contents
 
@@ -63,33 +63,33 @@ const SomeButton = rc.button`
 - [Create Variants](#create-variants)
 - [Extend components](#extend)
 - [Add CSS Styles](#add-css-styles)
-- [Use inside React components](#use-inside-react-components)
+- [Use inside Solid components](#use-inside-solid-components---createclassmate)
 - [Add logic headers](#add-logic-headers)
-- [Recipes for `rc.extend`](#receipes-for-rcextend)
-  - [Use rc for creating base component](#use-rc-for-creating-base-component)
+- [Recipes for `sc.extend`](#recipes-for-sc-extend)
+  - [Use sc for creating base component](#use-sc-for-creating-base-component)
   - [Auto infer types for props](#auto-infer-types-for-props)
   - [Extending other lib components / `any` as Input](#extending-other-lib-components--any-as-input)
 
 ## Getting started
 
-Make sure you have installed [React](https://react.dev/) (> 16.8.0) in your
+Make sure you have installed [SolidJS](https://www.solidjs.com/) (> 1.8.0) in your
 project.
 
 ```bash
-npm i react-classmate
+npm i solid-classmate
 # or
-yarn add react-classmate
+yarn add solid-classmate
 ```
 
 ## Basic
 
-Create a component by calling `rc` with a tag name and a template literal
+Create a component by calling `sc` with a tag name and a template literal
 string.
 
 ```tsx
-import rc from "react-classmate";
+import sc from "solid-classmate";
 
-const Container = rc.div`
+const Container = sc.div`
   py-2
   px-5
   min-h-24
@@ -98,7 +98,7 @@ const Container = rc.div`
 ```
 
 Additional Information:
-[See "Base usage" documentation](https://react-classmate.dev/docs/basic/)
+[See "Base usage" documentation](https://solid-classmate.dev/docs/basic/)
 
 ### Use with props
 
@@ -111,7 +111,7 @@ interface ButtonProps {
   $isActive?: boolean;
   $isLoading?: boolean;
 }
-const SomeButton = rc.button<ButtonProps>`
+const SomeButton = sc.button<ButtonProps>`
   text-lg
   mt-5
   ${(
@@ -141,7 +141,7 @@ interface AlertProps {
   $severity: "info" | "warning" | "error";
   $isActive?: boolean;
 }
-const Alert = rc.div.variants<AlertProps>({
+const Alert = sc.div.variants<AlertProps>({
   // optional
   base: (p) => `
     ${p.isActive ? "custom-active" : "custom-inactive"}
@@ -169,7 +169,7 @@ export default () => <Alert $severity="info" $isActive />;
 ```
 
 Additional Information:
-[See "Variants" documentation](https://react-classmate.dev/docs/variants/)
+[See "Variants" documentation](https://solid-classmate.dev/docs/variants/)
 
 ### Typescript: Separate base props and variants with a second type parameter
 
@@ -185,7 +185,7 @@ interface AlertProps {
 interface AlertVariants {
   $severity: "info" | "warning" | "error";
 }
-const Alert = rc.div.variants<AlertProps, AlertVariants>({
+const Alert = sc.div.variants<AlertProps, AlertVariants>({
   base: `p-4 rounded-md`,
   variants: {
     // in here there are only the keys from AlertVariants available
@@ -211,9 +211,9 @@ Extend a component directly by passing the component and the tag name.
 
 ```tsx
 import MyOtherComponent from "./MyOtherComponent"; // () => <button className="text-lg mt-5" />
-import rc from "react-classmate";
+import sc from "solid-classmate";
 
-const Container = rc.extend(MyOtherComponent)`
+const Container = sc.extend(MyOtherComponent)`
   py-2
   px-5
   min-h-24
@@ -222,7 +222,7 @@ const Container = rc.extend(MyOtherComponent)`
 ```
 
 Additional Information:
-["Extend" documentation](https://react-classmate.dev/docs/extend/)
+["Extend" documentation](https://solid-classmate.dev/docs/extend/)
 
 ## Add CSS Styles
 
@@ -232,7 +232,7 @@ use the props from before.
 
 ```tsx
 // Base:
-const StyledButton = rc.button<{ $isDisabled: boolean }>`
+const StyledButton = sc.button<{ $isDisabled: boolean }>`
   text-blue
   ${(p) =>
   p.style({
@@ -246,13 +246,13 @@ export default () => <StyledButton $isDisabled />;
 
 ```tsx
 // Extended:
-const BaseButton = rc.button<{ $isActive?: boolean }>`
+const BaseButton = sc.button<{ $isActive?: boolean }>`
   ${(p) =>
   p.style({
     backgroundColor: p.$isActive ? "green" : "red",
   })}
 `;
-const ExtendedButton = rc.extend(BaseButton)<{ $isLoading?: boolean }>`
+const ExtendedButton = sc.extend(BaseButton)<{ $isLoading?: boolean }>`
   ${(p) =>
   p.style({
     opacity: p.$isLoading ? 0.5 : 1,
@@ -263,37 +263,35 @@ export default () => <ExtendedButton $isActive $isLoading />;
 // outputs: <button className="bg-red" style="opacity: 0.5; pointer-events: none;" />
 ```
 
-### Use inside React components - `useClassmate`
+### Use inside Solid components - `createClassmate`
 
-When you need to create a classmate component inside another React component
-(for example, when the configuration depends on runtime-only values), wrap the
-factory with `useClassmate`. This memoizes the result and avoids creating a
-brand-new component on every render.
+Solid components only execute once, so you can safely declare classmate
+components inline. When you still want a helper to encapsulate that factory,
+`createClassmate` simply evaluates the callback and returns the generated
+component.
 
 ```tsx
-import rc, { useClassmate } from "react-classmate";
+import sc, { createClassmate } from "solid-classmate";
 
 const WorkoutDay = ({ status }: { status: "completed" | "pending" }) => {
-  const StyledDay = useClassmate(
-    () =>
-      rc.div.variants({
-        base: "rounded border p-4 text-sm",
-        variants: {
-          $status: {
-            completed: "border-green-400 bg-green-50",
-            pending: "border-yellow-400 bg-yellow-50",
-          },
+  const StyledDay = createClassmate(() =>
+    sc.div.variants({
+      base: "rounded border p-4 text-sm",
+      variants: {
+        $status: {
+          completed: "border-green-400 bg-green-50",
+          pending: "border-yellow-400 bg-yellow-50",
         },
-      }),
-    [status], // recompute when dependencies change
+      },
+    }),
   );
 
   return <StyledDay $status={status}>Workout details</StyledDay>;
 };
 ```
 
-> The dependency array behaves like `React.useMemo`. Pass everything the factory
-> closes over if you expect the component to update when those values change.
+The helper mirrors the legacy `useClassmate` API but without dependency
+tracking since Solid props are already stable.
 
 ### Add logic headers
 
@@ -313,7 +311,7 @@ interface WorkoutProps {
   $status?: DayStatus
 }
 
-const WorkoutDay = rc.div
+const WorkoutDay = sc.div
   .logic<WorkoutProps>((props) => {
     const status = deriveDayStatus(props)
     return {
@@ -338,23 +336,23 @@ const WorkoutDay = rc.div
 > Return values from `.logic()` are merged in order, so later logic calls can
 > reference earlier results or override them.
 
-## Recipes for `rc.extend`
+## Recipes for `sc.extend`
 
-With `rc.extend`, you can build upon any base React component, adding new styles
+With `sc.extend`, you can build upon any base Solid component, adding new styles
 and even supporting additional props. This makes it easy to create reusable
 component variations without duplicating logic.
 
 ```tsx
-import { ArrowBigDown } from "lucide-react";
-import rc from "react-classmate";
+import { ArrowBigDown } from "lucide-solid";
+import sc from "solid-classmate";
 
-const StyledLucideArrow = rc.extend(ArrowBigDown)`
+const StyledLucideArrow = sc.extend(ArrowBigDown)`
   md:-right-4.5
   right-1
   slide-in-r-20
 `;
 
-// ts: we can pass only props which are accessible on a `lucid-react` Component
+// ts: we can pass only props which are accessible on a `lucide-solid` Component
 export default () => <StyledLucideArrow stroke="3" />;
 ```
 
@@ -366,12 +364,12 @@ classes, and pass properties. You can pass the types to the `extend` function to
 get autocompletion and type checking.
 
 ```tsx
-import rc from "react-classmate";
+import sc from "solid-classmate";
 
 interface StyledSliderItemBaseProps {
   $active: boolean;
 }
-const StyledSliderItemBase = rc.button<StyledSliderItemBaseProps>`
+const StyledSliderItemBase = sc.button<StyledSliderItemBaseProps>`
   absolute
   h-full
   w-full
@@ -383,7 +381,7 @@ const StyledSliderItemBase = rc.button<StyledSliderItemBaseProps>`
 interface NewStyledSliderItemProps extends StyledSliderItemBaseProps {
   $secondBool: boolean;
 }
-const NewStyledSliderItemWithNewProps = rc.extend(
+const NewStyledSliderItemWithNewProps = sc.extend(
   StyledSliderItemBase,
 )<NewStyledSliderItemProps>`
   rounded-lg
@@ -398,10 +396,10 @@ export default () => (
 // outputs: <button className="absolute h-full w-full left-0 top-0 animate-in fade-in rounded-lg text-lg bg-blue" />
 ```
 
-### Use rc for creating base component
+### Use sc for creating base component
 
 ```tsx
-const BaseButton = rc.extend(rc.button``)`
+const BaseButton = sc.extend(sc.button``)`
   text-lg
   mt-5
 `;
@@ -415,7 +413,7 @@ interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
   $isActive?: boolean;
 }
 
-const Alert = rc.input.variants<ButtonProps>({
+const Alert = sc.input.variants<ButtonProps>({
   base: "p-4",
   variants: {
     $severity: {
@@ -425,7 +423,7 @@ const Alert = rc.input.variants<ButtonProps>({
   },
 });
 
-const ExtendedButton = rc.extend(Alert)<{ $test: boolean }>`
+const ExtendedButton = sc.extend(Alert)<{ $test: boolean }>`
   ${(p) => (p.$test ? "bg-green-100 text-green-800" : "")}
 `;
 
@@ -440,17 +438,17 @@ props. This is useful if you wanna rely on the props for a specific element
 without the `$` prefix.
 
 ```tsx
-// if you pass rc component it's types are validated
-const ExtendedButton = rc.extend(rc.button``)`
+// if you pass sc component it's types are validated
+const ExtendedButton = sc.extend(sc.button``)`
   some-class
   ${(p) => (p.type === "submit" ? "font-normal" : "font-bold")}
 `;
 
 // infers the type of the input element + add new props
-const MyInput = ({ ...props }: HTMLAttributes<HTMLInputElement>) => (
+const MyInput = ({ ...props }: JSX.InputHTMLAttributes<HTMLInputElement>) => (
   <input {...props} />
 );
-const StyledDiv = rc.extend(MyInput)<{ $trigger?: boolean }>`
+const StyledDiv = sc.extend(MyInput)<{ $trigger?: boolean }>`
   bg-white
   ${(p) => (p.$trigger ? "!border-error" : "")}
   ${(p) => (p.type === "submit" ? "font-normal" : "font-bold")}
@@ -464,38 +462,36 @@ or loosely typed. But we can use a intermediate step to pass the type to the
 `extend` function.
 
 ```tsx
-import { ComponentProps } from 'react'
-import { MapContainer } from 'react-leaflet'
-import { Field, FieldConfig } from 'formik'
-import rc, { RcBaseComponent } from 'react-classmate'
+import type { ComponentProps } from "solid-js";
+import { MapView } from "solid-awesome-map";
+import { Field, type FieldProps } from "@modular-forms/solid";
+import sc, { ScBaseComponent } from "solid-classmate";
 
 // we need to cast the type to ComponentProps
-type StyledMapContainerType = ComponentProps<typeof MapContainer>
-const StyledMapContainer: RcBaseComponent<StyledMapContainerType> = rc.extend(MapContainer)`
+type StyledMapProps = ComponentProps<typeof MapView>;
+const StyledMap: ScBaseComponent<StyledMapProps> = sc.extend(MapView)`
   absolute
   h-full
   w-full
   text-white
   outline-0
-`
+`;
 
-export const Component = () => <StyledMapContainer bounds={...} />
+export const Component = () => <StyledMap bounds={...} />;
 
-// or with Formik
+// or with another Solid form library
 
-import { Field, FieldConfig } from 'formik'
+type FieldComponentProps = ComponentProps<typeof Field> & FieldProps;
+const FieldComponent = ({ ...props }: FieldComponentProps) => <Field {...props} />;
 
-type FieldComponentProps = ComponentProps<'input'> & FieldConfig
-const FieldComponent = ({ ...props }: FieldComponentProps) => <Field {...props} />
-
-const StyledField = rc.extend(FieldComponent)<{ $error: boolean }>`
+const StyledField = sc.extend(FieldComponent)<{ $error: boolean }>`
   theme-form-field
   w-full
   ....
-  ${p => (p.$error ? '!border-error' : '')}
-`
+  ${(p) => (p.$error ? "!border-error" : "")}
+`;
 
-export const Component = () => <StyledField placeholder="placeholder" as="select" name="name" $error />
+export const Component = () => <StyledField placeholder="placeholder" name="name" $error />;
 ```
 
 ⚠️ This is a workaround! This is a _bug_ - we should be able to pass the types
@@ -506,16 +502,16 @@ directly in the interface in which we pass `$error`. Contributions welcome.
 If you are using CommonJS, you can import the library like this:
 
 ```js
-const rc = require("react-classmate").default;
+const sc = require("solid-classmate").default;
 
 // or
 
-const { default: rc } = require("react-classmate");
+const { default: sc } = require("solid-classmate");
 ```
 
 ## Tailwind Merge
 
-React-classmate uses [tailwind-merge](https://github.com/dcastil/tailwind-merge)
+solid-classmate uses [tailwind-merge](https://github.com/dcastil/tailwind-merge)
 under the hood to merge class names. The last class name will always win, so you
 can use it to override classes.
 
@@ -524,13 +520,13 @@ can use it to override classes.
 - bug / troubleshoot: classnames set by ref.current (useRef) will be overwritten
   as soon component rerenders
   - needs at least a small article in the docs
-- `rc.raw()` and `rc.raw.variants()` for only using `rc` syntax for classnames
+- `sc.raw()` and `sc.raw.variants()` for only using `sc` syntax for classnames
   (output as string)
-- Variants for `rc.extend`
+- Variants for `sc.extend`
 - named lib import for CommonJS (currently only `.default`) -- Means we need to
   remove the named export in the ts file to not duplicate IDE import
   suggestions: --- Change postbuild script to remove named esm export
-- Integrate more tests, benchmarks focused on SSR and React
+- Integrate more tests, benchmarks focused on SSR and Solid
 - Advanced IDE integration
   - show generated default class on hover
   - enforce autocompletion and tooltips from the used libs

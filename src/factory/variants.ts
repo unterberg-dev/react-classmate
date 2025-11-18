@@ -1,28 +1,20 @@
-import type { JSX } from "react"
+import type { JSX } from "solid-js"
 import type {
   InputComponent,
   LogicHandler,
   MergeProps,
-  RcBaseComponent,
+  ScBaseComponent,
   StyleDefinition,
   VariantsConfig,
 } from "../types"
-import createReactElement from "../util/createReactElement"
+import createSolidElement from "../util/createSolidElement"
 
 interface CreateVariantsOptions<T extends object> {
   logic?: LogicHandler<T>[]
 }
 
 /**
- * Creates a React component with variant-based class names and styles.
- *
- * @template E - The type of the element or component.
- * @template ExtraProps - Additional props for the component.
- * @template VariantProps - Props for the variants.
- *
- * @param {E} tag - The HTML tag or React component.
- * @param {VariantsConfig<VariantProps, ExtraProps>} config - Configuration for the variants.
- * @returns {RcBaseComponent<MergeProps<E, ExtraProps & Partial<VariantProps>>>} - The created React component.
+ * Creates a Solid component with variant-based class names and styles.
  */
 const createVariantsComponent = <
   E extends keyof JSX.IntrinsicElements | InputComponent,
@@ -32,7 +24,7 @@ const createVariantsComponent = <
   tag: E,
   config: VariantsConfig<VariantProps, ExtraProps>,
   options: CreateVariantsOptions<MergeProps<E, ExtraProps & Partial<VariantProps>>> = {},
-): RcBaseComponent<MergeProps<E, ExtraProps & Partial<VariantProps>>> => {
+): ScBaseComponent<MergeProps<E, ExtraProps & Partial<VariantProps>>> => {
   const { base, variants, defaultVariants = {} } = config
   const propsToFilter = Object.keys(variants)
   const styles: Record<string, string | number> = {}
@@ -65,14 +57,14 @@ const createVariantsComponent = <
     return [baseClasses, ...variantClasses].filter(Boolean).join(" ").trim().replace(/\s+/g, " ").trim()
   }
 
-  return createReactElement({
+  return createSolidElement({
     tag,
     computeClassName: (props) => computeClassName(props, styles),
     displayName,
     styles,
     propsToFilter,
     logicHandlers,
-  }) as RcBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>
+  }) as ScBaseComponent<MergeProps<E, Partial<VariantProps> & ExtraProps>>
 }
 
 export default createVariantsComponent

@@ -1,6 +1,6 @@
-import type { JSX } from "react"
-import type { Interpolation, LogicHandler, MergeProps, RcBaseComponent, StyleDefinition } from "../types"
-import createReactElement from "../util/createReactElement"
+import type { JSX } from "solid-js"
+import type { Interpolation, LogicHandler, MergeProps, ScBaseComponent, StyleDefinition } from "../types"
+import createSolidElement from "../util/createSolidElement"
 
 interface CreateBaseComponentOptions<T extends object> {
   logic?: LogicHandler<T>[]
@@ -20,7 +20,7 @@ const createBaseComponent = <T extends object, E extends keyof JSX.IntrinsicElem
   strings: TemplateStringsArray,
   interpolations: Interpolation<T>[],
   options: CreateBaseComponentOptions<MergeProps<E, T>> = {},
-): RcBaseComponent<MergeProps<E, T>> => {
+): ScBaseComponent<MergeProps<E, T>> => {
   const styles: Record<string, string | number> = {}
   const displayName = `Styled(${typeof tag === "string" ? tag : "Component"})`
   const logicHandlers = options.logic ?? []
@@ -44,7 +44,7 @@ const createBaseComponent = <T extends object, E extends keyof JSX.IntrinsicElem
       .trim()
   }
 
-  return createReactElement({
+  return createSolidElement({
     tag,
     computeClassName: (props) => computeClassName(props, styles),
     displayName,

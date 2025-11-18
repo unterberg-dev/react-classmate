@@ -1,4 +1,0 @@
-const hVariantMap: Record<string, RcBaseComponent<HeadlineVariantProps>> = createVariantMap({
-  elements: [...additionalElements, ...headlineLevels],
-  variantsConfig: headlineVariants,
-})

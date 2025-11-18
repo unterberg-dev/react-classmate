@@ -1,4 +1,0 @@
-<CustomButton $customState>Button</CustomButton>
-
-// renders:
-// <button class="text-blue px-3 py-2 bg-black">Button</button>

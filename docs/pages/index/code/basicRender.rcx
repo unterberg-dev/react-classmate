@@ -1,4 +1,0 @@
-<MyButton $isLoading={true} type="button" />
-
-// renders to:
-<button class="text-blue bg-white rounded-lg opacity-50 pointer-events-none" type="button">Click here</button>

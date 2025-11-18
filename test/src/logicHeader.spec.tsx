@@ -1,8 +1,7 @@
 import "@testing-library/jest-dom"
-import { render, screen } from "@testing-library/react"
-import React from "react"
+import { render, screen } from "@solidjs/testing-library"
 
-import rc from "../../dist"
+import sc from "../../dist"
 
 type DayStatus = "completed" | "partlyCompleted" | "skipped" | "partlySkipped" | "pending" | "none"
 
@@ -30,7 +29,7 @@ const deriveDayStatus = ({ workouts, allResolved, hasCompleted, hasSkipped }: Wo
 
 describe("logic header concept", () => {
   it("allows colocating derived status logic inside a classmate component", () => {
-    const StyledDay = rc.div.logic<WorkoutProps>((props) => {
+    const StyledDay = sc.div.logic<WorkoutProps>((props) => {
       const status = deriveDayStatus(props)
       return {
         $status: status,
@@ -41,7 +40,7 @@ describe("logic header concept", () => {
         ${(p) => (p.$status === "skipped" ? "opacity-40" : "opacity-100")}
       `
 
-    render(
+    render(() => (
       <StyledDay
         data-testid="day"
         workouts={[{ id: 1 }]}
@@ -51,8 +50,8 @@ describe("logic header concept", () => {
         label="Monday"
       >
         Monday
-      </StyledDay>,
-    )
+      </StyledDay>
+    ))
 
     const day = screen.getByTestId("day")
     expect(day).toHaveAttribute("data-status", "completed")
@@ -60,7 +59,7 @@ describe("logic header concept", () => {
   })
 
   it("feeds derived props into variants automatically", () => {
-    const WorkoutDayWithVariants = rc.div
+    const WorkoutDayWithVariants = sc.div
       .logic<WorkoutProps>((props) => {
         const status = deriveDayStatus(props)
         return { $status: status }
@@ -80,7 +79,7 @@ describe("logic header concept", () => {
         },
       })
 
-    render(
+    render(() => (
       <WorkoutDayWithVariants
         data-testid="day"
         workouts={[{ id: 1 }]}
@@ -90,8 +89,8 @@ describe("logic header concept", () => {
         label="Monday"
       >
         Monday
-      </WorkoutDayWithVariants>,
-    )
+      </WorkoutDayWithVariants>
+    ))
 
     const day = screen.getByTestId("day")
     expect(day).toHaveClass("border-green-400 bg-green-50")
