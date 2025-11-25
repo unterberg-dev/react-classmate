@@ -1,8 +1,7 @@
 import "@testing-library/jest-dom"
-const React = require("react")
-const { render } = require("@testing-library/react")
+import { render } from "@testing-library/react"
 
-const rc = require("../../dist/index.cjs.js")
+const rc: typeof import("../../dist").default = require("../../dist/index.cjs.js")
 
 describe("CommonJS Build", () => {
   it("should import the library using require", () => {
@@ -19,10 +18,10 @@ describe("rc base test", () => {
     const StyledSliderItemBase = rc.button`
       absolute
       top-0
-      ${(p) => (p.$isActive ? "animate-in fade-in" : "animate-out fade-out")}
+      ${(p: { $isActive: boolean }) => (p.$isActive ? "animate-in fade-in" : "animate-out fade-out")}
     `
 
-    const NewStyledSliderItemWithNewProps = rc.extend(StyledSliderItemBase)`
+    const NewStyledSliderItemWithNewProps = rc.extend(StyledSliderItemBase)<{ $secondBool: boolean }>`
       rounded-lg
       text-lg
       ${(p) => (p.$isActive ? "bg-blue" : "bg-red")}

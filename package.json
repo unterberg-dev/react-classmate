@@ -10,10 +10,10 @@
   "scripts": {
     "dev": "npm run dev -w docs",
     "build": "npm run build -ws --if-present",
-    "test": "npm run test:src -w react-classmate",
+    "test": "npm run test:src -w @classmate/react",
     "lint": "npm run lint -ws --if-present",
     "clean": "npm run clean -ws --if-present",
-    "package": "npm run package -w react-classmate",
+    "package": "npm run package -w @classmate/react",
     "docs": "npm run dev -w docs",
     "docs:build": "npm run build -w docs",
     "docs:preview": "npm run preview -w docs"

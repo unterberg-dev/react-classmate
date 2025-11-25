@@ -1,31 +1,27 @@
-import type { Interpolation, LogicHandler, RcBaseComponent, StyleDefinition } from "../types"
-import createReactElement from "../util/createReactElement"
+import type {
+  ComponentRenderer,
+  Interpolation,
+  LogicHandler,
+  RuntimeComponent,
+  StyleDefinition,
+} from "../types"
 
-/**
- * Create an extended component builder.
- * Merges the base component’s computed class names and styles with the new interpolations.
- *
- * @typeParam T - The type of the props passed to the interpolation function.
- * @param baseComponent - The base component to extend.
- * @param strings - Template strings array for the new styles.
- * @param interpolations - Interpolations for the new styles.
- * @returns A new styled component with merged class names and styles.
- */
-const createExtendedComponent = <T extends object>(
-  baseComponent: RcBaseComponent<any>,
+const createExtendedComponent = <P extends object, Tag>(
+  baseComponent: RuntimeComponent<any>,
   strings: TemplateStringsArray,
-  interpolations: Interpolation<T>[],
-  logicHandlers: LogicHandler<T>[] = [],
-): RcBaseComponent<T> => {
+  interpolations: Interpolation<P>[],
+  renderComponent: ComponentRenderer<Tag>,
+  logicHandlers: LogicHandler<P>[] = [],
+): RuntimeComponent<P> => {
   const displayName = `Extended(${baseComponent.displayName || "Component"})`
   const baseComputeClassName = baseComponent.__rcComputeClassName || (() => "")
   const baseStyles = baseComponent.__rcStyles || {}
-  const tag = baseComponent.__rcTag || baseComponent
+  const tag = (baseComponent.__rcTag as Tag) || (baseComponent as unknown as Tag)
   const baseLogic = (baseComponent.__rcLogic as LogicHandler<any>[]) || []
   const combinedLogic = [...baseLogic, ...logicHandlers]
 
-  const computeClassName = (props: T, collectedStyles: Record<string, string | number>) => {
-    const styleUtility = (styleDef: StyleDefinition<T>) => {
+  const computeClassName = (props: P, collectedStyles: Record<string, string | number>) => {
+    const styleUtility = (styleDef: StyleDefinition<P>) => {
       Object.assign(collectedStyles, styleDef)
       return ""
     }
@@ -50,13 +46,17 @@ const createExtendedComponent = <T extends object>(
     return [baseClassName, extendedClassName].filter(Boolean).join(" ")
   }
 
-  const computeMergedStyles = (props: T) => {
+  const computeMergedStyles = (props: P) => {
     const collectedStyles: Record<string, string | number> = {}
     computeClassName(props, collectedStyles)
-    return { ...baseStyles, ...collectedStyles }
+
+    const resolvedBaseStyles =
+      typeof baseStyles === "function" ? (baseStyles as (props: P) => StyleDefinition<P>)(props) : baseStyles
+
+    return { ...resolvedBaseStyles, ...collectedStyles }
   }
 
-  return createReactElement({
+  return renderComponent({
     tag,
     computeClassName: (props) => computeClassName(props, {}),
     displayName,

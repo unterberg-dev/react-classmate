@@ -1,31 +1,36 @@
+import {
+  createBaseComponent,
+  createExtendedComponent,
+  createVariantsComponent,
+  domElements,
+} from "@classmate/core"
 import type { JSX } from "react"
 
-import createBaseComponent from "./factory/base"
-import createExtendedComponent from "./factory/extend"
-import createVariantsComponent from "./factory/variants"
 import type {
   InputComponent,
   Interpolation,
   LogicHandler,
+  MergeProps,
   RcBaseComponent,
   RcComponentFactory,
+  RcFactoryFunction,
+  RcIntrinsicElement,
   VariantsConfig,
 } from "./types"
+import createReactElement from "./util/createReactElement"
 
-// init
-const rcTarget: Partial<RcComponentFactory> = {}
-
-/**
- * Intercepts property lookups:
- * - `rc.extend`: returns function to extend an existing component
- * - `rc.button`, `rc.div`, etc.: returns factory for base components, with `.variants`
- */
 const createExtendBuilder = (
   baseComponent: RcBaseComponent<any>,
   logicHandlers: LogicHandler<any>[] = [],
 ) => {
   const builder = <T extends object>(strings: TemplateStringsArray, ...interpolations: Interpolation<T>[]) =>
-    createExtendedComponent<T>(baseComponent, strings, interpolations, logicHandlers as LogicHandler<T>[])
+    createExtendedComponent<T, keyof JSX.IntrinsicElements | InputComponent>(
+      baseComponent,
+      strings,
+      interpolations,
+      createReactElement,
+      logicHandlers as LogicHandler<T>[],
+    ) as RcBaseComponent<T>
 
   const builderWithLogic = builder as typeof builder & {
     logic: (handler: LogicHandler<any>) => ReturnType<typeof createExtendBuilder>
@@ -37,42 +42,41 @@ const createExtendBuilder = (
   return builderWithLogic
 }
 
-const createFactoryFunction = (tag: keyof JSX.IntrinsicElements, logicHandlers: LogicHandler<any>[] = []) => {
+const createFactoryFunction = <E extends RcIntrinsicElement>(
+  tag: E,
+  logicHandlers: LogicHandler<any>[] = [],
+): RcFactoryFunction<E> => {
   const factory = <T extends object>(strings: TemplateStringsArray, ...interpolations: Interpolation<T>[]) =>
-    createBaseComponent<T, keyof JSX.IntrinsicElements>(tag, strings, interpolations, {
-      logic: logicHandlers as LogicHandler<any>[],
-    })
+    createBaseComponent<MergeProps<E, T>, E>(tag, strings, interpolations, createReactElement, {
+      logic: logicHandlers as LogicHandler<MergeProps<E, T>>[],
+    }) as RcBaseComponent<MergeProps<E, T>>
 
-  const factoryWithLogic = factory as typeof factory & {
-    logic: (handler: LogicHandler<any>) => ReturnType<typeof createFactoryFunction>
-    variants: <ExtraProps extends object, VariantProps extends object = ExtraProps>(
-      config: VariantsConfig<VariantProps, ExtraProps>,
-    ) => RcBaseComponent<any>
-  }
+  const factoryWithLogic = factory as RcFactoryFunction<E>
 
-  factoryWithLogic.logic = (handler: LogicHandler<any>) =>
-    createFactoryFunction(tag, [...logicHandlers, handler])
+  factoryWithLogic.logic = ((handler: LogicHandler<any>) =>
+    createFactoryFunction(tag, [...logicHandlers, handler])) as RcFactoryFunction<E>["logic"]
 
-  factoryWithLogic.variants = <ExtraProps extends object, VariantProps extends object = ExtraProps>(
-    config: VariantsConfig<VariantProps, ExtraProps>,
-  ) =>
-    createVariantsComponent<keyof JSX.IntrinsicElements, ExtraProps, VariantProps>(tag, config, {
-      logic: logicHandlers as LogicHandler<any>[],
-    })
+  factoryWithLogic.variants = ((config: VariantsConfig<any, any>) =>
+    createVariantsComponent<E, any, any, MergeProps<E, any>>(tag, config, createReactElement, {
+      logic: logicHandlers as LogicHandler<MergeProps<E, any>>[],
+    }) as RcBaseComponent<MergeProps<E, any>>) as RcFactoryFunction<E>["variants"]
 
   return factoryWithLogic
 }
 
-const rc: RcComponentFactory = new Proxy(rcTarget, {
-  get(_, prop: string) {
-    // calls `rc.extend`
-    if (prop === "extend") {
-      return <BCProps extends object>(baseComponent: RcBaseComponent<BCProps> | InputComponent) =>
-        createExtendBuilder(baseComponent as RcBaseComponent<any>)
-    }
+const rcTarget = Object.create(null) as Record<string, RcFactoryFunction<any>> & {
+  extend?: RcComponentFactory["extend"]
+}
 
-    return createFactoryFunction(prop as keyof JSX.IntrinsicElements)
-  },
-}) as RcComponentFactory
+for (const tag of domElements) {
+  if (!rcTarget[tag]) {
+    rcTarget[tag] = createFactoryFunction(tag as RcIntrinsicElement)
+  }
+}
+
+rcTarget.extend = <BCProps extends object>(baseComponent: RcBaseComponent<BCProps> | InputComponent) =>
+  createExtendBuilder(baseComponent as RcBaseComponent<any>)
+
+const rc = rcTarget as unknown as RcComponentFactory
 
 export default rc

@@ -135,7 +135,6 @@ export const domElements = [
   "svg",
   "text",
   "tspan",
-
   "circle",
   "clipPath",
   "defs",

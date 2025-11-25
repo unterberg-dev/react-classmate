@@ -1,5 +1,5 @@
 {
-  "name": "react-classmate",
+  "name": "@classmate/react",
   "description": "A react tool to separate class name logic, create variants and manage styles.",
   "version": "1.2.0",
   "keywords": [
@@ -54,6 +54,7 @@
     "test:src": "npm run build:base && jest --config jest.config.cjs --testPathPattern=test/src",
     "check:all": "tsc --noEmit",
     "========= Build": "",
+    "prebuild:base": "npm run build -w @classmate/core",
     "build:base": "npm run clean && tsup",
     "build": "npm run build:base && npm run postbuild",
     "packLocal": "npm run build:base && npm run postbuild:packLocal",

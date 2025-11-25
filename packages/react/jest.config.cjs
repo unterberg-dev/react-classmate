@@ -12,4 +12,7 @@ module.exports = {
     ],
   },
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
+  moduleNameMapper: {
+    "^\\.\\.\\/\\.\\.\\/dist$": "<rootDir>/dist/index.cjs.js",
+  },
 }

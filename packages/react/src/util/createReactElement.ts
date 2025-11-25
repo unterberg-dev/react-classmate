@@ -1,8 +1,9 @@
 import { type JSX, type JSXElementConstructor, type RefAttributes, createElement, forwardRef } from "react"
 import { twMerge } from "tailwind-merge"
 
+import { applyLogicHandlers } from "@classmate/core"
+
 import type { LogicHandler, RcBaseComponent, StyleDefinition } from "../types"
-import applyLogicHandlers from "./applyLogicHandlers"
 
 interface CreateReactElementParams<
   T extends object,

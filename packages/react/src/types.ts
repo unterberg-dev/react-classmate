@@ -1,5 +1,11 @@
 import type {
-  CSSProperties,
+  AllowedTags,
+  Interpolation,
+  LogicHandler,
+  RuntimeComponent,
+  VariantsConfig,
+} from "@classmate/core"
+import type {
   ForwardRefExoticComponent,
   JSX,
   JSXElementConstructor,
@@ -7,20 +13,15 @@ import type {
   RefAttributes,
 } from "react"
 
-/**
- * Interpolation type for "styled components".
- *
- * Interpolations can be:
- * - Static strings or booleans.
- * - Functions that take the component's props and return a class name string.
- * - Null or undefined values (ignored in class name computation).
- *
- * @typeParam T - The type of the props passed to the interpolation function.
- */
-type InterpolationBase<T> = string | boolean | ((props: T) => string) | null | undefined
-export type Interpolation<T> = InterpolationBase<T & { style: (styleDef: StyleDefinition<T>) => string }>
+export type {
+  AllowedTags,
+  Interpolation,
+  LogicHandler,
+  VariantsConfig,
+  StyleDefinition,
+} from "@classmate/core"
 
-export type LogicHandler<P extends object> = (props: P) => Partial<P> | undefined
+export type RcIntrinsicElement = Extract<AllowedTags, keyof JSX.IntrinsicElements>
 
 export type InputComponent =
   | ForwardRefExoticComponent<any>
@@ -33,12 +34,8 @@ export type InputComponent =
  * @typeParam P - Props of the component.
  */
 export interface RcBaseComponent<P extends object = object>
-  extends ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<any>> {
-  __rcComputeClassName?: (props: P) => string
-  __rcTag?: keyof React.JSX.IntrinsicElements | JSXElementConstructor<any>
-  __rcStyles?: StyleDefinition<P> | ((props: P) => StyleDefinition<P>)
-  __rcLogic?: LogicHandler<P>[]
-}
+  extends RuntimeComponent<P>,
+    ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<any>> {}
 
 /**
  * The `extend` method allows you to create a new styled component from an existing one.
@@ -82,13 +79,11 @@ type ExtendFunction =
    *   ${p => p.type === 'submit' ? 'font-bold' : ''}
    * ```
    */
-  <E extends InputComponent, I extends keyof JSX.IntrinsicElements>(
-    component: E,
-  ) => ExtendTemplateBuilder<E, I>
+  <E extends InputComponent, I extends RcIntrinsicElement>(component: E) => ExtendTemplateBuilder<E, I>
 
 export interface ExtendTemplateBuilder<
   E extends InputComponent,
-  I extends keyof JSX.IntrinsicElements,
+  I extends RcIntrinsicElement,
   LogicProps extends object = object,
 > {
   <T extends object>(
@@ -108,58 +103,6 @@ export interface ExtendTemplateBuilder<
  * @typeParam VariantProps - The props for the variants.
  * @typeParam ExtraProps - Additional props for the component.
  */
-type VariantsConfigBase<VariantProps, ExtraProps> =
-  | string
-  | ((
-      props: VariantProps &
-        ExtraProps & { style: (styleDef: StyleDefinition<VariantProps & ExtraProps>) => string },
-    ) => string)
-
-/**
- * Type for the variants object in the variants configuration.
- *
- * The keys are the prop names, and the values are objects with class names or functions that return class names.
- *
- * @typeParam VariantProps - The props for the variants.
- * @typeParam ExtraProps - Additional props for the component.
- */
-type VariantsConfigVariants<VariantProps, ExtraProps> = {
-  [Key in keyof VariantProps]?: Record<
-    string,
-    | string
-    | ((
-        props: VariantProps &
-          ExtraProps & { style: (styleDef: StyleDefinition<VariantProps & ExtraProps>) => string },
-      ) => string)
-  >
-}
-
-/**
- * Configuration object for creating styled components with variants.
- *
- * @typeParam VariantProps - The props for the variants.
- * @typeParam ExtraProps - Additional props for the component.
- */
-export type VariantsConfig<VariantProps extends object, ExtraProps extends object> = {
-  /**
-   * The base classes for the styled component.
-   * This can be a static string or a function that returns a string based on the component's props.
-   * If not provided, the base classes are empty.
-   */
-  base?: VariantsConfigBase<VariantProps, ExtraProps>
-  /**
-   * The variants object defines the classes for each prop value.
-   * The keys are the prop names, and the values are objects with class names or functions that return class names.
-   */
-  variants: VariantsConfigVariants<VariantProps, ExtraProps>
-  /**
-   * Default variants to apply if a variant prop is not passed.
-   * For example, if you have a variant `size` and a default variant value of `md`,
-   * it will use `md` if no explicit `size` prop is provided.
-   */
-  defaultVariants?: Partial<Record<keyof VariantProps, string>>
-}
-
 type VariantsFunction<K> =
   // this must stay here to get "rsc.div.variants" tooltipped in the IDE
   /**
@@ -178,7 +121,7 @@ type VariantsFunction<K> =
    * }
    *
    * const Alert = rc.div.variants<AlertProps, AlertVariants>({
-   *   base: p => `${p.$isActive ? "pointer-cursor" : ""} p-4 rounded-md`,
+   *   base: ({ $isActive }) => `${$isActive ? "pointer-cursor" : ""} p-4 rounded-md`,
    *   variants: {
    *     $severity: {
    *       info: (p) => `bg-blue-100 text-blue-800 ${p.$isActive ? "shadow-lg" : ""}`,
@@ -199,7 +142,7 @@ type VariantsFunction<K> =
 /**
  * Factory for creating styled components with intrinsic elements.
  */
-export interface RcFactoryFunction<K extends keyof JSX.IntrinsicElements> {
+export interface RcFactoryFunction<K extends RcIntrinsicElement> {
   <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: Interpolation<T>[]
@@ -211,7 +154,7 @@ export interface RcFactoryFunction<K extends keyof JSX.IntrinsicElements> {
 }
 
 export type RcComponentFactory = {
-  [K in keyof JSX.IntrinsicElements]: RcFactoryFunction<K>
+  [K in RcIntrinsicElement]: RcFactoryFunction<K>
 } & {
   extend: ExtendFunction
 }
@@ -239,12 +182,3 @@ export type MergeProps<E, T> = E extends keyof JSX.IntrinsicElements
     : E extends JSXElementConstructor<infer P2>
       ? P2 & T
       : T
-
-// styles
-type StaticStyleValue = string | number
-type DynamicStyleValue<P> = (props: P) => StaticStyleValue
-
-// todo: document this
-export type StyleDefinition<P> = {
-  [Key in keyof CSSProperties]?: StaticStyleValue | DynamicStyleValue<P>
-}

@@ -1,4 +1,6 @@
+import { domElements } from "@classmate/core"
 import { twMerge } from "tailwind-merge"
+
 import convertRcProps from "./helper/convertRcProps"
 import createVariantMap from "./helper/createVariantMap"
 import rcInit from "./rc"
@@ -62,6 +64,7 @@ export type { VariantsConfig } from "./types"
 export { convertRcProps }
 export { createVariantMap }
 export { default as useClassmate } from "./useClassmate"
+export { domElements }
 
 export default rc
 

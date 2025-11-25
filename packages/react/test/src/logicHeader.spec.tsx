@@ -31,10 +31,13 @@ const deriveDayStatus = ({ workouts, allResolved, hasCompleted, hasSkipped }: Wo
 describe("logic header concept", () => {
   it("allows colocating derived status logic inside a classmate component", () => {
     const StyledDay = rc.div.logic<WorkoutProps>((props) => {
+      const { workouts, allResolved, hasCompleted, hasSkipped } = props
       const status = deriveDayStatus(props)
+
       return {
         $status: status,
         "data-status": status,
+        __rcOmit: ["allResolved", "hasCompleted", "hasSkipped", "workouts"],
       }
     })<WorkoutProps>`
         ${(p) => (p.$status === "completed" ? "text-green-600" : "text-gray-600")}
@@ -63,7 +66,11 @@ describe("logic header concept", () => {
     const WorkoutDayWithVariants = rc.div
       .logic<WorkoutProps>((props) => {
         const status = deriveDayStatus(props)
-        return { $status: status }
+
+        return {
+          $status: status,
+          __rcOmit: ["allResolved", "hasCompleted", "hasSkipped", "workouts"],
+        }
       })
       .variants<WorkoutProps, { $status: DayStatus }>({
         base: "rounded border p-2",
