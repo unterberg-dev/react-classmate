@@ -1,7 +1,9 @@
-# react-classmate
+# deprecated: react-classmate
 
-[![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
-[![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
+Bundle is now included and maintained in this monorepo:
+https://github.com/richard-unterberg/classmatejs/
+
+# react-classmate
 
 A tool for managing React component class names, variants and styles.
 
