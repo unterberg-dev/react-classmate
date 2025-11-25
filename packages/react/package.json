@@ -1,0 +1,100 @@
+{
+  "name": "react-classmate",
+  "description": "A react tool to separate class name logic, create variants and manage styles.",
+  "version": "1.2.0",
+  "keywords": [
+    "react",
+    "classmate",
+    "typescript",
+    "dynamic-classnames",
+    "dynamic-styles",
+    "dynamic-variants",
+    "css",
+    "css-in-js",
+    "utility-first",
+    "utility-first-classnames",
+    "classname",
+    "classname-variants",
+    "frontend",
+    "ssr",
+    "tailwind",
+    "unocss",
+    "tailwind-merge"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unterberg-dev/react-classmate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/unterberg-dev/react-classmate/issues"
+  },
+  "homepage": "https://github.com/unterberg-dev/react-classmate/#readme",
+  "scripts": {
+    "========= Package Actions": "",
+    "clean": "rm -rf dist",
+    "clean:all": "rm -rf dist && rm -rf .localPack && rm -rf node_modules",
+    "========= Test": "",
+    "test-clear": "jest --clearCache",
+    "test:all": "npm run test-clear && npm run test:src",
+    "test:src": "npm run build && jest --testPathPattern=test/src",
+    "check:all": "tsc --noEmit",
+    "========= Build": "",
+    "build:base": "npm run clean && npm run bundle",
+    "build": "npm run build:base && npm run postbuild",
+    "packLocal": "npm run build:base && npm run postbuild:packLocal",
+    "postbuild": "npx tsx postbuild.ts",
+    "postbuild:packLocal": "cross-env MODE=packLocal npx tsx postbuild.ts",
+    "bundle": "rollup -c",
+    "package": "npm run build && npm publish"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.30.1"
+  },
+  "dependencies": {
+    "tailwind-merge": "^3.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
+    "@testing-library/dom": "^10.0.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.0.2",
+    "babel-jest": "^29.7.0",
+    "cross-env": "^7.0.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "lefthook": "^1.10.1",
+    "rollup": "^4.29.1",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-esbuild-minify": "^1.2.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.8.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

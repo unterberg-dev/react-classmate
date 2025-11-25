@@ -5,6 +5,13 @@
 
 A tool for managing React component class names, variants and styles.
 
+## Monorepo layout
+
+- `packages/react` — current React implementation (published as `react-classmate`)
+- `packages/core` — placeholder for framework-agnostic core (to be built)
+- `packages/solid` — placeholder for the Solid adapter
+- `docs` — documentation app (Vite/Vike)
+
 ## 🚩 Transform this
 
 ```jsx

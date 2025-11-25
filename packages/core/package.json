@@ -1,0 +1,16 @@
+{
+  "name": "@classmate/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "echo \"TODO: build core\"",
+    "test": "echo \"TODO: test core\"",
+    "clean": "rm -rf dist"
+  }
+}
