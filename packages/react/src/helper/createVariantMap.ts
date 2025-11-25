@@ -1,22 +1,22 @@
 import { createVariantMap as createCoreVariantMap } from "@classmate/core"
 
-import rc from "../rc"
-import type { RcBaseComponent, RcIntrinsicElement, VariantsConfig } from "../types"
+import cm from "../cm"
+import type { CmBaseComponent, CmIntrinsicElement, VariantsConfig } from "../types"
 
-interface CreateVariantMapOptions<T extends RcIntrinsicElement> {
+interface CreateVariantMapOptions<T extends CmIntrinsicElement> {
   elements: readonly T[]
   variantsConfig: VariantsConfig<any, any>
 }
 
-const createVariantMap = <T extends RcIntrinsicElement>({
+const createVariantMap = <T extends CmIntrinsicElement>({
   elements,
   variantsConfig,
-}: CreateVariantMapOptions<T>): Record<T, RcBaseComponent<any>> => {
-  const buildVariantFactory = (tag: RcIntrinsicElement) => ({
-    variants: (config: VariantsConfig<any, any>) => rc[tag].variants(config),
+}: CreateVariantMapOptions<T>): Record<T, CmBaseComponent<any>> => {
+  const buildVariantFactory = (tag: CmIntrinsicElement) => ({
+    variants: (config: VariantsConfig<any, any>) => cm[tag].variants(config),
   })
 
-  return createCoreVariantMap<T, RcBaseComponent<any>>({
+  return createCoreVariantMap<T, CmBaseComponent<any>>({
     elements,
     variantsConfig,
     resolveFactory: (tag) => buildVariantFactory(tag),

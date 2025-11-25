@@ -3,7 +3,7 @@ interface AlertProps {
   $isActive?: boolean
 }
 
-const Alert = rc.div.variants<AlertProps>({
+const Alert = cm.div.variants<AlertProps>({
   base: "p-4 rounded-md",
   variants: {
     $severity: {

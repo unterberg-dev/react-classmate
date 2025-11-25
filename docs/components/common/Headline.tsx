@@ -1,5 +1,5 @@
+import { type CmBaseComponent, type VariantsConfig, createVariantMap } from "@classmate/react"
 import type { HTMLAttributes } from "react"
-import { type RcBaseComponent, type VariantsConfig, createVariantMap } from "react-classmate"
 
 // 1. setup accepted elements and types
 const headlineLevels = ["h1", "h2", "h3", "h4", "h5", "h6"] as const
@@ -8,11 +8,11 @@ type HeadlineLevels = (typeof headlineLevels)[number]
 const additionalElements = ["strong", "span", "p", "div"] as const
 type AdditionalHeadlineTypes = (typeof additionalElements)[number]
 
-type RcVariantType = HeadlineLevels | "blank"
+type CmVariantType = HeadlineLevels | "blank"
 
 // 1. Setup Accepted Elements and Types
 interface HeadlineVariantProps extends HTMLAttributes<HTMLElement> {
-  $as?: RcVariantType
+  $as?: CmVariantType
 }
 const headlineVariants: VariantsConfig<HeadlineVariantProps, HeadlineVariantProps> = {
   base: "",
@@ -30,7 +30,7 @@ const headlineVariants: VariantsConfig<HeadlineVariantProps, HeadlineVariantProp
 }
 
 // 3. create variant map
-const hVariantMap: Record<string, RcBaseComponent<HeadlineVariantProps>> = createVariantMap({
+const hVariantMap: Record<string, CmBaseComponent<HeadlineVariantProps>> = createVariantMap({
   elements: [...additionalElements, ...headlineLevels],
   variantsConfig: headlineVariants,
 })
@@ -38,12 +38,12 @@ const hVariantMap: Record<string, RcBaseComponent<HeadlineVariantProps>> = creat
 // 4 define the react component
 // due large variety of elements, we just type for "HTMLAttributes<HTMLElement>" - adjust as needed
 interface HeadlineProps extends HTMLAttributes<HTMLElement> {
-  variant?: RcVariantType
-  as: Exclude<RcVariantType, "blank"> | AdditionalHeadlineTypes
+  variant?: CmVariantType
+  as: Exclude<CmVariantType, "blank"> | AdditionalHeadlineTypes
 }
 const Headline = ({ as, variant, ...props }: HeadlineProps) => {
   const isHeadline = headlineLevels.includes(as as HeadlineLevels)
-  const variantToUse = variant || (isHeadline ? (as as RcVariantType) : "blank")
+  const variantToUse = variant || (isHeadline ? (as as CmVariantType) : "blank")
 
   const Component = hVariantMap[as] || null
 

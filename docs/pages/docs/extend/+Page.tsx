@@ -44,7 +44,7 @@ const BasicPage = () => {
       </Section>
 
       <SectionHeadline>
-        When to use <CodeElement $size="2xl">rc.extend</CodeElement>?
+        When to use <CodeElement $size="2xl">cm.extend</CodeElement>?
       </SectionHeadline>
       <Section>
         <SectionInnerParagraph>
@@ -53,7 +53,7 @@ const BasicPage = () => {
         <SectionInnerHeadline>1. Reduce redundancy</SectionInnerHeadline>
         <SectionInnerParagraph>
           When you wanna extend a "base"-component, in which you desired to set less specific styling
-          classnames (e.g. outer margins, typography, etc.) <CodeElement>rc.extend</CodeElement> could be your
+          classnames (e.g. outer margins, typography, etc.) <CodeElement>cm.extend</CodeElement> could be your
           pick. For example these are some elements which are re-used all over this documentation:
         </SectionInnerParagraph>
         <HighlighterComponent input={extendToReduce} />

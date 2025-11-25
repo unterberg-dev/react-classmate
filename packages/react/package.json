@@ -1,7 +1,7 @@
 {
   "name": "@classmate/react",
   "description": "A react tool to separate class name logic, create variants and manage styles.",
-  "version": "1.2.0",
+  "version": "0.0.1",
   "keywords": [
     "react",
     "classmate",
@@ -38,16 +38,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unterberg-dev/react-classmate.git"
+    "url": "git+https://github.com/richard-unterberg/classmate.git"
   },
   "bugs": {
-    "url": "https://github.com/unterberg-dev/react-classmate/issues"
+    "url": "https://github.com/richard-unterberg/classmate/issues"
   },
-  "homepage": "https://github.com/unterberg-dev/react-classmate/#readme",
+  "homepage": "https://github.com/richard-unterberg/classmate/#readme",
   "scripts": {
     "========= Package Actions": "",
     "clean": "rm -rf dist",
-    "clean:all": "rm -rf dist && rm -rf .localPack && rm -rf node_modules",
+    "clean:all": "rm -rf dist && rm -rf node_modules",
     "========= Test": "",
     "test-clear": "jest --clearCache",
     "test:all": "npm run test-clear && npm run test:src",
@@ -56,10 +56,7 @@
     "========= Build": "",
     "prebuild:base": "npm run build -w @classmate/core",
     "build:base": "npm run clean && tsup",
-    "build": "npm run build:base && npm run postbuild",
-    "packLocal": "npm run build:base && npm run postbuild:packLocal",
-    "postbuild": "npx tsx postbuild.ts",
-    "postbuild:packLocal": "cross-env MODE=packLocal npx tsx postbuild.ts",
+    "build": "npm run build:base",
     "package": "npm run build && npm publish"
   },
   "peerDependencies": {

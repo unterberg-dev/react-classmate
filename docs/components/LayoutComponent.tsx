@@ -1,10 +1,10 @@
-import rc from "react-classmate"
+import cm from "@classmate/react"
 
 interface LayoutComponentProps {
   type?: "full" | "normal" | "small" | "normalWithoutGutter" | "tiny"
 }
 
-const LayoutComponent = rc.div.variants<LayoutComponentProps>({
+const LayoutComponent = cm.div.variants<LayoutComponentProps>({
   base: "m-auto relative",
   variants: {
     type: {

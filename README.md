@@ -1,13 +1,13 @@
-# react-classmate
+# @classmate/react
 
-[![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate)
-[![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)
+[![npm](https://img.shields.io/npm/v/%40classmate%2Freact)](https://www.npmjs.com/package/@classmate/react)
+[![npm bundle size](https://img.shields.io/bundlephobia/min/%40classmate%2Freact)](https://bundlephobia.com/result?p=%40classmate%2Freact)
 
 A tool for managing React component class names, variants and styles.
 
 ## Monorepo layout
 
-- `packages/react` — current React implementation (published as `react-classmate`)
+- `packages/react` — current React implementation (published as `@classmate/react`)
 - `packages/core` — placeholder for framework-agnostic core (to be built)
 - `packages/solid` — placeholder for the Solid adapter
 - `docs` — documentation app (Vite/Vike)
@@ -36,7 +36,7 @@ const SomeButton = ({ isLoading, ...props }) => {
 ## 🌤️ Into
 
 ```js
-const SomeButton = rc.button`
+const SomeButton = cm.button`
   text-normal
   md:text-lg
   mt-5
@@ -72,8 +72,8 @@ const SomeButton = rc.button`
 - [Add CSS Styles](#add-css-styles)
 - [Use inside React components](#use-inside-react-components)
 - [Add logic headers](#add-logic-headers)
-- [Recipes for `rc.extend`](#receipes-for-rcextend)
-  - [Use rc for creating base component](#use-rc-for-creating-base-component)
+- [Recipes for `cm.extend`](#receipes-for-rcextend)
+  - [Use cm for creating base component](#use-cm-for-creating-base-component)
   - [Auto infer types for props](#auto-infer-types-for-props)
   - [Extending other lib components / `any` as Input](#extending-other-lib-components--any-as-input)
 
@@ -83,20 +83,20 @@ Make sure you have installed [React](https://react.dev/) (> 16.8.0) in your
 project.
 
 ```bash
-npm i react-classmate
+npm i @classmate/react
 # or
-yarn add react-classmate
+yarn add @classmate/react
 ```
 
 ## Basic
 
-Create a component by calling `rc` with a tag name and a template literal
+Create a component by calling `cm` with a tag name and a template literal
 string.
 
 ```tsx
-import rc from "react-classmate";
+import cm from "@classmate/react";
 
-const Container = rc.div`
+const Container = cm.div`
   py-2
   px-5
   min-h-24
@@ -118,7 +118,7 @@ interface ButtonProps {
   $isActive?: boolean;
   $isLoading?: boolean;
 }
-const SomeButton = rc.button<ButtonProps>`
+const SomeButton = cm.button<ButtonProps>`
   text-lg
   mt-5
   ${(
@@ -148,7 +148,7 @@ interface AlertProps {
   $severity: "info" | "warning" | "error";
   $isActive?: boolean;
 }
-const Alert = rc.div.variants<AlertProps>({
+const Alert = cm.div.variants<AlertProps>({
   // optional
   base: (p) => `
     ${p.isActive ? "custom-active" : "custom-inactive"}
@@ -192,7 +192,7 @@ interface AlertProps {
 interface AlertVariants {
   $severity: "info" | "warning" | "error";
 }
-const Alert = rc.div.variants<AlertProps, AlertVariants>({
+const Alert = cm.div.variants<AlertProps, AlertVariants>({
   base: `p-4 rounded-md`,
   variants: {
     // in here there are only the keys from AlertVariants available
@@ -218,9 +218,9 @@ Extend a component directly by passing the component and the tag name.
 
 ```tsx
 import MyOtherComponent from "./MyOtherComponent"; // () => <button className="text-lg mt-5" />
-import rc from "react-classmate";
+import cm from "/react";
 
-const Container = rc.extend(MyOtherComponent)`
+const Container = cm.extend(MyOtherComponent)`
   py-2
   px-5
   min-h-24
@@ -239,7 +239,7 @@ use the props from before.
 
 ```tsx
 // Base:
-const StyledButton = rc.button<{ $isDisabled: boolean }>`
+const StyledButton = cm.button<{ $isDisabled: boolean }>`
   text-blue
   ${(p) =>
   p.style({
@@ -253,13 +253,13 @@ export default () => <StyledButton $isDisabled />;
 
 ```tsx
 // Extended:
-const BaseButton = rc.button<{ $isActive?: boolean }>`
+const BaseButton = cm.button<{ $isActive?: boolean }>`
   ${(p) =>
   p.style({
     backgroundColor: p.$isActive ? "green" : "red",
   })}
 `;
-const ExtendedButton = rc.extend(BaseButton)<{ $isLoading?: boolean }>`
+const ExtendedButton = cm.extend(BaseButton)<{ $isLoading?: boolean }>`
   ${(p) =>
   p.style({
     opacity: p.$isLoading ? 0.5 : 1,
@@ -278,12 +278,12 @@ factory with `useClassmate`. This memoizes the result and avoids creating a
 brand-new component on every render.
 
 ```tsx
-import rc, { useClassmate } from "react-classmate";
+import cm, { useClassmate } from "/react";
 
 const WorkoutDay = ({ status }: { status: "completed" | "pending" }) => {
   const StyledDay = useClassmate(
     () =>
-      rc.div.variants({
+      cm.div.variants({
         base: "rounded border p-4 text-sm",
         variants: {
           $status: {
@@ -320,7 +320,7 @@ interface WorkoutProps {
   $status?: DayStatus
 }
 
-const WorkoutDay = rc.div
+const WorkoutDay = cm.div
   .logic<WorkoutProps>((props) => {
     const status = deriveDayStatus(props)
     return {
@@ -345,17 +345,17 @@ const WorkoutDay = rc.div
 > Return values from `.logic()` are merged in order, so later logic calls can
 > reference earlier results or override them.
 
-## Recipes for `rc.extend`
+## Recipes for `cm.extend`
 
-With `rc.extend`, you can build upon any base React component, adding new styles
+With `cm.extend`, you can build upon any base React component, adding new styles
 and even supporting additional props. This makes it easy to create reusable
 component variations without duplicating logic.
 
 ```tsx
 import { ArrowBigDown } from "lucide-react";
-import rc from "react-classmate";
+import cm from "/react";
 
-const StyledLucideArrow = rc.extend(ArrowBigDown)`
+const StyledLucideArrow = cm.extend(ArrowBigDown)`
   md:-right-4.5
   right-1
   slide-in-r-20
@@ -373,12 +373,12 @@ classes, and pass properties. You can pass the types to the `extend` function to
 get autocompletion and type checking.
 
 ```tsx
-import rc from "react-classmate";
+import cm from "/react";
 
 interface StyledSliderItemBaseProps {
   $active: boolean;
 }
-const StyledSliderItemBase = rc.button<StyledSliderItemBaseProps>`
+const StyledSliderItemBase = cm.button<StyledSliderItemBaseProps>`
   absolute
   h-full
   w-full
@@ -390,7 +390,7 @@ const StyledSliderItemBase = rc.button<StyledSliderItemBaseProps>`
 interface NewStyledSliderItemProps extends StyledSliderItemBaseProps {
   $secondBool: boolean;
 }
-const NewStyledSliderItemWithNewProps = rc.extend(
+const NewStyledSliderItemWithNewProps = cm.extend(
   StyledSliderItemBase,
 )<NewStyledSliderItemProps>`
   rounded-lg
@@ -405,10 +405,10 @@ export default () => (
 // outputs: <button className="absolute h-full w-full left-0 top-0 animate-in fade-in rounded-lg text-lg bg-blue" />
 ```
 
-### Use rc for creating base component
+### Use cm for creating base component
 
 ```tsx
-const BaseButton = rc.extend(rc.button``)`
+const BaseButton = cm.extend(cm.button``)`
   text-lg
   mt-5
 `;
@@ -422,7 +422,7 @@ interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
   $isActive?: boolean;
 }
 
-const Alert = rc.input.variants<ButtonProps>({
+const Alert = cm.input.variants<ButtonProps>({
   base: "p-4",
   variants: {
     $severity: {
@@ -432,7 +432,7 @@ const Alert = rc.input.variants<ButtonProps>({
   },
 });
 
-const ExtendedButton = rc.extend(Alert)<{ $test: boolean }>`
+const ExtendedButton = cm.extend(Alert)<{ $test: boolean }>`
   ${(p) => (p.$test ? "bg-green-100 text-green-800" : "")}
 `;
 
@@ -447,8 +447,8 @@ props. This is useful if you wanna rely on the props for a specific element
 without the `$` prefix.
 
 ```tsx
-// if you pass rc component it's types are validated
-const ExtendedButton = rc.extend(rc.button``)`
+// if you pass cm component it's types are validated
+const ExtendedButton = cm.extend(cm.button``)`
   some-class
   ${(p) => (p.type === "submit" ? "font-normal" : "font-bold")}
 `;
@@ -457,7 +457,7 @@ const ExtendedButton = rc.extend(rc.button``)`
 const MyInput = ({ ...props }: HTMLAttributes<HTMLInputElement>) => (
   <input {...props} />
 );
-const StyledDiv = rc.extend(MyInput)<{ $trigger?: boolean }>`
+const StyledDiv = cm.extend(MyInput)<{ $trigger?: boolean }>`
   bg-white
   ${(p) => (p.$trigger ? "!border-error" : "")}
   ${(p) => (p.type === "submit" ? "font-normal" : "font-bold")}
@@ -474,11 +474,11 @@ or loosely typed. But we can use a intermediate step to pass the type to the
 import { ComponentProps } from 'react'
 import { MapContainer } from 'react-leaflet'
 import { Field, FieldConfig } from 'formik'
-import rc, { RcBaseComponent } from 'react-classmate'
+import cm, { CmBaseComponent } from '/react'
 
 // we need to cast the type to ComponentProps
 type StyledMapContainerType = ComponentProps<typeof MapContainer>
-const StyledMapContainer: RcBaseComponent<StyledMapContainerType> = rc.extend(MapContainer)`
+const StyledMapContainer: CmBaseComponent<StyledMapContainerType> = cm.extend(MapContainer)`
   absolute
   h-full
   w-full
@@ -495,7 +495,7 @@ import { Field, FieldConfig } from 'formik'
 type FieldComponentProps = ComponentProps<'input'> & FieldConfig
 const FieldComponent = ({ ...props }: FieldComponentProps) => <Field {...props} />
 
-const StyledField = rc.extend(FieldComponent)<{ $error: boolean }>`
+const StyledField = cm.extend(FieldComponent)<{ $error: boolean }>`
   theme-form-field
   w-full
   ....
@@ -513,11 +513,11 @@ directly in the interface in which we pass `$error`. Contributions welcome.
 If you are using CommonJS, you can import the library like this:
 
 ```js
-const rc = require("react-classmate").default;
+const cm = require("/react").default;
 
 // or
 
-const { default: rc } = require("react-classmate");
+const { default: cm } = require("/react");
 ```
 
 ## Tailwind Merge
@@ -531,9 +531,9 @@ can use it to override classes.
 - bug / troubleshoot: classnames set by ref.current (useRef) will be overwritten
   as soon component rerenders
   - needs at least a small article in the docs
-- `rc.raw()` and `rc.raw.variants()` for only using `rc` syntax for classnames
+- `cm.raw()` and `cm.raw.variants()` for only using `cm` syntax for classnames
   (output as string)
-- Variants for `rc.extend`
+- Variants for `cm.extend`
 - named lib import for CommonJS (currently only `.default`) -- Means we need to
   remove the named export in the ts file to not duplicate IDE import
   suggestions: --- Change postbuild script to remove named esm export

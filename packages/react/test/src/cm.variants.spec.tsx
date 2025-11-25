@@ -2,16 +2,16 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React from "react"
 
-import rc from "../../dist"
+import cm from "../../dist"
 
-describe("rc variants", () => {
-  it("renders a rc.div with assigned classes", () => {
+describe("cm variants", () => {
+  it("renders a cm.div with assigned classes", () => {
     interface AlertProps {
       $severity: "info" | "warning" | "error"
       $isActive?: boolean
     }
 
-    const Alert = rc.div.variants<AlertProps>({
+    const Alert = cm.div.variants<AlertProps>({
       base: "p-4 rounded-md",
       variants: {
         $severity: {
@@ -34,14 +34,14 @@ describe("rc variants", () => {
   })
 })
 
-describe("extend rc variants component", () => {
-  it("renders a rc.input with assigned classes", () => {
+describe("extend cm variants component", () => {
+  it("renders a cm.input with assigned classes", () => {
     interface ButtonProps {
       $severity: "info" | "warning" | "error"
       $isActive?: boolean
     }
 
-    const Alert = rc.input.variants<ButtonProps>({
+    const Alert = cm.input.variants<ButtonProps>({
       base: "p-4",
       variants: {
         $severity: {
@@ -50,7 +50,7 @@ describe("extend rc variants component", () => {
       },
     })
 
-    const ExtendedButton = rc.extend(Alert)<{ $test: boolean }>`
+    const ExtendedButton = cm.extend(Alert)<{ $test: boolean }>`
         ${(p) => (p.$test ? "bg-green-100 text-green-800" : "")}
       `
 
@@ -63,15 +63,15 @@ describe("extend rc variants component", () => {
     expect(container.firstChild).toBeInstanceOf(HTMLInputElement)
   })
 
-  describe("extend rc variants component with specific props", () => {
-    it("renders a rc.div with assigned classes", () => {
+  describe("extend cm variants component with specific props", () => {
+    it("renders a cm.div with assigned classes", () => {
       interface ButtonProps {
         $size?: "small" | "default"
         $noGutter?: boolean
         $border?: boolean
       }
 
-      const StyledButton = rc.button.variants<ButtonProps>({
+      const StyledButton = cm.button.variants<ButtonProps>({
         base: (p) => `
           ${p.$noGutter ? "!p-0" : ""}
           flex
@@ -87,7 +87,7 @@ describe("extend rc variants component", () => {
         },
       })
 
-      const ExtendedButton = rc.extend(StyledButton)<ButtonProps>`
+      const ExtendedButton = cm.extend(StyledButton)<ButtonProps>`
         ${(p) => (p.$size === "small" ? "text-small" : "")}
       `
 
@@ -108,7 +108,7 @@ describe("extend rc variants component", () => {
   })
 
   describe("use variants component with defaultValues", () => {
-    const SomeButtonRcVariants = rc.button.variants<{ $test?: boolean }, { state?: "default"; size?: "" }>({
+    const SomeButtonRcVariants = cm.button.variants<{ $test?: boolean }, { state?: "default"; size?: "" }>({
       base: `
           mt-5
           border-1

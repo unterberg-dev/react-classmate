@@ -1,5 +1,5 @@
+import cm from "@classmate/react"
 import { Logs } from "lucide-react"
-import rc from "react-classmate"
 import { RemoveScroll } from "react-remove-scroll"
 
 import LayoutComponent from "#components/LayoutComponent"
@@ -9,7 +9,7 @@ import useMenuStore from "#hooks/useMenuStore"
 import { APP_CONFIG } from "#lib/config"
 
 // @todo: to styled.ts?
-export const GhostBgInner = rc.div<{ $scrolled: boolean; $isInit?: boolean; $sub?: boolean }>`
+export const GhostBgInner = cm.div<{ $scrolled: boolean; $isInit?: boolean; $sub?: boolean }>`
   absolute inset-0
   shadow-lg
   shadow-grayNeutral/05 
@@ -24,7 +24,7 @@ interface AnimationTriggerProps {
   $isInit: boolean
 }
 
-const SlideOut = rc.div<AnimationTriggerProps>`
+const SlideOut = cm.div<AnimationTriggerProps>`
   bg-white dark:bg-darkNeutral
   shadow-grayNeutral/20 dark:shadow-darkNeutral/20
   rounded-md
@@ -42,7 +42,7 @@ const SlideOut = rc.div<AnimationTriggerProps>`
   ${(p) => (p.$open ? "animate-in fade-in" : "pointer-events-none animate-out fade-out")}
 `
 
-const Menu = rc.div<AnimationTriggerProps>`
+const Menu = cm.div<AnimationTriggerProps>`
   mt-24
   overflow-y-auto
   ${APP_CONFIG.transition.uno}

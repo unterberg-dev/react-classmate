@@ -2,6 +2,7 @@ import fs from "node:fs/promises"
 import path from "node:path"
 import { dirname } from "node:path"
 import { fileURLToPath } from "node:url"
+
 import Beasties from "beasties"
 import { JSDOM } from "jsdom"
 import pLimit from "p-limit"
@@ -16,8 +17,7 @@ const CONFIG = {
   concurrency: 5,
 }
 
-// Find all HTML files recursively in a directory
-async function findHtmlFiles(dir: string, htmlFiles: string[] = []) {
+const findHtmlFiles = async (dir, htmlFiles = []) => {
   const entries = await fs.readdir(dir, { withFileTypes: true })
 
   const promises = entries.map(async (entry) => {
@@ -33,8 +33,7 @@ async function findHtmlFiles(dir: string, htmlFiles: string[] = []) {
   return htmlFiles
 }
 
-// Check if a file exists
-async function fileExists(filePath: string) {
+const fileExists = async (filePath) => {
   try {
     await fs.access(filePath)
     return true
@@ -43,8 +42,7 @@ async function fileExists(filePath: string) {
   }
 }
 
-// Process Critical CSS using Beasties
-async function criticalCss(htmlFiles: string[]) {
+const criticalCss = async (htmlFiles) => {
   if (htmlFiles.length === 0) {
     console.log("No HTML files found for critical CSS processing.")
     return
@@ -74,8 +72,7 @@ async function criticalCss(htmlFiles: string[]) {
   await Promise.all(tasks)
 }
 
-// Empty Duplicate Uno CSS Files
-async function emptyDuplicateUnoCss(htmlFiles: string[]) {
+const emptyDuplicateUnoCss = async (htmlFiles) => {
   if (htmlFiles.length === 0) {
     console.log("No HTML files found for duplicate Uno CSS processing.")
     return
@@ -129,8 +126,7 @@ async function emptyDuplicateUnoCss(htmlFiles: string[]) {
   await Promise.all(tasks)
 }
 
-// Add Background Color to <html> Tag
-async function addBackgroundToHtmlTag(htmlFiles: string[]) {
+const addBackgroundToHtmlTag = async (htmlFiles) => {
   if (htmlFiles.length === 0) {
     console.log("No HTML files found for modifying <html> tag.")
     return
@@ -153,19 +149,16 @@ async function addBackgroundToHtmlTag(htmlFiles: string[]) {
           const backgroundColorRegex = /background-color\s*:\s*[^;]+;?/
 
           if (backgroundColorRegex.test(existingStyle)) {
-            // Replace existing background-color
             const updatedStyle = existingStyle.replace(backgroundColorRegex, newStyle)
             htmlElement.setAttribute("style", updatedStyle)
             console.log(`Updated background-color in ${file}`)
           } else {
-            // Append new background-color
             const separator = existingStyle.endsWith(";") || existingStyle === "" ? "" : "; "
             const updatedStyle = `${existingStyle}${separator}${newStyle}`
             htmlElement.setAttribute("style", updatedStyle)
             console.log(`Added background-color to ${file}`)
           }
 
-          // Serialize and write back
           const updatedContent = dom.serialize()
           await fs.writeFile(file, updatedContent)
         } else {
@@ -180,14 +173,12 @@ async function addBackgroundToHtmlTag(htmlFiles: string[]) {
   await Promise.all(tasks)
 }
 
-// Check if Post-Build Has Already Run
-async function hasPostBuildRun() {
+const hasPostBuildRun = async () => {
   const flagFilePath = path.join(CONFIG.targetDir, CONFIG.flagFileName)
   return await fileExists(flagFilePath)
 }
 
-// Mark Post-Build as Run
-async function markPostBuildRun() {
+const markPostBuildRun = async () => {
   const flagFilePath = path.join(CONFIG.targetDir, CONFIG.flagFileName)
   try {
     await fs.writeFile(flagFilePath, "Post-build tasks have been executed.", { flag: "w" })
@@ -197,7 +188,7 @@ async function markPostBuildRun() {
   }
 }
 
-async function postBuild() {
+const postBuild = async () => {
   const alreadyRun = await hasPostBuildRun()
   if (alreadyRun) {
     console.log("Post-build tasks have already been executed. Skipping.")
@@ -209,7 +200,6 @@ async function postBuild() {
   try {
     const htmlFiles = await findHtmlFiles(CONFIG.targetDir)
 
-    // execute tasks concurrently
     await emptyDuplicateUnoCss(htmlFiles)
     await criticalCss(htmlFiles)
     // await addBackgroundToHtmlTag(htmlFiles)

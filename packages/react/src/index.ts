@@ -1,28 +1,28 @@
 import { domElements } from "@classmate/core"
 import { twMerge } from "tailwind-merge"
 
-import convertRcProps from "./helper/convertRcProps"
+import cmInit from "./cm"
+import convertCmProps from "./helper/convertCmProps"
 import createVariantMap from "./helper/createVariantMap"
-import rcInit from "./rc"
-import type { RcComponentFactory } from "./types"
+import type { CmComponentFactory } from "./types"
 
 /**
- * The `rc` instance is the main entry point for creating our classmate-components.
+ * The `cm` instance is the main entry point for creating our classmate-components.
  * It provides:
- * - Component builder to create classmate components by using template literals and interpolations. E.g: `rc.div` or `rc.button`
- * - A variants method to create classmate components  with variants. E.g: `rc.div.variants(...)`
- * - The `rc.extend` method that allows you to create new classmate components based on existing ones.
+ * - Component builder to create classmate components by using template literals and interpolations. E.g: `cm.div` or `cm.button`
+ * - A variants method to create classmate components  with variants. E.g: `cm.div.variants(...)`
+ * - The `cm.extend` method that allows you to create new classmate components based on existing ones.
  *
- * Each styled component created via `rc` filters out `$`-prefixed props from the DOM and computes a final `className`
+ * Each styled component created via `cm` filters out `$`-prefixed props from the DOM and computes a final `className`
  * string by combining user-defined classes, dynamic interpolations based on props, and any incoming `className`.
  *
  * @example
  * ```tsx
  * // simple usage:
- * const StyledDiv = rc.div`p-2`
+ * const StyledDiv = cm.div`p-2`
  *
  * // Creating a styled 'div' with conditional classes:
- * const StyledDiv = rc.div<{ $active?: boolean }>`
+ * const StyledDiv = cm.div<{ $active?: boolean }>`
  *   p-2
  *   ${p => p.$active ? 'bg-blue' : 'bg-green'}
  * `
@@ -31,17 +31,17 @@ import type { RcComponentFactory } from "./types"
  * <StyledDiv $active>Active Content</StyledDiv>
  *
  * // Extending an existing styled component:
- * const ExtendedDiv = rc.extend(StyledDiv)<{ $highlighted?: boolean }>`
+ * const ExtendedDiv = cm.extend(StyledDiv)<{ $highlighted?: boolean }>`
  *   ${p => p.$highlighted ? 'border-2 border-yellow' : ''}
  * `
  *
  * // Validating props against an intrinsic element:
- * const ExtendedButton = rc.extend(rc.button)`
+ * const ExtendedButton = cm.extend(cm.button)`
  *   ${p => p.type === 'submit' ? 'font-bold' : ''}
  * `
  *
  * // Creating a styled component with variants:
- * const StyledButton = rc.button.variants({
+ * const StyledButton = cm.button.variants({
  *   base: 'p-2',
  *   variants: {
  *    size: {
@@ -54,20 +54,20 @@ import type { RcComponentFactory } from "./types"
  * })
  * ```
  */
-const rc = rcInit as RcComponentFactory
+const cm = cmInit as CmComponentFactory
 
-export { rc }
+export { cm }
 
-export type { RcBaseComponent } from "./types"
+export type { CmBaseComponent } from "./types"
 export type { VariantsConfig } from "./types"
 
-export { convertRcProps }
+export { convertCmProps }
 export { createVariantMap }
 export { default as useClassmate } from "./useClassmate"
 export { domElements }
 
-export default rc
+export default cm
 
-/** the `twMerge` lib from react-classmate */
-const rcMerge = twMerge
-export { rcMerge }
+/** the `twMerge` lib from @classmate/react */
+const cmMerge = twMerge
+export { cmMerge }

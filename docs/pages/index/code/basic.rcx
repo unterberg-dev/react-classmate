@@ -1,4 +1,4 @@
-const MyButton = rc.button`
+const MyButton = cm.button`
   text-blue
   bg-white
   rounded-lg

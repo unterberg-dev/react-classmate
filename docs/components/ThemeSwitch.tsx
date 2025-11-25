@@ -1,11 +1,11 @@
+import cm from "@classmate/react"
 import { Monitor, Moon, Sun } from "lucide-react" // Added Monitor icon for "auto mode"
-import rc from "react-classmate"
 
 import Button from "#components/common/Button"
 import useTheme from "#hooks/useThemeStore"
 import { getSystemTheme } from "#lib/utils"
 
-const Badge = rc.span`
+const Badge = cm.span`
   bg-primaryDark 
   text-light 
   rounded-full 

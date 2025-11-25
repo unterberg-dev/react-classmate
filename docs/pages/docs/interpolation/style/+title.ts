@@ -1,1 +1,1 @@
-export default () => "CSS-in-JS: style() | react-classmate"
+export default () => "CSS-in-JS: style() | @classmate/react"

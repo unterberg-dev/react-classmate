@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge"
 
 import { applyLogicHandlers } from "@classmate/core"
 
-import type { LogicHandler, RcBaseComponent, StyleDefinition } from "../types"
+import type { CmBaseComponent, LogicHandler, StyleDefinition } from "../types"
 
 interface CreateReactElementParams<
   T extends object,
@@ -38,7 +38,7 @@ const createReactElement = <
   styles = {},
   propsToFilter = [],
   logicHandlers = [],
-}: CreateReactElementParams<T, E>): RcBaseComponent<T> => {
+}: CreateReactElementParams<T, E>): CmBaseComponent<T> => {
   const element = forwardRef<HTMLElement, T & RefAttributes<any>>((props, ref) => {
     const baseProps = props as T
     const enhancedProps = logicHandlers.length > 0 ? applyLogicHandlers(baseProps, logicHandlers) : baseProps
@@ -73,9 +73,9 @@ const createReactElement = <
       style: mergedStyles,
       ref,
     })
-  }) as RcBaseComponent<T>
+  }) as CmBaseComponent<T>
 
-  element.displayName = displayName || "Rc Component"
+  element.displayName = displayName || "Cm Component"
   element.__rcComputeClassName = (props: T) =>
     computeClassName(logicHandlers.length > 0 ? applyLogicHandlers(props, logicHandlers) : props)
   element.__rcStyles = styles

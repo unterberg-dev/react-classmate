@@ -1,4 +1,4 @@
-const hVariantMap: Record<string, RcBaseComponent<HeadlineVariantProps>> = createVariantMap({
+const hVariantMap: Record<string, CmBaseComponent<HeadlineVariantProps>> = createVariantMap({
   elements: [...additionalElements, ...headlineLevels],
   variantsConfig: headlineVariants,
 })

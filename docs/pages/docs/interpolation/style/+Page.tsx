@@ -29,13 +29,13 @@ const InterpolationStylePage = () => {
         </SectionInnerParagraph>
         <ul className="mb-4">
           <li>
-            <CodeElement>{"rc.{intrinsicElement}"}</CodeElement>
+            <CodeElement>{"cm.{intrinsicElement}"}</CodeElement>
           </li>
           <li>
-            <CodeElement>{"rc.{intrinsicElement}.variants()"}</CodeElement>
+            <CodeElement>{"cm.{intrinsicElement}.variants()"}</CodeElement>
           </li>
           <li>
-            <CodeElement>rc.extend()</CodeElement>
+            <CodeElement>cm.extend()</CodeElement>
           </li>
         </ul>
         <HighlighterComponent input={basic} />

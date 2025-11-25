@@ -1,7 +1,7 @@
-import rc from "react-classmate"
+import cm from "@classmate/react"
 import Notebox from "#components/common/Notebox"
 
-const Card = rc.extend(Notebox)`
+const Card = cm.extend(Notebox)`
   !p-2
   md:!p-3
   rounded 

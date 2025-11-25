@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render, screen } from "@testing-library/react"
 import React from "react"
 
-import rc from "../../dist"
+import cm from "../../dist"
 
 type DayStatus = "completed" | "partlyCompleted" | "skipped" | "partlySkipped" | "pending" | "none"
 
@@ -30,7 +30,7 @@ const deriveDayStatus = ({ workouts, allResolved, hasCompleted, hasSkipped }: Wo
 
 describe("logic header concept", () => {
   it("allows colocating derived status logic inside a classmate component", () => {
-    const StyledDay = rc.div.logic<WorkoutProps>((props) => {
+    const StyledDay = cm.div.logic<WorkoutProps>((props) => {
       const { workouts, allResolved, hasCompleted, hasSkipped } = props
       const status = deriveDayStatus(props)
 
@@ -63,7 +63,7 @@ describe("logic header concept", () => {
   })
 
   it("feeds derived props into variants automatically", () => {
-    const WorkoutDayWithVariants = rc.div
+    const WorkoutDayWithVariants = cm.div
       .logic<WorkoutProps>((props) => {
         const status = deriveDayStatus(props)
 

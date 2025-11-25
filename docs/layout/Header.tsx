@@ -1,6 +1,6 @@
+import cm from "@classmate/react"
 import { Github, Sparkles, Sticker } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
-import rc from "react-classmate"
 
 import { usePageContext } from "vike-react/usePageContext"
 import LayoutComponent from "#components/LayoutComponent"
@@ -11,14 +11,14 @@ import NpmLogo from "#components/common/NpmLogo"
 import { APP_CONFIG } from "#lib/config"
 import { externalLink, internalLink } from "#lib/links"
 
-const HeaderOuter = rc.header`
+const HeaderOuter = cm.header`
   fixed
   w-full
   z-25
   ${APP_CONFIG.headerHeightConfig.heightClass}
 `
 
-const LogoContainer = rc.a`
+const LogoContainer = cm.a`
   relative  
   block
   flex
@@ -26,7 +26,7 @@ const LogoContainer = rc.a`
   space-x-2
 `
 
-const HeaderLayout = rc.extend(LayoutComponent)`
+const HeaderLayout = cm.extend(LayoutComponent)`
   flex
   justify-between
   relative
@@ -85,7 +85,7 @@ const Header = () => {
       <HeaderLayout>
         <LogoContainer href={internalLink.start}>
           <Sticker className="text-dark h-4 w-4 lg:h-5 lg:w-5" />
-          <span className="font-bold text-base lg:text-lg">react-classmate</span>
+          <span className="font-bold text-base lg:text-lg">@classmate/react</span>
         </LogoContainer>
         <div className="flex gap-2">
           {isStartPage && (

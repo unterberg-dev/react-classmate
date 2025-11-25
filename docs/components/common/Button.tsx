@@ -1,6 +1,6 @@
+import { type VariantsConfig, convertCmProps, createVariantMap } from "@classmate/react"
 import { LoaderCircle } from "lucide-react"
 import type { HTMLAttributes, ReactNode } from "react"
-import { type VariantsConfig, convertRcProps, createVariantMap } from "react-classmate"
 
 import { APP_CONFIG } from "#lib/config"
 import type { Colors } from "#lib/types"
@@ -109,7 +109,7 @@ const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
   const Component = link ? button.a : button.button
   const isExternal = isLinkExternal(link)
 
-  const preparedProps = convertRcProps(buttonProps, {
+  const preparedProps = convertCmProps(buttonProps, {
     size: "$size",
     noShadow: "$noShadow",
     noGutter: "$noGutter",

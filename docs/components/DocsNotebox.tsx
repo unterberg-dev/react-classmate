@@ -1,6 +1,6 @@
+import cm from "@classmate/react"
 import { CircleHelp, type LucideIcon } from "lucide-react"
 import type { HTMLAttributes } from "react"
-import rc from "react-classmate"
 import Notebox, { type NoteboxType } from "#components/common/Notebox"
 
 interface DocsNoteboxProps extends HTMLAttributes<HTMLDivElement> {
@@ -8,7 +8,7 @@ interface DocsNoteboxProps extends HTMLAttributes<HTMLDivElement> {
   type?: NoteboxType
 }
 
-const StyledNotebox = rc.extend(Notebox)`
+const StyledNotebox = cm.extend(Notebox)`
   mb-4
   flex
   gap-2 
@@ -16,7 +16,7 @@ const StyledNotebox = rc.extend(Notebox)`
   relative
 `
 
-const IconOuter = rc.div.variants<{ $type: NoteboxType }>({
+const IconOuter = cm.div.variants<{ $type: NoteboxType }>({
   base: `
     w-6 h-6 
     absolute left-2 top-6 

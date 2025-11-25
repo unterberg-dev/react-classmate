@@ -1,27 +1,27 @@
 /**
-  benchmark for rc - not implement -> if you want to implement, please add "spec" to the file name (see sibling files)
+  benchmark for cm - not implement -> if you want to implement, please add "spec" to the file name (see sibling files)
 */
 import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import type { InputHTMLAttributes, ReactNode } from "react"
 import React from "react"
 
-import rc from "../../dist"
+import cm from "../../dist"
 
 const NUM_COMPONENTS = 50
 
 // unique map
 const numMap = Array.from({ length: NUM_COMPONENTS }, (_, i) => i)
 
-describe("rc stress benchmark", () => {
-  it("rc benchmark warmup", () => {
+describe("cm stress benchmark", () => {
+  it("cm benchmark warmup", () => {
     const start = performance.now()
 
-    const RcDiv = rc.div`bg-red p-4`
+    const CmDiv = cm.div`bg-red p-4`
     const ReactDiv = (props: { className?: string }) => <div className={props.className} />
 
     const components = numMap.map((i) =>
-      i % 2 === 0 ? <RcDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />,
+      i % 2 === 0 ? <CmDiv key={i} /> : <ReactDiv key={i} className="bg-red p-4" />,
     )
 
     const { container } = render(components)
@@ -31,17 +31,17 @@ describe("rc stress benchmark", () => {
     console.log(`000) ${NUM_COMPONENTS}x rsx and react elements - warmup: ${(end - start).toFixed(2)} ms`)
   })
 
-  it("rc creation", () => {
+  it("cm creation", () => {
     const start = performance.now()
 
-    const RcDiv = rc.div`bg-red p-4`
-    const components = numMap.map((i) => <RcDiv key={i} />)
+    const CmDiv = cm.div`bg-red p-4`
+    const components = numMap.map((i) => <CmDiv key={i} />)
 
     const { container } = render(components)
     const end = performance.now()
 
     expect(container.firstChild).toBeTruthy()
-    console.log(`A) ${NUM_COMPONENTS}x rc base: ${(end - start).toFixed(2)} ms`)
+    console.log(`A) ${NUM_COMPONENTS}x cm base: ${(end - start).toFixed(2)} ms`)
   })
 
   it("react creation", () => {
@@ -57,18 +57,18 @@ describe("rc stress benchmark", () => {
     console.log(`A) ${NUM_COMPONENTS}x react base: ${(end - start).toFixed(2)} ms`)
   })
 
-  it("rc.extend", () => {
+  it("cm.extend", () => {
     const start = performance.now()
 
     interface BaseProps {
       $isActive: boolean
     }
 
-    const BaseButton = rc.button<BaseProps>`
+    const BaseButton = cm.button<BaseProps>`
       ${(p) => (p.$isActive ? "bg-active" : "bg-inactive")}
     `
 
-    const ExtendedButton = rc.extend(BaseButton)<{ $isDisabled?: boolean }>`
+    const ExtendedButton = cm.extend(BaseButton)<{ $isDisabled?: boolean }>`
       ${(p) => (p.$isDisabled ? "opacity-50" : "opacity-100")}
       ${(p) => (p.$isActive ? "text-bold" : "text-normal")}
     `
@@ -81,7 +81,7 @@ describe("rc stress benchmark", () => {
     const end = performance.now()
 
     expect(container.firstChild).toBeTruthy()
-    console.log(`B) ${NUM_COMPONENTS}x rc base + rc.extend: ${(end - start).toFixed(2)} ms`)
+    console.log(`B) ${NUM_COMPONENTS}x cm base + cm.extend: ${(end - start).toFixed(2)} ms`)
   })
 
   it("react prop nesting", () => {
@@ -126,7 +126,7 @@ describe("rc stress benchmark", () => {
     console.log(`B) ${NUM_COMPONENTS}x react extend: ${(end - start).toFixed(2)} ms`)
   })
 
-  it("rc extend variants", () => {
+  it("cm extend variants", () => {
     const start = performance.now()
 
     interface ButtonProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -134,7 +134,7 @@ describe("rc stress benchmark", () => {
       $isActive?: boolean
     }
 
-    const Alert = rc.input.variants<ButtonProps>({
+    const Alert = cm.input.variants<ButtonProps>({
       base: "p-4",
       variants: {
         $severity: {
@@ -143,7 +143,7 @@ describe("rc stress benchmark", () => {
       },
     })
 
-    const ExtendedButton = rc.extend(Alert)<{ $test: boolean }>`
+    const ExtendedButton = cm.extend(Alert)<{ $test: boolean }>`
       ${(p) => (p.$test ? "bg-green-100 text-green-800" : "")}
     `
 
@@ -155,7 +155,7 @@ describe("rc stress benchmark", () => {
     const end = performance.now()
 
     expect(container.firstChild).toBeTruthy()
-    console.log(`C) ${NUM_COMPONENTS}x rc variants: ${(end - start).toFixed(2)} ms`)
+    console.log(`C) ${NUM_COMPONENTS}x cm variants: ${(end - start).toFixed(2)} ms`)
   })
 
   it("react extend variants", () => {
@@ -169,7 +169,7 @@ describe("rc stress benchmark", () => {
       type?: "button" | "submit" | "reset"
     }
 
-    // Base component mimicking rc.input.variants
+    // Base component mimicking cm.input.variants
     const Alert = ({ severity, isActive, className, ...props }: ButtonProps) => {
       const baseClass = "p-4"
       const severityClass =
@@ -180,7 +180,7 @@ describe("rc stress benchmark", () => {
       return <input className={finalClass} {...props} />
     }
 
-    // Extended component mimicking rc.extend
+    // Extended component mimicking cm.extend
     const ExtendedButton = ({
       severity,
       isActive,
@@ -207,7 +207,7 @@ describe("rc stress benchmark", () => {
     console.log(`C) ${NUM_COMPONENTS}x react variants: ${(end - start).toFixed(2)} ms`)
   })
 
-  it("rc.variants with styles", () => {
+  it("cm.variants with styles", () => {
     const start = performance.now()
 
     interface ButtonProps extends InputHTMLAttributes<HTMLButtonElement> {
@@ -215,7 +215,7 @@ describe("rc stress benchmark", () => {
       $isActive?: boolean
     }
 
-    const AlertButton = rc.button.variants<ButtonProps>({
+    const AlertButton = cm.button.variants<ButtonProps>({
       base: "p-4 border rounded",
       variants: {
         $severity: {
@@ -241,7 +241,7 @@ describe("rc stress benchmark", () => {
     const end = performance.now()
 
     expect(container.firstChild).toBeTruthy()
-    console.log(`D) ${NUM_COMPONENTS}x rc.variants with styles: ${(end - start).toFixed(2)} ms`)
+    console.log(`D) ${NUM_COMPONENTS}x cm.variants with styles: ${(end - start).toFixed(2)} ms`)
   })
 
   it("react equivalent with prop-based styles", () => {

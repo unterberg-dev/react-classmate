@@ -14,7 +14,7 @@ export const internalLink = {
   },
   util: {
     style: `${base}docs/interpolation/style/`,
-    convertRcProps: `${base}docs/helper/convertrcprops/`,
+    convertCmProps: `${base}docs/helper/convertcmprops/`,
     createVariantMap: `${base}docs/helper/createvariantmap/`,
   },
   typescript: {
@@ -28,6 +28,6 @@ export const internalLink = {
 }
 
 export const externalLink = {
-  npm: "https://www.npmjs.com/package/react-classmate",
+  npm: "https://www.npmjs.com/package/@classmate/react",
   github: "https://github.com/unterberg-dev/react-classmate",
 }

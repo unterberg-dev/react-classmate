@@ -3,7 +3,7 @@
 ## Objectives
 - Decouple the generic class-building runtime from React so adapters for Solid, Vue, etc. only need to implement view-library specifics.
 - Centralize shared factories (`base`, `extend`, `variants`), helpers (`createVariantMap`, `applyLogicHandlers`), and metadata (`domElements`) inside `@classmate/core`.
-- Preserve the existing public surface (`import rc from "@classmate/react"`) by keeping the adapter packages as the only published entry-points.
+- Preserve the existing public surface (`import cm from "@classmate/react"`) by keeping the adapter packages as the only published entry-points.
 - Keep extensibility at the center: the core should be framework-agnostic, composable, and ready for future adapters without code duplication.
 
 ## Current Snapshot
@@ -17,7 +17,7 @@
 | Layer | Responsibility | Notes |
 | --- | --- | --- |
 | `@classmate/core` (private) | Owns runtime abstractions: interpolation handling, logic handlers, DOM registry, variant utilities, type helpers, adapter interfaces. | No direct dependency on React/Solid. Ships JS + .d.ts that adapters consume. |
-| Adapter packages (`@classmate/react`, `@classmate/solid`, …) | Implement `ClassmateAdapter` interface (how to create components, merge class names/styles, normalize props). Re-export a bound `rc` factory configured with their adapter. | Users install only one adapter package. |
+| Adapter packages (`@classmate/react`, `@classmate/solid`, …) | Implement `ClassmateAdapter` interface (how to create components, merge class names/styles, normalize props). Re-export a bound `cm` factory configured with their adapter. | Users install only one adapter package. |
 | Docs/demo packages | Consume adapter packages just like end-users. | Acts as integration tests. |
 
 Core never ships directly to users; adapters remain the user-facing packages.
@@ -30,7 +30,7 @@ Core never ships directly to users; adapters remain the user-facing packages.
   - `createComponent(options)` -> returns a `ClassmateComponent<P>`.
   - Hooks for `mergeClassNames`, `mergeStyles`, `filterProps`, `attachMetadata`.
 - Provide helper types for adapters to extend their intrinsic element map (React uses `JSX.IntrinsicElements`, Solid uses `JSX.IntrinsicElements` from `solid-js`).
-- Expose a small `createRuntime(adapter: ClassmateAdapter)` function that returns the `rc` proxy configured for the adapter.
+- Expose a small `createRuntime(adapter: ClassmateAdapter)` function that returns the `cm` proxy configured for the adapter.
 
 ### 2. Factory Implementations
 - Move `packages/react/src/factory/*.ts` into `packages/core/src/factory/` and rewrite them to consume the adapter contract instead of React APIs directly.
@@ -44,9 +44,9 @@ Core never ships directly to users; adapters remain the user-facing packages.
 - Keep Tailwind-specific helpers (e.g., `twMerge`) inside adapters; core should accept a `mergeClassNames` function provided by the adapter.
 
 ### 4. Types & Shared Utilities
-- Define shared types (`Interpolation`, `StyleDefinition`, `VariantsConfig`, `LogicHandler`, `RcBaseComponent` analog) under `packages/core/src/types`.
-- Provide adapter-specific augmentation hooks so React and Solid packages can extend/augment the `RcComponent` type with their JSX namespace.
-- Consider exposing a `createClassmateFactory(adapterConfig)` helper that returns `{ rc, createVariantMap, domElements }`.
+- Define shared types (`Interpolation`, `StyleDefinition`, `VariantsConfig`, `LogicHandler`, `CmBaseComponent` analog) under `packages/core/src/types`.
+- Provide adapter-specific augmentation hooks so React and Solid packages can extend/augment the `CmComponent` type with their JSX namespace.
+- Consider exposing a `createClassmateFactory(adapterConfig)` helper that returns `{ cm, createVariantMap, domElements }`.
 
 ### 5. Build & Distribution
 - Configure `packages/core/tsconfig.json`, `tsup` (or `tsc`) build script to emit ESM + types consumed by adapters.
@@ -55,7 +55,7 @@ Core never ships directly to users; adapters remain the user-facing packages.
 ## Adapter Responsibilities After Extraction
 - Supply adapter-level options (React uses `forwardRef`, Solid uses `splitProps`, etc.).
 - House runtime dependencies (`react`, `solid-js`, `tailwind-merge`, etc.).
-- Implement `createAdapterRuntime` that wires the core factory to the adapter specifics and re-exports `rc`, helpers, and React/Solid-specific hooks (`useClassmate`, etc.).
+- Implement `createAdapterRuntime` that wires the core factory to the adapter specifics and re-exports `cm`, helpers, and React/Solid-specific hooks (`useClassmate`, etc.).
 - Keep adapter-exclusive APIs (e.g., `useClassmate.ts` for React) colocated.
 
 ## Migration Plan
@@ -63,7 +63,7 @@ Core never ships directly to users; adapters remain the user-facing packages.
 ### Phase 0 – Preparation
 1. Align TS project references so adapters can import from `@classmate/core/dist`.
 2. Ensure lint/build scripts run per package (update root `package.json` if needed).
-3. Add baseline tests (smoke tests for `rc.div` + `variants`) to lock behavior pre-refactor.
+3. Add baseline tests (smoke tests for `cm.div` + `variants`) to lock behavior pre-refactor.
 
 ### Phase 1 – Bootstrap Core Package
 1. Create `packages/core/src` with folders: `adapter`, `factory`, `logic`, `types`, `dom`, `helpers`.
@@ -84,7 +84,7 @@ Core never ships directly to users; adapters remain the user-facing packages.
 4. Remove duplicate logic from React package—only the adapter config + React-only helpers remain.
 
 ### Phase 4 – Rebuild Adapter Surface
-1. Update `packages/react/src/rc.ts` to import `createRuntime` (or similar) from core and pass the React adapter config.
+1. Update `packages/react/src/cm.ts` to import `createRuntime` (or similar) from core and pass the React adapter config.
 2. Re-export helper utilities from React package if necessary (e.g., `createVariantMap`).
 3. Keep React-specific hooks (`useClassmate.ts`) unchanged but ensure they import shared types from core.
 4. Introduce a similar adapter skeleton inside `packages/solid` (even if partially implemented) to validate the abstraction.

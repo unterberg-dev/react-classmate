@@ -21,19 +21,19 @@ export type {
   StyleDefinition,
 } from "@classmate/core"
 
-export type RcIntrinsicElement = Extract<AllowedTags, keyof JSX.IntrinsicElements>
+export type CmIntrinsicElement = Extract<AllowedTags, keyof JSX.IntrinsicElements>
 
 export type InputComponent =
   | ForwardRefExoticComponent<any>
   | JSXElementConstructor<any>
-  | RcBaseComponent<any>
+  | CmBaseComponent<any>
 
 /**
  * Base type for styled React components with forward refs.
  *
  * @typeParam P - Props of the component.
  */
-export interface RcBaseComponent<P extends object = object>
+export interface CmBaseComponent<P extends object = object>
   extends RuntimeComponent<P>,
     ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<any>> {}
 
@@ -46,14 +46,14 @@ export interface RcBaseComponent<P extends object = object>
  * @example
  * ```tsx
  * // Extending a custom component without intrinsic element type
- * const SomeBase = rc.div<{ $active?: boolean }>`color: red;`
- * const Extended = rc.extend(SomeBase)<{ $highlighted?: boolean }>`
+ * const SomeBase = cm.div<{ $active?: boolean }>`color: red;`
+ * const Extended = cm.extend(SomeBase)<{ $highlighted?: boolean }>`
  *   ${p => p.$highlighted ? 'bg-yellow' : ''}
  *   ${p => p.$active ? 'text-red' : ''}
  * `
  *
  * // Extending with specific props:
- * const ExtendedButton = rc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
+ * const ExtendedButton = cm.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
  *   ${p => p.type === 'submit' ? 'font-bold' : ''}
  * ```
  */
@@ -68,28 +68,28 @@ type ExtendFunction =
    * @example
    * ```tsx
    * // Extending a custom component without intrinsic element type
-   * const SomeBase = rc.div<{ $active?: boolean }>`color: red;`
-   * const Extended = rc.extend(SomeBase)<{ $highlighted?: boolean }>`
+   * const SomeBase = cm.div<{ $active?: boolean }>`color: red;`
+   * const Extended = cm.extend(SomeBase)<{ $highlighted?: boolean }>`
    *   ${p => p.$highlighted ? 'bg-yellow' : ''}
    *   ${p => p.$active ? 'text-red' : ''}
    * `
    *
    * // Extending with specific props:
-   * const ExtendedButton = rc.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
+   * const ExtendedButton = cm.extend(StyledButton)<ButtonHTMLAttributes<HTMLButtonElement>>`
    *   ${p => p.type === 'submit' ? 'font-bold' : ''}
    * ```
    */
-  <E extends InputComponent, I extends RcIntrinsicElement>(component: E) => ExtendTemplateBuilder<E, I>
+  <E extends InputComponent, I extends CmIntrinsicElement>(component: E) => ExtendTemplateBuilder<E, I>
 
 export interface ExtendTemplateBuilder<
   E extends InputComponent,
-  I extends RcIntrinsicElement,
+  I extends CmIntrinsicElement,
   LogicProps extends object = object,
 > {
   <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: Interpolation<MergeProps<E, T> & JSX.IntrinsicElements[I]>[]
-  ): RcBaseComponent<MergeProps<E, T>>
+  ): CmBaseComponent<MergeProps<E, T>>
   logic<NextLogic extends object = object>(
     handler: LogicHandler<MergeProps<E, LogicProps & NextLogic>>,
   ): ExtendTemplateBuilder<E, I, LogicProps & NextLogic>
@@ -120,7 +120,7 @@ type VariantsFunction<K> =
    *   $severity: "info" | "warning" | "error";
    * }
    *
-   * const Alert = rc.div.variants<AlertProps, AlertVariants>({
+   * const Alert = cm.div.variants<AlertProps, AlertVariants>({
    *   base: ({ $isActive }) => `${$isActive ? "pointer-cursor" : ""} p-4 rounded-md`,
    *   variants: {
    *     $severity: {
@@ -137,24 +137,24 @@ type VariantsFunction<K> =
    */
   <ExtraProps extends object, VariantProps extends object = ExtraProps>(
     config: VariantsConfig<VariantProps, ExtraProps>,
-  ) => RcBaseComponent<MergeProps<K, ExtraProps & Partial<VariantProps>>>
+  ) => CmBaseComponent<MergeProps<K, ExtraProps & Partial<VariantProps>>>
 
 /**
  * Factory for creating styled components with intrinsic elements.
  */
-export interface RcFactoryFunction<K extends RcIntrinsicElement> {
+export interface CmFactoryFunction<K extends CmIntrinsicElement> {
   <T extends object>(
     strings: TemplateStringsArray,
     ...interpolations: Interpolation<T>[]
-  ): RcBaseComponent<MergeProps<K, T>>
+  ): CmBaseComponent<MergeProps<K, T>>
   logic<LogicProps extends object = object>(
     handler: LogicHandler<MergeProps<K, LogicProps>>,
-  ): RcFactoryFunction<K>
+  ): CmFactoryFunction<K>
   variants: VariantsFunction<K>
 }
 
-export type RcComponentFactory = {
-  [K in RcIntrinsicElement]: RcFactoryFunction<K>
+export type CmComponentFactory = {
+  [K in CmIntrinsicElement]: CmFactoryFunction<K>
 } & {
   extend: ExtendFunction
 }

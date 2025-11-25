@@ -1,4 +1,4 @@
-const Alert = rc.div.variants({
+const Alert = cm.div.variants({
   base: "p-4 rounded-md",
   variants: {
     $severity: {

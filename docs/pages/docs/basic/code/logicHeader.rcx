@@ -1,4 +1,4 @@
-import rc from "react-classmate"
+import cm from "@classmate/react"
 
 type DayStatus = "completed" | "pending"
 
@@ -16,7 +16,7 @@ const deriveDayStatus = ({ workouts, allResolved, hasCompleted, hasSkipped }: Wo
   return "pending"
 }
 
-export const WorkoutDay = rc.div
+export const WorkoutDay = cm.div
   .logic<WorkoutProps>((props) => {
     const status = deriveDayStatus(props)
     return {

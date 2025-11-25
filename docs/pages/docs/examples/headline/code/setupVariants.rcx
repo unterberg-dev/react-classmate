@@ -1,5 +1,5 @@
 interface HeadlineVariantProps extends HTMLAttributes<HTMLElement> {
-  $as?: RcVariantType
+  $as?: CmVariantType
 }
 
 const headlineVariants: VariantsConfig<HeadlineVariantProps, HeadlineVariantProps> = {

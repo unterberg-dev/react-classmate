@@ -1,5 +1,5 @@
+import cm from "@classmate/react"
 import type { AnchorHTMLAttributes } from "react"
-import rc from "react-classmate"
 import { usePageContext } from "vike-react/usePageContext"
 
 import { APP_CONFIG } from "#lib/config"
@@ -11,7 +11,7 @@ interface StyledLinkProps {
   $isMenu: boolean
 }
 
-const StyledLink = rc.a<StyledLinkProps>`
+const StyledLink = cm.a<StyledLinkProps>`
   link
   transition-colors
   ${APP_CONFIG.transition.tw}

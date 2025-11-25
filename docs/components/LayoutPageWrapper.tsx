@@ -1,9 +1,9 @@
+import cm from "@classmate/react"
 import type { ReactNode } from "react"
-import rc from "react-classmate"
 
 import { APP_CONFIG } from "#lib/config"
 
-const Layout = rc.div`
+const Layout = cm.div`
   w-full
   h-full
   min-h-dvh
@@ -12,7 +12,7 @@ const Layout = rc.div`
   ${APP_CONFIG.headerHeightConfig.footerPaddingBottomClass}
 `
 
-const Gradient = rc.div`
+const Gradient = cm.div`
   absolute
   top-0
   left-0

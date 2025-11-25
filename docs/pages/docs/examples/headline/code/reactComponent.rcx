@@ -1,11 +1,11 @@
 interface HeadlineProps extends HTMLAttributes<HTMLElement> {
-  variant?: RcVariantType
-  as: Exclude<RcVariantType, "blank"> | AdditionalHeadlineTypes
+  variant?: CmVariantType
+  as: Exclude<CmVariantType, "blank"> | AdditionalHeadlineTypes
 }
 
 const Headline = ({ as, variant, ...props }: HeadlineProps) => {
   const isHeadline = headlineLevels.includes(as as HeadlineLevels)
-  const variantToUse = variant || (isHeadline ? (as as RcVariantType) : "blank")
+  const variantToUse = variant || (isHeadline ? (as as CmVariantType) : "blank")
 
   const Component = hVariantMap[as] || null
 

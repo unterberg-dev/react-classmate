@@ -2,7 +2,7 @@ interface CustomButtonProps {
   $customState?: boolean
 }
 
-const CustomButton = rc.button<CustomButtonProps>`
+const CustomButton = cm.button<CustomButtonProps>`
   text-blue
   px-3
   py-2

@@ -22,20 +22,20 @@
     "@biomejs/biome": "1.9.4",
     "typescript": "^5.9.3"
   },
-  "description": "[![npm](https://img.shields.io/npm/v/react-classmate)](https://www.npmjs.com/package/react-classmate) [![npm bundle size](https://img.shields.io/bundlephobia/min/react-classmate)](https://bundlephobia.com/result?p=react-classmate)",
+  "description": "[![npm](https://img.shields.io/npm/v/@classmate)](https://www.npmjs.com/package/@classmate) [![npm bundle size](https://img.shields.io/bundlephobia/min/@classmate)](https://bundlephobia.com/result?p=@classmate)",
   "main": "index.js",
   "directories": {
     "doc": "docs"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unterberg-dev/react-classmate.git"
+    "url": "git+https://github.com/richard-unterberg/classmate.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/unterberg-dev/react-classmate/issues"
+    "url": "https://github.com/richard-unterberg/classmate/issues"
   },
-  "homepage": "https://github.com/unterberg-dev/react-classmate#readme"
+  "homepage": "https://github.com/richard-unterberg/classmate#readme"
 }

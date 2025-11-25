@@ -2,19 +2,19 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React, { type JSX } from "react"
 
-import rc from "../../dist"
+import cm from "../../dist"
 
-describe("rc base", () => {
-  it("renders a rc.div with assigned classes", () => {
-    const RenderDiv = rc.div`bg-red p-4`
+describe("cm base", () => {
+  it("renders a cm.div with assigned classes", () => {
+    const RenderDiv = cm.div`bg-red p-4`
 
     const { container } = render(<RenderDiv />)
     expect(container.firstChild).toHaveClass("bg-red p-4")
     expect(container.firstChild).toBeInstanceOf(HTMLDivElement)
   })
 
-  it("filters $-prefixed props & renders the class attribute on a rc.button", () => {
-    const HiddenButton = rc.button<{
+  it("filters $-prefixed props & renders the class attribute on a cm.button", () => {
+    const HiddenButton = cm.button<{
       $disabled: boolean
     }>`text-blue custom ${(p) => (p.$disabled ? "opacity-60" : "")}`
     const { container } = render(<HiddenButton aria-label="testlabel" $disabled />)
@@ -26,7 +26,7 @@ describe("rc base", () => {
   })
 
   it("can use intrinsic properties of element", () => {
-    const HiddenButton = rc.button<JSX.IntrinsicElements["button"]>`
+    const HiddenButton = cm.button<JSX.IntrinsicElements["button"]>`
       text-blue 
       custom 
       ${(p) => (p.type === "button" ? "opacity-60" : "")}
@@ -41,7 +41,7 @@ describe("rc base", () => {
 
   // define a test were we inject multiple classes "mt-2 mt-8 mt-1" - they should be merged by tailwind-merge
   it("merges multiple classes using tailwind-merge", () => {
-    const MergedDiv = rc.div`mt-2 mt-8 mt-1`
+    const MergedDiv = cm.div`mt-2 mt-8 mt-1`
 
     const { container } = render(<MergedDiv />)
 
@@ -52,7 +52,7 @@ describe("rc base", () => {
   })
 
   it("merges multiple classes using tailwind-merge - overwrite on className", () => {
-    const MergedDiv = rc.div`mt-2 mt-8 mt-1`
+    const MergedDiv = cm.div`mt-2 mt-8 mt-1`
 
     const { container } = render(<MergedDiv className="mt-10" />)
 

@@ -7,7 +7,7 @@
  * @returns A new object with `$`-prepended keys and original keys removed.
  * @example
  * ```tsx
- * const preparedProps = convertRcProps(buttonProps, {
+ * const preparedProps = convertCmProps(buttonProps, {
  *  size: "$size",
  *  noShadow: "$noShadow",
  *  noGutter: "$noGutter",
@@ -27,7 +27,7 @@
  *  $noGutter: false,
  * }
  */
-const convertRcProps = <T extends object, BaseProps extends object, K extends keyof BaseProps & keyof T>(
+const convertCmProps = <T extends object, BaseProps extends object, K extends keyof BaseProps & keyof T>(
   props: T,
   mappings: Record<K, `$${K & string}`>,
 ): Omit<T, K> & Record<string, any> => {
@@ -43,4 +43,4 @@ const convertRcProps = <T extends object, BaseProps extends object, K extends ke
   return { ...props, ...convertedProps }
 }
 
-export default convertRcProps
+export default convertCmProps

@@ -2,7 +2,7 @@ interface ButtonProps extends JSX.IntrinsicElements["button"] {
   $customState?: "button"
 }
 
-const CustomButton = rc.button<ButtonProps>`
+const CustomButton = cm.button<ButtonProps>`
   text-blue 
   custom
   ${(p) => (p.$customState" ? "bg-black" : "")}

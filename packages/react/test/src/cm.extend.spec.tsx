@@ -2,15 +2,15 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React, { type InputHTMLAttributes } from "react"
 
-import rc from "../../dist"
+import cm from "../../dist"
 
-describe("rc.extends", () => {
+describe("cm.extends", () => {
   it("extends the base component with new props", () => {
     interface StyledSliderItemBaseProps {
       $isActive: boolean
     }
 
-    const StyledSliderItemBase = rc.button<StyledSliderItemBaseProps>`
+    const StyledSliderItemBase = cm.button<StyledSliderItemBaseProps>`
       absolute
       top-0
       ${(p) => (p.$isActive ? "animate-in fade-in" : "animate-out fade-out")}
@@ -20,7 +20,7 @@ describe("rc.extends", () => {
       $secondBool: boolean
     }
 
-    const NewStyledSliderItemWithNewProps = rc.extend(StyledSliderItemBase)<NewStyledSliderItemProps>`
+    const NewStyledSliderItemWithNewProps = cm.extend(StyledSliderItemBase)<NewStyledSliderItemProps>`
       rounded-lg
       text-lg
       ${(p) => (p.$isActive ? "bg-blue" : "bg-red")}
@@ -38,8 +38,8 @@ describe("rc.extends", () => {
     expect(container.firstChild).toBeInstanceOf(HTMLButtonElement)
   })
 
-  it("assign a rc component and infer it's base types", () => {
-    const StyledButton = rc.extend(rc.button``)<{ $trigger?: boolean }>`
+  it("assign a cm component and infer it's base types", () => {
+    const StyledButton = cm.extend(cm.button``)<{ $trigger?: boolean }>`
       bg-white
       ${(p) => (p.type === "button" ? "border-primary" : "")}
     `
@@ -51,7 +51,7 @@ describe("rc.extends", () => {
   it("extend a react component with an assigned class", () => {
     const MyInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />
 
-    const StyledInput = rc.extend(MyInput)<{ $trigger?: boolean }>`
+    const StyledInput = cm.extend(MyInput)<{ $trigger?: boolean }>`
       bg-white
       border-1
       ${(p) => (p.$trigger ? "border-error" : "border-gray")}
@@ -67,13 +67,13 @@ describe("rc.extends", () => {
   it("extend a extended react component", () => {
     const MyInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />
 
-    const StyledInput = rc.extend(MyInput)<{ $trigger?: boolean }>`
+    const StyledInput = cm.extend(MyInput)<{ $trigger?: boolean }>`
       bg-white
       border-1
       ${(p) => (p.$trigger ? "border-error" : "border-gray")}
     `
 
-    const ExtendedStyledInput = rc.extend(StyledInput)<{ $someBool?: boolean }>`
+    const ExtendedStyledInput = cm.extend(StyledInput)<{ $someBool?: boolean }>`
       custom-class
       ${(p) => (p.$someBool ? "shadow" : "")}
       ${(p) => (p.type === "text" ? "text-lg" : "")}
@@ -99,7 +99,7 @@ describe("rc.extends", () => {
       $color?: "red" | "blue"
     }
 
-    const StyledSliderItemBase = rc.div.variants<StyledSliderItemBaseProps>({
+    const StyledSliderItemBase = cm.div.variants<StyledSliderItemBaseProps>({
       base: ({ $isActive }) => `absolute top-0 ${$isActive ? "animate-in fade-in" : "animate-out fade-out"}`,
       variants: {
         $color: {
@@ -112,7 +112,7 @@ describe("rc.extends", () => {
       },
     })
 
-    const Extended = rc.extend(StyledSliderItemBase)`
+    const Extended = cm.extend(StyledSliderItemBase)`
       rounded-lg
       text-lg
       ${({ $isActive }) => ($isActive ? "pointer-events-none" : "")}

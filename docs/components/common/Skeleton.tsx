@@ -1,6 +1,6 @@
-import rc from "react-classmate"
+import cm from "@classmate/react"
 
-const Skeleton = rc.div`
+const Skeleton = cm.div`
   bg-graySuperLight
   animate-delay-300
   animate-pulse

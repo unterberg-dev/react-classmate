@@ -1,6 +1,6 @@
 type GradientType = "variants" | "thanks" | "footer"
 
-const SectionGradient = rc.div.variants<{ $type: GradientType }>({
+const SectionGradient = cm.div.variants<{ $type: GradientType }>({
   base: `
     absolute -mt-100 left-0 w-full
     h-100 

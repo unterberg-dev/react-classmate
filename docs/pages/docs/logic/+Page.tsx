@@ -57,7 +57,7 @@ const LogicPage = () => {
             for props that should never reach the DOM.
           </li>
           <li>
-            Combine logic headers with <CodeElement>rc.extend</CodeElement> or{" "}
+            Combine logic headers with <CodeElement>cm.extend</CodeElement> or{" "}
             <CodeElement>useClassmate</CodeElement> to reuse the same derived data in different contexts.
           </li>
           <li>

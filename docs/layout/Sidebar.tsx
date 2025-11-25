@@ -1,14 +1,14 @@
-import rc from "react-classmate"
+import cm from "@classmate/react"
 
 import Navigation from "#components/Navigation"
 
-const SidebarWrap = rc.nav`
+const SidebarWrap = cm.nav`
   relative p-0
   hidden
   lg:block
 `
 
-const SidebarSticky = rc.div`
+const SidebarSticky = cm.div`
   sticky
   top-24
   flex 

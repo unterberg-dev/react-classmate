@@ -9,12 +9,12 @@
     "prod": "npm run build && npm run preview",
     "lint": "biome lint --write .",
     "format": "biome format --write .",
-    "postbuild": "npx tsx lib/postbuild.ts"
+    "postbuild": "node lib/postbuild.js"
   },
   "dependencies": {
     "lucide-react": "^0.469.0",
     "react": "^19.0.0",
-    "react-classmate": "file:../packages/react",
+    "@classmate/react": "file:../packages/react",
     "react-dom": "^19.0.0",
     "react-remove-scroll": "^2.6.2",
     "react-syntax-highlighter": "^15.6.1",
@@ -28,7 +28,7 @@
     "@types/react-dom": "^19.0.2",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@vitejs/plugin-react": "^4.3.4",
-    "beasties": "^0.2.0",
+    "beasties": "^0.3.5",
     "jsdom": "^26.0.0",
     "p-limit": "^6.2.0",
     "typescript": "^5.7.2",

@@ -2,11 +2,11 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React from "react"
 
-import rc from "../../dist"
+import cm from "../../dist"
 
 describe("Style Capabilities", () => {
   it("applies styles correctly in createBaseComponent", () => {
-    const BaseButton = rc.button<{ $disabled?: boolean }>`
+    const BaseButton = cm.button<{ $disabled?: boolean }>`
       ${(p) => (p.$disabled ? "text-gray" : "text-blue")}
       ${(p) => p.style({ color: p.$disabled ? "gray" : "blue" })}
     `
@@ -19,7 +19,7 @@ describe("Style Capabilities", () => {
   })
 
   it("merges and overrides styles in createExtendedComponent", () => {
-    const BaseButton = rc.button<{ $disabled?: boolean }>`
+    const BaseButton = cm.button<{ $disabled?: boolean }>`
       text-blue
       ${(p) => p.style({ color: p.$disabled ? "gray" : "blue" })}
     `
@@ -30,7 +30,7 @@ describe("Style Capabilities", () => {
     expect(baseButton).toHaveClass("text-blue")
     expect(baseButton).toHaveStyle("color: gray")
 
-    const ExtendedButton = rc.extend(BaseButton)<{ $test?: boolean }>`
+    const ExtendedButton = cm.extend(BaseButton)<{ $test?: boolean }>`
       ${(p) => p.style({ outlineColor: p.$test ? "black" : "red" })}
     `
     const { container: extendedButtonContainer } = render(
@@ -48,7 +48,7 @@ describe("Style Capabilities", () => {
 
   // // Variants Component Test
   it("applies styles dynamically in createVariantsComponent", () => {
-    const VariantButton = rc.button.variants<{ $size: "small" | "large"; $disabled?: boolean }>({
+    const VariantButton = cm.button.variants<{ $size: "small" | "large"; $disabled?: boolean }>({
       base: (p) => `
         test-class
         color-black

@@ -1,11 +1,11 @@
-import rc from "react-classmate"
+import cm from "@classmate/react"
 
 interface CodeProps {
   $size?: "sm" | "md" | "lg" | "xl" | "2xl"
   $color?: "primary" | "error" | "success" | "warning" | "text"
 }
 
-const CodeElement = rc.code.variants<CodeProps>({
+const CodeElement = cm.code.variants<CodeProps>({
   base: "bg-graySuperLight/50 dark:bg-graySuperLight/50 px-1 py-1 rounded",
   variants: {
     $size: {

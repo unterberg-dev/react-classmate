@@ -9,9 +9,9 @@ import viteFlattenTemplatePlugin from "#lib/viteFlattenTemplatePlugin"
 
 export default defineConfig({
   plugins: [
-    // remove line breaks from rc interpolated strings
+    // remove line breaks from cm interpolated strings
     viteFlattenTemplatePlugin({
-      handles: ["rc"],
+      handles: ["cm"],
     }),
     rawPlugin({
       fileRegex: /\.rcx$/,

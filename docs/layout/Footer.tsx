@@ -7,7 +7,7 @@ const Footer = () => (
     <div className="container mx-auto p-4">
       <p className="text-center mt-20">
         <LinkComponent href={externalLink.github} className="!text-dark">
-          2025, react-classmate
+          2025, @classmate/react
         </LinkComponent>
       </p>
     </div>

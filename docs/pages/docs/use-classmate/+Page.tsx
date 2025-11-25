@@ -62,7 +62,7 @@ const UseClassmatePage = () => {
             render-time data.
           </li>
           <li>
-            You can still extend or wrap the memoized component with <CodeElement>rc.extend</CodeElement>; the
+            You can still extend or wrap the memoized component with <CodeElement>cm.extend</CodeElement>; the
             hook just guarantees that React sees a stable component identity.
           </li>
           <li>

@@ -77,9 +77,9 @@ export const menuData: MenuSection[] = [
       //       icon: Siren,
       //       subItems: [
       //         {
-      //           label: "RcBaseComponent",
+      //           label: "CmBaseComponent",
       //           href: internalLink.typescript.rcBaseComponent,
-      //           hightlightCode: ["RcBaseComponent"],
+      //           hightlightCode: ["CmBaseComponent"],
       //         },
       //         {
       //           label: "VariantsConfig",
@@ -93,9 +93,9 @@ export const menuData: MenuSection[] = [
       //       icon: SwatchBook,
       //       subItems: [
       //         {
-      //           label: "convertRcProps()",
-      //           href: internalLink.util.convertRcProps,
-      //           hightlightCode: ["convertRcProps()"],
+      //           label: "convertCmProps()",
+      //           href: internalLink.util.convertCmProps,
+      //           hightlightCode: ["convertCmProps()"],
       //         },
       //         {
       //           label: "createVariantMap()",

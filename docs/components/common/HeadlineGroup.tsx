@@ -1,18 +1,18 @@
-import rc from "react-classmate"
+import cm from "@classmate/react"
 import Headline from "#components/common/Headline"
 
 export type HeadlineGroupHeadlineStyle = {
   headingStyle?: "h1" | "h2"
 }
 
-const PreHeadline = rc.p<{ $centered: boolean }>`
+const PreHeadline = cm.p<{ $centered: boolean }>`
   text-lg 
   text-gray
   mb-1
   ${(p) => (p.$centered ? "text-center" : "")}
 `
 
-const MainHeadline = rc.extend(Headline)<{ $centered?: boolean }>`
+const MainHeadline = cm.extend(Headline)<{ $centered?: boolean }>`
   mb-8 
   ${(p) => (p.$centered ? "text-center" : "")}
 `

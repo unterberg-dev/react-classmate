@@ -1,4 +1,4 @@
-import rc, { useClassmate } from "react-classmate"
+import cm, { useClassmate } from "@classmate/react"
 
 type Tone = "primary" | "secondary"
 
@@ -11,7 +11,7 @@ interface InsightCardProps {
 export const InsightCard = ({ tone, headline, description }: InsightCardProps) => {
   const Card = useClassmate(
     () =>
-      rc.article`
+      cm.article`
         p-6 rounded-xl border transition-all duration-200 shadow-sm
         ${tone === "primary" ? "bg-primary/5 border-primary/50" : "bg-slate-900 border-slate-800 text-white"}
       `,

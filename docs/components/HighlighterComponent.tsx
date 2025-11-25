@@ -1,6 +1,6 @@
+import cm from "@classmate/react"
 import { Copy } from "lucide-react"
 import { useCallback } from "react"
-import rc from "react-classmate"
 import { clientOnly } from "vike-react/clientOnly"
 
 import Button from "#components/common/Button"
@@ -25,7 +25,7 @@ const CopyToClipboard = ({ handleCopy }: { handleCopy: () => void }) => {
   )
 }
 
-const Highlighter = rc.div<{ $noGutter: boolean }>`
+const Highlighter = cm.div<{ $noGutter: boolean }>`
   highlighter
   bg-lightBorder 
   relative 

@@ -1,4 +1,4 @@
-import rc from "react-classmate"
+import cm from "@classmate/react"
 
 import { DocsHead } from "#components/DocsHead"
 import DocsNotebox from "#components/DocsNotebox"
@@ -14,7 +14,7 @@ import { CircleAlert } from "lucide-react"
 import advancedButtonCode from "#examples/button/code/advanced-button.rcx"
 import sizingButtonCode from "#examples/button/code/sizes.rcx"
 
-const ButtonRow = rc.div`
+const ButtonRow = cm.div`
   flex
   flex-wrap
   items-center
@@ -50,7 +50,7 @@ const ButtonPage = () => (
         properly maintain it through the variability of project requirements and the resulting "horizontal
         styling." My wish was to read those heavily styled components like a book, with all the information I
         need to know about its design and behavior. This is why I created{" "}
-        <LinkComponent href={internalLink.start}>react-classmate</LinkComponent>.
+        <LinkComponent href={internalLink.start}>@classmate/react</LinkComponent>.
       </SectionInnerParagraph>
       <SectionInnerParagraph>
         The main idea of this project is to engage myself in properly designing and managing class names and
@@ -76,7 +76,7 @@ const ButtonPage = () => (
       </SectionInnerParagraph>
       <SectionInnerParagraph>
         This introduces the usage of the utility type <CodeElement>VariantsConfig</CodeElement> and the
-        utility function <CodeElement>convertRcProps</CodeElement>. More on both below.
+        utility function <CodeElement>convertCmProps</CodeElement>. More on both below.
       </SectionInnerParagraph>
       <HighlighterComponent input={advancedButtonCode} />
       <DocsNotebox className="!mb-0">

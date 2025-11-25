@@ -1,13 +1,13 @@
 // ...
 import Notebox from "#components/common/Notebox"
 
-export const Section = rc.extend(Notebox)`
+export const Section = cm.extend(Notebox)`
   mb-8
 `
-export const SectionHeadline = rc.extend(H3Headline)`
+export const SectionHeadline = cm.extend(H3Headline)`
   mb-4
 `
-export const SectionInnerHeadline = rc.extend(H4Headline)`
+export const SectionInnerHeadline = cm.extend(H4Headline)`
   mt-4
 `
 // .... 

@@ -4,4 +4,4 @@ type HeadlineLevels = (typeof headlineLevels)[number]
 const additionalElements = ["strong", "span", "p", "div"] as const
 type AdditionalHeadlineTypes = (typeof additionalElements)[number]
 
-type RcVariantType = HeadlineLevels | "blank"
+type CmVariantType = HeadlineLevels | "blank"

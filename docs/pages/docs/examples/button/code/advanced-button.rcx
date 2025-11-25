@@ -1,6 +1,6 @@
 import { LoaderCircle } from "lucide-react"
 import type { HTMLAttributes, ReactNode } from "react"
-import { type RcBaseComponent, type VariantsConfig, convertRcProps, createVariantMap } from "react-classmate"
+import { type CmBaseComponent, type VariantsConfig, convertCmProps, createVariantMap } from "@classmate/react"
 
 import { APP_CONFIG } from "#lib/config"
 import type { Colors } from "#lib/types"
@@ -92,11 +92,11 @@ interface ButtonProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEleme
 const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
   // cast types
   const Component = link
-    ? (button.a as RcBaseComponent<ButtonBaseProps & HTMLAttributes<HTMLAnchorElement>>)
-    : (button.button as RcBaseComponent<ButtonBaseProps & HTMLAttributes<HTMLButtonElement>>)
+    ? (button.a as CmBaseComponent<ButtonBaseProps & HTMLAttributes<HTMLAnchorElement>>)
+    : (button.button as CmBaseComponent<ButtonBaseProps & HTMLAttributes<HTMLButtonElement>>)
   const isExternal = isLinkExternal(link)
 
-  const preparedProps = convertRcProps(buttonProps, {
+  const preparedProps = convertCmProps(buttonProps, {
     size: "$size",
     loading: "$loading",
     disabled: "$disabled",

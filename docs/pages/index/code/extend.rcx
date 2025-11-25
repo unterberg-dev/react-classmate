@@ -1,10 +1,10 @@
-const SectionBase = rc.div`
+const SectionBase = cm.div`
   px-3
   text-dark
   mx-auto
 `
 
-const CustomSection = rc.extend(SectionBase)`
+const CustomSection = cm.extend(SectionBase)`
   mb-3
   ${({$small}) => ($small ? "text-sm" : "")}
 `

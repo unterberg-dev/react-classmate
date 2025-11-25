@@ -1,4 +1,4 @@
-const VariantButton = rc.button.variants<{ $size: "small" | "large"; $disabled?: boolean }>({
+const VariantButton = cm.button.variants<{ $size: "small" | "large"; $disabled?: boolean }>({
   base: (p) => `
     test-class
     color-black

@@ -66,7 +66,7 @@ const HeadlineExamplePage = () => {
         <SectionInnerParagraph>
           Consistent typography is key to a cohesive user interface in web development. The Headline component
           streamlines the creation and management of headline elements in React projects by leveraging
-          react-classmate. It supports rendering standard HTML heading tags (h1 to h6) as well as other
+          @classmate/react. It supports rendering standard HTML heading tags (h1 to h6) as well as other
           elements like strong, span, p, and div.
         </SectionInnerParagraph>
         <p>
@@ -137,7 +137,7 @@ const HeadlineExamplePage = () => {
       <Section>
         <SectionInnerParagraph>
           In order to work with the visual classes, you will need to install tailwind or uno-css (windi/tw
-          preset) alongside the react-classmate. We'll walk through all the important bits after this section
+          preset) alongside @classmate/react. We'll walk through all the important bits after this section
         </SectionInnerParagraph>
         <HighlighterComponent input={fullCode} />
       </Section>
@@ -155,7 +155,7 @@ const HeadlineExamplePage = () => {
         </SectionInnerParagraph>
         <HighlighterComponent input={defineTypes} />
         <SectionInnerParagraph>
-          Additionally, we introduce a custom variant type <CodeElement>RcVariantType</CodeElement> that
+          Additionally, we introduce a custom variant type <CodeElement>CmVariantType</CodeElement> that
           includes both the headline levels and a "blank" variant. The "blank" variant allows the component to
           render non-heading elements without applying any specific headline styles.
         </SectionInnerParagraph>
@@ -163,8 +163,8 @@ const HeadlineExamplePage = () => {
         <SectionInnerHeadline>2. Setup Variants</SectionInnerHeadline>
         <SectionInnerParagraph>
           Here, we configure the styling variants for each headline level using the{" "}
-          <CodeElement>VariantsConfig</CodeElement> type from <CodeElement>react-classmate</CodeElement>. This
-          configuration maps each variant to specific CSS classes or dynamic styles.
+          <CodeElement>VariantsConfig</CodeElement> type from <CodeElement>@classmate/react</CodeElement>.
+          This configuration maps each variant to specific CSS classes or dynamic styles.
         </SectionInnerParagraph>
         <HighlighterComponent input={setupVariants} />
         <SectionInnerParagraph>

@@ -26,7 +26,7 @@ const BasicPage = () => {
       <Section>
         <SectionInnerParagraph>
           Select the component tag you wish by using it's intrinsic tag name. For example{" "}
-          <CodeElement>rc.div</CodeElement> or <CodeElement>rc.button</CodeElement>. Via the interpolation you
+          <CodeElement>cm.div</CodeElement> or <CodeElement>cm.button</CodeElement>. Via the interpolation you
           are able to pass classnames.
         </SectionInnerParagraph>
         <HighlighterComponent input={baseComponent} />
@@ -36,9 +36,9 @@ const BasicPage = () => {
       <SectionHeadline>Custom Properties</SectionHeadline>
       <Section>
         <DocsNotebox>
-          <strong>Important:</strong> Prefix <CodeElement $color="warning">rc</CodeElement>-specific
+          <strong>Important:</strong> Prefix <CodeElement $color="warning">cm</CodeElement>-specific
           properties with <CodeElement $color="warning">$</CodeElement> to not pass them to the
-          created/extended component and to avoid conflicts with intrinsic properties (rc filters out props
+          created/extended component and to avoid conflicts with intrinsic properties (cm filters out props
           prefixed with <CodeElement $color="warning">$</CodeElement>)
         </DocsNotebox>
         <HighlighterComponent input={customProps} />
@@ -48,7 +48,7 @@ const BasicPage = () => {
       <SectionHeadline>Intrinsic Properties</SectionHeadline>
       <Section>
         <SectionInnerParagraph>
-          <CodeElement>rc</CodeElement> is passing intrinsic properties and you can use them in the
+          <CodeElement>cm</CodeElement> is passing intrinsic properties and you can use them in the
           interpolation string. For typescript we provide the type of{" "}
           <CodeElement>IntrinsicElements</CodeElement> to get them properly validated.
         </SectionInnerParagraph>
@@ -56,7 +56,7 @@ const BasicPage = () => {
         <SectionInnerHeadline>Implementation</SectionInnerHeadline>
         <HighlighterComponent input={intrinsicPropsImplementation} />
       </Section>
-      <SectionHeadline>Declare rc components inside React components</SectionHeadline>
+      <SectionHeadline>Declare cm components inside React components</SectionHeadline>
       <Section>
         <SectionInnerParagraph>
           Need to define a component during render? Wrap the factory in{" "}

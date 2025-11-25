@@ -1,11 +1,11 @@
-import rc, { useClassmate } from "react-classmate"
+import cm, { useClassmate } from "@classmate/react"
 
 type WorkoutStatus = "completed" | "pending"
 
 const WorkoutDay = ({ status }: { status: WorkoutStatus }) => {
   const StyledDay = useClassmate(
     () =>
-      rc.div.variants<{ $status: WorkoutStatus }>({
+      cm.div.variants<{ $status: WorkoutStatus }>({
         base: "rounded-md border p-4 text-sm",
         variants: {
           $status: {

@@ -1,4 +1,4 @@
-import rc from "react-classmate"
+import cm from "@classmate/react"
 
 export type NoteboxType = "info" | "warning" | "error" | "success" | "aside"
 
@@ -7,7 +7,7 @@ interface NoteboxProps {
   $size?: "sm" | "md"
 }
 
-const Notebox = rc.div.variants<NoteboxProps>({
+const Notebox = cm.div.variants<NoteboxProps>({
   base: `
     rounded 
     border-1

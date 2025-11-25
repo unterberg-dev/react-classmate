@@ -1,6 +1,6 @@
-## react-classmate documentation
+## @classmate/react documentation
 
-Simple documentation template fully utilizing `react-classmate` 🫰
+Simple documentation template fully utilizing `@classmate/react` 🫰
 
 - Live Documentation: [https://react-classmate.dev/](https://react-classmate.dev/)
 - Main Repo: [https://github.com/unterberg-dev/react-classmate/](https://github.com/unterberg-dev/react-classmate/)
@@ -14,4 +14,4 @@ Simple documentation template fully utilizing `react-classmate` 🫰
 - Zustand
 - React Syntax Highlighter
 - Vite
-- React-classmate
+- @classmate/react

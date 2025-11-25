@@ -1,12 +1,12 @@
+import cm from "@classmate/react"
 import type { AnchorHTMLAttributes, ReactNode } from "react"
-import rc from "react-classmate"
 import { H4Headline } from "#components/common/Headline"
 import LinkComponent from "#components/common/LinkComponent"
 import useMenuStore from "#hooks/useMenuStore"
 import { menuData } from "#lib/menuData"
 import stringToCodeElement from "#lib/utils/stringToCodeElement"
 
-const List = rc.ul`
+const List = cm.ul`
   mb-2 
   flex 
   flex-col 
@@ -14,7 +14,7 @@ const List = rc.ul`
   ml-2
 `
 
-const SubList = rc.ul`
+const SubList = cm.ul`
   ml-6 
   mt-2 
   flex-col
@@ -23,9 +23,9 @@ const SubList = rc.ul`
   mb-2
 `
 
-const Section = rc.div``
+const Section = cm.div``
 
-const FlexLinkBase = rc.extend(LinkComponent)`
+const FlexLinkBase = cm.extend(LinkComponent)`
   flex 
   items-center
   gap-x-2

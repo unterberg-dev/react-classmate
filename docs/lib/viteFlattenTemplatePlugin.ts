@@ -18,13 +18,13 @@ const flattenString = (text: string): string => text.replace(/[\n\r]+/g, " ").re
  * see variants config in: pages/docs/examples/button/
  *
  * Our Babel plugin that:
- * 1. Flattens tagged template expressions for certain `handles` (e.g. `rc.div``...``).
+ * 1. Flattens tagged template expressions for certain `handles` (e.g. `cm.div``...``).
  * 2. Flattens an object property named "base" if it's a multiline string literal.
  */
 const babelPluginFlattenLiterals = (handles: string[]) => ({
   name: "babel-plugin-flatten-literals",
   visitor: {
-    // Flatten Tagged Template Expressions for e.g. rc.div`...`
+    // Flatten Tagged Template Expressions for e.g. cm.div`...`
     TaggedTemplateExpression(path: TaggedTemplateExpressionPath) {
       let matched = false
       const tag = path.node.tag
@@ -34,14 +34,14 @@ const babelPluginFlattenLiterals = (handles: string[]) => ({
       if (tag.type === "Identifier" && handles.includes(tag.name)) {
         matched = true
       }
-      //  b) object.member`...` (e.g. rc.div`...`)
+      //  b) object.member`...` (e.g. cm.div`...`)
       else if (tag.type === "MemberExpression") {
         const obj = tag.object
         if (obj?.type === "Identifier" && handles.includes(obj.name)) {
           matched = true
         }
       }
-      //  c) object.member(...)\`...\` (e.g. rc.extend(...)`...`)
+      //  c) object.member(...)\`...\` (e.g. cm.extend(...)`...`)
       else if (tag.type === "CallExpression") {
         const callee = tag.callee
         if (
@@ -137,7 +137,7 @@ export interface ViteFlattenMultiHandlePluginOptions {
 /**
  * Vite plugin that:
  * - Flattens multiline tagged template literals for the given `handles`
- *   (e.g. rc.div`...`),
+ *   (e.g. cm.div`...`),
  * - Also flattens strings in an object property named "base".
  */
 const viteFlattenMultiHandlePlugin = (options: ViteFlattenMultiHandlePluginOptions): Plugin => {

@@ -7,11 +7,11 @@ import { Section, SectionHeadline, SectionInnerHeadline, SectionInnerParagraph }
 import { APP_CONFIG } from "#lib/config"
 import { externalLink, internalLink } from "#lib/links"
 
-const installString = `npm i react-classmate
+const installString = `npm i @classmate/react
 # or
-yarn add react-classmate
+yarn add @classmate/react
 # or
-pnpm add react-classmate
+pnpm add @classmate/react
 `
 
 const DocsStartPage = () => {
@@ -19,8 +19,8 @@ const DocsStartPage = () => {
     <>
       <DocsHead
         main="Getting Started"
-        pre="Working with react-classmate"
-        excerpt="Learn how to install and get started with react-classmate"
+        pre="Working with @classmate/react"
+        excerpt="Learn how to install and get started with @classmate/react"
       />
       <SectionHeadline>Prerequisites</SectionHeadline>
       <Section>
@@ -30,9 +30,9 @@ const DocsStartPage = () => {
         <SectionInnerHeadline>Install</SectionInnerHeadline>
         <HighlighterComponent language="bash" input={installString} />
         <SectionInnerHeadline>Import with ES</SectionInnerHeadline>
-        <HighlighterComponent language="bash" input='import rc from "react-classmate"' />
+        <HighlighterComponent language="bash" input='import cm from "@classmate/react"' />
         <SectionInnerHeadline>Import with CommonJS</SectionInnerHeadline>
-        <HighlighterComponent language="bash" input='const rc = require("react-classmate").default' />
+        <HighlighterComponent language="bash" input='const cm = require("@classmate/react").default' />
         <DocsNotebox className="!mb-0">
           <p>
             The <CodeElement $color="warning">default</CodeElement> for CJS is currently needed because the
@@ -62,7 +62,7 @@ const DocsStartPage = () => {
           <Section>
             <ul>
               <li>
-                <LinkComponent href="https://www.npmjs.com/package/react-classmate">npm</LinkComponent>
+                <LinkComponent href="https://www.npmjs.com/package/@classmate/react">npm</LinkComponent>
               </li>
               <li>
                 <LinkComponent href={externalLink.github}>Github</LinkComponent>

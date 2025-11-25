@@ -1,5 +1,5 @@
+import cm from "@classmate/react"
 import { Blocks, BrickWall, Sparkles, SwatchBook } from "lucide-react"
-import rc from "react-classmate"
 
 import { DocsHead } from "#components/DocsHead"
 import DocsNotebox from "#components/DocsNotebox"
@@ -20,24 +20,24 @@ import extendRenderCode from "#pages/index/code/extendRender.rcx"
 import variantsCode from "#pages/index/code/variants.rcx"
 import variantsRenderCode from "#pages/index/code/variantsRender.rcx"
 
-const Section = rc.div`
+const Section = cm.div`
   grid-cols-1 md:grid-cols-2 
   grid gap-10
   items-center
   mb-20
 `
 
-const ExplanationHeadline = rc.extend(H3Headline)`
+const ExplanationHeadline = cm.extend(H3Headline)`
   flex md:items-center items-start
   gap-2
   mb-8
   !text-xl
 `
 
-const ReferToDocButton = rc.extend(Button)`mt-8`
+const ReferToDocButton = cm.extend(Button)`mt-8`
 type GradientType = "variants" | "footer"
 
-const SectionGradient = rc.div.variants<{ $type: GradientType }>({
+const SectionGradient = cm.div.variants<{ $type: GradientType }>({
   base: `
     absolute -mt-100 left-0 w-full
     h-100 
@@ -51,9 +51,9 @@ const SectionGradient = rc.div.variants<{ $type: GradientType }>({
   },
 })
 
-const IntroParagraph = rc.p`text-lg`
-const ThanksHeadline = rc.extend(Headline)`mb-4`
-const ThanksParagraph = rc.p`text-sm`
+const IntroParagraph = cm.p`text-lg`
+const ThanksHeadline = cm.extend(Headline)`mb-4`
+const ThanksParagraph = cm.p`text-sm`
 
 const StartPage = () => (
   <>
@@ -122,7 +122,7 @@ const StartPage = () => (
         <Section>
           <div>
             <ExplanationHeadline>
-              Adapt components with <CodeElement $size="xl">rc.extend</CodeElement>
+              Adapt components with <CodeElement $size="xl">cm.extend</CodeElement>
             </ExplanationHeadline>
             <IntroParagraph>
               Extend components with additional classes or styles with the common syntax. Properties from the
@@ -163,7 +163,7 @@ const StartPage = () => (
               cva - class variance authority
             </ThanksHeadline>
             <ThanksParagraph>
-              cva's idea of thinking in variants is the foundation for <CodeElement>rc</CodeElement>`s variant
+              cva's idea of thinking in variants is the foundation for <CodeElement>cm</CodeElement>`s variant
               system. It provides a simple and powerful way to manage classnames and styles based on props.
             </ThanksParagraph>
           </Card>

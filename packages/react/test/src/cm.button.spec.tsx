@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
 import React, { type ReactNode, type HTMLAttributes } from "react"
 
-import rc, { type VariantsConfig, convertRcProps } from "../../dist"
+import cm, { type VariantsConfig, convertCmProps } from "../../dist"
 
 interface ButtonBaseProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
   $size?: "sm" | "md" | "lg"
@@ -61,8 +61,8 @@ const buttonVariants: VariantsConfig<ButtonBaseProps, object> = {
   },
 }
 
-const ButtonBase = rc.button.variants(buttonVariants)
-const LinkButton = rc.a.variants(buttonVariants)
+const ButtonBase = cm.button.variants(buttonVariants)
+const LinkButton = cm.a.variants(buttonVariants)
 
 interface ButtonProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
   icon?: ReactNode
@@ -81,7 +81,7 @@ interface ButtonProps extends HTMLAttributes<HTMLAnchorElement | HTMLButtonEleme
 const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
   const Component = link ? LinkButton : ButtonBase
 
-  const preparedProps = convertRcProps(buttonProps, {
+  const preparedProps = convertCmProps(buttonProps, {
     size: "$size",
     noShadow: "$noShadow",
     noGutter: "$noGutter",
@@ -97,14 +97,14 @@ const Button = ({ children, icon, link, ...buttonProps }: ButtonProps) => {
   )
 }
 
-const CustomButton = rc.extend(Button)`
+const CustomButton = cm.extend(Button)`
   w-7 
   lg:w-8
   h-7 
   lg:h-8
 `
 
-describe("rc advanced button", () => {
+describe("cm advanced button", () => {
   it("extends the base component with new props", () => {
     const { container } = render(
       <CustomButton type="button" aria-label="test" color="card" noGutter noShadow size="lg" />,
