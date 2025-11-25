@@ -1,10 +1,11 @@
 {
-  "name": "classmate-monorepo",
+  "name": "classmate",
   "private": true,
   "version": "0.0.1",
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "docs"
   ],
   "scripts": {
     "dev": "npm run dev -w docs",

@@ -54,6 +54,8 @@ import type { RcComponentFactory } from "./types"
  */
 const rc = rcInit as RcComponentFactory
 
+export { rc }
+
 export type { RcBaseComponent } from "./types"
 export type { VariantsConfig } from "./types"
 

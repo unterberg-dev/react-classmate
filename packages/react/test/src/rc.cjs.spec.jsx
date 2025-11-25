@@ -2,7 +2,7 @@ import "@testing-library/jest-dom"
 const React = require("react")
 const { render } = require("@testing-library/react")
 
-const rc = require("../../dist/index.cjs.js").default
+const rc = require("../../dist/index.cjs.js")
 
 describe("CommonJS Build", () => {
   it("should import the library using require", () => {

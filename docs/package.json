@@ -14,7 +14,7 @@
   "dependencies": {
     "lucide-react": "^0.469.0",
     "react": "^19.0.0",
-    "react-classmate": "link:../packages/react",
+    "react-classmate": "file:../packages/react",
     "react-dom": "^19.0.0",
     "react-remove-scroll": "^2.6.2",
     "react-syntax-highlighter": "^15.6.1",
